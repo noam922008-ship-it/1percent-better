@@ -183,6 +183,15 @@ export default function OnboardingFlow() {
   }
 
   function next() { setStep(STEPS[idx + 1]) }
+  // Habits are optional: skipping clears that habit and moves on
+  function skipHabit() {
+    const empty = { cue: '', habit: '', time: '', note: '' }
+    if (step === 'trigger1') setT1(empty)
+    if (step === 'trigger2') setT2(empty)
+    next()
+  }
+  const isFilled = tr => !!(tr.cue.trim() && tr.habit.trim())
+  const filledTriggers = [['t1', t1], ['t2', t2]].filter(([, tr]) => isFilled(tr))
   function back() { setStep(STEPS[idx - 1]) }
 
   async function finish() {
@@ -191,10 +200,9 @@ export default function OnboardingFlow() {
       name: name.trim(),
       focusGoal: goal,
       ...(FEATURES.setupExtras ? { vision: vision.trim() || null } : {}),
-      triggers: [
-        { id: 't1', cue: t1.cue.trim(), habit: t1.habit.trim(), time: t1.time || null, note: t1.note.trim() },
-        { id: 't2', cue: t2.cue.trim(), habit: t2.habit.trim(), time: t2.time || null, note: t2.note.trim() },
-      ],
+      triggers: filledTriggers.map(([id, tr]) => (
+        { id, cue: tr.cue.trim(), habit: tr.habit.trim(), time: tr.time || null, note: tr.note.trim() }
+      )),
       preferences: { energy: energy || null, timeAvail: timeAvail || null, recommendedTrack: FEATURES.pathBuilder ? aiPick : null },
       onboardingDone: true,
       createdAt: new Date().toISOString(),
@@ -353,7 +361,7 @@ export default function OnboardingFlow() {
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚡</div>
             <h2 style={S.h2}>{to.done.title}</h2>
-            <p style={S.sub}>{to.done.sub}</p>
+            <p style={S.sub}>{filledTriggers.length ? to.done.sub : to.done.subNoHabits}</p>
             {pickedMeta && (
               <div style={{ background: `${pickedMeta.color}12`, border: `1px solid ${pickedMeta.color}30`, borderRadius: 12, padding: '0.75rem 1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span style={{ fontSize: '1.3rem' }}>{pickedMeta.emoji}</span>
@@ -363,9 +371,10 @@ export default function OnboardingFlow() {
                 </div>
               </div>
             )}
+            {filledTriggers.length > 0 && (
             <div style={{ background: 'rgba(250,204,21,0.05)', border: '1px solid rgba(250,204,21,0.18)', borderRadius: 14, padding: '1rem', marginBottom: '1.5rem', textAlign: 'left' }}>
-              {[t1, t2].map((tr, i) => (
-                <div key={i} style={{ marginBottom: i === 0 ? '0.75rem' : 0 }}>
+              {filledTriggers.map(([id, tr], i) => (
+                <div key={id} style={{ marginBottom: i < filledTriggers.length - 1 ? '0.75rem' : 0 }}>
                   <div style={{ color: '#facc15', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.2rem' }}>
                     {to.triggerLabel} {i + 1}{tr.time ? ` · ${tr.time}` : ''}
                   </div>
@@ -374,6 +383,7 @@ export default function OnboardingFlow() {
                 </div>
               ))}
             </div>
+            )}
             <button
               onClick={finish}
               disabled={saving}
@@ -394,6 +404,11 @@ export default function OnboardingFlow() {
               <>
                 <button onClick={next} style={S.btnSkip}>{to.vision.skip}</button>
                 <button onClick={next} style={S.btnPrimary(true)}>{to.next}</button>
+              </>
+            ) : step === 'trigger1' || step === 'trigger2' ? (
+              <>
+                <button onClick={skipHabit} style={S.btnSkip}>{to.done.skip}</button>
+                <button onClick={next} disabled={!canNext[step]} style={S.btnPrimary(canNext[step])}>{to.next}</button>
               </>
             ) : step === 'ai-pick' ? (
               <button onClick={next} disabled={!canNext['ai-pick']} style={S.btnPrimary(canNext['ai-pick'])}>

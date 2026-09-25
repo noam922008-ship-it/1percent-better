@@ -1316,6 +1316,7 @@ export default function Dashboard() {
     (profile?.xp || 0) > 0
     || Object.keys(profile?.challenges || {}).some(k => (profile.challenges[k]?.daysCompleted || 0) > 0)
     || (profile?.triggers || []).length > 0
+    || !!profile?.onboardingDone   // finished setup (habits are optional) → go straight to Home
   )
 
   if (!profileHasProgress && !hasSeenOnboarding()) return (
