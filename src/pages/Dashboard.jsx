@@ -834,7 +834,7 @@ export default function Dashboard() {
       }
 
       // Silent re-generation: doc has vision_profile but no valid path yet
-      if (data && !hasValidPath && data.vision_profile && !regenRef.current) {
+      if (FEATURES.pathBuilder && data && !hasValidPath && data.vision_profile && !regenRef.current) {
         regenRef.current = true
         buildCustomPath(user.uid, data.vision_profile)
           .catch(() => {})
@@ -846,6 +846,7 @@ export default function Dashboard() {
 
   // Auto-open PathBuilder for authenticated users who have no path and no regen in progress
   useEffect(() => {
+    if (!FEATURES.pathBuilder) return
     if (loading || pathLoading || isGuest || customPath || regenRef.current) return
     setShowPathBuilder(true)
   }, [loading, pathLoading, isGuest, customPath])
@@ -1328,7 +1329,7 @@ export default function Dashboard() {
     }} />
   )
 
-  if (showPathBuilder && !isGuest && !pathLoading) {
+  if (FEATURES.pathBuilder && showPathBuilder && !isGuest && !pathLoading) {
     return (
       <PathBuilder
         user={user}

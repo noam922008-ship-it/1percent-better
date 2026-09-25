@@ -10,4 +10,5 @@ export const FEATURES = {
   routineCards:    false, // פרוטוקול בוקר/צהריים/ערב cards (Progress)
   fightClub:       false, // "מועדון הקרב" XP-level card (Progress)
   homeXpExtras:    false, // Home "XP היום" card + XP level bar (XP stays in header + ring)
+  pathBuilder:     false, // AI path builder: never auto-opens, no silent background path generation
 }
