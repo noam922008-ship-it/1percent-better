@@ -452,8 +452,8 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.77rem', lineHeight: 1.5 }}>{nudge.body}</div>
       </div>
 
-      {/* ── Future Trajectory ── */}
-      {xp > 0 && (() => {
+      {/* ── Future Trajectory (XP forecast) ── */}
+      {FEATURES.xpForecast && xp > 0 && (() => {
         const activeChallenge = CHALLENGES
           .filter(ch => relevantTrackIds.has(ch.id) && (challenges[ch.id]?.daysCompleted || 0) > 0 && (challenges[ch.id]?.daysCompleted || 0) < ch.days)[0]
           || CHALLENGES.filter(ch => (challenges[ch.id]?.daysCompleted || 0) > 0 && (challenges[ch.id]?.daysCompleted || 0) < ch.days)[0]
