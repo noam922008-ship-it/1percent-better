@@ -5,6 +5,7 @@ import { useLang } from '../context/LangContext'
 import { useUserPrefs } from '../context/UserContext'
 import { saveProfile } from '../services/focusTriggerService'
 import { suggestChallenge } from '../services/coachService'
+import { FEATURES } from '../config/features'
 
 const GOAL_IDS = [
   { id: 'trading',  emoji: '📈' },
@@ -37,7 +38,11 @@ const CHALLENGE_META = {
   'self-discipline': { emoji: '🧠', title: 'בניית משמעת עצמית',  color: '#3b82f6' },
 }
 
-const STEPS = ['name', 'energy', 'time', 'focus', 'ai-pick', 'trigger1', 'trigger2', 'vision', 'done']
+const STEPS = [
+  'name', 'energy', 'time', 'focus',
+  ...(FEATURES.pathBuilder ? ['ai-pick'] : []),   // AI picks a 30-day track
+  'trigger1', 'trigger2', 'vision', 'done',
+]
 
 const S = {
   page:       { minHeight: '100vh', background: '#0e0e16', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' },
@@ -133,7 +138,7 @@ export default function OnboardingFlow() {
   const PROGRESS_KEY = 'ft_ob_progress'
   const saved = (() => { try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {} } catch { return {} } })()
 
-  const [step,      setStep]      = useState(saved.step   || 'name')
+  const [step,      setStep]      = useState(STEPS.includes(saved.step) ? saved.step : 'name')
   const [name,      setName]      = useState(saved.name   || '')
   const [energy,    setEnergy]    = useState(saved.energy || '')
   const [timeAvail, setTimeAvail] = useState(saved.timeAvail || '')
@@ -186,17 +191,17 @@ export default function OnboardingFlow() {
         { id: 't1', cue: t1.cue.trim(), habit: t1.habit.trim(), time: t1.time || null, note: t1.note.trim() },
         { id: 't2', cue: t2.cue.trim(), habit: t2.habit.trim(), time: t2.time || null, note: t2.note.trim() },
       ],
-      preferences: { energy, timeAvail, recommendedTrack: aiPick },
+      preferences: { energy, timeAvail, recommendedTrack: FEATURES.pathBuilder ? aiPick : null },
       onboardingDone: true,
       createdAt: new Date().toISOString(),
     }
-    setPrefs({ energy, timeAvail, focusGoal: goal, recommendedTrack: aiPick })
+    setPrefs({ energy, timeAvail, focusGoal: goal, recommendedTrack: FEATURES.pathBuilder ? aiPick : null })
     try { await saveProfile(user.uid, profile) } catch { /* non-fatal */ }
     localStorage.removeItem(PROGRESS_KEY)
     navigate('/dashboard', { replace: true })
   }
 
-  const pickedMeta = aiPick ? CHALLENGE_META[aiPick] : null
+  const pickedMeta = FEATURES.pathBuilder && aiPick ? CHALLENGE_META[aiPick] : null
 
   return (
     <div style={S.page}>
