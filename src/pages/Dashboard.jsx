@@ -1790,7 +1790,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Daily Learning Card */}
-                {!isGuest && (
+                {FEATURES.dailyLesson && !isGuest && (
                   <DailyLessonCard prefTopics={profile?.learnTopics || []} />
                 )}
 

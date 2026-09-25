@@ -255,7 +255,8 @@ export default function Settings({ onRebuildPath, activePathName }) {
         </>
       )}
 
-      {/* Learning preferences section */}
+      {/* Learning preferences section — only feeds the daily lesson card */}
+      {FEATURES.dailyLesson && (<>
       <SectionHeader title="◈ העדפות למידה" />
       <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '0.85rem 1rem', marginBottom: '0.5rem' }}>
         <div style={{ color: '#e8eaf0', fontSize: '0.83rem', fontWeight: 600, marginBottom: '0.55rem' }}>נושאי למידה מועדפים</div>
@@ -309,6 +310,7 @@ export default function Settings({ onRebuildPath, activePathName }) {
           שינוי ההעדפות לא מאפס את ההתקדמות שלך
         </div>
       </div>
+      </>)}
 
       {/* Legal link */}
       <div style={{ textAlign: 'center', marginTop: '1.75rem' }}>
