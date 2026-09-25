@@ -39,9 +39,13 @@ const CHALLENGE_META = {
 }
 
 const STEPS = [
-  'name', 'energy', 'time', 'focus',
+  'name',
+  ...(FEATURES.setupExtras ? ['energy', 'time'] : []),
+  'focus',
   ...(FEATURES.pathBuilder ? ['ai-pick'] : []),   // AI picks a 30-day track
-  'trigger1', 'trigger2', 'vision', 'done',
+  'trigger1', 'trigger2',
+  ...(FEATURES.setupExtras ? ['vision'] : []),
+  'done',
 ]
 
 const S = {
@@ -186,16 +190,16 @@ export default function OnboardingFlow() {
     const profile = {
       name: name.trim(),
       focusGoal: goal,
-      vision: vision.trim() || null,
+      ...(FEATURES.setupExtras ? { vision: vision.trim() || null } : {}),
       triggers: [
         { id: 't1', cue: t1.cue.trim(), habit: t1.habit.trim(), time: t1.time || null, note: t1.note.trim() },
         { id: 't2', cue: t2.cue.trim(), habit: t2.habit.trim(), time: t2.time || null, note: t2.note.trim() },
       ],
-      preferences: { energy, timeAvail, recommendedTrack: FEATURES.pathBuilder ? aiPick : null },
+      preferences: { energy: energy || null, timeAvail: timeAvail || null, recommendedTrack: FEATURES.pathBuilder ? aiPick : null },
       onboardingDone: true,
       createdAt: new Date().toISOString(),
     }
-    setPrefs({ energy, timeAvail, focusGoal: goal, recommendedTrack: FEATURES.pathBuilder ? aiPick : null })
+    setPrefs({ energy: energy || null, timeAvail: timeAvail || null, focusGoal: goal, recommendedTrack: FEATURES.pathBuilder ? aiPick : null })
     try { await saveProfile(user.uid, profile) } catch { /* non-fatal */ }
     localStorage.removeItem(PROGRESS_KEY)
     navigate('/dashboard', { replace: true })
