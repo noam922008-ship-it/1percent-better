@@ -1472,7 +1472,7 @@ export default function Dashboard() {
                 })()}
 
                 {/* XP Level progression bar */}
-                {(() => {
+                {FEATURES.homeXpExtras && (() => {
                   const lvlPct = (levelXP / XP.PER_LEVEL) * 100
                   return (
                     <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '0.75rem 1rem' }}>
@@ -1795,7 +1795,7 @@ export default function Dashboard() {
                 )}
 
                 {/* Today XP Summary */}
-                {(doneCount > 0 || challengeDone) && (
+                {FEATURES.homeXpExtras && (doneCount > 0 || challengeDone) && (
                   <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ color: '#A4A6AD', fontSize: '0.78rem', fontWeight: 600 }}>XP היום</span>
                     <span style={{ color: '#D9B34C', fontWeight: 800, fontSize: '0.88rem' }}>
