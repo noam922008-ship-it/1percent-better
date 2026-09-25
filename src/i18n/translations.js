@@ -2,11 +2,11 @@ const t = {
   en: {
     welcome: {
       title: 'PRIME',
-      subtitle: 'High-performance execution. Discipline built one day at a time.',
+      subtitle: 'Figure out who you want to be — body, money and mind. One clear step a day.',
       features: [
-        ['🎯', '30-day execution tracks — real skills, not theory'],
-        ['🔒', 'Strict 1-course focus rule — finish what you start'],
-        ['⚡', 'XP compounding system — every day of action counts'],
+        ['✍️', "Write — get what's on your mind onto the page"],
+        ['🧭', 'Understand — one question that shows what really matters to you'],
+        ['👣', 'Take a step — turn it into one clear step for today'],
       ],
       signIn: 'Continue with Google',
       signingIn: 'Signing in…',
@@ -90,11 +90,11 @@ const t = {
   he: {
     welcome: {
       title: 'PRIME',
-      subtitle: 'ביצועים גבוהים. משמעת שנבנית יום אחר יום.',
+      subtitle: 'להבין מי אתה רוצה להיות — בגוף, בכסף ובנפש. צעד אחד ברור כל יום.',
       features: [
-        ['🎯', 'מסלולי ביצוע 30 יום — מיומנויות אמיתיות, לא תיאוריה'],
-        ['🔒', 'כלל קורס אחד בלבד — תסיים מה שהתחלת'],
-        ['⚡', 'מערכת XP מצטברת — כל יום פעולה נספר'],
+        ['✍️', 'כותבים — מוציאים את מה שבראש ומפנים מקום'],
+        ['🧭', 'מבינים — שאלה אחת שמראה מה באמת חשוב לך'],
+        ['👣', 'עושים צעד — מההבנה יוצא צעד אחד ברור להיום'],
       ],
       signIn: 'המשך עם Google',
       signingIn: 'מתחבר…',
