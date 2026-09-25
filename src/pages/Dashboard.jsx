@@ -1848,7 +1848,7 @@ export default function Dashboard() {
               {/* 7-day activity strip (moved from Home) */}
               <WeekStrip activityLog={profile?.activityLog} />
               {/* Surprise Mission — purple accent wrapper (moved from Home) */}
-              {!isGuest && (
+              {FEATURES.surpriseMission && !isGuest && (
                 <div style={{ borderRight: '3px solid rgba(139,92,246,0.4)', borderRadius: 14, overflow: 'hidden' }}>
                   <SurpriseMissionCard
                     enabledCategories={profile?.surpriseCategoryPrefs || DEFAULT_ENABLED_CATEGORIES}
@@ -1922,7 +1922,7 @@ export default function Dashboard() {
               </div>
             </div>
             {/* ── Surprise Mission Category Prefs ── */}
-            {!isGuest && (
+            {FEATURES.surpriseMission && !isGuest && (
               <div style={{ padding: '0 1.25rem 1.25rem', maxWidth: 480, margin: '0 auto' }}>
                 <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
                   🎲 קטגוריות משימת הפתעה
