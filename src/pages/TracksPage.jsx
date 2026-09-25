@@ -793,6 +793,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
   return (
     <div style={{ maxWidth: 480, margin: '0 auto', padding: PAD, animation: 'slide-up 0.28s ease both' }}>
 
+      {FEATURES.routineCards && (<>
       {/* Header */}
       <div style={{ marginBottom: '1.25rem' }}>
         <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.54rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.2rem' }}>◈ PRIME · פרוטוקול יומי</div>
@@ -911,6 +912,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
           )
         })}
       </div>
+      </>)}
 
       {/* Archive toggle */}
       {FEATURES.deepTracks && (<>

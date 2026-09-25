@@ -1866,11 +1866,11 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
-            <TracksPage
+            {(FEATURES.routineCards || FEATURES.deepTracks) && <TracksPage
               profile={profile}
               onAwardXP={(amount, guestMode) => { if (!guestMode) { awardXP(amount); bumpStreak() } else setXPToast('signin') }}
               onSaveProfile={update => setProfile(p => ({ ...p, ...update }))}
-            />
+            />}
             {/* ── Hobby Discovery results (only shown when user has started the program) ── */}
             {FEATURES.deepTracks && !isGuest && (profile?.challenges?.['hobby-discovery']?.daysCompleted > 0 || Object.keys(profile?.hobbyDiscovery?.responses || {}).length > 0) && (
               <div style={{ maxWidth: 480, margin: '0 auto', padding: '0 1.25rem' }}>
