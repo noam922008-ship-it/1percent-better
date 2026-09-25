@@ -399,6 +399,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
       )}
 
       {/* ── Club Status card ── */}
+      {FEATURES.fightClub && (
       <div style={{ marginBottom: '1rem', borderRadius: 16, overflow: 'hidden' }}>
         {inFightClub ? (
           <div style={{ background: '#111114', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: '1rem 1.15rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -435,6 +436,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
           </div>
         )}
       </div>
+      )}
 
       {/* ── Daily Nudge Preview ── */}
       <div style={{ marginBottom: '1.25rem', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '0.85rem 1rem' }}>
