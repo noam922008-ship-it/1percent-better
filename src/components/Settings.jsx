@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { isNudgesEnabled } from '../services/notificationService'
 import { useUserPrefs } from '../context/UserContext'
 import { LESSON_TOPICS } from '../data/dailyLessons'
+import { FEATURES } from '../config/features'
 
 function Row({ label, desc, children }) {
   return (
@@ -236,8 +237,8 @@ export default function Settings({ onRebuildPath, activePathName }) {
         </>
       )}
 
-      {/* Path section */}
-      {!isGuest && (
+      {/* Path section — hidden with deep tracks (rebuild wipes track progress) */}
+      {FEATURES.deepTracks && !isGuest && (
         <>
           <SectionHeader title="◈ מסלול אישי" />
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '0.1rem 1rem', marginBottom: '0.5rem' }}>

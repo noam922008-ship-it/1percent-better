@@ -43,6 +43,7 @@ import { HOBBY_DISCOVERY_ID, getHobbyDay } from '../data/hobbyDiscovery'
 import { DEFAULT_PILLARS } from '../data/pillars'
 import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitReminder'
 import { getEffectiveStreak } from '../utils/streak'
+import { FEATURES } from '../config/features'
 import { getTrackDay } from '../utils/trackDay'
 import BoxingPathScreen from '../components/boxing/BoxingPathScreen'
 import BoxingWorkoutPreview from '../components/boxing/BoxingWorkoutPreview'
@@ -1211,7 +1212,9 @@ export default function Dashboard() {
     return map
   }, [profile?.triggers, checkins])
 
+  // Hidden with FEATURES.deepTracks off: Home acts as if no track is active (progress stays saved)
   const activeTrack = useMemo(() => {
+    if (!FEATURES.deepTracks) return null
     const ch = profile?.challenges || {}
     return CHALLENGES
       .filter(c => { const d = ch[c.id]?.daysCompleted || 0; return d > 0 && d < c.days })
@@ -1518,7 +1521,7 @@ export default function Dashboard() {
                 })()}
 
                 {/* Path loading skeleton */}
-                {!isGuest && pathLoading && (
+                {FEATURES.deepTracks && !isGuest && pathLoading && (
                   <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '0.75rem 1rem' }}>
                     <div style={{ height: 12, borderRadius: 6, background: 'rgba(255,255,255,0.06)', width: '60%', marginBottom: '0.4rem', overflow: 'hidden', position: 'relative' }}>
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.07) 50%,transparent 100%)', backgroundSize: '200% 100%', animation: 'shimmer 1.4s infinite' }} />
@@ -1579,7 +1582,7 @@ export default function Dashboard() {
                 })()}
 
                 {/* No active track: pick a program */}
-                {(primaryAction.type === 'no-tasks' || (!activeTrack && !pathLoading)) && !isGuest && (
+                {FEATURES.deepTracks && (primaryAction.type === 'no-tasks' || (!activeTrack && !pathLoading)) && !isGuest && (
                   <div style={{ background: '#111317', border: '1px dashed rgba(255,255,255,0.1)', borderRight: '3px solid rgba(217,179,76,0.35)', borderRadius: 14, padding: '1.25rem', textAlign: 'center' }}>
                     <div style={{ color: '#A4A6AD', fontSize: '0.88rem', fontWeight: 700, marginBottom: '0.6rem' }}>בחר תוכנית 30 יום להתחיל</div>
                     <button className="btn-primary btn-tactile" onClick={() => setActiveTab('progress')} style={{ padding: '0.8rem 1.5rem', borderRadius: 10, fontSize: '0.9rem', fontWeight: 800 }}>
@@ -1869,7 +1872,7 @@ export default function Dashboard() {
               onSaveProfile={update => setProfile(p => ({ ...p, ...update }))}
             />
             {/* ── Hobby Discovery results (only shown when user has started the program) ── */}
-            {!isGuest && (profile?.challenges?.['hobby-discovery']?.daysCompleted > 0 || Object.keys(profile?.hobbyDiscovery?.responses || {}).length > 0) && (
+            {FEATURES.deepTracks && !isGuest && (profile?.challenges?.['hobby-discovery']?.daysCompleted > 0 || Object.keys(profile?.hobbyDiscovery?.responses || {}).length > 0) && (
               <div style={{ maxWidth: 480, margin: '0 auto', padding: '0 1.25rem' }}>
                 <HobbyDiscoveryProgress
                   hobbyDiscovery={profile?.hobbyDiscovery}
@@ -1997,7 +2000,7 @@ export default function Dashboard() {
                 setCustomPath(null); setShowPathBuilder(true); setActiveTab('home')
               }}
             />
-            {!isGuest && (
+            {FEATURES.deepTracks && !isGuest && (
               <div style={{ padding: '0 1.25rem 1.25rem' }}>
                 <button
                   onClick={() => setShowPathHistory(true)}

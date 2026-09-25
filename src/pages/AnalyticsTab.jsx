@@ -3,6 +3,7 @@ import { CHALLENGES } from '../data/challenges'
 import { getDailyNudgeMessage } from '../services/notificationService'
 import { getEffectiveStreak } from '../utils/streak'
 import { getTrackDay } from '../utils/trackDay'
+import { FEATURES } from '../config/features'
 
 const WHATSAPP_LINK = 'https://chat.whatsapp.com/L5AoG0c2l4H29BkAZanCw4'
 const APP_URL       = 'https://1percent-better-app.web.app'
@@ -507,7 +508,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
       })()}
 
       {/* ── Tracks progress breakdown — always shows niche tracks ── */}
-      {relevantTrackIds.size > 0 && (
+      {FEATURES.deepTracks && relevantTrackIds.size > 0 && (
         <div style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '1rem 1.1rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.85rem' }}>
             <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.88rem' }}>מסלול פעיל</span>

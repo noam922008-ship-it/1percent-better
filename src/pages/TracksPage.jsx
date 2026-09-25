@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { FEATURES } from '../config/features'
 import { useAuth } from '../context/AuthContext'
 import { useUserPrefs } from '../context/UserContext'
 import { saveProfile } from '../services/focusTriggerService'
@@ -733,7 +734,8 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
   const currentHour = new Date().getHours()
   const currentSlot = currentHour < 12 ? 'morning' : currentHour < 18 ? 'noon' : 'evening'
 
-  const topTrackId     = recommendedIds[0]
+  // Deep tracks hidden → routine cards show generic steps, no "פתח מסלול"
+  const topTrackId     = FEATURES.deepTracks ? recommendedIds[0] : null
   const topTrack       = topTrackId ? CHALLENGES.find(ch => ch.id === topTrackId) : null
   const topProgress    = topTrack ? getProgress(topTrack.id) : null
   const nextDay        = (topProgress?.daysCompleted || 0) + 1
@@ -911,6 +913,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
       </div>
 
       {/* Archive toggle */}
+      {FEATURES.deepTracks && (<>
       <button
         onClick={() => setShowTracksArchive(v => !v)}
         className="btn-tactile"
@@ -972,6 +975,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
           </button>
         </div>
       )}
+      </>)}
 
     </div>
   )
