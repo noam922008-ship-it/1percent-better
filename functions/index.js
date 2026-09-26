@@ -20,11 +20,12 @@ initializeApp();
 // and guest callers — those fall back to static responses on the client).
 //
 // Request data:
-//   prompt          string | object[]  — text prompt or pre-built content array
-//   imageBase64     string?            — base64-encoded image (no data: prefix)
-//   imageMimeType   string?            — e.g. "image/jpeg"
-//   systemInstruction string?          — optional model system instruction
-//   model           string?            — default "gemini-2.5-flash"
+//   prompt          string?            — text prompt, ≤ 40,000 chars
+//   imageBase64     string?            — plain base64 image (no data: prefix), ≤ ~5 MB
+//   imageMimeType   string?            — image/jpeg (default) | image/png | image/webp
+//   systemInstruction string?          — optional, ≤ 2,000 chars
+// The model is fixed server-side (GEMINI_MODEL); a client-sent `model` is ignored.
+// Invalid input is rejected before it counts against the daily limit.
 //
 // Response: { text: string }
 
@@ -48,6 +49,37 @@ async function checkGeminiRateLimit(db, uid) {
   return allowed;
 }
 
+// Input limits for analyzeWithGemini — the client never picks the model.
+const GEMINI_MODEL              = 'gemini-2.5-flash';
+const MAX_PROMPT_CHARS          = 40000;
+const MAX_SYSTEM_INSTRUCTION    = 2000;
+const MAX_IMAGE_BASE64_CHARS    = 7 * 1024 * 1024;   // ~5 MB image (callable requests cap at 10 MB)
+const ALLOWED_IMAGE_MIME_TYPES  = ['image/jpeg', 'image/png', 'image/webp'];
+
+// Returns sanitized { prompt, imageBase64, imageMimeType, systemInstruction } or throws invalid-argument.
+function validateGeminiRequest(data) {
+  const { prompt, imageBase64, imageMimeType = 'image/jpeg', systemInstruction } = data || {};
+  const bad = msg => { throw new HttpsError('invalid-argument', msg); };
+
+  if (prompt !== undefined && typeof prompt !== 'string') bad('prompt must be a string.');
+  if (prompt && prompt.length > MAX_PROMPT_CHARS) bad('prompt too long.');
+
+  if (imageBase64 !== undefined) {
+    if (typeof imageBase64 !== 'string' || !imageBase64) bad('imageBase64 must be a non-empty string.');
+    if (imageBase64.length > MAX_IMAGE_BASE64_CHARS) bad('image too large.');
+    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(imageBase64)) bad('imageBase64 must be plain base64 (no data: prefix).');
+    if (!ALLOWED_IMAGE_MIME_TYPES.includes(imageMimeType)) bad('unsupported image type.');
+  }
+
+  if (systemInstruction !== undefined &&
+      (typeof systemInstruction !== 'string' || systemInstruction.length > MAX_SYSTEM_INSTRUCTION)) {
+    bad('systemInstruction must be a string of at most 2000 characters.');
+  }
+
+  if (!prompt && !imageBase64) bad('prompt or imageBase64 required.');
+  return { prompt, imageBase64, imageMimeType, systemInstruction };
+}
+
 exports.analyzeWithGemini = onCall(
   {
     region:          'europe-west1',
@@ -60,6 +92,9 @@ exports.analyzeWithGemini = onCall(
       throw new HttpsError('unauthenticated', 'Authentication required.');
     }
 
+    // Validate before counting against the daily limit; any client-sent `model` is ignored.
+    const { prompt, imageBase64, imageMimeType, systemInstruction } = validateGeminiRequest(request.data);
+
     const uid = request.auth.uid;
     const db  = getFirestore();
     const allowed = await checkGeminiRateLimit(db, uid);
@@ -70,18 +105,6 @@ exports.analyzeWithGemini = onCall(
       );
     }
 
-    const {
-      prompt,
-      imageBase64,
-      imageMimeType = 'image/jpeg',
-      systemInstruction,
-      model: modelName = 'gemini-2.5-flash',
-    } = request.data || {};
-
-    if (!prompt && !imageBase64) {
-      throw new HttpsError('invalid-argument', 'prompt or imageBase64 required.');
-    }
-
     const apiKey = geminiApiKey.value();
     if (!apiKey) {
       throw new HttpsError('failed-precondition', 'Gemini API key not configured.');
@@ -89,7 +112,7 @@ exports.analyzeWithGemini = onCall(
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: modelName,
+      model: GEMINI_MODEL,
       ...(systemInstruction ? { systemInstruction } : {}),
     });
 
@@ -103,7 +126,7 @@ exports.analyzeWithGemini = onCall(
         ],
       }];
     } else {
-      contents = prompt;  // string or pre-built content array
+      contents = prompt;  // plain string (validated above)
     }
 
     try {
