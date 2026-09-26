@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ChevronRight, Pencil, Trash2 } from 'lucide-react'
 import { subscribeEntries, addEntry, updateEntry, deleteEntry, firstLine, isEmptyEntry, MAX_TEXT_LEN, MAX_ANSWER_LEN } from '../services/journalService'
 import { addTask } from '../services/myTasksService'
+import JournalReflection from './JournalReflection'
 
 // Journal — full-screen private writing page. No AI, no XP, no streaks.
 // uid null → guest (localStorage). Rendered inside Dashboard's FullScreen.
@@ -65,7 +66,7 @@ function SecondaryButton({ children, disabled, done, onClick, color = C.accent }
   )
 }
 
-export default function Journal({ uid, onClose }) {
+export default function Journal({ uid, onClose, aiConsent = false, onAiConsentChange }) {
   const [entries,  setEntries]  = useState([])
   const [view,     setView]     = useState('write')   // 'write' | 'list' | 'entry'
   const [openId,   setOpenId]   = useState(null)      // entry shown in 'entry' view
@@ -75,6 +76,7 @@ export default function Journal({ uid, onClose }) {
   const [saved,    setSaved]    = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [error,    setError]    = useState(null)      // null | 'load' | 'save' | 'task'
+  const [reflecting, setReflecting] = useState(null)    // just-saved entry → follow-up conversation
 
   useEffect(() => {
     return subscribeEntries(uid, list => { setEntries(list); setError(null) }, () => setError('load'))
@@ -88,6 +90,7 @@ export default function Journal({ uid, onClose }) {
   function goBack() {
     setError(null)
     setConfirmDelete(false)
+    if (view === 'write' && reflecting) { setReflecting(null); return }
     if (view === 'write' && editId) { setEditId(null); setForm(EMPTY); setView('entry') }
     else if (view === 'entry')      { setOpenId(null); setView('list') }
     else if (view === 'list')       { setView('write') }
@@ -102,8 +105,9 @@ export default function Journal({ uid, onClose }) {
         await updateEntry(uid, editId, form)
         setOpenId(editId); setEditId(null); setForm(EMPTY); setView('entry')
       } else {
-        await addEntry(uid, form)
+        const id = await addEntry(uid, form)
         setForm(EMPTY); setAddedStep(null); setSaved(true)
+        if (id) setReflecting({ id, text: form.text.trim(), important: form.important.trim(), step: form.step.trim() })
       }
     } catch { setError('save') }
   }
@@ -155,8 +159,23 @@ export default function Journal({ uid, onClose }) {
           </div>
         )}
 
+        {/* ── Follow-up after saving ── */}
+        {view === 'write' && reflecting && (
+          <>
+            <div role="status" style={{ color: C.ok, fontSize: '0.85rem', fontWeight: 700, textAlign: 'center' }}>נשמר ✓</div>
+            <JournalReflection
+              key={reflecting.id}
+              uid={uid}
+              entry={reflecting}
+              aiConsent={aiConsent}
+              onAiConsentChange={onAiConsentChange}
+              onDone={() => { setReflecting(null); setSaved(false) }}
+            />
+          </>
+        )}
+
         {/* ── Write / edit ── */}
-        {view === 'write' && (
+        {view === 'write' && !reflecting && (
           <>
             <textarea
               value={form.text}
@@ -215,6 +234,16 @@ export default function Journal({ uid, onClose }) {
                 רשומות קודמות ({entries.length})
               </button>
             )}
+
+            {/* Remembered consent for AI questions — can be turned off any time */}
+            {uid && aiConsent && !editId && (
+              <div style={{ textAlign: 'center', color: C.faint, fontSize: '0.78rem', marginTop: '0.5rem' }}>
+                שאלות AI: פעיל ·{' '}
+                <button onClick={() => onAiConsentChange?.(false)} style={{ background: 'none', border: 'none', color: C.muted, fontSize: '0.78rem', fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer', textDecoration: 'underline', minHeight: 44, padding: '0 0.4rem' }}>
+                  כבה
+                </button>
+              </div>
+            )}
           </>
         )}
 
@@ -263,6 +292,12 @@ export default function Journal({ uid, onClose }) {
                   <p style={{ margin: 0, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', fontSize: '0.95rem', lineHeight: 1.6 }}>{openEntry.step}</p>
                 </>
               )}
+              {(openEntry.reflections || []).map((r, i) => (
+                <div key={i}>
+                  <div style={{ ...labelStyle, color: C.muted, fontSize: '0.82rem' }}>{r.q}</div>
+                  <p style={{ margin: 0, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', fontSize: '0.95rem', lineHeight: 1.6 }}>{r.a}</p>
+                </div>
+              ))}
 
               <div style={{ display: 'flex', gap: '0.6rem', marginTop: '2rem' }}>
                 <SecondaryButton onClick={() => startEdit(openEntry)}>

@@ -2251,7 +2251,15 @@ export default function Dashboard() {
         <FullScreen><LessonNotesPage uid={isGuest ? null : user?.uid} onClose={() => setLessonNotesOpen(false)} /></FullScreen>
       )}
       {journalOpen && (
-        <FullScreen><Journal uid={isGuest ? null : user?.uid} onClose={() => setJournalOpen(false)} /></FullScreen>
+        <FullScreen><Journal
+          uid={isGuest ? null : user?.uid}
+          onClose={() => setJournalOpen(false)}
+          aiConsent={!isGuest && !!profile?.journalAiConsent}
+          onAiConsentChange={on => {
+            setProfile(p => ({ ...p, journalAiConsent: on }))
+            if (!isGuest && user) saveProfile(user.uid, { journalAiConsent: on }).catch(() => {})
+          }}
+        /></FullScreen>
       )}
       {mtDrillActive && (
         <FullScreen><BoxingDrillTimer
