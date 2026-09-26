@@ -51,11 +51,13 @@ service cloud.firestore {
       }
 
       // Journal — private free writing + two fixed answers. Owner-only.
-      // Shape: { text, important, step, date, createdAt, updatedAt? }.
+      // Shape: { text, important, step, date, createdAt, updatedAt?, reflections? }.
+      // reflections: follow-up questions + answers after saving, at most 3 ({ q, a, source }).
       // date is a local YYYY-MM-DD key; date + createdAt are immutable on edit.
       match /journal/{entryId} {
         function validEntry(d) {
-          return d.keys().hasOnly(['text', 'important', 'step', 'date', 'createdAt', 'updatedAt'])
+          return d.keys().hasOnly(['text', 'important', 'step', 'date', 'createdAt', 'updatedAt', 'reflections'])
+              && (!('reflections' in d) || (d.reflections is list && d.reflections.size() <= 3))
               && d.text is string      && d.text.size()      <= 5000
               && d.important is string && d.important.size() <= 1000
               && d.step is string      && d.step.size()      <= 1000

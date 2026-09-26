@@ -1,6 +1,7 @@
 // Journal — private free writing + two fixed answers. No AI, no XP.
 // Signed-in: Firestore users/{uid}/journal/{entryId}. Guest: localStorage.
-// Entry: { text, important, step, date, createdAt, updatedAt? } — date is a local key (getLocalDateKey).
+// Entry: { text, important, step, date, createdAt, updatedAt?, reflections? } — date is a local key (getLocalDateKey).
+// reflections: [{ q, a, source: 'ai' | 'fixed' }] — follow-up questions after saving, at most 3.
 
 import { collection, doc, setDoc, updateDoc, deleteDoc, onSnapshot, serverTimestamp } from 'firebase/firestore'
 import { db } from './firebase'
@@ -90,6 +91,22 @@ export async function updateEntry(uid, id, raw) {
     return
   }
   await updateDoc(entryDoc(uid, id), { ...entry, updatedAt: serverTimestamp() })
+}
+
+export const MAX_REFLECTIONS = 3
+
+// Saves the follow-up questions + answers on the entry (replaces the list). Text fields stay as written.
+export async function saveReflections(uid, id, reflections) {
+  const list = (reflections || []).slice(0, MAX_REFLECTIONS).map(r => ({
+    q:      clean(r.q, 300),
+    a:      clean(r.a, MAX_ANSWER_LEN),
+    source: r.source === 'ai' ? 'ai' : 'fixed',
+  })).filter(r => r.q && r.a)
+  if (!uid) {
+    saveGuest(loadGuest().map(e => e.id === id ? { ...e, reflections: list } : e))
+    return
+  }
+  await updateDoc(entryDoc(uid, id), { reflections: list })
 }
 
 export async function deleteEntry(uid, id) {
