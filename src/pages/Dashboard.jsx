@@ -1226,7 +1226,7 @@ export default function Dashboard() {
   const activeTrackDay  = activeTrack ? getTrackDay(activeTrack, profile?.challenges?.[activeTrack.id]).currentDay : 0
 
   const dynamicGreeting = useMemo(() => {
-    const name  = profile?.name
+    const name  = isGuest ? null : profile?.name   // guest profile is named 'Guest' — greet without a name
     const greet = hour < 5 ? 'לילה טוב' : hour < 12 ? 'בוקר טוב' : hour < 17 ? 'צהריים טובים' : 'ערב טוב'
     const n     = name ? `, ${name}` : ''
     if (streak >= 14) return `${greet}${n}. ${streak} ימים ברצף — אתה לא כמו כולם.`
@@ -1234,7 +1234,7 @@ export default function Dashboard() {
     if (activeTrack)  return `${greet}${n}. יום ${activeTrackDay} ב${activeTrack.title}.`
     if (streak >= 1)  return `${greet}${n}. ${streak} ימים ברצף.`
     return `${greet}${n}. יום חדש, צעד חדש.`
-  }, [profile?.name, hour, streak, activeTrack, activeTrackDay])
+  }, [isGuest, profile?.name, hour, streak, activeTrack, activeTrackDay])
 
   const _weeklyCompletedDays = useMemo(() => {
     const log = new Set(profile?.activityLog || [])
