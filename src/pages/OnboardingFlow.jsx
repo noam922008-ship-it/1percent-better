@@ -372,7 +372,7 @@ export default function OnboardingFlow() {
               </div>
             )}
             {filledTriggers.length > 0 && (
-            <div style={{ background: 'rgba(250,204,21,0.05)', border: '1px solid rgba(250,204,21,0.18)', borderRadius: 14, padding: '1rem', marginBottom: '1.5rem', textAlign: 'left' }}>
+            <div style={{ background: 'rgba(250,204,21,0.05)', border: '1px solid rgba(250,204,21,0.18)', borderRadius: 14, padding: '1rem', marginBottom: '1.5rem', textAlign: 'start' }}>
               {filledTriggers.map(([id, tr], i) => (
                 <div key={id} style={{ marginBottom: i < filledTriggers.length - 1 ? '0.75rem' : 0 }}>
                   <div style={{ color: '#facc15', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.2rem' }}>
