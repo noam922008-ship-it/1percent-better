@@ -7,6 +7,7 @@ export const XP = {
   SURPRISE_MISSION: 15, // bonus surprise mission — one per day, idempotent
   PERFECT_DAY: 20,      // bonus when all habits + mission + workout done
   PER_LEVEL: 100,       // XP needed per level
+  MAX_PER_AWARD: 1000,  // cap on a single award — must match firestore.rules (focusTriggers xp check)
 }
 
 // Level name tiers — each tier covers a range of levels.

@@ -118,23 +118,34 @@ service cloud.firestore {
     //   xp must be a non-negative number if present.
     //   name must be a string ≤50 chars if present.
     //   triggers must be a list if present.
+    //   xp may rise by at most 1000 per write (XP.MAX_PER_AWARD in src/config/xp.js);
+    //   it may always go down (undo). Client-side XP is still trusted within that cap.
     match /focusTriggers/{uid} {
-      allow read: if isOwner(uid);
-      allow write: if isOwner(uid)
-                  && (!('xp'       in request.resource.data) || (request.resource.data.xp is number       && request.resource.data.xp >= 0))
-                  && (!('name'     in request.resource.data) || (request.resource.data.name is string     && request.resource.data.name.size() <= 50))
-                  && (!('triggers' in request.resource.data) || request.resource.data.triggers is list)
-                  && (!('tier'     in request.resource.data) || request.resource.data.tier == 'free');
+      function validProfile(d) {
+        return (!('xp'       in d) || (d.xp is number       && d.xp >= 0))
+            && (!('name'     in d) || (d.name is string     && d.name.size() <= 50))
+            && (!('triggers' in d) || d.triggers is list)
+            && (!('tier'     in d) || d.tier == 'free');
+      }
+      function xpGainOk() {
+        let oldXp = resource == null ? 0 : resource.data.get('xp', 0);
+        return request.resource.data.get('xp', 0) <= oldXp + 1000;
+      }
+      allow read:           if isOwner(uid);
+      allow create, update: if isOwner(uid) && validProfile(request.resource.data) && xpGainOk();
     }
 
     // ── LEADERBOARD (public XP + name only) ───────────
     // Any signed-in user can read (community feature).
-    // Write: owner only; name ≤50 chars, xp non-negative number.
+    // Write: owner only; only name/xp/updatedAt; name ≤50 chars; xp can't exceed the
+    // owner's own profile XP (focusTriggers/{uid}), so it inherits the per-write cap there.
     match /leaderboard/{uid} {
       allow read:  if isSignedIn();
       allow write: if isOwner(uid)
+                  && request.resource.data.keys().hasOnly(['name', 'xp', 'updatedAt'])
                   && request.resource.data.xp is number
                   && request.resource.data.xp >= 0
+                  && request.resource.data.xp <= get(/databases/$(database)/documents/focusTriggers/$(uid)).data.get('xp', 0)
                   && request.resource.data.name is string
                   && request.resource.data.name.size() <= 50;
     }
@@ -205,11 +216,23 @@ service cloud.firestore {
     }
 
     // ── WEEKLY REPS (readable by any signed-in user for squad leaderboard) ──
+    // Owner-only writes; known fields only; totalReps may rise by at most 1000 per write
+    // within the same week (a new weekKey starts from 0).
     match /weeklyReps/{uid} {
+      function repsGainOk(d) {
+        let sameWeek = resource != null && resource.data.get('weekKey', '') == d.weekKey;
+        let prev     = sameWeek ? resource.data.get('totalReps', 0) : 0;
+        return d.totalReps <= prev + 1000;
+      }
       allow read:  if isSignedIn();
       allow write: if isOwner(uid)
+                  && request.resource.data.keys().hasOnly(['uid', 'name', 'weekKey', 'totalReps', 'byExercise', 'updatedAt'])
+                  && request.resource.data.uid == uid
+                  && request.resource.data.name is string && request.resource.data.name.size() <= 30
+                  && request.resource.data.weekKey is string
                   && request.resource.data.totalReps is number
-                  && request.resource.data.totalReps >= 0;
+                  && request.resource.data.totalReps >= 0
+                  && repsGainOk(request.resource.data);
     }
 
     // ── HEAD-TO-HEAD CHALLENGES ────────────────────────

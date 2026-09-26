@@ -976,8 +976,11 @@ export default function Dashboard() {
 
   // ── XP helpers ────────────────────────────────────────────────
 
-  async function awardXP(amount) {
+  async function awardXP(rawAmount) {
     if (isGuest) { setXPToast('signin'); return }
+    // Firestore rules reject a write that adds more than XP.MAX_PER_AWARD at once
+    const amount   = Math.max(0, Math.min(Math.round(Number(rawAmount) || 0), XP.MAX_PER_AWARD))
+    if (!amount) return
     const oldLevel = getLevel(profile?.xp || 0)
     const newXP    = (profile?.xp || 0) + amount
     const newLevel = getLevel(newXP)
