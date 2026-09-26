@@ -63,6 +63,7 @@ import DailyLessonCard from '../components/DailyLessonCard'
 import MyTasks from '../components/MyTasks'
 import JournalCard from '../components/JournalCard'
 import Journal from '../components/Journal'
+import LessonNotesPage from '../components/LessonNotesPage'
 
 // ── Constants ──────────────────────────────────────────────────────
 
@@ -763,6 +764,7 @@ export default function Dashboard() {
   const [mtCompletion,        setMtCompletion]        = useState(null)
   const [mtDrillActive,       setMtDrillActive]       = useState(null)  // quick-start drill for MT
   const [journalOpen,         setJournalOpen]         = useState(false)
+  const [lessonNotesOpen,     setLessonNotesOpen]     = useState(false)
   const [_showDetails,      setShowDetails]       = useState(false)
   const [_contractLocked, setContractLocked] = useState(() => checkContractStatus().locked)
   const [_headerScore,    setHeaderScore]    = useState(getScore)
@@ -1793,7 +1795,7 @@ export default function Dashboard() {
 
                 {/* Daily Learning Card */}
                 {FEATURES.dailyLesson && !isGuest && (
-                  <DailyLessonCard prefTopics={profile?.learnTopics || []} />
+                  <DailyLessonCard prefTopics={profile?.learnTopics || []} uid={user?.uid} onOpenNotes={() => setLessonNotesOpen(true)} />
                 )}
 
                 {/* Today XP Summary */}
@@ -2241,6 +2243,9 @@ export default function Dashboard() {
           levelJustCompleted={mtCompletion.levelJustCompleted}
           onDone={() => { const wasInstant = mtCompletion?.isInstant; setMtCompletion(null); if (!wasInstant) setShowMuayThaiPath(true) }}
         /></FullScreen>
+      )}
+      {lessonNotesOpen && (
+        <FullScreen><LessonNotesPage uid={isGuest ? null : user?.uid} onClose={() => setLessonNotesOpen(false)} /></FullScreen>
       )}
       {journalOpen && (
         <FullScreen><Journal uid={isGuest ? null : user?.uid} onClose={() => setJournalOpen(false)} /></FullScreen>

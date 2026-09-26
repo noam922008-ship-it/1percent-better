@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { LESSON_TOPICS } from '../data/dailyLessons'
 import {
   getTodayLesson,
@@ -9,6 +9,8 @@ import {
   saveLessonFeedback,
   getTodayLessonEntry,
 } from '../services/dailyLessonService'
+import { subscribeNotes } from '../services/lessonNotesService'
+import LessonNotesForm from './LessonNotesForm'
 
 const C = {
   bg:      '#111317',
@@ -45,7 +47,7 @@ function TopicChip({ topicId }) {
 }
 
 // Full lesson bottom sheet
-function LessonView({ lesson, topicId, entry, onClose, onAlternative, onFeedback, onComplete, onApply }) {
+function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative, onFeedback, onComplete, onApply }) {
   const [step,       setStep]       = useState('read')   // 'read' | 'question' | 'done'
   const [answered,   setAnswered]   = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
@@ -226,6 +228,13 @@ function LessonView({ lesson, topicId, entry, onClose, onAlternative, onFeedback
           </div>
         )}
 
+        {/* The user's own notes — saved with a copy of the lesson (no XP) */}
+        {(step === 'done' || alreadyCompleted) && (
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.1rem', marginBottom: '1.25rem', animation: 'fadeIn 0.3s ease' }}>
+            <LessonNotesForm uid={uid} lesson={lesson} existing={note} />
+          </div>
+        )}
+
         {/* Alternative lesson button */}
         <button
           onClick={onAlternative}
@@ -240,13 +249,17 @@ function LessonView({ lesson, topicId, entry, onClose, onAlternative, onFeedback
 
 // ── Main exported card ──────────────────────────────────────────────
 
-export default function DailyLessonCard({ prefTopics = [] }) {
+export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNotes }) {
   const [lessonData, setLessonData] = useState(() => getTodayLesson(prefTopics))
   const [showLesson, setShowLesson] = useState(false)
   const [entry,      setEntry]      = useState(() => getTodayLessonEntry())
+  const [notes,      setNotes]      = useState([])
+
+  useEffect(() => subscribeNotes(uid, setNotes, () => {}), [uid])
 
   const { lesson, topicId } = lessonData
   const topic = LESSON_TOPICS.find(t => t.id === topicId)
+  const note  = notes.find(n => n.id === lesson.id) || null
 
   const completed = !!(entry?.completedAt)
   const applied   = !!(entry?.appliedAt)
@@ -285,6 +298,8 @@ export default function DailyLessonCard({ prefTopics = [] }) {
           lesson={lesson}
           topicId={topicId}
           entry={entry}
+          uid={uid}
+          note={note}
           onClose={() => { setShowLesson(false); setEntry(getTodayLessonEntry()) }}
           onAlternative={() => { setShowLesson(false); handleAlternative() }}
           onComplete={handleComplete}
@@ -370,6 +385,16 @@ export default function DailyLessonCard({ prefTopics = [] }) {
             נושא אחר
           </button>
         </div>
+
+        {/* Link to past lessons + the user's notes */}
+        {onOpenNotes && (
+          <button
+            onClick={onOpenNotes}
+            style={{ display: 'block', margin: '0.6rem auto 0', background: 'none', border: 'none', color: C.muted, fontSize: '0.78rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer', minHeight: 44, padding: '0 1rem' }}
+          >
+            מה למדתי{notes.length > 0 ? ` (${notes.length})` : ''} ←
+          </button>
+        )}
       </div>
     </>
   )

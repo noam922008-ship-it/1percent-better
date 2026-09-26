@@ -5,7 +5,7 @@
 export const FEATURES = {
   deepTracks:      false, // 30-day tracks: Home daily mission ("לוח שנה אנרגטי") + track bar/day, מסלולים עמוקים, Hobby Discovery, "מסלול פעיל", growth-pillar prefs
   surpriseMission: false, // משימת הפתעה card (Progress) + its category prefs (Profile)
-  dailyLesson:     false, // שיעור יומי card (Home) + lesson-topic prefs (Settings)
+  dailyLesson:     true,  // שיעור יומי card (Home) + lesson-topic prefs (Settings) — back, with the user's own notes
   xpForecast:      false, // "מסלול הצמיחה שלך" XP projection (Progress)
   routineCards:    false, // פרוטוקול בוקר/צהריים/ערב cards (Progress)
   fightClub:       false, // "מועדון הקרב" XP-level card (Progress)
