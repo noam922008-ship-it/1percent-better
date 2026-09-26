@@ -134,7 +134,7 @@ function TriggerStep({ num, value, onChange, to }) {
 
 export default function OnboardingFlow() {
   const { user }         = useAuth()
-  const { t: tAll }      = useLang()
+  const { t: tAll, lang } = useLang()
   const { setPrefs }     = useUserPrefs()
   const to               = tAll.onboarding
   const navigate         = useNavigate()
@@ -379,7 +379,7 @@ export default function OnboardingFlow() {
                     {to.triggerLabel} {i + 1}{tr.time ? ` · ${tr.time}` : ''}
                   </div>
                   <div style={{ color: '#f1f5f9', fontSize: '0.875rem' }}>{tr.cue}</div>
-                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem' }}>→ {tr.habit}</div>
+                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem' }}>{lang === 'he' ? '←' : '→'} {tr.habit}</div>
                 </div>
               ))}
             </div>
