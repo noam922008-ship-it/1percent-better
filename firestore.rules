@@ -68,6 +68,26 @@ service cloud.firestore {
                             && request.resource.data.date == resource.data.date
                             && request.resource.data.createdAt == resource.data.createdAt;
       }
+
+      // Lesson notes — the user's own notes on a daily lesson + a copy of the lesson.
+      // Owner-only. Shape: { lessonId, topicId, lesson, learned, apply, date, createdAt, updatedAt? }.
+      // Doc id is the lesson id; date + createdAt are immutable on edit.
+      match /lessons/{lessonId} {
+        function validNote(d) {
+          return d.keys().hasOnly(['lessonId', 'topicId', 'lesson', 'learned', 'apply', 'date', 'createdAt', 'updatedAt'])
+              && d.lessonId == lessonId
+              && d.topicId is string
+              && d.lesson is map
+              && d.learned is string && d.learned.size() > 0 && d.learned.size() <= 2000
+              && d.apply is string   && d.apply.size() <= 1000
+              && d.date is string && d.date.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}');
+        }
+        allow read, delete: if isOwner(uid);
+        allow create:       if isOwner(uid) && validNote(request.resource.data);
+        allow update:       if isOwner(uid) && validNote(request.resource.data)
+                            && request.resource.data.date == resource.data.date
+                            && request.resource.data.createdAt == resource.data.createdAt;
+      }
     }
 
     // ── POSTS (Community Feed) ──────────────────────────
