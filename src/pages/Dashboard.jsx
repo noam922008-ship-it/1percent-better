@@ -14,6 +14,8 @@ import InitiationFlow from './InitiationFlow'
 import AddToHomeScreen from '../components/AddToHomeScreen'
 import ContractLock from '../components/ContractLock'
 import PrimeOnboarding, { hasSeenOnboarding } from '../components/PrimeOnboarding'
+import FirstWelcome from '../components/FirstWelcome'
+import { hasSeenWelcome, markWelcomeSeen } from '../utils/welcome'
 import PathBuilder from '../components/PathBuilder'
 import Settings from '../components/Settings'
 import ArenaPage from './ArenaPage'
@@ -764,6 +766,7 @@ export default function Dashboard() {
   const [mtCompletion,        setMtCompletion]        = useState(null)
   const [mtDrillActive,       setMtDrillActive]       = useState(null)  // quick-start drill for MT
   const [journalOpen,         setJournalOpen]         = useState(false)
+  const [welcomeDone,         setWelcomeDone]         = useState(false)
   const [lessonNotesOpen,     setLessonNotesOpen]     = useState(false)
   const [_showDetails,      setShowDetails]       = useState(false)
   const [_contractLocked, setContractLocked] = useState(() => checkContractStatus().locked)
@@ -1323,6 +1326,18 @@ export default function Dashboard() {
     || (profile?.triggers || []).length > 0
     || !!profile?.onboardingDone   // finished setup (habits are optional) → go straight to Home
   )
+
+  // First-run welcome — once, for users with no XP yet (guests and new sign-ups after setup)
+  if (!welcomeDone && (profile?.xp || 0) === 0 && !hasSeenWelcome(profile)) {
+    const finishWelcome = openJournal => {
+      markWelcomeSeen()
+      if (!isGuest && user) saveProfile(user.uid, { welcomeSeen: true }).catch(() => {})
+      setWelcomeDone(true)
+      setActiveTab('home')
+      if (openJournal) setJournalOpen(true)
+    }
+    return <FirstWelcome onStart={() => finishWelcome(true)} onSkip={() => finishWelcome(false)} />
+  }
 
   if (!profileHasProgress && !hasSeenOnboarding()) return (
     <PrimeOnboarding onDone={() => setInitiationDone(true)} />
