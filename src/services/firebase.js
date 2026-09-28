@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import { getAuth, GoogleAuthProvider, connectAuthEmulator } from 'firebase/auth'
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
-import { getFunctions } from 'firebase/functions'
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 import { getMessaging } from 'firebase/messaging'
 
 const config = {
@@ -30,6 +30,13 @@ if (isFirebaseConfigured) {
   _db        = getFirestore(_app)
   _storage   = getStorage(_app)
   _functions = getFunctions(_app, 'europe-west1')
+  // Local testing only: `VITE_USE_EMULATORS=true npm run dev` talks to the Firebase emulators
+  // (firebase.json → emulators), never to production. Ignored in production builds.
+  if (import.meta.env.DEV && import.meta.env.VITE_USE_EMULATORS === 'true') {
+    connectAuthEmulator(_auth, 'http://127.0.0.1:9099', { disableWarnings: true })
+    connectFirestoreEmulator(_db, '127.0.0.1', 8085)
+    connectFunctionsEmulator(_functions, '127.0.0.1', 5001)
+  }
   // Messaging only available in browsers that support service workers
   if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
     try { _messaging = getMessaging(_app) } catch {}
