@@ -17,9 +17,10 @@ const chip = on => ({
   color: on ? C.gold : C.muted, fontSize: '0.85rem', fontWeight: 700,
 })
 
+// onChange must be a state setter (it receives an updater) so quick taps never read a stale value.
 export default function HabitScheduleFields({ value, onChange }) {
-  const set = patch => onChange({ ...value, ...patch })
-  const toggleDay = i => set({ days: value.days.includes(i) ? value.days.filter(d => d !== i) : [...value.days, i] })
+  const set = patch => onChange(v => ({ ...v, ...patch }))
+  const toggleDay = i => onChange(v => ({ ...v, days: v.days.includes(i) ? v.days.filter(d => d !== i) : [...v.days, i] }))
 
   return (
     <div dir="rtl" style={{ direction: 'rtl' }}>
@@ -33,10 +34,10 @@ export default function HabitScheduleFields({ value, onChange }) {
         <>
           <div style={label}>פעמים בשבוע</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-            <button type="button" aria-label="פחות" onClick={() => set({ times: Math.max(1, value.times - 1) })}
+            <button type="button" aria-label="פחות" onClick={() => onChange(v => ({ ...v, times: Math.max(1, v.times - 1) }))}
               disabled={value.times <= 1} style={{ ...chip(false), width: 44, opacity: value.times <= 1 ? 0.4 : 1 }}>−</button>
             <span aria-live="polite" style={{ color: C.text, fontSize: '1.4rem', fontWeight: 900, minWidth: 24, textAlign: 'center' }}>{value.times}</span>
-            <button type="button" aria-label="יותר" onClick={() => set({ times: Math.min(MAX_TIMES_PER_WEEK, value.times + 1) })}
+            <button type="button" aria-label="יותר" onClick={() => onChange(v => ({ ...v, times: Math.min(MAX_TIMES_PER_WEEK, v.times + 1) }))}
               disabled={value.times >= MAX_TIMES_PER_WEEK} style={{ ...chip(false), width: 44, opacity: value.times >= MAX_TIMES_PER_WEEK ? 0.4 : 1 }}>+</button>
           </div>
 
