@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { useUserPrefs } from '../context/UserContext'
-import { saveProfile } from '../services/focusTriggerService'
+import { saveProfile, loadProfile } from '../services/focusTriggerService'
+import { hasCompletedSetup } from '../utils/setupGuard'
 import { suggestChallenge } from '../services/coachService'
 import { FEATURES } from '../config/features'
 
@@ -153,6 +154,20 @@ export default function OnboardingFlow() {
   const [t2,        setT2]        = useState(saved.t2     || { cue: '', habit: '', time: '', note: '' })
   const [vision,    setVision]    = useState(saved.vision || '')
   const [saving,    setSaving]    = useState(false)
+  const [allowed,   setAllowed]   = useState(false)   // guard: only accounts that haven't finished setup
+
+  // Existing users (or guests) who open /setup directly go to the dashboard — finishing setup
+  // again would overwrite their name and habits. If the profile can't be read, fail closed.
+  useEffect(() => {
+    let alive = true
+    if (!user) { navigate('/dashboard', { replace: true }); return }
+    loadProfile(user.uid).then(p => {
+      if (!alive) return
+      if (!p || hasCompletedSetup(p)) navigate('/dashboard', { replace: true })
+      else setAllowed(true)
+    })
+    return () => { alive = false }
+  }, [user, navigate])
 
   useEffect(() => {
     try { localStorage.setItem(PROGRESS_KEY, JSON.stringify({ step, name, energy, timeAvail, goal, aiPick, t1, t2, vision })) }
@@ -196,6 +211,13 @@ export default function OnboardingFlow() {
 
   async function finish() {
     setSaving(true)
+    // Re-check right before writing (e.g. setup finished meanwhile in another tab)
+    const current = await loadProfile(user.uid)
+    if (!current || hasCompletedSetup(current)) {
+      localStorage.removeItem(PROGRESS_KEY)
+      navigate('/dashboard', { replace: true })
+      return
+    }
     const profile = {
       name: name.trim(),
       focusGoal: goal,
@@ -214,6 +236,8 @@ export default function OnboardingFlow() {
   }
 
   const pickedMeta = FEATURES.pathBuilder && aiPick ? CHALLENGE_META[aiPick] : null
+
+  if (!allowed) return <div style={S.page} />   // checking the profile (or redirecting)
 
   return (
     <div style={S.page}>
