@@ -1339,11 +1339,11 @@ export default function Dashboard() {
     return <FirstWelcome onStart={() => finishWelcome(true)} onSkip={() => finishWelcome(false)} />
   }
 
-  if (!profileHasProgress && !hasSeenOnboarding()) return (
+  if (FEATURES.legacyIntro && !profileHasProgress && !hasSeenOnboarding()) return (
     <PrimeOnboarding onDone={() => setInitiationDone(true)} />
   )
 
-  if (!profileHasProgress && !initiationDone) return (
+  if (FEATURES.legacyIntro && !profileHasProgress && !initiationDone) return (
     <InitiationFlow onComplete={() => {
       localStorage.setItem('onboardingCompleted', 'true')
       setInitiationDone(true)

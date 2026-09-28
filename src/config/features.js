@@ -12,4 +12,5 @@ export const FEATURES = {
   homeXpExtras:    false, // Home "XP היום" card + XP level bar (XP stays in header + ring)
   pathBuilder:     false, // AI path builder: never auto-opens, no silent background path generation; setup skips the AI track pick
   setupExtras:     false, // setup steps: energy level, time per day, "5 years" vision question
+  legacyIntro:     false, // old first-run screens (PrimeOnboarding 1.01³⁶⁵ slides + InitiationFlow) — replaced by FirstWelcome
 }
