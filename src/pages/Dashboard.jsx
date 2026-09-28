@@ -46,6 +46,10 @@ import { DEFAULT_PILLARS } from '../data/pillars'
 import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitReminder'
 import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
+import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, normalizeSchedule, MAX_ACTIVE_HABITS } from '../utils/habitSchedule'
+import { getLocalDateKey } from '../utils/localDate'
+import { subscribeWeekLog, markHabitDone } from '../services/habitLogService'
+import HabitScheduleFields from '../components/HabitScheduleFields'
 import { getTrackDay } from '../utils/trackDay'
 import BoxingPathScreen from '../components/boxing/BoxingPathScreen'
 import BoxingWorkoutPreview from '../components/boxing/BoxingWorkoutPreview'
@@ -613,12 +617,16 @@ function GoalEditModal({ goal, onSave, onClear, onClose }) {
 function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
   const [cue,        setCue]        = useState(trigger.cue)
   const [habit,      setHabit]      = useState(trigger.habit)
+  const [schedule,   setSchedule]   = useState({
+    weekly: isWeekly(trigger), times: isWeekly(trigger) ? timesPerWeek(trigger) : 3,
+    days: trigger.days || [], time: trigger.time || '',
+  })
   const [confirmDel, setConfirmDel] = useState(false)
   const canSave = cue.trim().length > 0 && habit.trim().length > 0
 
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 5100, background: 'rgba(5,5,12,0.82)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', animation: 'fadeIn 0.2s ease' }}>
-      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 480, background: '#18181b', borderRadius: '20px 20px 0 0', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '1.5rem 1.4rem 2.6rem', animation: 'slide-up 0.28s ease' }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 480, maxHeight: '90vh', overflowY: 'auto', boxSizing: 'border-box', background: '#18181b', borderRadius: '20px 20px 0 0', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '1.5rem 1.4rem 2.6rem', animation: 'slide-up 0.28s ease' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
           <span style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>✎ עריכת הרגל</span>
           <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'rgba(241,245,249,0.55)', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 700, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>✕</button>
@@ -663,8 +671,11 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
               placeholder="לדוגמה: 10 שכיבות סמיכה"
               style={{ width: '100%', boxSizing: 'border-box', padding: '0.8rem 0.95rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.875rem', fontFamily: 'inherit', marginBottom: '1.25rem', outline: 'none' }}
             />
+            <div style={{ margin: '0.25rem 0 1.1rem' }}>
+              <HabitScheduleFields value={schedule} onChange={setSchedule} />
+            </div>
             <button
-              onClick={() => canSave && onSave(cue.trim(), habit.trim())}
+              onClick={() => canSave && onSave(cue.trim(), habit.trim(), normalizeSchedule(schedule))}
               disabled={!canSave}
               className="btn-tactile"
               style={{ width: '100%', padding: '0.95rem', borderRadius: 14, border: 'none', background: canSave ? 'linear-gradient(135deg,#c49020,#d4a843)' : 'rgba(255,255,255,0.06)', color: canSave ? '#0d0d0d' : 'rgba(255,255,255,0.25)', fontSize: '0.9rem', fontWeight: 800, cursor: canSave ? 'pointer' : 'not-allowed', marginBottom: '0.6rem', boxShadow: canSave ? '0 2px 8px rgba(0,0,0,0.4)' : 'none' }}
@@ -742,6 +753,8 @@ export default function Dashboard() {
 
   const [profile,      setProfile]      = useState(null)
   const [checkins,     setCheckinsS]    = useState(getCheckins)
+  const [localDay,     setLocalDay]     = useState(getLocalDateKey)   // weekly habits use local dates
+  const [weekLog,      setWeekLog]      = useState({})                // { [localDate]: { [triggerId]: true } }
   const [loading,      setLoading]      = useState(true)
   const [showModal,    setShowModal]    = useState(false)
   const [showHabitFlow,    setShowHabitFlow]    = useState(false)
@@ -866,6 +879,18 @@ export default function Dashboard() {
     )
     return unsub
   }, [user, isGuest])
+
+  // Weekly-habit check-ins for this local week (Sunday → Saturday); re-subscribe when the local day changes
+  useEffect(() => {
+    const tick = () => setLocalDay(getLocalDateKey())
+    const id = setInterval(tick, 60_000)
+    document.addEventListener('visibilitychange', tick)
+    return () => { clearInterval(id); document.removeEventListener('visibilitychange', tick) }
+  }, [])
+  useEffect(() => {
+    if (loading) return
+    return subscribeWeekLog(isGuest ? null : user?.uid, weekKeys(localDay), setWeekLog, () => {})
+  }, [user, isGuest, loading, localDay])
 
   useEffect(() => {
     if (!profile) return
@@ -1059,6 +1084,19 @@ export default function Dashboard() {
 
   function confirmHabitComplete() {
     const id   = proofModal.id
+    const tr   = (profile?.triggers || []).find(t => t.id === id)
+    if (tr && isWeekly(tr)) {
+      // Weekly habit: once per local day, counts toward this week; no effect on the daily streak
+      const today = getLocalDateKey()
+      if (weekLog[today]?.[id]) { setProofModal(null); return }
+      setWeekLog(l => ({ ...l, [today]: { ...(l[today] || {}), [id]: true } }))
+      markHabitDone(isGuest ? null : user?.uid, id, today).catch(() => {})
+      setProofModal(null)
+      setCompletingId(id)
+      setTimeout(() => setCompletingId(null), 850)
+      awardXP(XP.HABIT)
+      return
+    }
     const next = { ...checkins, [id]: true }
     saveCheckins(next)
     setCheckinsS(next)
@@ -1066,7 +1104,7 @@ export default function Dashboard() {
     setCompletingId(id)
     setTimeout(() => setCompletingId(null), 850)
     awardXP(XP.HABIT)
-    updateStreak(next, profile?.triggers || [])
+    updateStreak(next, (profile?.triggers || []).filter(t => !isWeekly(t)))
   }
 
 
@@ -1083,7 +1121,7 @@ export default function Dashboard() {
     if (isGuest) { setShowModal(false); return }
     const existing = profile?.triggers || []
     const activeCount = existing.filter(t => !t.archived).length
-    if (activeCount >= 3) { setShowModal(false); return }
+    if (activeCount >= MAX_ACTIVE_HABITS) { setShowModal(false); return }
     if (hasDuplicateHabit(existing, data.habit || data.cue)) { setShowModal(false); setShowHabitFlow(false); return }
     setSaving(true)
     const newTrigger = { id: `t${Date.now()}`, ...data }
@@ -1092,8 +1130,9 @@ export default function Dashboard() {
     setSaving(false)
   }
 
-  async function handleEditHabit(id, newCue, newHabit) {
-    const newTriggers = (profile?.triggers || []).map(t => t.id === id ? { ...t, cue: newCue, habit: newHabit } : t)
+  // Same id → daily/weekly check-in history stays attached when the schedule changes
+  async function handleEditHabit(id, newCue, newHabit, schedule = {}) {
+    const newTriggers = (profile?.triggers || []).map(t => t.id === id ? { ...t, cue: newCue, habit: newHabit, ...schedule } : t)
     const updated = { ...profile, triggers: newTriggers }
     setProfile(updated)
     setEditHabit(null)
@@ -1175,7 +1214,7 @@ export default function Dashboard() {
     if (isGuest) return { error: 'guest' }
     const existing   = profile?.triggers || []
     const activeCount = existing.filter(t => !t.archived).length
-    if (activeCount >= 3) return { error: 'limit' }
+    if (activeCount >= MAX_ACTIVE_HABITS) return { error: 'limit' }
     if (hasDuplicateHabit(existing, prefill.titleHe)) return { error: 'duplicate' }
     const newTrigger = {
       id:        `t${Date.now()}`,
@@ -1206,8 +1245,10 @@ export default function Dashboard() {
   // ── Derived ───────────────────────────────────────────────────
 
   const triggers  = profile?.triggers || []
-  const doneCount = triggers.filter(tr => checkins[tr.id]).length
-  const allDone   = triggers.length > 0 && doneCount === triggers.length
+  const dailyTriggers = triggers.filter(tr => !isWeekly(tr))   // weekly habits don't count toward "all done today"
+  const doneCount = dailyTriggers.filter(tr => checkins[tr.id]).length
+  const allDone   = dailyTriggers.length > 0 && doneCount === dailyTriggers.length
+  const thisWeek  = weekKeys(localDay)
   const xp        = profile?.xp || 0
   const toNext    = getToNext(xp)
   const hour      = new Date().getHours()
@@ -1259,7 +1300,7 @@ export default function Dashboard() {
   const missedYesterday = !isFirstTimer && streak === 0
   // ── Single primary action ──────────────────────────────────────
   const trackDoneToday   = activeTrack ? profile?.challenges?.[activeTrack.id]?.lastCompletedDate === todayKey() : true
-  const firstUndoneHabit = triggers.find(tr => !checkins[tr.id]) ?? null
+  const firstUndoneHabit = dailyTriggers.find(tr => !checkins[tr.id]) ?? null
 
   // ── New visual-layer derived values ────────────────────────────────
   const currentLevel     = getLevel(xp)
@@ -1267,7 +1308,7 @@ export default function Dashboard() {
   const levelXP          = (xp || 0) % XP.PER_LEVEL
   const workoutDoneToday = !!localStorage.getItem(`prime_workout_done_${todayKey()}`)
   const missionDoneToday = !!(activeTrack && profile?.challenges?.[activeTrack.id]?.lastCompletedDate === todayKey())
-  const todayTotalTasks  = Math.min(triggers.length, 3) + (activeTrack ? 1 : 0) + 1
+  const todayTotalTasks  = Math.min(dailyTriggers.length, MAX_ACTIVE_HABITS) + (activeTrack ? 1 : 0) + 1
   const todayDoneTasks   = doneCount + (missionDoneToday ? 1 : 0) + (workoutDoneToday ? 1 : 0)
   const todayEarnedXP    = (doneCount * XP.HABIT) + (missionDoneToday ? (activeTrack?.xpPerDay || XP.MISSION) : 0) + (workoutDoneToday ? XP.WORKOUT : 0)
   const weeklyWorkoutCount = useMemo(() => {
@@ -1699,9 +1740,9 @@ export default function Dashboard() {
                   >
                     <span style={{ transition: 'transform 0.2s', display: 'inline-block', transform: showMyRoutine ? 'rotate(90deg)' : 'rotate(0deg)', fontSize: '0.6rem' }}>▶</span>
                     השגרה שלי
-                    {triggers.length > 0 && (
+                    {dailyTriggers.length > 0 && (
                       <span style={{ marginRight: 'auto', color: allDone ? '#3FAF7A' : 'rgba(241,245,249,0.25)', fontSize: '0.68rem', fontWeight: 700 }}>
-                        {doneCount}/{Math.min(triggers.length, 3)} הרגלים
+                        {doneCount}/{dailyTriggers.length} הרגלים היום
                       </span>
                     )}
                   </button>
@@ -1715,28 +1756,34 @@ export default function Dashboard() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.85rem 1rem 0' }}>
                       <span style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 800 }}>ההרגלים שלי</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        {triggers.length > 0 && (
+                        {dailyTriggers.length > 0 && (
                           <span style={{ color: allDone ? '#3FAF7A' : '#A4A6AD', fontSize: '0.72rem', fontWeight: 700, border: `1px solid ${allDone ? 'rgba(63,175,122,0.3)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 6, padding: '0.1rem 0.4rem' }}>
-                            {doneCount}/{Math.min(triggers.length, 3)}
+                            {doneCount}/{dailyTriggers.length}
                           </span>
                         )}
-                        {triggers.filter(t => !t.archived).length < 3 && (
+                        {triggers.filter(t => !t.archived).length < MAX_ACTIVE_HABITS && (
                           <button onClick={() => setShowHabitFlow(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, color: '#A4A6AD', fontSize: '0.7rem', fontWeight: 700, padding: '0.18rem 0.55rem', cursor: 'pointer' }} aria-label="הוסף הרגל יומי">+ הוסף</button>
                         )}
                       </div>
                     </div>
-                    {triggers.length > 0 && (
+                    {dailyTriggers.length > 0 && (
                       <div style={{ height: 2, background: 'rgba(255,255,255,0.05)', margin: '0.6rem 1rem 0', borderRadius: 99, overflow: 'hidden' }}>
-                        <div style={{ height: '100%', borderRadius: 99, background: allDone ? '#3FAF7A' : '#D9B34C', width: `${triggers.length > 0 ? Math.round((doneCount / Math.min(triggers.length, 3)) * 100) : 0}%`, transition: 'width 0.5s ease, background 0.4s ease' }} />
+                        <div style={{ height: '100%', borderRadius: 99, background: allDone ? '#3FAF7A' : '#D9B34C', width: `${dailyTriggers.length > 0 ? Math.round((doneCount / dailyTriggers.length) * 100) : 0}%`, transition: 'width 0.5s ease, background 0.4s ease' }} />
                       </div>
                     )}
                     <div style={{ padding: '0.5rem 0 0' }}>
-                      {triggers.slice(0, 3).map((tr, i) => {
-                        const done = !!checkins[tr.id]
+                      {triggers.slice(0, MAX_ACTIVE_HABITS).map((tr, i) => {
+                        const weekly     = isWeekly(tr)
+                        const target     = weekly ? timesPerWeek(tr) : 0
+                        const weekDone   = weekly ? weeklyDone(tr, weekLog, thisWeek) : 0
+                        const doneToday  = weekly ? doneOn(tr, weekLog, localDay) : !!checkins[tr.id]
+                        const done       = weekly ? (doneToday || weekDone >= target) : doneToday
                         const completing = completingId === tr.id
                         const habitStreak = habitStreaks[tr.id] ?? 0
                         const streakLabel = habitStreak === 1 ? 'יום אחד ברצף' : habitStreak === 2 ? 'יומיים ברצף' : habitStreak > 2 ? `${habitStreak} ימים ברצף` : ''
-                        const habitSubtitle = done ? (streakLabel || 'הושלם') : (streakLabel || tr.habit)
+                        const habitSubtitle = weekly
+                          ? (weekDone >= target ? `הושלם השבוע ✓ · ${weekDone}/${target}` : `${weekDone}/${target} השבוע${doneToday ? ' · סומן היום' : ''}`)
+                          : done ? (streakLabel || 'הושלם') : (streakLabel || tr.habit)
                         return (
                           <div
                             key={tr.id}
@@ -1764,11 +1811,18 @@ export default function Dashboard() {
                             >{done && '✓'}</div>
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div style={{ color: done ? '#71717A' : '#F4F1E8', fontSize: '0.88rem', fontWeight: 700, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', textDecoration: done ? 'line-through' : 'none', textDecorationColor: 'rgba(255,255,255,0.18)', lineHeight: 1.35 }}>
-                                {tr.cue}
+                                {weekly ? tr.habit : tr.cue}
                               </div>
                               <div style={{ color: done ? 'rgba(63,175,122,0.6)' : '#71717A', fontSize: '0.68rem', marginTop: '0.15rem' }}>
                                 {habitSubtitle}
                               </div>
+                              {weekly && (
+                                <div aria-label={`${weekDone} מתוך ${target} השבוע · ${frequencyLabel(tr)}`} style={{ display: 'flex', gap: '0.25rem', marginTop: '0.4rem' }}>
+                                  {Array.from({ length: target }, (_, k) => (
+                                    <span key={k} style={{ width: 14, height: 4, borderRadius: 99, background: k < weekDone ? (weekDone >= target ? '#3FAF7A' : '#D9B34C') : 'rgba(255,255,255,0.1)' }} />
+                                  ))}
+                                </div>
+                              )}
                             </div>
                             <button
                               onClick={e => { e.stopPropagation(); setEditHabit(tr) }}
@@ -1786,20 +1840,20 @@ export default function Dashboard() {
                         </button>
                       )}
                     </div>
-                    {triggers.length > 3 && (
+                    {triggers.length > MAX_ACTIVE_HABITS && (
                       <div style={{ textAlign: 'center', padding: '0.5rem 0.5rem 0.75rem', color: '#71717A', fontSize: '0.68rem' }}>
-                        +{triggers.length - 3} הרגלים נוספים — ניהול בפרופיל
+                        +{triggers.length - MAX_ACTIVE_HABITS} הרגלים נוספים — ניהול בפרופיל
                       </div>
                     )}
                   </div>
                 )}
 
                 {/* Late-evening passive reminder */}
-                {shouldShowLateReminder(new Date().getHours(), triggers, checkins) && (
+                {shouldShowLateReminder(new Date().getHours(), dailyTriggers, checkins) && (
                   <div style={{ padding: '0.7rem 1rem', background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
                     <div>
                       <div style={{ color: '#A4A6AD', fontSize: '0.8rem', fontWeight: 700 }}>
-                        {getIncompleteCount(triggers, checkins) === 1 ? 'נשאר לך הרגל אחד להיום' : `נשארו לך ${getIncompleteCount(triggers, checkins)} הרגלים להיום`}
+                        {getIncompleteCount(dailyTriggers, checkins) === 1 ? 'נשאר לך הרגל אחד להיום' : `נשארו לך ${getIncompleteCount(dailyTriggers, checkins)} הרגלים להיום`}
                       </div>
                       <div style={{ color: '#71717A', fontSize: '0.68rem', marginTop: '0.15rem' }}>אפשר להשלים אותו כשמתאים לך.</div>
                     </div>
@@ -2394,7 +2448,7 @@ export default function Dashboard() {
       {editHabit && (
         <EditHabitModal
           trigger={editHabit}
-          onSave={(newCue, newHabit) => handleEditHabit(editHabit.id, newCue, newHabit)}
+          onSave={(newCue, newHabit, schedule) => handleEditHabit(editHabit.id, newCue, newHabit, schedule)}
           onDelete={() => handleDeleteHabit(editHabit.id)}
           onClose={() => setEditHabit(null)}
         />
