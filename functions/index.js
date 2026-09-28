@@ -409,7 +409,7 @@ const NUDGE_COPY = {
   en: [
     {
       title: 'Your streak is at risk! 🔥',
-      body:  "Close today 1% better — you're almost there.",
+      body:  "Close today with one small step — you're almost there.",
     },
     {
       title: "Don't quit on yourself today ⚔️",
@@ -677,8 +677,8 @@ exports.accountabilityReminder = onSchedule(
 //   broadcastTitle:   string?  — optional override push title
 //   broadcastBody:    string?  — optional override push body
 
-const DEFAULT_BROADCAST_TITLE = '🚀 1% Better just got better!';
-const DEFAULT_BROADCAST_BODY  = "🚀 Upgrade Alert: The new version of 1% Better is live! Open the app to experience the latest features.";
+const DEFAULT_BROADCAST_TITLE = '🚀 PRIME just got better!';
+const DEFAULT_BROADCAST_BODY  = "🚀 Upgrade Alert: The new version of PRIME is live! Open the app to experience the latest features.";
 const APP_URL                  = 'https://better-de9aa.web.app/';
 
 exports.broadcastUpdate = onDocumentWritten(

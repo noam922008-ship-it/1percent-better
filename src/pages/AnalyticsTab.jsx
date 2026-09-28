@@ -184,12 +184,12 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
     const best = CHALLENGES
       .filter(ch => (challenges[ch.id]?.daysCompleted || 0) > 0)
       .sort((a, b) => (challenges[b.id]?.daysCompleted || 0) - (challenges[a.id]?.daysCompleted || 0))[0]
-    const trackName = best ? best.title : '1% Better'
+    const trackName = best ? best.title : 'PRIME'
     const streakVal = getEffectiveStreak(profile)
     const name      = profile?.name || ''
     const text = streakVal > 0
-      ? `${name} על רצף של ${streakVal} ימים ב"${trackName}" ב-1% Better.\nהצטרף לתנועה ← ${APP_URL}`
-      : `אני בונה הרגלים טובים יותר עם 1% Better.\nהצטרף לתנועה ← ${APP_URL}`
+      ? `${name} על רצף של ${streakVal} ימים ב"${trackName}" ב-PRIME.\nהצטרף לתנועה ← ${APP_URL}`
+      : `אני בונה הרגלים טובים יותר עם PRIME.\nהצטרף לתנועה ← ${APP_URL}`
     navigator.clipboard.writeText(text)
       .then(() => showToast('📋', 'ההתקדמות הועתקה! מוכן לשיתוף.'))
       .catch(() => showToast('⚠️', 'ההעתקה נכשלה — נסה שוב'))

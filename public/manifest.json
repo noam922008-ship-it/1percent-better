@@ -2,7 +2,7 @@
   "id": "/",
   "name": "PRIME",
   "short_name": "PRIME",
-  "description": "קורס המשמעת היומי שלך. בצע משימות, תתקדם, תוכיח את זה.",
+  "description": "PRIME עוזרת לך להבין מי אתה רוצה להיות — בגוף, בכסף ובנפש — והופכת את זה לצעד אחד ברור כל יום.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

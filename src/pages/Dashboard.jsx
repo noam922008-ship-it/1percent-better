@@ -941,7 +941,7 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    if (!liveCardio) { document.title = '1% Better — PRIME'; return }
+    if (!liveCardio) { document.title = 'PRIME'; return }
     const elapsed = Math.round((Date.now() - liveCardio.startTimestamp) / 1000)
     const m = String(Math.floor(elapsed / 60)).padStart(2, '0')
     const s = String(elapsed % 60).padStart(2, '0')

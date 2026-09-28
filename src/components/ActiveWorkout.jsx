@@ -135,12 +135,12 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
 
   // ── Dynamic tab title while running ──
   useEffect(() => {
-    if (!running || finished) { document.title = '1% Better — PRIME'; return }
+    if (!running || finished) { document.title = 'PRIME'; return }
     const m = String(Math.floor(elapsed / 60)).padStart(2, '0')
     const s = String(elapsed % 60).padStart(2, '0')
     const d = distRef.current > 0 ? ` · ${distRef.current.toFixed(2)}ק"מ` : ''
     document.title = `🏃‍♂️ ${m}:${s}${d} — PRIME`
-    return () => { document.title = '1% Better — PRIME' }
+    return () => { document.title = 'PRIME' }
   }, [running, finished, elapsed])
 
   function handleDone() {
