@@ -521,7 +521,7 @@ exports.dailyHabitNudge = onSchedule(
             data: {
               title: copy.title,
               body:  copy.body,
-              url:   'https://better-de9aa.web.app/#hub',
+              url:   'https://prime-app-84fe0.web.app/#hub',
               icon:  '/icon-192.png',
               badge: '/icon-192.png',
               tag:   'daily-nudge',
@@ -621,7 +621,7 @@ exports.accountabilityReminder = onSchedule(
               title: copy.title,
               body:  copy.body,
               lang:  copy.lang,
-              url:   'https://better-de9aa.web.app/#focus-gate',
+              url:   'https://prime-app-84fe0.web.app/#focus-gate',
               icon:  '/icon-192.png',
               badge: '/icon-192.png',
               tag:   'accountability-lock',
@@ -679,7 +679,7 @@ exports.accountabilityReminder = onSchedule(
 
 const DEFAULT_BROADCAST_TITLE = '🚀 PRIME just got better!';
 const DEFAULT_BROADCAST_BODY  = "🚀 Upgrade Alert: The new version of PRIME is live! Open the app to experience the latest features.";
-const APP_URL                  = 'https://better-de9aa.web.app/';
+const APP_URL                  = 'https://prime-app-84fe0.web.app/';
 
 exports.broadcastUpdate = onDocumentWritten(
   {

@@ -6,7 +6,7 @@ import { getTrackDay } from '../utils/trackDay'
 import { FEATURES } from '../config/features'
 
 const WHATSAPP_LINK = 'https://chat.whatsapp.com/L5AoG0c2l4H29BkAZanCw4'
-const APP_URL       = 'https://1percent-better-app.web.app'
+const APP_URL       = 'https://prime-app-84fe0.web.app'
 
 function Toast({ icon, msg, onDone: _onDone }) {
   return (
