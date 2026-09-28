@@ -87,7 +87,7 @@ src/
     muaythai/
       MuayThaiPathScreen.jsx   # Thin wrapper over CombatPathScreen
     MyTasks.jsx            # My Tasks card — top of Home
-    JournalCard.jsx        # "מה בראש שלך?" card — below My Tasks
+    JournalCard.jsx        # "הראש שלי" card — below My Tasks
     Journal.jsx            # Full-screen journal: free text + 2 fixed questions, past entries, edit/delete
     DailyLessonCard.jsx    # Daily lesson (35 fixed lessons, not AI) + notes form + "מה למדתי" link
     LessonNotesForm.jsx    # "מה למדתי?" (required) / "איך אני משתמש בזה?" + add to My Tasks
@@ -160,7 +160,7 @@ functions/
 Deployed: hosting:prime-app from `main` @ `f9e674b` + firestore:rules (tasks, journal, lessons).
 
 - **VISION.md** — product vision; rule at top of this file. Every feature must fit it.
-- **Journal** — "מה בראש שלך?" card below My Tasks → full-screen page: free writing + "מה הכי חשוב לי מכל זה ולמה?" + "מה הצעד הכי קטן שאני יכול לעשות היום?" + "הוסף למשימות שלי". Past entries list, edit, delete. No AI/XP/streak.
+- **Journal** — "הראש שלי" card below My Tasks → full-screen page: free writing + "מה הכי חשוב לי מכל זה ולמה?" + "מה הצעד הכי קטן שאני יכול לעשות היום?" + "הוסף למשימות שלי". Past entries list, edit, delete. No AI/XP/streak.
 - **Cleanup** — everything outside VISION.md hidden behind `FEATURES` flags (see above). Growth-pillar prefs stay (they feed habit creation).
 - **Setup + Welcome** — Welcome selling points rewritten to the loop (כותבים / מבינים / עושים צעד). Setup cut to 5 steps, habits skippable.
 - **Lesson notes** — after the daily lesson: "מה למדתי?" / "איך אני משתמש בזה?" + add to My Tasks; saved with a copy of the lesson; "מה למדתי (N)" link on the lesson card → list → lesson + notes, editable.

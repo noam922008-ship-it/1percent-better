@@ -12,7 +12,7 @@ export default function JournalCard({ onOpen }) {
         padding: '0.8rem 1rem', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'right', direction: 'rtl',
       }}
     >
-      <span style={{ flex: 1, color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 800 }}>מה בראש שלך?</span>
+      <span style={{ flex: 1, color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 800 }}>הראש שלי</span>
       <ChevronLeft size={18} color="#71717A" />
     </button>
   )

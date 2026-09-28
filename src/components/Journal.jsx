@@ -131,7 +131,7 @@ export default function Journal({ uid, onClose }) {
     } catch { setError('save') }
   }
 
-  const title = view === 'list' ? 'רשומות קודמות' : view === 'entry' ? formatDate(openEntry?.date) : editId ? 'עריכת רשומה' : 'מה בראש שלך?'
+  const title = view === 'list' ? 'רשומות קודמות' : view === 'entry' ? formatDate(openEntry?.date) : editId ? 'עריכת רשומה' : 'הראש שלי'
 
   return (
     <div dir="rtl" style={{ minHeight: '100%', background: C.bg, color: C.text, direction: 'rtl' }}>
