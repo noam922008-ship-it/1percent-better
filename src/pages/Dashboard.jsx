@@ -899,13 +899,13 @@ export default function Dashboard() {
     const visionProf   = customPath?.vision_profile || null
     const uid          = user?.uid || null
     const run = () => {
-      checkNotifications(triggers, profile)
+      checkNotifications(triggers, profile, undefined, undefined, weekLog)
       checkNudges(visionProf, uid)
     }
     run()
     const id = setInterval(run, 60_000)
     return () => clearInterval(id)
-  }, [profile, customPath, user])
+  }, [profile, customPath, user, weekLog])
 
   // Dev console hook — window.__primeFire() queues a nudge for the next interval tick
   useEffect(() => {

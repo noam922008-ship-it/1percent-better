@@ -1,6 +1,8 @@
 import { db } from './firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { getEffectiveStreak } from '../utils/streak'
+import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, isReminderDay } from '../utils/habitSchedule'
+import { getLocalDateKey } from '../utils/localDate'
 
 const todayKey = () => new Date().toISOString().slice(0, 10)
 
@@ -251,7 +253,9 @@ export function getDailyNudgeMessage(name, streak) {
   return              { title: `⚡ ההרגלים שלך מחכים${n}`,         body: `כל יום שאתה מגיע הוא הצבעה עבור האדם שאתה הופך להיות. תתחיל היום.` }
 }
 
-export function checkNotifications(triggers, profile, recapTime = '20:00', nudgeTime = '08:00') {
+// weekLog: weekly-habit check-ins for this local week ({ [localDate]: { [id]: true } }).
+// Only runs while the app is open (foreground) — see CLAUDE.md for the iPhone limits.
+export function checkNotifications(triggers, profile, recapTime = '20:00', nudgeTime = '08:00', weekLog = {}) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return
 
   const devFire = _devFireOnNextTick
@@ -273,14 +277,20 @@ export function checkNotifications(triggers, profile, recapTime = '20:00', nudge
   }
 
   // Contextual trigger-time notifications
+  const localToday = getLocalDateKey(now)
   triggers.forEach(tr => {
     if (!tr.time || tr.time !== hhmm) return
-    if (checkins[tr.id]) return
+    if (isWeekly(tr)) {
+      // Weekly: only on chosen days, not if done today, not once this week's target is reached
+      if (!isReminderDay(tr, localToday)) return
+      if (doneOn(tr, weekLog, localToday)) return
+      if (weeklyDone(tr, weekLog, weekKeys(localToday)) >= timesPerWeek(tr)) return
+    } else if (checkins[tr.id]) return
     fireTriggerNotif(tr, profile)
   })
 
   // Evening recap
   if (hhmm === recapTime) {
-    fireEveningRecap(profile, triggers)
+    fireEveningRecap(profile, triggers.filter(tr => !isWeekly(tr)))   // recap counts today's daily habits
   }
 }
