@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { getTopSuggestionsForPillars } from '../data/habitSuggestions'
 import { getPillar } from '../data/pillars'
+import { MAX_ACTIVE_HABITS, normalizeSchedule } from '../utils/habitSchedule'
+import HabitScheduleFields from './HabitScheduleFields'
 
 const TRIGGERS = [
   { id: 'wake',   label: 'כשאני מתעורר' },
@@ -19,10 +21,11 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
   const [customTitle, setCustomTitle] = useState(prefill?.titleHe || '')
   const [trigger, setTrigger] = useState(prefill?.triggerSuggestionHe || '')
   const [customTrigger, setCustomTrigger] = useState('')
+  const [schedule, setSchedule] = useState({ weekly: false, times: 3, days: [], time: '' })
 
   const activePillars = growthPillars?.length ? growthPillars : ['discipline', 'body']
   const suggestions = getTopSuggestionsForPillars(activePillars, 6)
-  const atMax = existingCount >= 3
+  const atMax = existingCount >= MAX_ACTIVE_HABITS
 
   function handleSuggestionPick(s) {
     setSelected(s)
@@ -54,6 +57,7 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
       pillar:    selected?.pillar || prefill?.pillar || null,
       source:    prefill ? 'surprise-mission' : (selected?.id ? 'suggested' : 'manual'),
       createdAt: new Date().toISOString().slice(0, 10),
+      ...normalizeSchedule(schedule),
     })
   }
 
@@ -62,16 +66,16 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
       style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.78)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', zIndex: 2000 }}
       onClick={e => e.target === e.currentTarget && onClose()}
     >
-      <div style={{ width: '100%', maxWidth: 480, background: '#161622', borderRadius: '20px 20px 0 0', padding: '1.5rem 1.5rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.08)', animation: 'slide-up 0.22s ease' }}>
+      <div style={{ width: '100%', maxWidth: 480, maxHeight: '90vh', overflowY: 'auto', boxSizing: 'border-box', background: '#161622', borderRadius: '20px 20px 0 0', padding: '1.5rem 1.5rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.08)', animation: 'slide-up 0.22s ease' }}>
 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <div>
             <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1rem' }}>
-              {step === 0 ? '+ הוסף הרגל' : step === 1 ? 'מה ההרגל?' : 'מתי תעשה אותו?'}
+              {step === 0 ? '+ הוסף הרגל' : step === 1 ? 'מה ההרגל?' : step === 2 ? 'מתי תעשה אותו?' : 'כמה פעמים?'}
             </div>
             <div style={{ color: '#71717A', fontSize: '0.68rem', marginTop: '0.1rem' }}>
-              {['בחר הרגל', 'הגדר', 'הוסף טריגר'][step]}
+              {['בחר הרגל', 'הגדר', 'הוסף טריגר', 'תדירות ותזכורת'][step]}
             </div>
           </div>
           <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', padding: '0.3rem 0.8rem', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 700, minHeight: 44, minWidth: 44 }}>✕</button>
@@ -82,7 +86,7 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
           <div>
             {atMax ? (
               <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 12, padding: '1rem', textAlign: 'center', color: '#A4A6AD', fontSize: '0.85rem', lineHeight: 1.6 }}>
-                שלושה הרגלים זה המקסימום כרגע.<br />
+                חמישה הרגלים זה המקסימום כרגע.<br />
                 <span style={{ color: '#71717A', fontSize: '0.75rem' }}>פוקוס מנצח עומס — ארכב הרגל קיים לפני שמוסיפים.</span>
               </div>
             ) : (
@@ -188,10 +192,25 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
               />
             )}
             <button
-              onClick={handleSave}
+              onClick={() => trigger && setStep(3)}
               disabled={!trigger}
               className={trigger ? 'btn-tactile' : ''}
               style={{ width: '100%', padding: '0.95rem', borderRadius: 12, border: 'none', background: trigger ? 'linear-gradient(135deg,#c49020,#d4a843)' : 'rgba(255,255,255,0.06)', color: trigger ? '#111' : 'rgba(255,255,255,0.25)', fontSize: '0.9rem', fontWeight: 900, cursor: trigger ? 'pointer' : 'not-allowed' }}
+            >
+              המשך ←
+            </button>
+          </div>
+        )}
+
+        {/* STEP 3 — How often + optional days/time */}
+        {step === 3 && (
+          <div>
+            <div style={{ color: '#A4A6AD', fontSize: '0.82rem', fontWeight: 700, marginBottom: '1rem' }}>{selected?.titleHe || customTitle}</div>
+            <HabitScheduleFields value={schedule} onChange={setSchedule} />
+            <button
+              onClick={handleSave}
+              className="btn-tactile"
+              style={{ width: '100%', padding: '0.95rem', marginTop: '1.25rem', borderRadius: 12, border: 'none', background: 'linear-gradient(135deg,#c49020,#d4a843)', color: '#0a0a0a', fontSize: '0.95rem', fontWeight: 900, cursor: 'pointer' }}
             >
               הוסף הרגל ✓
             </button>
