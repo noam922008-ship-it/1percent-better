@@ -64,6 +64,11 @@
       "public": "dist",
       "redirects": [
         {
+          "source": "/",
+          "destination": "https://prime-app-84fe0.web.app/",
+          "type": 302
+        },
+        {
           "source": "/:path*",
           "destination": "https://prime-app-84fe0.web.app/:path*",
           "type": 302
