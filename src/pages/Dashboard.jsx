@@ -51,6 +51,7 @@ import { getLocalDateKey } from '../utils/localDate'
 import { subscribeWeekLog, markHabitDone } from '../services/habitLogService'
 import HabitScheduleFields from '../components/HabitScheduleFields'
 import { publicName, cleanNickname } from '../utils/publicName'
+import { track } from '../services/analytics'
 import { renameWeeklyReps } from '../services/squadService'
 import { getTrackDay } from '../utils/trackDay'
 import BoxingPathScreen from '../components/boxing/BoxingPathScreen'
@@ -1136,7 +1137,10 @@ export default function Dashboard() {
     setSaving(true)
     const newTrigger = { id: `t${Date.now()}`, ...data }
     const updated    = { ...(profile || {}), triggers: [...existing, newTrigger], onboardingDone: true }
-    try { await saveProfile(user.uid, updated); setProfile(updated); setShowModal(false) } catch {}
+    try {
+      await saveProfile(user.uid, updated); setProfile(updated); setShowModal(false)
+      track('habit_created', { frequency: isWeekly(newTrigger) ? 'weekly' : 'daily' })
+    } catch {}
     setSaving(false)
   }
 
@@ -1385,7 +1389,7 @@ export default function Dashboard() {
       if (!isGuest && user) saveProfile(user.uid, { welcomeSeen: true }).catch(() => {})
       setWelcomeDone(true)
       setActiveTab('home')
-      if (openJournal) setJournalOpen(true)
+      if (openJournal) { track('welcome_start'); setJournalOpen(true) }
     }
     return <FirstWelcome onStart={() => finishWelcome(true)} onSkip={() => finishWelcome(false)} />
   }

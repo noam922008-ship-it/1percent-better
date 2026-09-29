@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ChevronRight, Pencil, Trash2 } from 'lucide-react'
 import { subscribeEntries, addEntry, updateEntry, deleteEntry, firstLine, isEmptyEntry, MAX_TEXT_LEN, MAX_ANSWER_LEN } from '../services/journalService'
 import { addTask } from '../services/myTasksService'
+import { track } from '../services/analytics'
 
 // Journal — full-screen private writing page. No AI, no XP, no streaks.
 // uid null → guest (localStorage). Rendered inside Dashboard's FullScreen.
@@ -102,7 +103,9 @@ export default function Journal({ uid, onClose }) {
         await updateEntry(uid, editId, form)
         setOpenId(editId); setEditId(null); setForm(EMPTY); setView('entry')
       } else {
+        const firstEver = entries.length === 0
         await addEntry(uid, form)
+        if (firstEver) track('first_entry')
         setForm(EMPTY); setAddedStep(null); setSaved(true)
       }
     } catch { setError('save') }

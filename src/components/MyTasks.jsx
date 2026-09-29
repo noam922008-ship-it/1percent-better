@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import { subscribeTasks, addTask, setTaskDone, deleteTask, MAX_TASK_LEN } from '../services/myTasksService'
 import { getLocalDateKey } from '../utils/localDate'
+import { track } from '../services/analytics'
 
 // My Tasks — the user's own one-off tasks for today. Not connected to XP.
 // uid null → guest (localStorage).
@@ -28,7 +29,7 @@ export default function MyTasks({ uid }) {
     const value = text.trim()
     if (!value) return
     setText('')
-    addTask(uid, value).catch(() => { setText(value); setError('save') })
+    addTask(uid, value).then(id => { if (id) track('task_added') }).catch(() => { setText(value); setError('save') })
   }
 
   function toggle(t) {
