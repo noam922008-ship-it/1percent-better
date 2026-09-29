@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import LegalContent from '../components/LegalContent'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -28,52 +29,6 @@ function emailAuthError(code) {
   }
 }
 
-const TERMS_CONTENT = `תנאי שימוש — PRIME
-
-עדכון אחרון: ינואר 2025
-
-1. קבלת התנאים
-השימוש באפליקציית PRIME מהווה הסכמה לתנאים אלה. אם אינך מסכים — אנא הפסק שימוש.
-
-2. שימוש מורשה
-השירות מיועד לשימוש אישי בלבד. אין להעתיק, להפיץ, או להשתמש מסחרית בתכנים ללא אישור מפורש.
-
-3. חשבון משתמש
-אתה אחראי לשמירת פרטי הגישה לחשבונך ולכל פעילות המתבצעת תחת חשבונך.
-
-4. שינויים בשירות
-PRIME שומרת לעצמה את הזכות לשנות, להשהות, או להפסיק כל חלק מהשירות בכל עת, עם הודעה מוקדמת סבירה.
-
-5. הגבלת אחריות
-השירות מסופק "כמו שהוא". PRIME לא תישא באחריות לנזקים ישירים או עקיפים הנובעים מהשימוש בשירות.
-
-6. יצירת קשר
-לשאלות בנוגע לתנאים אלה: support@prime-app.io`
-
-const PRIVACY_CONTENT = `מדיניות פרטיות — PRIME
-
-עדכון אחרון: ינואר 2025
-
-1. מידע שאנו אוספים
-• פרטי חשבון: שם, כתובת אימייל (דרך Google Auth או רישום ישיר)
-• נתוני שימוש: התקדמות, XP, הרגלים, ומסלולי אימון
-• נתוני מכשיר: סוג דפדפן וגרסה (לצורך תאימות)
-
-2. שימוש במידע
-המידע משמש אך ורק להפעלת השירות, שיפור חוויית המשתמש, ושליחת עדכונים רלוונטיים (בהסכמה).
-
-3. שיתוף מידע
-אנו לא מוכרים, מעבירים, או מגלים מידע אישי לצדדים שלישיים, למעט כנדרש על פי חוק.
-
-4. אבטחת מידע
-המידע מאוחסן בשרתי Firebase/Google ומוצפן בהעברה ובמנוחה.
-
-5. זכויות המשתמש
-תוכל לבקש מחיקת חשבונך ומידע אישי בכל עת דרך דף ההגדרות.
-
-6. יצירת קשר
-לשאלות בנוגע לפרטיות: privacy@prime-app.io`
-
 function LegalModal({ type, onClose }) {
   const isTerms = type === 'terms'
   return (
@@ -95,9 +50,8 @@ function LegalModal({ type, onClose }) {
           >✕</button>
         </div>
         <div style={{ overflowY: 'auto', flex: 1 }}>
-          <pre style={{ color: 'rgba(241,245,249,0.65)', fontSize: '0.78rem', lineHeight: 1.75, whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0 }}>
-            {isTerms ? TERMS_CONTENT : PRIVACY_CONTENT}
-          </pre>
+          <LegalContent type={isTerms ? 'terms' : 'privacy'} showTitle={false} />
+          <a href={isTerms ? '/terms' : '/privacy'} style={{ display: 'inline-block', marginTop: '0.75rem', color: '#D9B34C', fontSize: '0.8rem', fontWeight: 700 }}>פתח בעמוד מלא ←</a>
         </div>
       </div>
     </div>
@@ -288,7 +242,7 @@ export default function WelcomeScreen() {
         </button>
 
         <p style={S.legal}>
-          {t.welcome.legalPre}{' '}
+          {t.welcome.legalPre}
           <button onClick={() => setLegalModal('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.38)', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.terms}</button>
           {t.welcome.legalAnd}
           <button onClick={() => setLegalModal('privacy')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.38)', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.privacy}</button>

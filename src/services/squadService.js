@@ -63,6 +63,12 @@ export async function setSquadTelegramChat(squadId, telegramChatId) {
 }
 
 // ── Weekly reps (public — like XP leaderboard) ────────────────────────
+// name is the opted-in nickname or '' (anonymous) — never the real name.
+
+// Updates only the public name on an existing weekly-reps entry (e.g. after opting out).
+export async function renameWeeklyReps(uid, name) {
+  try { await updateDoc(doc(db, 'weeklyReps', uid), { name: String(name || '').slice(0, 30) }) } catch { /* no entry yet */ }
+}
 
 export async function syncWeeklyReps(uid, name, exerciseId, repsAdded) {
   const wk  = getWeekKey()
@@ -75,7 +81,7 @@ export async function syncWeeklyReps(uid, name, exerciseId, repsAdded) {
 
   await setDoc(ref, {
     uid,
-    name:        name.slice(0, 30),
+    name:        String(name || '').slice(0, 30),
     weekKey:     wk,
     totalReps:   prevTotal + repsAdded,
     byExercise:  { ...prevByEx, [exerciseId]: (prevByEx[exerciseId] || 0) + repsAdded },

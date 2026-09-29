@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { subscribeProfile, saveProfile, syncLeaderboard, syncCompletionStatus } from '../services/focusTriggerService'
 import { checkContractStatus, getRank, getScore } from '../services/disciplineScore'
-import { requestPermission, checkNotifications, checkNudges, saveNudgeResponse, snoozeNudge, markNudgeDone, __devQueueTestNudge } from '../services/notificationService'
+import { checkNotifications, checkNudges, saveNudgeResponse, snoozeNudge, markNudgeDone, __devQueueTestNudge } from '../services/notificationService'
 import { analyzeVideoForm } from '../services/coachService'
 import { CHALLENGES, getDayTask, getModuleIndex } from '../data/challenges'
 import { getDayContent } from '../data/lessonContent'
@@ -50,6 +50,8 @@ import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, n
 import { getLocalDateKey } from '../utils/localDate'
 import { subscribeWeekLog, markHabitDone } from '../services/habitLogService'
 import HabitScheduleFields from '../components/HabitScheduleFields'
+import { publicName, cleanNickname } from '../utils/publicName'
+import { renameWeeklyReps } from '../services/squadService'
 import { getTrackDay } from '../utils/trackDay'
 import BoxingPathScreen from '../components/boxing/BoxingPathScreen'
 import BoxingWorkoutPreview from '../components/boxing/BoxingWorkoutPreview'
@@ -891,10 +893,18 @@ export default function Dashboard() {
     if (loading) return
     return subscribeWeekLog(isGuest ? null : user?.uid, weekKeys(localDay), setWeekLog, () => {})
   }, [user, isGuest, loading, localDay])
+  // Public name on the leaderboard / weekly reps: nickname only if opted in, otherwise none.
+  // Re-sync when it changes (also cleans real names written before this became opt-in).
+  const shownName = publicName(profile)
+  useEffect(() => {
+    if (isGuest || !user || !profile || !(profile.xp > 0)) return
+    syncLeaderboard(user.uid, shownName, profile.xp).catch(() => {})
+    renameWeeklyReps(user.uid, shownName)
+  }, [isGuest, user, !!profile, shownName])  // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!profile) return
-    requestPermission()
+    // No automatic permission prompt: notifications are enabled from Settings (a tap), not on load
     const triggers     = profile?.triggers || []
     const visionProf   = customPath?.vision_profile || null
     const uid          = user?.uid || null
@@ -1022,7 +1032,7 @@ export default function Dashboard() {
       setTimeout(() => setLevelUpModal(null), 3800)
     }
     await saveProfile(user.uid, { xp: newXP, activityLog: log })
-    await syncLeaderboard(user.uid, profile?.name || 'Anonymous', newXP).catch(() => {})
+    await syncLeaderboard(user.uid, publicName(profile), newXP).catch(() => {})
   }
 
   async function _deductXP(amount) {
@@ -1030,7 +1040,7 @@ export default function Dashboard() {
     const newXP   = Math.max(0, (profile?.xp || 0) - amount)
     setProfile(p => ({ ...p, xp: newXP }))
     await saveProfile(user.uid, { xp: newXP })
-    await syncLeaderboard(user.uid, profile?.name || 'Anonymous', newXP).catch(() => {})
+    await syncLeaderboard(user.uid, publicName(profile), newXP).catch(() => {})
   }
 
   function bumpStreak() {
@@ -1964,7 +1974,7 @@ export default function Dashboard() {
         {activeTab === 'arena' && (
           <ArenaPage
             uid={user?.uid}
-            userName={profile?.name || 'PRIME User'}
+            userName={publicName(profile)}
             isGuest={isGuest}
           />
         )}
@@ -2061,6 +2071,13 @@ export default function Dashboard() {
             )}
 
             <Settings
+              leaderboardOptIn={!!profile?.leaderboardOptIn}
+              leaderboardNickname={profile?.leaderboardNickname || ''}
+              onSaveLeaderboard={(optIn, nickname) => {
+                const update = { leaderboardOptIn: optIn && !!cleanNickname(nickname), leaderboardNickname: cleanNickname(nickname) }
+                setProfile(p => ({ ...p, ...update }))
+                if (!isGuest && user) saveProfile(user.uid, update).catch(() => {})
+              }}
               activePathName={customPath?.path_name || null}
               onRebuildPath={() => {
                 try {
@@ -2372,7 +2389,7 @@ export default function Dashboard() {
           track={boxingSession.track}
           goal={boxingSession.goal}
           uid={user?.uid}
-          userName={profile?.name || 'PRIME User'}
+          userName={publicName(profile)}
           visionProfile={customPath?.vision_profile || null}
           onComplete={({ amount = 0 } = {}) => {
               const track = boxingSession?.track

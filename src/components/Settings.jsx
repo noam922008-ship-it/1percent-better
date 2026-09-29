@@ -4,6 +4,10 @@ import { isNudgesEnabled } from '../services/notificationService'
 import { useUserPrefs } from '../context/UserContext'
 import { LESSON_TOPICS } from '../data/dailyLessons'
 import { FEATURES } from '../config/features'
+import { useNavigate } from 'react-router-dom'
+import DeleteAccountSheet from './DeleteAccountSheet'
+import { deleteGuestData } from '../services/accountDeletionService'
+import { MAX_NICKNAME_LEN } from '../utils/publicName'
 
 function Row({ label, desc, children }) {
   return (
@@ -90,10 +94,16 @@ function ConfirmModal({ onConfirm, onCancel }) {
   )
 }
 
-export default function Settings({ onRebuildPath, activePathName }) {
+export default function Settings({ onRebuildPath, activePathName, leaderboardOptIn = false, leaderboardNickname = '', onSaveLeaderboard }) {
   const { user, isGuest, logout } = useAuth()
   const { prefs, setPrefs } = useUserPrefs()
   const [loggingOut,     setLoggingOut]     = useState(false)
+  const [showDelete,     setShowDelete]     = useState(false)
+  const [guestWipe,      setGuestWipe]      = useState(false)
+  const [nickOn,         setNickOn]         = useState(leaderboardOptIn)
+  const [nick,           setNick]           = useState(leaderboardNickname)
+  const [nickSaved,      setNickSaved]      = useState(false)
+  const navigate = useNavigate()
   const [nudgesEnabled,  setNudgesEnabled]  = useState(isNudgesEnabled)
   const [rebuildConfirm, setRebuildConfirm] = useState(false)
   const [notifPerm,      setNotifPerm]      = useState(() =>
@@ -174,7 +184,54 @@ export default function Settings({ onRebuildPath, activePathName }) {
             {loggingOut ? '...' : 'התנתק'}
           </button>
         </Row>
+
+        {/* Leaderboard — no name by default; optional nickname */}
+        {!isGuest && (
+          <div style={{ padding: '0.75rem 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            <Row label="להופיע בטבלת המובילים עם כינוי" desc="כברירת מחדל מופיעים רק XP וחזרות, בלי שם">
+              <Toggle on={nickOn} onToggle={() => {
+                const next = !nickOn
+                setNickOn(next); setNickSaved(false)
+                if (!next) onSaveLeaderboard?.(false, nick)
+              }} />
+            </Row>
+            {nickOn && (
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.4rem' }}>
+                <input value={nick} onChange={e => { setNick(e.target.value); setNickSaved(false) }} maxLength={MAX_NICKNAME_LEN}
+                  placeholder="הכינוי שלך" aria-label="כינוי לטבלת המובילים" dir="rtl"
+                  style={{ flex: 1, minHeight: 44, padding: '0.5rem 0.8rem', borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#f1f5f9', fontSize: '1rem', fontFamily: 'inherit' }} />
+                <button onClick={() => { onSaveLeaderboard?.(true, nick); setNickSaved(true) }} disabled={!nick.trim()}
+                  style={{ minHeight: 44, padding: '0 1rem', borderRadius: 10, border: '1px solid rgba(245,197,24,0.3)', background: 'transparent', color: nick.trim() ? '#F5C518' : 'rgba(241,245,249,0.3)', fontSize: '0.85rem', fontWeight: 700, fontFamily: 'inherit', cursor: nick.trim() ? 'pointer' : 'default' }}>
+                  {nickSaved ? 'נשמר ✓' : 'שמור'}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Delete account (signed in) / wipe this device (guest) */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '0.25rem' }}>
+          {isGuest ? (
+            <Row label="מחק את הנתונים מהמכשיר" desc="כל מה שנשמר בדפדפן הזה">
+              <button onClick={() => {
+                if (!guestWipe) { setGuestWipe(true); return }
+                deleteGuestData(); window.location.assign('/welcome')
+              }} style={{ background: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.3)', borderRadius: 10, color: '#f87171', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.8rem', minHeight: 36, cursor: 'pointer', fontFamily: 'inherit' }}>
+                {guestWipe ? 'בטוח? מחק' : 'מחק'}
+              </button>
+            </Row>
+          ) : (
+            <Row label="מחק חשבון" desc="מוחק את החשבון וכל המידע. אי אפשר לשחזר">
+              <button onClick={() => setShowDelete(true)} style={{ background: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.3)', borderRadius: 10, color: '#f87171', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.8rem', minHeight: 36, cursor: 'pointer', fontFamily: 'inherit' }}>
+                מחק חשבון
+              </button>
+            </Row>
+          )}
+        </div>
       </div>
+      {showDelete && (
+        <DeleteAccountSheet onClose={() => setShowDelete(false)} onDeleted={() => { setShowDelete(false); navigate('/welcome', { replace: true }) }} />
+      )}
 
       {/* Notifications section */}
       {!isGuest && notifPerm !== 'unsupported' && (
@@ -312,14 +369,13 @@ export default function Settings({ onRebuildPath, activePathName }) {
       </div>
       </>)}
 
-      {/* Legal link */}
-      <div style={{ textAlign: 'center', marginTop: '1.75rem' }}>
-        <a
-          href="/legal"
-          style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.72rem', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid rgba(245,197,24,0.2)', paddingBottom: 2 }}
-        >
-          משפטי ותמיכה
-        </a>
+      {/* Legal links */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '1.75rem' }}>
+        {[['/privacy', 'מדיניות פרטיות'], ['/terms', 'תנאי שימוש'], ['/legal', 'תמיכה']].map(([href, label]) => (
+          <a key={href} href={href} style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid rgba(245,197,24,0.2)', paddingBottom: 1, minHeight: 32, display: 'inline-flex', alignItems: 'center' }}>
+            {label}
+          </a>
+        ))}
       </div>
 
       {/* Footer */}

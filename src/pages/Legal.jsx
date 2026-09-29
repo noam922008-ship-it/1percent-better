@@ -1,85 +1,40 @@
 import { useNavigate } from 'react-router-dom'
+import { ChevronRight, ChevronLeft } from 'lucide-react'
+import { LEGAL_CONFIG } from '../data/legal'
 
-const SUPPORT_EMAIL = 'support@prime-app.io'
+// /legal — hub: privacy policy, terms of use, and how to reach us. Content lives in src/data/legal.js.
 
-function Section({ title, children }) {
-  return (
-    <div style={{ marginBottom: '1.75rem' }}>
-      <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.57rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.6rem' }}>
-        {title}
-      </div>
-      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem', lineHeight: 1.75 }}>
-        {children}
-      </div>
-    </div>
-  )
+const linkRow = {
+  display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 52,
+  padding: '0 1rem', color: '#F4F1E8', fontSize: '0.92rem', fontWeight: 700, textDecoration: 'none',
 }
 
 export default function Legal() {
   const navigate = useNavigate()
+  const email = LEGAL_CONFIG.contactEmail
 
   return (
-    <div dir="rtl" style={{ minHeight: '100svh', background: '#0e0e16', padding: '0 1.25rem 3rem' }}>
-      <div style={{ maxWidth: 480, margin: '0 auto' }}>
+    <div dir="rtl" style={{ minHeight: '100svh', background: '#09090b', direction: 'rtl' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: 'calc(env(safe-area-inset-top, 0px) + 0.5rem) 0.5rem 0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <button onClick={() => navigate(-1)} aria-label="חזור" style={{ background: 'none', border: 'none', color: '#A4A6AD', cursor: 'pointer', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+          <ChevronRight size={22} />
+        </button>
+        <span style={{ color: '#F4F1E8', fontSize: '1rem', fontWeight: 800 }}>משפטי ותמיכה</span>
+      </div>
 
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1.25rem 0 1rem' }}>
-          <button
-            onClick={() => navigate(-1)}
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem', fontWeight: 700, padding: '0.4rem 0.7rem', cursor: 'pointer' }}
-          >
-            ← חזרה
-          </button>
-          <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
-            משפטי ותמיכה
-          </div>
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: '1.25rem 1rem 2.5rem' }}>
+        <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, overflow: 'hidden' }}>
+          <a href="/privacy" style={linkRow}>מדיניות פרטיות <ChevronLeft size={18} color="#71717A" /></a>
+          <a href="/terms" style={{ ...linkRow, borderTop: '1px solid rgba(255,255,255,0.05)' }}>תנאי שימוש <ChevronLeft size={18} color="#71717A" /></a>
         </div>
 
-        <h1 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.4rem', margin: '0 0 1.75rem', letterSpacing: '-0.02em' }}>
-          פרטיות, תנאים ותמיכה
-        </h1>
-
-        {/* Support */}
-        <Section title="◈ יצירת קשר ותמיכה">
-          לשאלות, בעיות טכניות או בקשות — פנה אלינו ישירות:{' '}
-          <a
-            href={`mailto:${SUPPORT_EMAIL}`}
-            style={{ color: '#F5C518', fontWeight: 700, textDecoration: 'none' }}
-          >
-            {SUPPORT_EMAIL}
-          </a>
-          <br /><br />
-          אנחנו עושים מאמץ להגיב תוך 48 שעות בימי עסקים.
-        </Section>
-
-        {/* Privacy */}
-        <Section title="◈ מדיניות פרטיות">
-          <strong style={{ color: '#f1f5f9' }}>מה אנחנו אוספים:</strong> כתובת אימייל, שם תצוגה, ונתוני שימוש (XP, מסלולים, הרגלים) שאתה יוצר באפליקציה.
-          <br /><br />
-          <strong style={{ color: '#f1f5f9' }}>מה אנחנו לא עושים:</strong> לא מוכרים את המידע שלך. לא משתפים אותו עם צדדים שלישיים לצורכי פרסום. לא שומרים פרטי תשלום — כל החיוב מעובד על ידי Stripe/Apple/Google.
-          <br /><br />
-          <strong style={{ color: '#f1f5f9' }}>אחסון נתונים:</strong> המידע שלך מאוחסן ב-Google Firebase (Firestore) בשרתים באירופה ובארה"ב. Firebase מציית ל-GDPR.
-          <br /><br />
-          <strong style={{ color: '#f1f5f9' }}>מחיקת נתונים:</strong> פנה אלינו ב-{SUPPORT_EMAIL} ואנו נמחק את כל הנתונים שלך תוך 30 יום.
-        </Section>
-
-        {/* Terms */}
-        <Section title="◈ תנאי שימוש">
-          השימוש ב-PRIME כפוף לתנאים הבאים:
-          <br /><br />
-          1. האפליקציה מיועדת לשימוש אישי בלבד.<br />
-          2. אסור לנסות לפרוץ, לשכפל, או לפגוע בשירות.<br />
-          3. כל התוכן שאתה מעלה (תמונות, טקסט) הוא באחריותך.<br />
-          4. אנחנו שומרים לעצמנו את הזכות להשעות חשבונות שמפרים את הכללים.<br />
-          5. השירות ניתן "כפי שהוא" (as-is). איננו מתחייבים לזמינות מלאה.
-          <br /><br />
-          המשך השימוש באפליקציה מהווה הסכמה לתנאים אלה.
-        </Section>
-
-        {/* Footer */}
-        <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.15)', fontSize: '0.6rem', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '2rem' }}>
-          PRIME · v1.2 · עודכן אוגוסט 2026
-        </div>
+        <h2 style={{ color: '#D9B34C', fontSize: '0.95rem', fontWeight: 800, margin: '1.75rem 0 0.5rem' }}>יצירת קשר</h2>
+        <p style={{ color: 'rgba(244,241,232,0.78)', fontSize: '0.9rem', lineHeight: 1.7, margin: 0 }}>
+          לשאלות, בעיות או בקשה למחיקת החשבון:{' '}
+          {email
+            ? <a href={`mailto:${email}`} style={{ color: '#D9B34C', fontWeight: 700 }}>{email}</a>
+            : <span style={{ background: 'rgba(217,179,76,0.12)', border: '1px dashed rgba(217,179,76,0.6)', color: '#D9B34C', borderRadius: 6, padding: '0 0.3rem', fontWeight: 700 }}>📝 להשלים: אימייל ליצירת קשר</span>}
+        </p>
       </div>
     </div>
   )

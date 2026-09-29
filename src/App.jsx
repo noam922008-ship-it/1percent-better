@@ -8,6 +8,7 @@ import WelcomeScreen from './pages/WelcomeScreen'
 import OnboardingFlow from './pages/OnboardingFlow'
 import Dashboard from './pages/Dashboard'
 import Legal from './pages/Legal'
+import LegalDoc from './pages/LegalDoc'
 
 export default function App() {
   return (
@@ -22,6 +23,8 @@ export default function App() {
             <Route path="/setup"     element={<GoogleAuthGuard><OnboardingFlow /></GoogleAuthGuard>} />
             <Route path="/dashboard" element={<GoogleAuthGuard><Dashboard /></GoogleAuthGuard>} />
             <Route path="/legal"     element={<Legal />} />
+            <Route path="/privacy"   element={<LegalDoc type="privacy" />} />
+            <Route path="/terms"     element={<LegalDoc type="terms" />} />
             <Route path="*"          element={<Navigate to="/welcome" replace />} />
           </Routes>
         </LoadingWrapper>
