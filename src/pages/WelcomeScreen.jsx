@@ -242,7 +242,7 @@ export default function WelcomeScreen() {
         </button>
 
         <p style={S.legal}>
-          {t.welcome.legalPre}{' '}
+          {t.welcome.legalPre}
           <button onClick={() => setLegalModal('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.38)', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.terms}</button>
           {t.welcome.legalAnd}
           <button onClick={() => setLegalModal('privacy')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.38)', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.privacy}</button>
