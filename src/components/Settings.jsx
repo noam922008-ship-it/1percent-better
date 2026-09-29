@@ -312,14 +312,13 @@ export default function Settings({ onRebuildPath, activePathName }) {
       </div>
       </>)}
 
-      {/* Legal link */}
-      <div style={{ textAlign: 'center', marginTop: '1.75rem' }}>
-        <a
-          href="/legal"
-          style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.72rem', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid rgba(245,197,24,0.2)', paddingBottom: 2 }}
-        >
-          משפטי ותמיכה
-        </a>
+      {/* Legal links */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '1.75rem' }}>
+        {[['/privacy', 'מדיניות פרטיות'], ['/terms', 'תנאי שימוש'], ['/legal', 'תמיכה']].map(([href, label]) => (
+          <a key={href} href={href} style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid rgba(245,197,24,0.2)', paddingBottom: 1, minHeight: 32, display: 'inline-flex', alignItems: 'center' }}>
+            {label}
+          </a>
+        ))}
       </div>
 
       {/* Footer */}
