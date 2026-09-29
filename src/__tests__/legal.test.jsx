@@ -35,12 +35,33 @@ describe('open items are clearly marked', () => {
   it('unfilled placeholders show a marker, never an empty gap', () => {
     render(<LegalContent type="privacy" />)
     if (LEGAL_CONFIG.contactEmail === null) expect(screen.getAllByText(/להשלים: אימייל ליצירת קשר/).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/להחלטה שלך/).length).toBeGreaterThan(0)
+    expect(screen.queryAllByText(/להחלטה שלך/)).toHaveLength(0)   // all decisions made
   })
-  it('lists every open item for the owner', () => {
+  it('lists every open item for the owner (only the contact email is left)', () => {
     const items = openLegalItems()
-    expect(items.some(i => i.includes('שם המפעיל'))).toBe(true)
-    expect(items.some(i => i.includes('גיל מינימלי'))).toBe(true)
-    expect(items.some(i => i.includes('מחק חשבון'))).toBe(true)
+    expect(items.every(i => !i.includes('שם המפעיל') && !i.includes('גיל מינימלי'))).toBe(true)
+    if (LEGAL_CONFIG.contactEmail === null) expect(items).toEqual(['להשלים: אימייל ליצירת קשר'])
+  })
+})
+
+describe("owner's decisions are reflected", () => {
+  const p = text('privacy'), t = text('terms')
+  it('minimum age 18 (Gemini API terms)', () => {
+    expect(p).toContain('מגיל 18 ומעלה')
+    expect(t).toContain('מגיל 18 ומעלה')
+    expect(p).toContain('פיצ׳רים של AI מיועדים לגיל 18 ומעלה')
+  })
+  it('Gemini only with a paid key, no training on the data', () => expect(p).toContain('מפתח API בתשלום'))
+  it('names hidden from the leaderboard by default, nickname opt-in', () => {
+    expect(p).toContain('כברירת מחדל השם שלך לא מופיע בטבלת המובילים')
+    expect(p).toContain('כינוי')
+  })
+  it('in-app account deletion, 30 days by email as fallback', () => {
+    expect(p).toContain('"מחק חשבון"')
+    expect(p).toContain('תוך 30 ימים')
+  })
+  it('operator and court city filled in', () => {
+    expect(p).toContain('נועם כהן')
+    expect(t).toContain('בירושלים')
   })
 })
