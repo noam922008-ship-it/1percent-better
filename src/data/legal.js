@@ -7,7 +7,7 @@
 
 export const LEGAL_CONFIG = {
   operatorName:  'נועם כהן (Noam Cohen)',
-  contactEmail:  null,   // 📝 אימייל ליצירת קשר ולבקשות פרטיות/מחיקה (עדיף תיבה שבאמת נבדקת)
+  contactEmail:  'prime.daily.app@gmail.com',
   minAge:        18,     // Gemini API terms (updated 2026-04-28): 18+, and not in apps likely used by under-18s
   deletionDays:  30,
   courtCity:     'ירושלים',
