@@ -44,6 +44,8 @@ import { DEFAULT_PILLARS } from '../data/pillars'
 import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitReminder'
 import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
+import { publicName, cleanNickname } from '../utils/publicName'
+import { renameWeeklyReps } from '../services/squadService'
 import { getTrackDay } from '../utils/trackDay'
 import BoxingPathScreen from '../components/boxing/BoxingPathScreen'
 import BoxingWorkoutPreview from '../components/boxing/BoxingWorkoutPreview'
@@ -864,6 +866,15 @@ export default function Dashboard() {
     return unsub
   }, [user, isGuest])
 
+  // Public name on the leaderboard / weekly reps: nickname only if opted in, otherwise none.
+  // Re-sync when it changes (also cleans real names written before this became opt-in).
+  const shownName = publicName(profile)
+  useEffect(() => {
+    if (isGuest || !user || !profile || !(profile.xp > 0)) return
+    syncLeaderboard(user.uid, shownName, profile.xp).catch(() => {})
+    renameWeeklyReps(user.uid, shownName)
+  }, [isGuest, user, !!profile, shownName])  // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (!profile) return
     requestPermission()
@@ -994,7 +1005,7 @@ export default function Dashboard() {
       setTimeout(() => setLevelUpModal(null), 3800)
     }
     await saveProfile(user.uid, { xp: newXP, activityLog: log })
-    await syncLeaderboard(user.uid, profile?.name || 'Anonymous', newXP).catch(() => {})
+    await syncLeaderboard(user.uid, publicName(profile), newXP).catch(() => {})
   }
 
   async function _deductXP(amount) {
@@ -1002,7 +1013,7 @@ export default function Dashboard() {
     const newXP   = Math.max(0, (profile?.xp || 0) - amount)
     setProfile(p => ({ ...p, xp: newXP }))
     await saveProfile(user.uid, { xp: newXP })
-    await syncLeaderboard(user.uid, profile?.name || 'Anonymous', newXP).catch(() => {})
+    await syncLeaderboard(user.uid, publicName(profile), newXP).catch(() => {})
   }
 
   function bumpStreak() {
@@ -1895,7 +1906,7 @@ export default function Dashboard() {
         {activeTab === 'arena' && (
           <ArenaPage
             uid={user?.uid}
-            userName={profile?.name || 'PRIME User'}
+            userName={publicName(profile)}
             isGuest={isGuest}
           />
         )}
@@ -1992,6 +2003,13 @@ export default function Dashboard() {
             )}
 
             <Settings
+              leaderboardOptIn={!!profile?.leaderboardOptIn}
+              leaderboardNickname={profile?.leaderboardNickname || ''}
+              onSaveLeaderboard={(optIn, nickname) => {
+                const update = { leaderboardOptIn: optIn && !!cleanNickname(nickname), leaderboardNickname: cleanNickname(nickname) }
+                setProfile(p => ({ ...p, ...update }))
+                if (!isGuest && user) saveProfile(user.uid, update).catch(() => {})
+              }}
               activePathName={customPath?.path_name || null}
               onRebuildPath={() => {
                 try {
@@ -2303,7 +2321,7 @@ export default function Dashboard() {
           track={boxingSession.track}
           goal={boxingSession.goal}
           uid={user?.uid}
-          userName={profile?.name || 'PRIME User'}
+          userName={publicName(profile)}
           visionProfile={customPath?.vision_profile || null}
           onComplete={({ amount = 0 } = {}) => {
               const track = boxingSession?.track
