@@ -24,6 +24,11 @@ service cloud.firestore {
                        || request.resource.data.uid == uid);
       allow delete: if isOwner(uid);
 
+      // Weekly-habit check-ins — readable and deletable by the owner (account deletion).
+      match /habitLog/{date} {
+        allow read, delete: if isOwner(uid);
+      }
+
       // Daily activity sub-collection.
       // Date key must be YYYY-MM-DD to prevent arbitrary key injection.
       match /activity/{date} {
@@ -133,6 +138,7 @@ service cloud.firestore {
       }
       allow read:           if isOwner(uid);
       allow create, update: if isOwner(uid) && validProfile(request.resource.data) && xpGainOk();
+      allow delete:         if isOwner(uid);   // account deletion
     }
 
     // ── LEADERBOARD (public XP + name only) ───────────
@@ -148,6 +154,7 @@ service cloud.firestore {
                   && request.resource.data.xp <= get(/databases/$(database)/documents/focusTriggers/$(uid)).data.get('xp', 0)
                   && request.resource.data.name is string
                   && request.resource.data.name.size() <= 50;
+      allow delete: if isOwner(uid);   // account deletion
     }
 
     // ── CUSTOM AI PATHS ────────────────────────────────
@@ -160,6 +167,7 @@ service cloud.firestore {
                   && (!('questionnaire' in request.resource.data) || request.resource.data.questionnaire is map)
                   && (!('progress' in request.resource.data)      || request.resource.data.progress is map)
                   && (!('status' in request.resource.data)        || request.resource.data.status in ['active','completed','pending','reset']);
+      allow delete: if isOwner(uid);   // account deletion
 
       // Path archive — previous 30-day programs stored per-uid.
       match /history/{archiveId} {
@@ -233,6 +241,7 @@ service cloud.firestore {
                   && request.resource.data.totalReps is number
                   && request.resource.data.totalReps >= 0
                   && repsGainOk(request.resource.data);
+      allow delete: if isOwner(uid);   // account deletion
     }
 
     // ── HEAD-TO-HEAD CHALLENGES ────────────────────────
@@ -245,6 +254,9 @@ service cloud.firestore {
       allow update: if isSignedIn()
                    && (resource.data.challenger == request.auth.uid
                        || resource.data.challenged == request.auth.uid);
+      allow delete: if isSignedIn()   // account deletion — either participant
+                   && (resource.data.challenger == request.auth.uid
+                       || resource.data.challenged == request.auth.uid);
     }
 
     // ── NUDGE RESPONSES ────────────────────────────────
@@ -255,6 +267,8 @@ service cloud.firestore {
                   && request.resource.data.uid == request.auth.uid;
       allow read:  if isSignedIn()
                   && resource.data.uid == request.auth.uid;
+      allow delete: if isSignedIn()   // account deletion
+                   && resource.data.uid == request.auth.uid;
     }
 
     // ── PRO WAITLIST ───────────────────────────────────
@@ -265,6 +279,7 @@ service cloud.firestore {
                   && request.resource.data.email is string
                   && request.resource.data.email.size() > 0
                   && request.resource.data.email.size() <= 254;
+      allow delete: if isOwner(uid);   // account deletion
     }
 
     // ── DENY EVERYTHING ELSE ───────────────────────────

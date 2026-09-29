@@ -31,6 +31,11 @@ function validateDate(date) {
   return date
 }
 
+// While an account is being deleted, a missing profile must not be re-created with defaults
+// (the live listener would otherwise bring it back right after it was deleted).
+let _autoCreateProfile = true
+export function setProfileAutoCreate(on) { _autoCreateProfile = !!on }
+
 export function subscribeProfile(uid, callback, onError) {
   const ref = profileDoc(uid)
   return onSnapshot(ref, snap => {
@@ -38,7 +43,7 @@ export function subscribeProfile(uid, callback, onError) {
       callback(snap.data())
     } else {
       const defaults = { tier: 'free', createdAt: new Date().toISOString() }
-      setDoc(ref, defaults, { merge: true }).catch(() => {})
+      if (_autoCreateProfile) setDoc(ref, defaults, { merge: true }).catch(() => {})
       callback(defaults)
     }
   }, onError || (() => {}))
@@ -49,7 +54,7 @@ export async function loadProfile(uid) {
     const snap = await getDoc(profileDoc(uid))
     if (snap.exists()) return snap.data()
     const defaults = { tier: 'free', createdAt: new Date().toISOString() }
-    await setDoc(profileDoc(uid), defaults, { merge: true })
+    if (_autoCreateProfile) await setDoc(profileDoc(uid), defaults, { merge: true })
     return defaults
   } catch {
     return null
@@ -89,7 +94,7 @@ export async function saveReflection(uid, date, triggerId, text) {
 
 export async function syncLeaderboard(uid, name, xp) {
   try {
-    const safeName = sanitizeText(name, 50) || 'Anonymous'
+    const safeName = sanitizeText(name || '', 50)   // '' = anonymous (default; see utils/publicName)
     const safeXP   = Math.max(0, Math.floor(Number(xp) || 0))
     await setDoc(lbDoc(uid), { name: safeName, xp: safeXP, updatedAt: new Date().toISOString() })
   } catch {
