@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import SocialLinks from '../components/SocialLinks'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
 import { LEGAL_CONFIG } from '../data/legal'
 
@@ -35,6 +36,7 @@ export default function Legal() {
             ? <a href={`mailto:${email}`} style={{ color: '#D9B34C', fontWeight: 700 }}>{email}</a>
             : <span style={{ background: 'rgba(217,179,76,0.12)', border: '1px dashed rgba(217,179,76,0.6)', color: '#D9B34C', borderRadius: 6, padding: '0 0.3rem', fontWeight: 700 }}>📝 להשלים: אימייל ליצירת קשר</span>}
         </p>
+        <div style={{ marginTop: '0.9rem' }}><SocialLinks align="flex-start" /></div>
       </div>
     </div>
   )

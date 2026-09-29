@@ -1,4 +1,5 @@
 import { LEGAL_CONFIG, LEGAL_DOCS, PLACEHOLDER_LABELS } from '../data/legal'
+import SocialLinks from './SocialLinks'
 
 // Renders the privacy policy or terms from src/data/legal.js.
 // Unfilled {placeholders} and { decide } blocks show as highlighted markers for the owner.
@@ -52,7 +53,13 @@ export default function LegalContent({ type, showTitle = true }) {
           {s.paras.map((p, i) => <Para key={i} p={p} />)}
         </section>
       ))}
-      <p style={{ color: C.muted, fontSize: '0.78rem', marginTop: '1.5rem' }}>עודכן לאחרונה: {LEGAL_CONFIG.updated}</p>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
+        <span style={{ color: C.muted, fontSize: '0.8rem' }}>
+          {LEGAL_CONFIG.contactEmail && <a href={`mailto:${LEGAL_CONFIG.contactEmail}`} style={{ color: C.gold, fontWeight: 700 }}>{LEGAL_CONFIG.contactEmail}</a>}
+        </span>
+        <SocialLinks />
+      </div>
+      <p style={{ color: C.muted, fontSize: '0.78rem', marginTop: '0.75rem' }}>עודכן לאחרונה: {LEGAL_CONFIG.updated}</p>
     </div>
   )
 }

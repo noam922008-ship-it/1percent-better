@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import LegalContent from '../components/LegalContent'
+import SocialLinks from '../components/SocialLinks'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -247,6 +248,7 @@ export default function WelcomeScreen() {
           {t.welcome.legalAnd}
           <button onClick={() => setLegalModal('privacy')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.38)', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.privacy}</button>
         </p>
+        <div style={{ marginTop: '1rem' }}><SocialLinks /></div>
       </div>
       {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}
     </div>

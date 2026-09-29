@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import SocialLinks from './SocialLinks'
 import { useAuth } from '../context/AuthContext'
 import { isNudgesEnabled } from '../services/notificationService'
 import { useUserPrefs } from '../context/UserContext'
@@ -368,6 +369,12 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
         </div>
       </div>
       </>)}
+
+      {/* Social */}
+      <div style={{ marginTop: '1.75rem' }}>
+        <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.5rem' }}>PRIME ברשתות</div>
+        <SocialLinks />
+      </div>
 
       {/* Legal links */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '1.75rem' }}>
