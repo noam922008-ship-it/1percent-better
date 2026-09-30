@@ -1,5 +1,4 @@
-// PRIME's social profiles. url: null hides the link (TikTok until the username is known).
+// PRIME's social profiles, shown as small icons (SocialLinks). Add an entry to show another.
 export const SOCIAL = [
   { id: 'instagram', label: 'Instagram', url: 'https://instagram.com/prime.daily.app' },
-  { id: 'tiktok',    label: 'TikTok',    url: null },   // 📝 https://tiktok.com/@<username>
 ]

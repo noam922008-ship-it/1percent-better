@@ -11,10 +11,9 @@ describe('SocialLinks', () => {
     expect(ig).toHaveAttribute('target', '_blank')
     expect(ig).toHaveAttribute('rel', 'noopener noreferrer')
   })
-  it('hides a profile without a URL (TikTok until the username is set)', () => {
+  it('shows only Instagram (no TikTok for now)', () => {
     render(<SocialLinks />)
-    const tiktok = SOCIAL.find(s => s.id === 'tiktok')
-    if (!tiktok.url) expect(screen.queryByLabelText('PRIME ב-TikTok')).toBeNull()
-    else expect(screen.getByLabelText('PRIME ב-TikTok')).toHaveAttribute('href', tiktok.url)
+    expect(SOCIAL.map(s => s.id)).toEqual(['instagram'])
+    expect(screen.queryByLabelText('PRIME ב-TikTok')).toBeNull()
   })
 })

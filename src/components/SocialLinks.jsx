@@ -1,6 +1,6 @@
 // PRIME's social profiles — small gold icons, open in a new tab.
 // Used in the signup screen footer, Settings and the legal pages (next to the contact email).
-// Profiles live in src/config/social.js; one with url: null is hidden.
+// Profiles live in src/config/social.js.
 
 import { SOCIAL } from '../config/social'
 
@@ -14,15 +14,7 @@ function InstagramIcon({ size }) {
   )
 }
 
-function TikTokIcon({ size }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v2.6c-1.4.1-2.7-.3-3.9-1.1v6.1c0 3.3-2.2 5.6-5.4 5.6-3 0-5.3-2.3-5.3-5.2 0-3.2 2.7-5.5 6.1-5.1v2.8c-1.6-.4-3.2.6-3.2 2.3 0 1.4 1.1 2.4 2.4 2.4 1.5 0 2.5-1 2.5-2.9V3h2.9z" />
-    </svg>
-  )
-}
-
-const ICONS = { instagram: InstagramIcon, tiktok: TikTokIcon }
+const ICONS = { instagram: InstagramIcon }
 
 export default function SocialLinks({ size = 18, align = 'center' }) {
   const links = SOCIAL.filter(s => s.url)
