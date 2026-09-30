@@ -7,6 +7,11 @@ import { saveProfile, loadProfile } from '../services/focusTriggerService'
 import { hasCompletedSetup } from '../utils/setupGuard'
 import { suggestChallenge } from '../services/coachService'
 import { FEATURES } from '../config/features'
+import HabitScheduleFields from '../components/HabitScheduleFields'
+import { normalizeSchedule, frequencyLabel } from '../utils/habitSchedule'
+
+// A habit in setup: cue + habit + schedule (every day / X times a week, optional days and time) + note
+const EMPTY_TRIGGER = { cue: '', habit: '', time: '', note: '', weekly: false, times: 3, days: [] }
 
 const GOAL_IDS = [
   { id: 'trading',  emoji: '📈' },
@@ -122,8 +127,7 @@ function TriggerStep({ num, value, onChange, to }) {
         <input style={S.input} placeholder={to.habitPh} value={value.habit} onChange={e => onChange({ ...value, habit: e.target.value })} />
       </div>
       <div style={{ marginBottom: '1rem' }}>
-        <p style={S.label}>{to.time} <span style={{ color: 'rgba(241,245,249,0.25)', textTransform: 'none', letterSpacing: 0, fontSize: '0.7rem' }}>{to.timeOpt}</span></p>
-        <input type="time" style={S.timeInput} value={value.time} onChange={e => onChange({ ...value, time: e.target.value })} />
+        <HabitScheduleFields value={value} onChange={onChange} />
       </div>
       <div>
         <p style={S.label}>{to.note} <span style={{ color: 'rgba(241,245,249,0.25)', textTransform: 'none', letterSpacing: 0, fontSize: '0.7rem' }}>{to.optional}</span></p>
@@ -150,8 +154,8 @@ export default function OnboardingFlow() {
   const [goal,      setGoal]      = useState(saved.goal   || '')
   const [aiPick,    setAiPick]    = useState(saved.aiPick || null)   // suggested challenge ID
   const [aiLoading, setAiLoading] = useState(false)
-  const [t1,        setT1]        = useState(saved.t1     || { cue: '', habit: '', time: '', note: '' })
-  const [t2,        setT2]        = useState(saved.t2     || { cue: '', habit: '', time: '', note: '' })
+  const [t1,        setT1]        = useState({ ...EMPTY_TRIGGER, ...(saved.t1 || {}) })
+  const [t2,        setT2]        = useState({ ...EMPTY_TRIGGER, ...(saved.t2 || {}) })
   const [vision,    setVision]    = useState(saved.vision || '')
   const [saving,    setSaving]    = useState(false)
   const [allowed,   setAllowed]   = useState(false)   // guard: only accounts that haven't finished setup
@@ -200,7 +204,7 @@ export default function OnboardingFlow() {
   function next() { setStep(STEPS[idx + 1]) }
   // Habits are optional: skipping clears that habit and moves on
   function skipHabit() {
-    const empty = { cue: '', habit: '', time: '', note: '' }
+    const empty = EMPTY_TRIGGER
     if (step === 'trigger1') setT1(empty)
     if (step === 'trigger2') setT2(empty)
     next()
@@ -223,7 +227,8 @@ export default function OnboardingFlow() {
       focusGoal: goal,
       ...(FEATURES.setupExtras ? { vision: vision.trim() || null } : {}),
       triggers: filledTriggers.map(([id, tr]) => (
-        { id, cue: tr.cue.trim(), habit: tr.habit.trim(), time: tr.time || null, note: tr.note.trim() }
+        { id, cue: tr.cue.trim(), habit: tr.habit.trim(), note: tr.note.trim(),
+          ...normalizeSchedule({ weekly: tr.weekly, times: tr.times, days: tr.days, time: tr.time }) }
       )),
       preferences: { energy: energy || null, timeAvail: timeAvail || null, recommendedTrack: FEATURES.pathBuilder ? aiPick : null },
       onboardingDone: true,
@@ -400,7 +405,7 @@ export default function OnboardingFlow() {
               {filledTriggers.map(([id, tr], i) => (
                 <div key={id} style={{ marginBottom: i < filledTriggers.length - 1 ? '0.75rem' : 0 }}>
                   <div style={{ color: '#facc15', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.2rem' }}>
-                    {to.triggerLabel} {i + 1}{tr.time ? ` · ${tr.time}` : ''}
+                    {to.triggerLabel} {i + 1} · {frequencyLabel(normalizeSchedule({ weekly: tr.weekly, times: tr.times, days: tr.days, time: tr.time }))}{tr.time ? ` · ${tr.time}` : ''}
                   </div>
                   <div style={{ color: '#f1f5f9', fontSize: '0.875rem' }}>{tr.cue}</div>
                   <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem' }}>{lang === 'he' ? '←' : '→'} {tr.habit}</div>
