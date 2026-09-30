@@ -169,7 +169,8 @@ Deployed: hosting:prime-app from `main` @ `f9e674b` + firestore:rules (tasks, jo
 
 Open:
 - Not tested with a real new account: setup finish → Home with no habits; guest greeting in browser; saving/editing lesson notes and Journal while signed in.
-- Setup done screen: habits box is `textAlign: 'left'` (looks off in Hebrew).
+- **Hebrew addresses the user in male form only ("אתה", "תוציא", "מסכים").** Consider gender-neutral Hebrew (plural/infinitive forms or neutral phrasing) across UI, legal pages, lessons and AI prompts.
+- **English version** — planned, not started: see `docs/ENGLISH_PLAN.md`.
 - Progress leftovers: "שיעורים שהושלמו" stat counts track lessons; "העתק סיכום" share text includes the track name.
 - Workout-card overlap at 390px not reproduced as guest — verify logged-in.
 - Revoke the old `noam1better` token that was exposed in the remote URL.
