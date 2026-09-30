@@ -77,8 +77,10 @@ export async function deleteAccountData(uid) {
   return { failed }
 }
 
-// Full flow after the user confirmed and re-authenticated. Throws 'data-not-deleted' if any
-// data step failed (the account is kept so the user can retry).
+// Full flow after the user typed "מחק" — no password asked up front.
+// Returns 'deleted', or 'needs-reauth' when Firebase answers auth/requires-recent-login on
+// deleteUser: the data is already gone, and finishDeleteAfterReauth() completes the account.
+// Throws 'data-not-deleted' if any data step failed (the account is kept so the user can retry).
 export async function deleteAccount() {
   const user = auth.currentUser
   if (!user) throw new Error('not-signed-in')
@@ -90,8 +92,33 @@ export async function deleteAccount() {
     err.failed = failed
     throw err
   }
-  try { await deleteUser(user) } finally { setProfileAutoCreate(true) }   // signed out now: a late re-create is denied
+  return deleteAuthUser(user)
+}
+
+async function deleteAuthUser(user) {
+  try {
+    await deleteUser(user)
+  } catch (e) {
+    if (e?.code === 'auth/requires-recent-login') return 'needs-reauth'   // keep auto-create off meanwhile
+    setProfileAutoCreate(true)
+    throw e
+  }
+  setProfileAutoCreate(true)   // signed out now: a late re-create is denied anyway
   try { localStorage.clear() } catch {}
+  return 'deleted'
+}
+
+// After 'needs-reauth': sign in again (password or Google), then delete the Auth user.
+export async function finishDeleteAfterReauth({ password } = {}) {
+  await reauthenticate({ password })
+  const result = await deleteAuthUser(auth.currentUser)
+  if (result !== 'deleted') throw new Error('still-needs-reauth')
+  return result
+}
+
+// The user closed the sheet mid-way (e.g. at the sign-in-again step).
+export function cancelDeletion() {
+  setProfileAutoCreate(true)
 }
 
 // Guests: everything lives in this browser.
