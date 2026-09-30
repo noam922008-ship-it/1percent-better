@@ -46,6 +46,7 @@ import { DEFAULT_PILLARS } from '../data/pillars'
 import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitReminder'
 import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
+import { loadGuestTriggers, saveGuestTriggers } from '../utils/guestHabits'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, normalizeSchedule, MAX_ACTIVE_HABITS } from '../utils/habitSchedule'
 import { getLocalDateKey } from '../utils/localDate'
 import { subscribeWeekLog, markHabitDone } from '../services/habitLogService'
@@ -872,7 +873,7 @@ export default function Dashboard() {
   }, [loading, pathLoading, isGuest, customPath])
 
   useEffect(() => {
-    if (isGuest) { setProfile({ name: 'Guest', xp: 0, triggers: [], challenges: {} }); setLoading(false); return }
+    if (isGuest) { setProfile({ name: 'Guest', xp: 0, triggers: loadGuestTriggers(), challenges: {} }); setLoading(false); return }
     if (!user) return
     const unsub = subscribeProfile(
       user.uid,
@@ -1128,7 +1129,6 @@ export default function Dashboard() {
   }
 
   async function handleAddTrigger(data) {
-    if (isGuest) { setShowModal(false); return }
     const existing = profile?.triggers || []
     const activeCount = existing.filter(t => !t.archived).length
     if (activeCount >= MAX_ACTIVE_HABITS) { setShowModal(false); return }
@@ -1136,6 +1136,11 @@ export default function Dashboard() {
     setSaving(true)
     const newTrigger = { id: `t${Date.now()}`, ...data }
     const updated    = { ...(profile || {}), triggers: [...existing, newTrigger], onboardingDone: true }
+    if (isGuest) {
+      // Guests: saved in this browser only (previously the habit was silently dropped)
+      saveGuestTriggers(updated.triggers); setProfile(updated); setShowModal(false); setSaving(false)
+      return
+    }
     try { await saveProfile(user.uid, updated); setProfile(updated); setShowModal(false) } catch {}
     setSaving(false)
   }
@@ -1146,7 +1151,8 @@ export default function Dashboard() {
     const updated = { ...profile, triggers: newTriggers }
     setProfile(updated)
     setEditHabit(null)
-    if (!isGuest) await saveProfile(user.uid, { triggers: newTriggers }).catch(() => {})
+    if (isGuest) saveGuestTriggers(newTriggers)
+    else await saveProfile(user.uid, { triggers: newTriggers }).catch(() => {})
   }
 
   async function handleDeleteHabit(id) {
@@ -1154,7 +1160,8 @@ export default function Dashboard() {
     const updated = { ...profile, triggers: newTriggers }
     setProfile(updated)
     setEditHabit(null)
-    if (!isGuest) await saveProfile(user.uid, { triggers: newTriggers }).catch(() => {})
+    if (isGuest) saveGuestTriggers(newTriggers)
+    else await saveProfile(user.uid, { triggers: newTriggers }).catch(() => {})
   }
 
   async function handleSaveGoal(title, targetDate) {
