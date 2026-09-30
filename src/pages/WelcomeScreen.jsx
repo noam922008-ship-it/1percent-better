@@ -71,6 +71,7 @@ export default function WelcomeScreen() {
   const [emailLoading,setEmailLoading]= useState(false)
   const [emailError,  setEmailError]  = useState('')
   const [legalModal,  setLegalModal]  = useState(null) // 'terms' | 'privacy' | null
+  const [ageOk,       setAgeOk]       = useState(false) // "אני מעל 18 ומסכים…" — required before any sign-in
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -86,6 +87,7 @@ export default function WelcomeScreen() {
   }, [user, authLoading, navigate])
 
   async function handleGoogle() {
+    if (!ageOk) { setError(t.welcome.ageRequired); return }
     setError(''); setLoading(true)
     try { await loginWithGoogle() }
     catch (err) {
@@ -106,6 +108,7 @@ export default function WelcomeScreen() {
   async function handleEmailSubmit(e) {
     e.preventDefault()
     setEmailError('')
+    if (!ageOk) { setEmailError(t.welcome.ageRequired); return }
     if (!emailVal.trim() || !pwVal) { setEmailError('נא למלא אימייל וסיסמה'); return }
     setEmailLoading(true)
     try {
@@ -118,6 +121,7 @@ export default function WelcomeScreen() {
   }
 
   function handleGuest() {
+    if (!ageOk) return
     loginAsGuest()
     navigate('/dashboard', { replace: true })
   }
@@ -149,11 +153,23 @@ export default function WelcomeScreen() {
           ))}
         </div>
 
+        {/* 18+ and terms — one checkbox; every way in stays disabled until it's checked */}
+        <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', textAlign: isHe ? 'right' : 'left', color: 'rgba(241,245,249,0.75)', fontSize: '0.84rem', lineHeight: 1.55, margin: '0.75rem 0 1rem', cursor: 'pointer', minHeight: 44 }}>
+          <input type="checkbox" checked={ageOk} onChange={e => setAgeOk(e.target.checked)} aria-label={t.welcome.ageRequired}
+            style={{ width: 20, height: 20, marginTop: 2, flexShrink: 0, accentColor: '#D9B34C', cursor: 'pointer' }} />
+          <span>
+            {t.welcome.legalPre}
+            <button type="button" onClick={e => { e.preventDefault(); setLegalModal('terms') }} style={{ background: 'none', border: 'none', color: '#D9B34C', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.terms}</button>
+            {t.welcome.legalAnd}
+            <button type="button" onClick={e => { e.preventDefault(); setLegalModal('privacy') }} style={{ background: 'none', border: 'none', color: '#D9B34C', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.privacy}</button>
+          </span>
+        </label>
+
         {/* Google Sign-in */}
         <button
           onClick={handleGoogle}
-          disabled={loading}
-          style={{ ...S.btn, opacity: loading ? 0.65 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
+          disabled={loading || !ageOk}
+          style={{ ...S.btn, opacity: loading || !ageOk ? 0.45 : 1, cursor: loading || !ageOk ? 'not-allowed' : 'pointer' }}
           onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform = 'translateY(-1px)' } }}
           onMouseLeave={e => { e.currentTarget.style.transform = '' }}
         >
@@ -204,8 +220,8 @@ export default function WelcomeScreen() {
             {emailError && <p style={{ ...S.err, marginTop: 0, marginBottom: '0.5rem' }}>{emailError}</p>}
             <button
               type="submit"
-              disabled={emailLoading}
-              style={{ ...S.btn, marginTop: 0, background: '#1e1e1e', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(240,240,240,0.85)', fontWeight: 700, opacity: emailLoading ? 0.6 : 1, cursor: emailLoading ? 'not-allowed' : 'pointer', boxShadow: 'none' }}
+              disabled={emailLoading || !ageOk}
+              style={{ ...S.btn, marginTop: 0, background: '#1e1e1e', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(240,240,240,0.85)', fontWeight: 700, opacity: emailLoading || !ageOk ? 0.45 : 1, cursor: emailLoading || !ageOk ? 'not-allowed' : 'pointer', boxShadow: 'none' }}
             >
               {emailLoading
                 ? <div style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', animation: 'spin 0.8s linear infinite' }} />
@@ -234,20 +250,14 @@ export default function WelcomeScreen() {
 
         <button
           onClick={handleGuest}
-          disabled={loading}
-          style={{ ...S.btn, marginTop: '0.65rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(241,245,249,0.38)', fontSize: '0.83rem', opacity: loading ? 0.4 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
+          disabled={loading || !ageOk}
+          style={{ ...S.btn, marginTop: '0.65rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(241,245,249,0.38)', fontSize: '0.83rem', opacity: loading || !ageOk ? 0.4 : 1, cursor: loading || !ageOk ? 'not-allowed' : 'pointer' }}
           onMouseEnter={e => { if (!loading) e.currentTarget.style.color = 'rgba(241,245,249,0.6)' }}
           onMouseLeave={e => { e.currentTarget.style.color = 'rgba(241,245,249,0.38)' }}
         >
           👁 המשך כאורח
         </button>
 
-        <p style={S.legal}>
-          {t.welcome.legalPre}
-          <button onClick={() => setLegalModal('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.38)', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.terms}</button>
-          {t.welcome.legalAnd}
-          <button onClick={() => setLegalModal('privacy')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.38)', textDecoration: 'underline', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit', padding: 0 }}>{t.welcome.privacy}</button>
-        </p>
         <div style={{ marginTop: '1rem' }}><SocialLinks /></div>
       </div>
       {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}
