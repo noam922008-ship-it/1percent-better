@@ -47,6 +47,7 @@ import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitRemind
 import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
 import { loadGuestTriggers, saveGuestTriggers } from '../utils/guestHabits'
+import { homeActionType } from '../utils/homeAction'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, normalizeSchedule, MAX_ACTIVE_HABITS } from '../utils/habitSchedule'
 import { getLocalDateKey } from '../utils/localDate'
 import { subscribeWeekLog, markHabitDone } from '../services/habitLogService'
@@ -1344,7 +1345,8 @@ export default function Dashboard() {
   }, [])
 
   let primaryAction
-  if (activeTrack && !trackDoneToday) {
+  const primaryType = homeActionType({ activeTrack, trackDoneToday, firstUndoneHabit, dailyHabitCount: dailyTriggers.length })
+  if (primaryType === 'track') {
     const dayNum    = activeTrackDay
     const moduleIdx = getModuleIndex(dayNum)
     const dayInMod  = (dayNum - 1) % 5
@@ -1353,12 +1355,10 @@ export default function Dashboard() {
       ? (getHobbyDay(dayNum)?.taskHe || getDayTask(activeTrack.id, dayNum))
       : (richDay?.microTask || getDayTask(activeTrack.id, dayNum))
     primaryAction  = { type: 'track', track: activeTrack, dayNum, taskDesc, xp: XP.MISSION }
-  } else if (firstUndoneHabit) {
+  } else if (primaryType === 'habit') {
     primaryAction = { type: 'habit', trigger: firstUndoneHabit, xp: XP.HABIT }
-  } else if (triggers.length === 0 && !activeTrack) {
-    primaryAction = { type: 'no-tasks' }
   } else {
-    primaryAction = { type: 'all-done' }
+    primaryAction = { type: primaryType }   // 'no-tasks' | 'all-done'
   }
 
   // Always show skeleton while profile is loading — prevents false-negative
