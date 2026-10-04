@@ -267,14 +267,19 @@ service cloud.firestore {
 
     // ── NUDGE RESPONSES ────────────────────────────────
     // Written by notificationService.saveNudgeResponse as {uid}_{YYYY-MM-DD}.
-    // Document must carry a uid field matching the caller; read is also uid-scoped.
+    // The doc id must be the caller's own {uid}_{date}, and an existing doc must already
+    // belong to the caller — otherwise anyone could overwrite another user's doc.
     match /nudgeResponses/{docId} {
-      allow write: if isSignedIn()
-                  && request.resource.data.uid == request.auth.uid;
-      allow read:  if isSignedIn()
-                  && resource.data.uid == request.auth.uid;
-      allow delete: if isSignedIn()   // account deletion
-                   && resource.data.uid == request.auth.uid;
+      function ownId() {
+        return docId.matches(request.auth.uid + '_[0-9]{4}-[0-9]{2}-[0-9]{2}');
+      }
+      allow create: if isSignedIn() && ownId()
+                   && request.resource.data.uid == request.auth.uid;
+      allow update: if isSignedIn() && ownId()
+                   && resource.data.uid == request.auth.uid
+                   && request.resource.data.uid == request.auth.uid;
+      allow read, delete: if isSignedIn()   // delete: account deletion
+                          && resource.data.uid == request.auth.uid;
     }
 
     // ── PRO WAITLIST ───────────────────────────────────
