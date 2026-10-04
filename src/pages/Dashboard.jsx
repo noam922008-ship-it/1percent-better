@@ -48,6 +48,7 @@ import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
 import { loadGuestTriggers, saveGuestTriggers } from '../utils/guestHabits'
 import { homeActionType } from '../utils/homeAction'
+import { nextHabitStreak, saveHabitStreak } from '../utils/habitStreak'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, normalizeSchedule, MAX_ACTIVE_HABITS } from '../utils/habitSchedule'
 import { getLocalDateKey } from '../utils/localDate'
 import { subscribeWeekLog, markHabitDone } from '../services/habitLogService'
@@ -1080,17 +1081,10 @@ export default function Dashboard() {
 
   function updateStreak(nextCheckins, triggers) {
     if (!triggers.length || !triggers.every(tr => nextCheckins[tr.id])) return
-    const today      = todayKey()
-    const yesterday  = new Date(Date.now() - 86400000).toISOString().slice(0, 10)
-    const twoDaysAgo = new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10)
-    const s          = profile?.streak || {}
-    if (s.lastDate === today) return
-    const count = (s.lastDate === yesterday || s.lastDate === twoDaysAgo)
-      ? (s.count || 0) + 1
-      : 1
-    setProfile(p => ({ ...p, streak: { count, lastDate: today } }))
-    saveProfile(user.uid, { streak: { count, lastDate: today } }).catch(() => {})
-    syncCompletionStatus(user.uid, today).catch(() => {})
+    const next = nextHabitStreak(profile?.streak)
+    if (!next) return
+    setProfile(p => ({ ...p, streak: next }))   // guests too — on screen
+    saveHabitStreak(isGuest ? null : user?.uid, next, { saveProfile, syncCompletionStatus })   // server: signed-in only
   }
 
   // ── Habit actions ─────────────────────────────────────────────
