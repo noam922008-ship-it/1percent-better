@@ -1785,7 +1785,7 @@ export default function Dashboard() {
                           </span>
                         )}
                         {triggers.filter(t => !t.archived).length < MAX_ACTIVE_HABITS && (
-                          <button onClick={() => setShowHabitFlow(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, color: '#A4A6AD', fontSize: '0.7rem', fontWeight: 700, padding: '0.18rem 0.55rem', cursor: 'pointer' }} aria-label="הוסף הרגל יומי">+ הוסף</button>
+                          <button onClick={() => setShowHabitFlow(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, color: '#A4A6AD', fontSize: '0.7rem', fontWeight: 700, padding: '0.18rem 0.55rem', cursor: 'pointer' }} aria-label="הוסף הרגל">+ הוסף</button>
                         )}
                       </div>
                     </div>
@@ -1858,8 +1858,8 @@ export default function Dashboard() {
                         )
                       })}
                       {triggers.length === 0 && (
-                        <button onClick={() => setShowHabitFlow(true)} style={{ width: '100%', padding: '1.1rem', background: 'transparent', border: 'none', color: '#71717A', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} aria-label="הוסף הרגל יומי ראשון">
-                          + הוסף הרגל יומי ראשון
+                        <button onClick={() => setShowHabitFlow(true)} style={{ width: '100%', padding: '1.1rem', background: 'transparent', border: 'none', color: '#71717A', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} aria-label="הוסף הרגל ראשון">
+                          + הוסף הרגל ראשון
                         </button>
                       )}
                     </div>
