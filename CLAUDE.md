@@ -165,13 +165,21 @@ functions/
 
 - Repo: **https://github.com/noam922008-ship-it/1percent-better** (public; transferred from `noam1better`)
 - Auth: `gh` logged in as `noam922008-ship-it`. No token in the remote URL — keep it that way.
-- Branches: `main` == `origin/main` (pushed 2026-10-04); live hosting = `8d97e6f` (this docs commit only adds CLAUDE.md). `analytics`, `release/v2`, `legal`, `weekly-habits`, `fix/phone-feedback` are merged into main. `journal-ai` (pushed) is NOT merged. Old: `my-tasks`, `wip/muay-thai` — pushed.
+- Branches: `main` == `origin/main` (pushed 2026-10-04); live hosting = `f2451f7` (this docs commit only changes CLAUDE.md). `analytics`, `release/v2`, `legal`, `weekly-habits`, `fix/phone-feedback` are merged into main. `journal-ai` (pushed) is NOT merged. Old: `my-tasks`, `wip/muay-thai` — pushed.
 
 ---
 
 ## Done — 2026-10-04 (launch readiness)
 
-Deployed: `firestore:rules`, then `hosting:prime-app` from `main` @ `8d97e6f`. Every live asset byte-identical to the build; Playwright (fresh profile, guest): welcome + 18+ checkbox render in <1 s, no console errors, Instagram only, `prime-daily-app/?utm_source=…` → `/welcome?utm_source=…`.
+**Later the same day — E2E on live + 3 fixes.** Deployed `storage` (rules were never deployed before: `workout-analysis/{uid}` list returned 403, so in-app account deletion always failed with "חלק מהנתונים לא נמחקו"; rules take ~1 min to propagate), then `hosting:prime-app` from `main` @ `f2451f7`.
+- **E2E on the live app** (Playwright, test account `prime-e2e-…@example.com`, now deleted): signup 18+ gate, utm → GA `app_open`, setup with a weekly habit, weekly check-in persists (server `habitLog`), "הראש שלי" save/edit/delete with 0 AI requests, My Tasks, lesson notes, boxing without AI entries + drill to the end, legal pages, rules via authenticated REST (14/14), delete account → re-login fails. No console/network errors.
+- `b880643` **fix(home)** — add-habit copy said "הרגל יומי" (button aria-label, empty-state text + aria-label). Guarded by `habitCopy.test.js`.
+- `2dc0a2f` **fix(home)** — users with only weekly habits saw "✓ הכל הושלם היום". Top-card choice is `homeActionType()` (`utils/homeAction.js`), counts daily habits only; My Tasks don't count (owner's decision).
+- `f2451f7` **fix(habits)** — a guest completing all daily habits threw `reading 'uid'` in `updateStreak`. Streak still updates on screen; server save skipped without a signed-in user (`utils/habitStreak.js`). A guest's streak is in memory only and resets on refresh (pre-existing).
+- E2E scripts live in the scratchpad only (not in the repo). To repeat: `playwright-core` + the headless shell, a dedicated persistent profile, an `@example.com` test account, and check the signed-in email before any delete.
+
+
+Earlier: deployed `firestore:rules`, then `hosting:prime-app` from `main` @ `8d97e6f`. Every live asset byte-identical to the build; Playwright (fresh profile, guest): welcome + 18+ checkbox render in <1 s, no console errors, Instagram only, `prime-daily-app/?utm_source=…` → `/welcome?utm_source=…`.
 
 - **Audit** — brand, Gemini, security, privacy. Clean: no secrets in git history (only the public Firebase web key), XSS (React escaping, no `innerHTML`), Storage rules, authorized domains (`prime-app-84fe0.web.app` + `better-de9aa.firebaseapp.com`), privacy/terms/disclaimers, in-app account deletion.
 - **AI off** — `FEATURES.ai = false` (`437cac4`).
@@ -204,7 +212,7 @@ Shipped 2026-09-28 → 09-30:
 - **Dev** — local emulators + seed scripts (`scripts/emulator-seed*.mjs`).
 
 Open:
-- Not tested with a real new account (signed in): setup finish → Home with no habits; weekly habit check-ins; lesson notes / Journal save + edit; delete account end-to-end.
+- Tested E2E with an email account on 2026-10-04 (see above). Still manual: real Google sign-in and Google-account deletion (re-auth popup), real push notifications, PWA install, visual check on a phone.
 - `journal-ai` branch (AI questions in journal) — pushed, not merged, not live.
 - **Hebrew addresses the user in male form only ("אתה", "מסכים", "מעל 18 ומסכים").** Consider gender-neutral Hebrew across UI, legal pages, lessons and AI prompts.
 - **English version** — planned, not started: see `docs/ENGLISH_PLAN.md`.
@@ -219,6 +227,10 @@ Open:
 ## Recent git history
 
 ```
+f2451f7  fix(habits): guest completing all daily habits no longer throws
+2dc0a2f  fix(home): no false 'all done today' with only weekly habits
+b880643  fix(home): add-habit copy no longer says 'daily'
+5c043ed  docs: CLAUDE.md after launch-readiness audit and deploy
 8d97e6f  fix(deps): firebase-admin 14 and firebase-functions 7 in functions
 96cc7a1  fix(deps): firebase 12.19 and npm audit fix
 5d67792  fix(rules): challenge participants can't rewrite the challenge
