@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest'
 import { assertFails, assertSucceeds, initializeTestEnvironment } from '@firebase/rules-unit-testing'
-import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
 
 let env
 
@@ -65,5 +65,44 @@ describe('nudgeResponses/{uid}_{date}', () => {
   it("owner can't hand the doc to someone else", async () => {
     await seed(mine)
     await assertFails(setDoc(doc(as('alice'), 'nudgeResponses/alice_2026-10-04'), { uid: 'bob' }, { merge: true }))
+  })
+})
+
+describe('challenges/{id}', () => {
+  const ch = {
+    challenger: 'alice', challengerName: 'A', challenged: 'bob', challengedName: 'B',
+    exercise: 'pushups', createdAt: '2026-10-04T10:00:00.000Z', expiresAt: '2026-10-05T10:00:00.000Z',
+    status: 'active', reps: { alice: 0, bob: 0 },
+  }
+  const seed = () => env.withSecurityRulesDisabled(c => setDoc(doc(c.firestore(), 'challenges/c1'), ch))
+
+  it('challenger can create; both sides read; outsiders cannot', async () => {
+    await assertSucceeds(setDoc(doc(as('alice'), 'challenges/c1'), ch))
+    await assertSucceeds(getDoc(doc(as('bob'), 'challenges/c1')))
+    await assertFails(getDoc(doc(as('eve'), 'challenges/c1')))
+    await assertFails(setDoc(doc(as('eve'), 'challenges/c2'), ch))
+  })
+
+  it('a participant can update status and their own reps', async () => {
+    await seed()
+    await assertSucceeds(updateDoc(doc(as('bob'), 'challenges/c1'), { 'reps.bob': 20 }))
+    await assertSucceeds(updateDoc(doc(as('alice'), 'challenges/c1'), { status: 'done' }))
+  })
+
+  it("a participant can't rewrite who is in it, the other side's reps or other fields", async () => {
+    await seed()
+    const ref = doc(as('bob'), 'challenges/c1')
+    await assertFails(updateDoc(ref, { challenger: 'bob' }))
+    await assertFails(updateDoc(ref, { challenged: 'eve' }))
+    await assertFails(updateDoc(ref, { challengerName: 'loser' }))
+    await assertFails(updateDoc(ref, { 'reps.alice': -5, 'reps.bob': 999 }))
+    await assertFails(updateDoc(ref, { expiresAt: '2030-01-01T00:00:00.000Z' }))
+    await assertFails(updateDoc(doc(as('eve'), 'challenges/c1'), { status: 'done' }))
+  })
+
+  it('either participant can delete (account deletion)', async () => {
+    await seed()
+    await assertFails(deleteDoc(doc(as('eve'), 'challenges/c1')))
+    await assertSucceeds(deleteDoc(doc(as('bob'), 'challenges/c1')))
   })
 })

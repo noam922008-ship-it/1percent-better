@@ -257,9 +257,14 @@ service cloud.firestore {
                        || resource.data.challenged == request.auth.uid);
       allow create: if isSignedIn()
                    && request.resource.data.challenger == request.auth.uid;
+      // A participant may change only status and their own reps entry —
+      // who is in the challenge, names, exercise and dates stay fixed.
       allow update: if isSignedIn()
                    && (resource.data.challenger == request.auth.uid
-                       || resource.data.challenged == request.auth.uid);
+                       || resource.data.challenged == request.auth.uid)
+                   && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'reps'])
+                   && request.resource.data.get('reps', {}).diff(resource.data.get('reps', {}))
+                        .affectedKeys().hasOnly([request.auth.uid]);
       allow delete: if isSignedIn()   // account deletion — either participant
                    && (resource.data.challenger == request.auth.uid
                        || resource.data.challenged == request.auth.uid);
