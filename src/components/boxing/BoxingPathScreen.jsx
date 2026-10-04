@@ -18,6 +18,7 @@ import {
 import BoxingDrillTimer from './BoxingDrillTimer'
 import BoxingFormAnalysis from './BoxingFormAnalysis'
 import BoxingSessionAnalysis from './BoxingSessionAnalysis'
+import { FEATURES } from '../../config/features'
 
 // ─── palette ────────────────────────────────────────────────────────────────
 const C = {
@@ -267,7 +268,7 @@ export default function BoxingPathScreen({
   }
 
   // ─── VIEW: analysis ───────────────────────────────────────────────────────
-  if (view === 'analysis') {
+  if (view === 'analysis' && FEATURES.ai) {
     return (
       <BoxingFormAnalysis
         onClose={() => setView('home')}
@@ -416,6 +417,7 @@ export default function BoxingPathScreen({
           >
             אימון נוסף
           </button>
+          {FEATURES.ai && (
           <button
             onClick={() => { setVideoReturnView('drill-complete'); setView('video-analysis') }}
             style={{
@@ -433,13 +435,14 @@ export default function BoxingPathScreen({
           >
             🎬 ניתוח וידאו של הסשן
           </button>
+          )}
         </div>
       </div>
     )
   }
 
   // ─── VIEW: video-analysis ────────────────────────────────────────────────────
-  if (view === 'video-analysis') {
+  if (view === 'video-analysis' && FEATURES.ai) {
     return (
       <BoxingSessionAnalysis
         sessionStats={drillStats}
@@ -798,7 +801,7 @@ export default function BoxingPathScreen({
             marginBottom: 24,
           }}
         >
-          {DRILL_CATEGORIES.map((cat) => (
+          {DRILL_CATEGORIES.filter(cat => FEATURES.ai || cat.id !== 'analysis').map((cat) => (
             <button
               key={cat.id}
               className="btn-tactile"
@@ -838,6 +841,7 @@ export default function BoxingPathScreen({
         </div>
 
         {/* Video session analysis — standalone entry */}
+        {FEATURES.ai && (
         <button
           className="btn-tactile"
           onClick={() => { setVideoReturnView('home'); setDrillStats(null); setView('video-analysis') }}
@@ -862,6 +866,7 @@ export default function BoxingPathScreen({
           </div>
           <span style={{ fontSize: 16, color: C.muted, flexShrink: 0 }}>←</span>
         </button>
+        )}
 
         {/* Divider */}
         <div

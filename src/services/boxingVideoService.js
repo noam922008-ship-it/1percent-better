@@ -1,6 +1,7 @@
 import { ref, uploadBytesResumable, deleteObject } from 'firebase/storage'
 import { httpsCallable } from 'firebase/functions'
 import { storage, functions } from './firebase'
+import { FEATURES } from '../config/features'
 
 const ANALYSIS_BUCKET_PATH = 'workout-analysis'
 
@@ -14,7 +15,8 @@ const ANALYSIS_BUCKET_PATH = 'workout-analysis'
  * @returns {Promise<object>} - Parsed analysis JSON
  */
 export async function analyzeBoxingVideo(uid, videoFile, onProgress) {
-  if (!storage || !functions) throw new Error('Firebase not configured')
+  // FEATURES.ai off → never upload the clip
+  if (!videoAnalysisAvailable()) throw new Error('Video analysis unavailable')
 
   const ext = videoFile.name.split('.').pop() || 'mp4'
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
@@ -52,5 +54,5 @@ export async function analyzeBoxingVideo(uid, videoFile, onProgress) {
 }
 
 export function videoAnalysisAvailable() {
-  return !!(storage && functions)
+  return !!(FEATURES.ai && storage && functions)
 }

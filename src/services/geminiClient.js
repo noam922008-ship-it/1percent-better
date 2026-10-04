@@ -1,7 +1,10 @@
 import { httpsCallable } from 'firebase/functions'
 import { functions } from './firebase'
+import { FEATURES } from '../config/features'
 
-const _proxy = functions
+// FEATURES.ai off → no proxy: callGemini throws before any network call and
+// geminiAvailable() is false, so every caller takes its non-AI fallback.
+const _proxy = FEATURES.ai && functions
   ? httpsCallable(functions, 'analyzeWithGemini', { timeout: 30000 })
   : null
 
@@ -13,7 +16,7 @@ const _proxy = functions
  * @returns {Promise<string>} — Gemini response text
  */
 export async function callGemini(data) {
-  if (!_proxy) throw new Error('Firebase not configured')
+  if (!_proxy) throw new Error(FEATURES.ai ? 'Firebase not configured' : 'AI is turned off')
   const result = await _proxy(data)
   return result.data.text
 }
