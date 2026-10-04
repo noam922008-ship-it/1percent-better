@@ -25,7 +25,7 @@ const NUDGE_COPY = {
     { title: 'מצב מונק מוד מופעל? 🧠', body: 'אל תפיל את הרצף, המשימות מחכות לך.' },
   ],
   en: [
-    { title: 'Your streak is at risk! 🔥', body: "Close today 1% better." },
+    { title: 'Your streak is at risk! 🔥', body: "Close today with one small step — you're almost there." },
     { title: "Don't quit on yourself today ⚔️", body: 'Check in and mark your habits now.' },
     { title: 'Monk Mode activated? 🧠', body: "Don't break the streak." },
   ],
