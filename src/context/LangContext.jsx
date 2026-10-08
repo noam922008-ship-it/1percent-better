@@ -4,10 +4,17 @@ import t from '../i18n/translations'
 const LangCtx = createContext()
 
 export function LangProvider({ children }) {
-  const [lang, setLangState] = useState(() => localStorage.getItem('ft_lang') || 'he')
+  // Saved choice wins; otherwise Hebrew for Hebrew devices, English for everyone else
+  const [lang, setLangState] = useState(() => {
+    try {
+      const saved = localStorage.getItem('ft_lang')
+      if (saved === 'he' || saved === 'en') return saved
+    } catch { /* storage unavailable: fall back to device language */ }
+    return (navigator.language || '').toLowerCase().startsWith('he') ? 'he' : 'en'
+  })
 
   function setLang(l) {
-    localStorage.setItem('ft_lang', l)
+    try { localStorage.setItem('ft_lang', l) } catch { /* ignore */ }
     setLangState(l)
     document.documentElement.dir  = l === 'he' ? 'rtl' : 'ltr'
     document.documentElement.lang = l

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import DeleteAccountSheet from './DeleteAccountSheet'
 import { deleteGuestData } from '../services/accountDeletionService'
 import { MAX_NICKNAME_LEN } from '../utils/publicName'
+import { useLang } from '../context/LangContext'
 
 function Row({ label, desc, children }) {
   return (
@@ -98,6 +99,7 @@ function ConfirmModal({ onConfirm, onCancel }) {
 export default function Settings({ onRebuildPath, activePathName, leaderboardOptIn = false, leaderboardNickname = '', onSaveLeaderboard }) {
   const { user, isGuest, logout } = useAuth()
   const { prefs, setPrefs } = useUserPrefs()
+  const { lang, setLang } = useLang()
   const [loggingOut,     setLoggingOut]     = useState(false)
   const [showDelete,     setShowDelete]     = useState(false)
   const [guestWipe,      setGuestWipe]      = useState(false)
@@ -174,6 +176,21 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
             </div>
           </div>
         </div>
+
+        <Row label="שפה / Language" desc="השפה של האפליקציה">
+          <div style={{ display: 'flex', gap: 6 }}>
+            {[['he', 'עברית'], ['en', 'English']].map(([code, name]) => (
+              <button
+                key={code}
+                onClick={() => setLang(code)}
+                aria-pressed={lang === code}
+                style={{ background: lang === code ? 'rgba(245,197,24,0.15)' : 'transparent', border: `1px solid ${lang === code ? 'rgba(245,197,24,0.5)' : 'rgba(255,255,255,0.12)'}`, borderRadius: 10, color: lang === code ? '#F5C518' : 'rgba(232,234,240,0.6)', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.8rem', minHeight: 36, cursor: 'pointer', fontFamily: 'inherit' }}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        </Row>
 
         <Row label="התנתקות" desc="יוציא אותך מהחשבון">
           <button
