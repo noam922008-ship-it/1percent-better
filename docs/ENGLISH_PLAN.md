@@ -1,6 +1,7 @@
 # PRIME — English version plan
 
-Status: **Phase 1 (infrastructure), Phase 2 (first-run flow) and Phase 3 (Home's remaining cards) done** on branch
+Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards) and Phase 4 (Workouts
+tab) done** on branch
 `feat/english-phase-1` (2026-10-09) — pushed, not merged, not deployed.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
@@ -121,6 +122,69 @@ Left on purpose (Phase 3):
   "בדיקה אחרי העבודה"): the cue is kept as the suggestion's text. Fixed when habit suggestions are translated (first
   item of the content phase).
 
+## Phase 4 — Workouts tab and the screens it opens (done, 2026-10-09)
+
+Same branch. Files: `pages/WorkoutsScreen`, `ActiveWorkout` (cardio timer, rep counter, set summary), `TrainingMode`
+(free training), `boxing/BoxingPathScreen`, `BoxingWorkoutPreview`, `BoxingDrillTimer`, `BoxingCompletion`,
+`combat/CombatPathScreen`, `CombatWorkoutPreview`, `CombatActiveWorkout`, `CombatCompletion`,
+`muaythai/MuayThaiPathScreen`, `Dashboard.jsx` (MT options, live cardio bar).
+
+- **Strings:** new `workouts` group in `he.js` / `en.js` (268 keys): tab, `categories` / `exercises` / `tracks` by id,
+  `cardio`, `future`, `strength`, `combat` (path, `mt`, `boxing`, `preview`, `timer`, `completion`, `difficulty`,
+  `roundType`, `equipment`), `free` (TrainingMode). Hebrew text unchanged; English written fresh from the Hebrew.
+- **Short labels by id:** the tab's categories and exercises, `trainingTracks.js` names / descriptions / units (data
+  unchanged; a test keeps `he.workouts.tracks` equal to the data), MT training options and reflection chips, boxing
+  reflection chips, TrainingMode difficulty / style / stat labels.
+- **Titles in English (data):** every `titleHe` in `boxingPath.js`, `muayThaiPath.js`, `boxingDrills.js` and
+  `instantWorkouts.js` has a `titleEn` next to it (208 unique titles, 333 lines). Drill categories have
+  `labelEn` / `descEn`; `buildDrill()` returns `titleEn` ("Footwork — 5 min"). Screens read them with
+  `byLang(obj, 'title', lang)` (`src/i18n/fmt.js`): English when present, Hebrew otherwise. A test fails if any
+  level / workout / round / drill lacks an English title.
+- **Equipment as ids:** `equipment: ['ללא ציוד']` → `['none']` (39 workouts), label from
+  `t.workouts.combat.equipment`. Hebrew still shows "ללא ציוד" (test). Nothing compared or stored the old text.
+- **TrainingMode combos** are lists of move ids (`['jab', 'cross']`) read out with the 13-term glossary
+  `t.workouts.free.moves`. All 42 combos read out exactly as before in Hebrew (checked against the old file).
+  Speech picks `he-IL` or `en-US` per line, so English combos aren't read by a Hebrew voice.
+- **Saved names:** the set log (`prime_set_log`) and the live cardio session (`prime_cardio_live`) save the track
+  name in the UI language. The live cardio bar now shows the name by `trackId`, so it follows the current language.
+- **Text compared as names — found, not changed:** the path's technique list compares technique names as text
+  (`learnedTechs.includes(tech)`, `combatProgress.getLearnedTechniques`). Both sides come from the same data and
+  nothing is stored, so it keeps working while techniques stay Hebrew. **When technique names are translated
+  (content phase), give them ids first.**
+- **RTL:** no `direction: 'rtl'` / `textAlign: 'right'|'left'` / `borderRight` / `marginRight` left in these files
+  (→ `start` / `end`, `borderInlineStart`, `marginInlineStart`). Hebrew content inside English screens (round
+  instructions, coaching cues, goals, safety notes) has `dir="auto"` so its punctuation lays out right-to-left.
+  Left physical on purpose: camera overlays in `ActiveWorkout` (corner brackets, badges, the "me vs future me" widget
+  pinned top-left over the video).
+- **Arrows:** inside the strings (`←` Hebrew, `→` English). The header back button stays `←` in both languages, as in
+  Hebrew today (no chevron icons in these files).
+- **Tests:** `src/__tests__/i18nWorkouts.test.jsx` (17) — tab, cardio, reps (camera fallback → manual → summary),
+  free training, boxing path / preview / drill timer / guided timer / completion, MT path / preview with gear check /
+  completion: no Hebrew in English except content; Hebrew copy and formats unchanged ("ללא ציוד", "12:34 דק׳",
+  drill title); combo glossary; track labels = data; every title has English; equipment ids have labels; no
+  hard-coded rtl / right / left; key parity. `npm test`: 31 files / 537 tests. `npm run build` OK.
+- **Lint:** warnings 974 → 755 (Hebrew-in-JSX 963 → 744). Same 5 pre-existing errors.
+- **390px check (dev, guest, headless):** Hebrew tab, boxing home, guided path, preview and timer match the branch
+  before Phase 4 (no pixel differs by more than 40/255 — anti-aliasing). English: tab, boxing home, guided path,
+  preview, timer, drill settings, MT path, walking timer — ltr, no page errors.
+
+Left on purpose (Phase 4):
+- **Content stays Hebrew:** round instructions, coaching cues, safety notes, workout goals and descriptions, technique
+  names (path technique list, `techniques` arrays), TrainingMode's spoken coach lines (openers, motivation, form
+  alerts, tips).
+- **Hidden behind `FEATURES.ai`:** boxing photo / video analysis entry points (`BoxingPathScreen`), `BoxingWorkout`,
+  `FeedbackModal`.
+- **Not reachable from the tab:** `CombatProtocols` (only from Home's daily workout card).
+
+### Content left in the Workouts screens (measured 2026-10-09, unique Hebrew words)
+
+| Source | Words | Main parts |
+|---|---|---|
+| Boxing path `boxingPath.js` | ~3,650 | round instructions 1,310 · safety notes 700 · descriptions 450 · goals 380 · coaching cues 400 · techniques 210 |
+| Muay Thai path `muayThaiPath.js` | ~1,900 | instructions 1,130 · cues 340 · safety notes 210 · goals 60 · techniques 70 |
+| Quick drills `boxingDrills.js` (rounds) | ~3,300 | instructions + cues for 163 rounds |
+| TrainingMode coach lines | ~250 | openers, motivation, form alerts, improvement tips |
+
 ## Still untranslated after Phase 1 (measured 2026-10-09)
 
 - **Hard-coded Hebrew:** ~5,760 lines in 99 files (excluding `src/i18n/` and tests) — `data/` 3,830, `components/`
@@ -138,7 +202,7 @@ Left on purpose (Phase 3):
 
 1. ~~**Welcome / Setup / Dashboard**~~ — done in Phase 2 (above).
 2. ~~**Home's remaining cards**~~ — done in Phase 3 (above).
-3. **Workouts tab.**
+3. ~~**Workouts tab**~~ — done in Phase 4 (above), titles included; instructions, cues and safety notes left.
 4. **Progress and Profile tabs** — incl. Settings' `שפה / Language` label; the Hebrew keyword lists in `Dashboard.jsx`.
 5. **Notifications + `lang` on the profile** — in-app (`notificationService.js`) and push (functions already have
    `he`/`en` copy and read the profile's `lang`); save `lang` to the profile when it changes.
@@ -147,7 +211,8 @@ Left on purpose (Phase 3):
    1. **Habit suggestions** (`data/habitSuggestions.js`, 76 short items) — first: they're short and on the first-habit
       path. Also fixes suggestions whose cue matches no preset saving Hebrew text for English users (Phase 3).
    2. **Daily lessons** — 35 lessons (`data/dailyLessons.js`), plus topic `desc`.
-   3. **Workouts** — boxing / Muay Thai drills and paths.
+   3. **Workouts** — boxing / Muay Thai instructions, coaching cues, safety notes, goals, technique names (ids
+      first) and TrainingMode's coach lines (~9k words, table in Phase 4). Titles are already done.
 
 Turn on `FEATURES.english` only after the visible UI is translated and the RTL fixes are done.
 
