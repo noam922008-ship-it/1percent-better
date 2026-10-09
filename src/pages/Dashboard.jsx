@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
+import { fmt, plural } from '../i18n/fmt'
 import { subscribeProfile, saveProfile, syncLeaderboard, syncCompletionStatus } from '../services/focusTriggerService'
 import { checkContractStatus, getRank, getScore } from '../services/disciplineScore'
 import { checkNotifications, checkNudges, saveNudgeResponse, snoozeNudge, markNudgeDone, __devQueueTestNudge } from '../services/notificationService'
@@ -180,10 +181,11 @@ function ConfettiBurst() {
 function XPToast({ xp, onDone }) {
   const doneRef = useRef(onDone)
   useEffect(() => { const t = setTimeout(() => doneRef.current(), 2200); return () => clearTimeout(t) }, [])
+  const { t: tAll } = useLang()
   const isSignin = xp === 'signin'
   return (
     <div style={{ position: 'fixed', top: '5.5rem', left: '50%', transform: 'translateX(-50%)', background: '#1a1a1a', border: '1px solid rgba(245,197,24,0.3)', color: '#d4a843', borderRadius: 20, padding: '0.45rem 1.1rem', fontSize: '0.83rem', fontWeight: 800, zIndex: 9999, animation: 'xp-pop 0.35s cubic-bezier(.34,1.56,.64,1) forwards', boxShadow: '0 1px 3px rgba(0,0,0,0.4)', pointerEvents: 'none', whiteSpace: 'nowrap' }}>
-      {isSignin ? '🔒 התחבר כדי לשמור XP' : `+${xp} XP ✨`}
+      {isSignin ? tAll.home.xpSignIn : `+${xp} XP ✨`}
     </div>
   )
 }
@@ -260,13 +262,13 @@ function WorkoutLibraryModal({ onSelect, onClose }) {
                 border: `1px solid ${ex.available ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.07)'}`,
                 borderRadius: 16,
                 padding: '1rem 0.9rem',
-                textAlign: 'right',
+                textAlign: 'start',
                 cursor: ex.available ? 'pointer' : 'default',
                 opacity: ex.available ? 1 : 0.42,
               }}
             >
               {!ex.available && (
-                <span style={{ position: 'absolute', top: 8, left: 8, background: 'transparent', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.1rem 0.45rem', fontSize: '0.56rem', fontWeight: 800, color: 'rgba(232,232,232,0.45)', letterSpacing: '0.04em' }}>
+                <span style={{ position: 'absolute', top: 8, insetInlineEnd: 8, background: 'transparent', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.1rem 0.45rem', fontSize: '0.56rem', fontWeight: 800, color: 'rgba(232,232,232,0.45)', letterSpacing: '0.04em' }}>
                   בקרוב
                 </span>
               )}
@@ -317,6 +319,8 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
   const [videoBlobUrl, setVideoBlobUrl] = useState(null)
   const [aiState,      setAiState]      = useState('idle')   // idle | analyzing | done | error
   const [aiFeedback,   setAiFeedback]   = useState(null)
+  const { t: tAll } = useLang()
+  const ss = tAll.home.setSummary
 
   const fileInputRef = useRef(null)
   const blobUrlRef   = useRef(null)
@@ -386,7 +390,7 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
             <span style={{ fontSize: '1.2rem' }}>{exercise.emoji}</span>
             <div>
-              <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.97rem' }}>סיכום סט</div>
+              <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.97rem' }}>{ss.title}</div>
               <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.7rem' }}>{exercise.name}</div>
             </div>
           </div>
@@ -396,7 +400,7 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
         {saved ? (
           <div style={{ textAlign: 'center', padding: '1.5rem 0', animation: 'fadeIn 0.2s ease' }}>
             <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>✅</div>
-            <p style={{ color: '#10b981', fontWeight: 700, fontSize: '0.95rem' }}>הסט נשמר!</p>
+            <p style={{ color: '#10b981', fontWeight: 700, fontSize: '0.95rem' }}>{ss.saved}</p>
           </div>
         ) : (
           <>
@@ -412,14 +416,14 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
 
             {/* ── Form fields ── */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-              <label style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>זמן / חזרות</label>
+              <label style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>{ss.repsLabel}</label>
               {!videoBlobUrl && (
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   className="btn-tactile"
                   style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, color: 'rgba(232,232,232,0.6)', fontSize: '0.72rem', fontWeight: 700, padding: '0 0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem', minHeight: 44 }}
                 >
-                  📹 הקלט טופס
+                  {ss.record}
                 </button>
               )}
               {videoBlobUrl && (
@@ -428,7 +432,7 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
                   className="btn-tactile"
                   style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, color: 'rgba(232,232,232,0.6)', fontSize: '0.72rem', fontWeight: 700, padding: '0 0.85rem', cursor: 'pointer', minHeight: 44 }}
                 >
-                  🗑 מחק וידאו
+                  {ss.deleteVideo}
                 </button>
               )}
             </div>
@@ -438,18 +442,18 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
               inputMode="numeric"
               value={reps}
               onChange={e => setReps(e.target.value)}
-              placeholder="למשל: 12 חזרות, 30 שניות…"
+              placeholder={ss.repsPh}
               className="glow-input"
               style={{ width: '100%', boxSizing: 'border-box', padding: '0.8rem 0.95rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.09)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.9rem', fontFamily: 'inherit', marginBottom: '0.75rem' }}
             />
 
-            <label style={{ display: 'block', color: 'rgba(241,245,249,0.38)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>דגש טכני</label>
+            <label style={{ display: 'block', color: 'rgba(241,245,249,0.38)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{ss.focusLabel}</label>
             <input
               type="text"
               value={focus}
               onChange={e => setFocus(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSave()}
-              placeholder="על מה עבדת היום? (למשל: נשימה, יציבות, טווח תנועה)"
+              placeholder={ss.focusPh}
               className="glow-input"
               style={{ width: '100%', boxSizing: 'border-box', padding: '0.8rem 0.95rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.09)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.9rem', fontFamily: 'inherit', marginBottom: videoBlobUrl ? '0.75rem' : '1rem' }}
             />
@@ -470,7 +474,7 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
             {aiState === 'analyzing' && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', padding: '0.7rem 0.85rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 11, marginBottom: '1rem' }}>
                 <div className="anim-spin" style={{ width: 16, height: 16, border: '2px solid rgba(255,255,255,0.12)', borderTopColor: 'rgba(255,255,255,0.5)', borderRadius: '50%', flexShrink: 0 }} />
-                <span style={{ color: 'rgba(232,232,232,0.55)', fontSize: '0.78rem', fontWeight: 600 }}>מנתח טופס...</span>
+                <span style={{ color: 'rgba(232,232,232,0.55)', fontSize: '0.78rem', fontWeight: 600 }}>{ss.analyzing}</span>
               </div>
             )}
 
@@ -478,7 +482,7 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
               <div style={{ marginBottom: '1rem', animation: 'fadeIn 0.25s ease' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem' }}>
                   <span style={{ fontSize: '1rem' }}>🤖</span>
-                  <span style={{ color: 'rgba(232,232,232,0.6)', fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.05em' }}>ניתוח טופס</span>
+                  <span style={{ color: 'rgba(232,232,232,0.6)', fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.05em' }}>{ss.analysis}</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
                   {aiFeedback.split('\n').map(l => l.trim()).filter(Boolean).map((line, i) => (
@@ -496,15 +500,15 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
 
             {aiState === 'error' && (
               <div style={{ padding: '0.5rem 0.85rem', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 11, marginBottom: '1rem', color: '#ef4444', fontSize: '0.75rem' }}>
-                לא ניתן לנתח — בדוק חיבור רשת
+                {ss.error}
               </div>
             )}
 
             <button onClick={handleSave} className="btn-primary btn-tactile" style={{ width: '100%', padding: '1rem', borderRadius: 14, fontSize: '0.97rem', fontWeight: 800, marginBottom: '0.4rem' }}>
-              שמור ←
+              {ss.save}
             </button>
             <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.2)', fontSize: '0.75rem', cursor: 'pointer', width: '100%', textAlign: 'center', padding: '0.4rem' }}>
-              דלג
+              {ss.skip}
             </button>
           </>
         )}
@@ -532,10 +536,10 @@ function GoalTracker({ goal, onEdit }) {
       <button
         onClick={onEdit}
         className="btn-tactile"
-        style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.28)', fontSize: '0.8rem', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, fontWeight: 700 }}
+        style={{ position: 'absolute', top: '0.5rem', insetInlineEnd: '0.5rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.28)', fontSize: '0.8rem', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, fontWeight: 700 }}
       >✎</button>
       <div style={{ color: '#d4a843', fontSize: '0.53rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.3rem' }}>🎯 מטרה אישית</div>
-      <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.92rem', marginBottom: '0.7rem', paddingLeft: '0.5rem' }}>{goal.title}</div>
+      <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.92rem', marginBottom: '0.7rem', paddingInlineEnd: '0.5rem' }}>{goal.title}</div>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginBottom: '0.55rem' }}>
         <span style={{ color: done ? '#34d399' : '#d4a843', fontSize: '2.2rem', fontWeight: 900, fontFamily: "'SF Mono','Fira Code',monospace", lineHeight: 1 }}>
           {done ? '✓' : remaining}
@@ -621,6 +625,8 @@ function GoalEditModal({ goal, onSave, onClear, onClose }) {
 }
 
 function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
+  const { t: tAll } = useLang()
+  const eh = tAll.home.editHabit
   const [cue,        setCue]        = useState(trigger.cue)
   const [habit,      setHabit]      = useState(trigger.habit)
   const [schedule,   setSchedule]   = useState({
@@ -634,7 +640,7 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 5100, background: 'rgba(5,5,12,0.82)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', animation: 'fadeIn 0.2s ease' }}>
       <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 480, maxHeight: '90vh', overflowY: 'auto', boxSizing: 'border-box', background: '#18181b', borderRadius: '20px 20px 0 0', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '1.5rem 1.4rem 2.6rem', animation: 'slide-up 0.28s ease' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
-          <span style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>✎ עריכת הרגל</span>
+          <span style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>{eh.title}</span>
           <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'rgba(241,245,249,0.55)', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 700, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>✕</button>
         </div>
 
@@ -642,7 +648,7 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
           <div style={{ animation: 'fadeIn 0.18s ease' }}>
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '1.1rem 1.2rem', marginBottom: '1.1rem', textAlign: 'center' }}>
               <div style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>🗑</div>
-              <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.92rem', marginBottom: '0.35rem' }}>למחוק את ההרגל?</div>
+              <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.92rem', marginBottom: '0.35rem' }}>{eh.confirmDelete}</div>
               <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.78rem', lineHeight: 1.5 }}>"{trigger.cue} → {trigger.habit}"</div>
             </div>
             <div style={{ display: 'flex', gap: '0.6rem' }}>
@@ -650,31 +656,31 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
                 onClick={() => setConfirmDel(false)}
                 className="btn-tactile"
                 style={{ flex: 1, padding: '0.85rem', borderRadius: 12, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(241,245,249,0.6)', fontSize: '0.88rem', fontWeight: 700, cursor: 'pointer' }}
-              >ביטול</button>
+              >{eh.cancel}</button>
               <button
                 onClick={onDelete}
                 className="btn-tactile"
                 style={{ flex: 1, padding: '0.85rem', borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: '#ef4444', fontSize: '0.88rem', fontWeight: 800, cursor: 'pointer' }}
-              >מחק סופית</button>
+              >{eh.deleteForever}</button>
             </div>
           </div>
         ) : (
           <>
-            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.4rem' }}>כשאני... (הטריגר)</div>
+            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.4rem' }}>{eh.cueLabel}</div>
             <input
               autoFocus
               className="glow-input"
               value={cue}
               onChange={e => setCue(e.target.value)}
-              placeholder="לדוגמה: אחרי שאני מתעורר"
+              placeholder={eh.cuePh}
               style={{ width: '100%', boxSizing: 'border-box', padding: '0.8rem 0.95rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.875rem', fontFamily: 'inherit', marginBottom: '1rem', outline: 'none' }}
             />
-            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.4rem' }}>אני אבצע... (ההרגל)</div>
+            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.4rem' }}>{eh.habitLabel}</div>
             <input
               className="glow-input"
               value={habit}
               onChange={e => setHabit(e.target.value)}
-              placeholder="לדוגמה: 10 שכיבות סמיכה"
+              placeholder={eh.habitPh}
               style={{ width: '100%', boxSizing: 'border-box', padding: '0.8rem 0.95rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.875rem', fontFamily: 'inherit', marginBottom: '1.25rem', outline: 'none' }}
             />
             <div style={{ margin: '0.25rem 0 1.1rem' }}>
@@ -686,14 +692,14 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
               className="btn-tactile"
               style={{ width: '100%', padding: '0.95rem', borderRadius: 14, border: 'none', background: canSave ? 'linear-gradient(135deg,#c49020,#d4a843)' : 'rgba(255,255,255,0.06)', color: canSave ? '#0d0d0d' : 'rgba(255,255,255,0.25)', fontSize: '0.9rem', fontWeight: 800, cursor: canSave ? 'pointer' : 'not-allowed', marginBottom: '0.6rem', boxShadow: canSave ? '0 2px 8px rgba(0,0,0,0.4)' : 'none' }}
             >
-              שמור שינויים
+              {eh.save}
             </button>
             <button
               onClick={() => setConfirmDel(true)}
               className="btn-tactile"
               style={{ width: '100%', padding: '0.75rem', borderRadius: 12, background: 'none', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(232,232,232,0.3)', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer' }}
             >
-              🗑 מחק הרגל
+              {eh.delete}
             </button>
           </>
         )}
@@ -754,6 +760,7 @@ export default function Dashboard() {
   const { lang: _lang, t: tAll } = useLang()
   const td  = tAll.dashboard
   const to  = tAll.onboarding
+  const th  = tAll.home
 
   const [initiationDone, setInitiationDone] = useState(() => !!localStorage.getItem('onboardingCompleted'))
 
@@ -984,9 +991,9 @@ export default function Dashboard() {
     const elapsed = Math.round((Date.now() - liveCardio.startTimestamp) / 1000)
     const m = String(Math.floor(elapsed / 60)).padStart(2, '0')
     const s = String(elapsed % 60).padStart(2, '0')
-    const d = liveCardio.distance > 0 ? ` · ${liveCardio.distance.toFixed(2)}ק"מ` : ''
+    const d = liveCardio.distance > 0 ? ` · ${liveCardio.distance.toFixed(2)}${th.liveCardio.km}` : ''
     document.title = `🏃‍♂️ ${m}:${s}${d} — PRIME`
-  }, [liveCardio, liveTick])
+  }, [liveCardio, liveTick, th])
 
   const streak             = getEffectiveStreak(profile)
   const _winnerGlow        = streak >= 7
@@ -1294,14 +1301,16 @@ export default function Dashboard() {
 
   const dynamicGreeting = useMemo(() => {
     const name  = isGuest ? null : profile?.name   // guest profile is named 'Guest' — greet without a name
-    const greet = hour < 5 ? 'לילה טוב' : hour < 12 ? 'בוקר טוב' : hour < 17 ? 'צהריים טובים' : 'ערב טוב'
-    const n     = name ? `, ${name}` : ''
-    if (streak >= 14) return `${greet}${n}. ${streak} ימים ברצף — אתה לא כמו כולם.`
-    if (streak >= 7)  return `${greet}${n}. שבוע ברצף — אל תשבור את הרצף.`
-    if (activeTrack)  return `${greet}${n}. יום ${activeTrackDay} ב${activeTrack.title}.`
-    if (streak >= 1)  return `${greet}${n}. ${streak} ימים ברצף.`
-    return `${greet}${n}. יום חדש, צעד חדש.`
-  }, [isGuest, profile?.name, hour, streak, activeTrack, activeTrackDay])
+    const g     = th.greet
+    const greet = hour < 5 ? g.night : hour < 12 ? g.morning : hour < 17 ? g.afternoon : g.evening
+    const vars  = { greet, name: name ? `${th.nameSep}${name}` : '', n: streak }
+    const L     = th.greetLine
+    if (streak >= 14) return fmt(L.streak14, vars)
+    if (streak >= 7)  return fmt(L.streak7, vars)
+    if (activeTrack)  return fmt(L.track, { ...vars, day: activeTrackDay, track: activeTrack.title })
+    if (streak >= 1)  return fmt(L.streak, vars)
+    return fmt(L.fresh, vars)
+  }, [isGuest, profile?.name, hour, streak, activeTrack, activeTrackDay, th])
 
   const _weeklyCompletedDays = useMemo(() => {
     const log = new Set(profile?.activityLog || [])
@@ -1482,8 +1491,8 @@ export default function Dashboard() {
       {/* ── Guest Banner ── */}
       {isGuest && (
         <div style={{ background: '#111114', borderBottom: '1px solid rgba(255,255,255,0.07)', padding: '0.55rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
-          <span style={{ color: '#fbbf24', fontSize: '0.75rem', fontWeight: 600 }}>👁 מצב אורח — ההתקדמות לא תישמר</span>
-          <a href="/welcome" className="btn-tactile" style={{ color: '#f59e0b', fontSize: '0.76rem', fontWeight: 800, textDecoration: 'none', background: 'transparent', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '0.45rem 0.85rem', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', minHeight: 36 }}>התחבר ←</a>
+          <span style={{ color: '#fbbf24', fontSize: '0.75rem', fontWeight: 600 }}>{th.guestBanner}</span>
+          <a href="/welcome" className="btn-tactile" style={{ color: '#f59e0b', fontSize: '0.76rem', fontWeight: 800, textDecoration: 'none', background: 'transparent', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '0.45rem 0.85rem', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', minHeight: 36 }}>{th.guestSignIn}</a>
         </div>
       )}
 
@@ -1527,7 +1536,7 @@ export default function Dashboard() {
                           <span style={{ color: pct >= 1 ? '#3FAF7A' : '#F4F1E8', fontSize: '1rem', fontWeight: 900, lineHeight: 1 }}>
                             {todayDoneTasks}/{todayTotalTasks}
                           </span>
-                          <span style={{ color: '#71717A', fontSize: '0.48rem', fontWeight: 600, marginTop: 1 }}>משימות</span>
+                          <span style={{ color: '#71717A', fontSize: '0.48rem', fontWeight: 600, marginTop: 1 }}>{th.ringTasks}</span>
                         </div>
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
@@ -1538,13 +1547,13 @@ export default function Dashboard() {
                         )}
                         {streak > 0 && (
                           <div style={{ color: '#F4F1E8', fontSize: '0.82rem', fontWeight: 800, marginBottom: '0.15rem' }}>
-                            🔥 {streak === 1 ? 'יום אחד ברצף' : streak === 2 ? 'יומיים ברצף' : `${streak} ימים ברצף`}
+                            🔥 {plural(th.streak, streak)}
                           </div>
                         )}
                         {todayEarnedXP > 0 ? (
-                          <div style={{ color: '#A4A6AD', fontSize: '0.7rem', fontWeight: 600 }}>+{todayEarnedXP} XP היום</div>
+                          <div style={{ color: '#A4A6AD', fontSize: '0.7rem', fontWeight: 600 }}>{fmt(th.xpToday, { n: todayEarnedXP })}</div>
                         ) : (
-                          <div style={{ color: '#71717A', fontSize: '0.7rem' }}>+{XP.HABIT + (activeTrack ? XP.MISSION : 0) + XP.WORKOUT} XP זמין</div>
+                          <div style={{ color: '#71717A', fontSize: '0.7rem' }}>{fmt(th.xpAvailable, { n: XP.HABIT + (activeTrack ? XP.MISSION : 0) + XP.WORKOUT })}</div>
                         )}
                       </div>
                     </div>
@@ -1563,7 +1572,7 @@ export default function Dashboard() {
                       <div style={{ height: 5, borderRadius: 99, background: 'rgba(255,255,255,0.07)', overflow: 'hidden' }}>
                         <div style={{ height: '100%', borderRadius: 99, background: 'linear-gradient(90deg,#c49020,#D9B34C)', width: `${lvlPct}%`, transition: 'width 0.6s ease' }} />
                       </div>
-                      <div style={{ textAlign: 'left', marginTop: '0.3rem', color: '#71717A', fontSize: '0.6rem' }}>
+                      <div style={{ textAlign: 'end', marginTop: '0.3rem', color: '#71717A', fontSize: '0.6rem' }}>
                         {levelXP}/{XP.PER_LEVEL} XP
                       </div>
                     </div>
@@ -1619,7 +1628,7 @@ export default function Dashboard() {
                     <div style={{
                       background: '#111317',
                       border: '1px solid rgba(255,255,255,0.07)',
-                      borderRight: '3px solid rgba(217,179,76,0.55)',
+                      borderInlineStart: '3px solid rgba(217,179,76,0.55)',
                       borderRadius: 14, padding: '1rem',
                       animation: 'slide-up 0.3s ease both',
                     }}>
@@ -1663,7 +1672,7 @@ export default function Dashboard() {
 
                 {/* No active track: pick a program */}
                 {FEATURES.deepTracks && (primaryAction.type === 'no-tasks' || (!activeTrack && !pathLoading)) && !isGuest && (
-                  <div style={{ background: '#111317', border: '1px dashed rgba(255,255,255,0.1)', borderRight: '3px solid rgba(217,179,76,0.35)', borderRadius: 14, padding: '1.25rem', textAlign: 'center' }}>
+                  <div style={{ background: '#111317', border: '1px dashed rgba(255,255,255,0.1)', borderInlineStart: '3px solid rgba(217,179,76,0.35)', borderRadius: 14, padding: '1.25rem', textAlign: 'center' }}>
                     <div style={{ color: '#A4A6AD', fontSize: '0.88rem', fontWeight: 700, marginBottom: '0.6rem' }}>בחר תוכנית 30 יום להתחיל</div>
                     <button className="btn-primary btn-tactile" onClick={() => setActiveTab('progress')} style={{ padding: '0.8rem 1.5rem', borderRadius: 10, fontSize: '0.9rem', fontWeight: 800 }}>
                       המסלולים שלי ←
@@ -1673,25 +1682,28 @@ export default function Dashboard() {
 
                 {/* All done state */}
                 {primaryAction.type === 'all-done' && (
-                  <div style={{ background: '#111317', border: '1px solid rgba(63,175,122,0.2)', borderRight: '3px solid rgba(63,175,122,0.4)', borderRadius: 14, padding: '1rem', textAlign: 'center', animation: 'slide-up 0.35s ease both' }}>
-                    <div style={{ color: '#3FAF7A', fontWeight: 800, fontSize: '1rem', marginBottom: '0.25rem' }}>✓ הכל הושלם היום</div>
-                    {streak > 0 && <div style={{ color: '#71717A', fontSize: '0.8rem' }}>{streak} ימים ברצף</div>}
+                  <div style={{ background: '#111317', border: '1px solid rgba(63,175,122,0.2)', borderInlineStart: '3px solid rgba(63,175,122,0.4)', borderRadius: 14, padding: '1rem', textAlign: 'center', animation: 'slide-up 0.35s ease both' }}>
+                    <div style={{ color: '#3FAF7A', fontWeight: 800, fontSize: '1rem', marginBottom: '0.25rem' }}>{th.allDone}</div>
+                    {streak > 0 && <div style={{ color: '#71717A', fontSize: '0.8rem' }}>{fmt(th.streakDays, { n: streak })}</div>}
                   </div>
                 )}
 
                 {/* Daily Workout Card — red accent */}
                 {(() => {
                   const doy = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000)
+                  // Text per id lives in t.home.workout (items + category)
                   const DAILY_WORKOUTS = [
-                    { name: 'שכיבות סמיכה', category: 'כוח',    intensity: 'בינוני', duration: '15 דקות', sets: '4 סטים × 10',  icon: '💪', trackId: 'strength-pushups', isCombat: false },
-                    { name: 'ריצה',          category: 'סיבולת', intensity: 'גבוה',   duration: '20 דקות', sets: '1 ריצה רציפה', icon: '🏃', trackId: 'cardio-run',       isCombat: false },
-                    { name: 'סקוואטים',     category: 'כוח',    intensity: 'בינוני', duration: '15 דקות', sets: '4 סטים × 12',  icon: '🦵', trackId: 'strength-squats',  isCombat: false },
-                    { name: 'איגרוף',       category: 'לחימה',  intensity: 'גבוה',   duration: '15 דקות', sets: 'סשן מלא',      icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
-                    { name: 'מתח',          category: 'כוח',    intensity: 'גבוה',   duration: '15 דקות', sets: '3 סטים × 5',   icon: '🏋️', trackId: 'strength-pullups', isCombat: false },
-                    { name: 'הליכה',        category: 'סיבולת', intensity: 'נמוך',   duration: '30 דקות', sets: 'הליכה פעילה',  icon: '🚶', trackId: 'cardio-walk',      isCombat: false },
-                    { name: 'מואי תאי',     category: 'לחימה',  intensity: 'גבוה',   duration: '15 דקות', sets: 'סשן מלא',      icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
+                    { id: 'pushups',  category: 'strength',  intensity: 'בינוני', icon: '💪', trackId: 'strength-pushups', isCombat: false },
+                    { id: 'run',      category: 'endurance', intensity: 'גבוה',   icon: '🏃', trackId: 'cardio-run',       isCombat: false },
+                    { id: 'squats',   category: 'strength',  intensity: 'בינוני', icon: '🦵', trackId: 'strength-squats',  isCombat: false },
+                    { id: 'boxing',   category: 'combat',    intensity: 'גבוה',   icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
+                    { id: 'pullups',  category: 'strength',  intensity: 'גבוה',   icon: '🏋️', trackId: 'strength-pullups', isCombat: false },
+                    { id: 'walk',     category: 'endurance', intensity: 'נמוך',   icon: '🚶', trackId: 'cardio-walk',      isCombat: false },
+                    { id: 'muaythai', category: 'combat',    intensity: 'גבוה',   icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
                   ]
-                  const w = DAILY_WORKOUTS[doy % DAILY_WORKOUTS.length]
+                  const tw = th.workout
+                  const wd = DAILY_WORKOUTS[doy % DAILY_WORKOUTS.length]
+                  const w  = { ...wd, ...tw.items[wd.id], category: tw.category[wd.category] }
                   function startWorkout() {
                     const trackDef = w.trackId ? TRACK_MAP[w.trackId] : null
                     if (w.isCombat) {
@@ -1704,13 +1716,13 @@ export default function Dashboard() {
                   }
                   const intensityColor = w.intensity === 'גבוה' ? '#D85C5C' : w.intensity === 'נמוך' ? '#3FAF7A' : '#D9B34C'
                   return (
-                    <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRight: '3px solid rgba(180,50,50,0.45)', borderRadius: 14, padding: '1rem' }}>
+                    <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderInlineStart: '3px solid rgba(180,50,50,0.45)', borderRadius: 14, padding: '1rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.65rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}>
                           <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(180,50,50,0.12)', border: '1px solid rgba(180,50,50,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', flexShrink: 0 }}>
                             {w.icon}
                           </div>
-                          <span style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>אימון יומי</span>
+                          <span style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{tw.label}</span>
                         </div>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', alignItems: 'center' }}>
                           <span style={{ background: 'rgba(255,255,255,0.05)', color: '#A4A6AD', fontSize: '0.58rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 5 }}>{w.category}</span>
@@ -1723,7 +1735,7 @@ export default function Dashboard() {
                       </div>
                       <div style={{ color: workoutDoneToday ? '#71717A' : '#F4F1E8', fontWeight: 700, fontSize: '0.93rem', marginBottom: '0.2rem' }}>{w.name}</div>
                       <div style={{ color: '#71717A', fontSize: '0.68rem', marginBottom: '0.05rem' }}>{w.duration} · {w.sets}</div>
-                      <div style={{ color: '#71717A', fontSize: '0.65rem', marginBottom: '0.75rem' }}>השבוע: {weeklyWorkoutCount}/7 אימונים</div>
+                      <div style={{ color: '#71717A', fontSize: '0.65rem', marginBottom: '0.75rem' }}>{fmt(tw.thisWeek, { n: weeklyWorkoutCount })}</div>
                       <button
                         onClick={workoutDoneToday ? undefined : startWorkout}
                         disabled={workoutDoneToday}
@@ -1735,9 +1747,9 @@ export default function Dashboard() {
                           color: workoutDoneToday ? '#3FAF7A' : '#A4A6AD',
                           fontSize: '0.85rem', fontWeight: 800, cursor: workoutDoneToday ? 'default' : 'pointer', minHeight: 44,
                         }}
-                        aria-label={workoutDoneToday ? 'אימון הושלם' : `התחל ${w.name}`}
+                        aria-label={workoutDoneToday ? tw.doneAria : fmt(tw.startAria, { name: w.name })}
                       >
-                        {workoutDoneToday ? '✓ אימון הושלם' : 'התחל אימון ←'}
+                        {workoutDoneToday ? tw.done : tw.start}
                       </button>
                     </div>
                   )
@@ -1756,10 +1768,10 @@ export default function Dashboard() {
                     aria-expanded={showMyRoutine}
                   >
                     <span style={{ transition: 'transform 0.2s', display: 'inline-block', transform: showMyRoutine ? 'rotate(90deg)' : 'rotate(0deg)', fontSize: '0.6rem' }}>▶</span>
-                    השגרה שלי
+                    {th.routine.title}
                     {dailyTriggers.length > 0 && (
-                      <span style={{ marginRight: 'auto', color: allDone ? '#3FAF7A' : 'rgba(241,245,249,0.25)', fontSize: '0.68rem', fontWeight: 700 }}>
-                        {doneCount}/{dailyTriggers.length} הרגלים היום
+                      <span style={{ marginInlineStart: 'auto', color: allDone ? '#3FAF7A' : 'rgba(241,245,249,0.25)', fontSize: '0.68rem', fontWeight: 700 }}>
+                        {fmt(th.routine.countToday, { done: doneCount, total: dailyTriggers.length })}
                       </span>
                     )}
                   </button>
@@ -1769,9 +1781,9 @@ export default function Dashboard() {
 
                 {/* Habits section — teal accent */}
                 {(triggers.length > 0 || !activeTrack) && (
-                  <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRight: '3px solid rgba(52,140,122,0.45)', borderRadius: 14, overflow: 'hidden' }}>
+                  <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderInlineStart: '3px solid rgba(52,140,122,0.45)', borderRadius: 14, overflow: 'hidden' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.85rem 1rem 0' }}>
-                      <span style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 800 }}>ההרגלים שלי</span>
+                      <span style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 800 }}>{th.routine.myHabits}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         {dailyTriggers.length > 0 && (
                           <span style={{ color: allDone ? '#3FAF7A' : '#A4A6AD', fontSize: '0.72rem', fontWeight: 700, border: `1px solid ${allDone ? 'rgba(63,175,122,0.3)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 6, padding: '0.1rem 0.4rem' }}>
@@ -1779,7 +1791,7 @@ export default function Dashboard() {
                           </span>
                         )}
                         {triggers.filter(t => !t.archived).length < MAX_ACTIVE_HABITS && (
-                          <button onClick={() => setShowHabitFlow(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, color: '#A4A6AD', fontSize: '0.7rem', fontWeight: 700, padding: '0.18rem 0.55rem', cursor: 'pointer' }} aria-label="הוסף הרגל">+ הוסף</button>
+                          <button onClick={() => setShowHabitFlow(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, color: '#A4A6AD', fontSize: '0.7rem', fontWeight: 700, padding: '0.18rem 0.55rem', cursor: 'pointer' }} aria-label={th.routine.addAria}>{th.routine.add}</button>
                         )}
                       </div>
                     </div>
@@ -1797,10 +1809,10 @@ export default function Dashboard() {
                         const done       = weekly ? (doneToday || weekDone >= target) : doneToday
                         const completing = completingId === tr.id
                         const habitStreak = habitStreaks[tr.id] ?? 0
-                        const streakLabel = habitStreak === 1 ? 'יום אחד ברצף' : habitStreak === 2 ? 'יומיים ברצף' : habitStreak > 2 ? `${habitStreak} ימים ברצף` : ''
+                        const streakLabel = habitStreak > 0 ? plural(th.streak, habitStreak) : ''
                         const habitSubtitle = weekly
-                          ? (weekDone >= target ? `הושלם השבוע ✓ · ${weekDone}/${target}` : `${weekDone}/${target} השבוע${doneToday ? ' · סומן היום' : ''}`)
-                          : done ? (streakLabel || 'הושלם') : (streakLabel || tr.habit)
+                          ? (weekDone >= target ? fmt(th.routine.weekDone, { done: weekDone, target }) : fmt(th.routine.weekProgress, { done: weekDone, target }) + (doneToday ? th.routine.markedToday : ''))
+                          : done ? (streakLabel || th.routine.done) : (streakLabel || tr.habit)
                         return (
                           <div
                             key={tr.id}
@@ -1834,7 +1846,7 @@ export default function Dashboard() {
                                 {habitSubtitle}
                               </div>
                               {weekly && (
-                                <div aria-label={`${weekDone} מתוך ${target} השבוע · ${frequencyLabel(tr)}`} style={{ display: 'flex', gap: '0.25rem', marginTop: '0.4rem' }}>
+                                <div aria-label={fmt(th.routine.weekAria, { done: weekDone, target, freq: frequencyLabel(tr, tAll.habitSchedule) })} style={{ display: 'flex', gap: '0.25rem', marginTop: '0.4rem' }}>
                                   {Array.from({ length: target }, (_, k) => (
                                     <span key={k} style={{ width: 14, height: 4, borderRadius: 99, background: k < weekDone ? (weekDone >= target ? '#3FAF7A' : '#D9B34C') : 'rgba(255,255,255,0.1)' }} />
                                   ))}
@@ -1844,7 +1856,7 @@ export default function Dashboard() {
                             <button
                               onClick={e => { e.stopPropagation(); setEditHabit(tr) }}
                               style={{ background: 'none', border: 'none', color: '#71717A', cursor: 'pointer', padding: '0.3rem', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-                              aria-label="ערוך הרגל"
+                              aria-label={th.routine.editAria}
                             >
                               <PencilLine size={15} />
                             </button>
@@ -1852,14 +1864,14 @@ export default function Dashboard() {
                         )
                       })}
                       {triggers.length === 0 && (
-                        <button onClick={() => setShowHabitFlow(true)} style={{ width: '100%', padding: '1.1rem', background: 'transparent', border: 'none', color: '#71717A', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} aria-label="הוסף הרגל ראשון">
-                          + הוסף הרגל ראשון
+                        <button onClick={() => setShowHabitFlow(true)} style={{ width: '100%', padding: '1.1rem', background: 'transparent', border: 'none', color: '#71717A', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} aria-label={th.routine.addFirstAria}>
+                          {th.routine.addFirst}
                         </button>
                       )}
                     </div>
                     {triggers.length > MAX_ACTIVE_HABITS && (
                       <div style={{ textAlign: 'center', padding: '0.5rem 0.5rem 0.75rem', color: '#71717A', fontSize: '0.68rem' }}>
-                        +{triggers.length - MAX_ACTIVE_HABITS} הרגלים נוספים — ניהול בפרופיל
+                        {fmt(th.routine.more, { n: triggers.length - MAX_ACTIVE_HABITS })}
                       </div>
                     )}
                   </div>
@@ -1870,9 +1882,9 @@ export default function Dashboard() {
                   <div style={{ padding: '0.7rem 1rem', background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
                     <div>
                       <div style={{ color: '#A4A6AD', fontSize: '0.8rem', fontWeight: 700 }}>
-                        {getIncompleteCount(dailyTriggers, checkins) === 1 ? 'נשאר לך הרגל אחד להיום' : `נשארו לך ${getIncompleteCount(dailyTriggers, checkins)} הרגלים להיום`}
+                        {plural(th.routine.left, getIncompleteCount(dailyTriggers, checkins))}
                       </div>
-                      <div style={{ color: '#71717A', fontSize: '0.68rem', marginTop: '0.15rem' }}>אפשר להשלים אותו כשמתאים לך.</div>
+                      <div style={{ color: '#71717A', fontSize: '0.68rem', marginTop: '0.15rem' }}>{th.routine.leftSub}</div>
                     </div>
                     <span style={{ color: '#71717A', fontSize: '0.75rem' }}>💙</span>
                   </div>
@@ -1942,7 +1954,7 @@ export default function Dashboard() {
               <WeekStrip activityLog={profile?.activityLog} />
               {/* Surprise Mission — purple accent wrapper (moved from Home) */}
               {FEATURES.surpriseMission && !isGuest && (
-                <div style={{ borderRight: '3px solid rgba(139,92,246,0.4)', borderRadius: 14, overflow: 'hidden' }}>
+                <div style={{ borderInlineStart: '3px solid rgba(139,92,246,0.4)', borderRadius: 14, overflow: 'hidden' }}>
                   <SurpriseMissionCard
                     enabledCategories={profile?.surpriseCategoryPrefs || DEFAULT_ENABLED_CATEGORIES}
                     isGuest={isGuest}
@@ -2001,7 +2013,7 @@ export default function Dashboard() {
               {/* XP + level summary */}
               <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem' }}>
                 <div style={{ flex: 1, background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '0.7rem 0.9rem' }}>
-                  <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>רמה</div>
+                  <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>{th.profile.level}</div>
                   <div style={{ color: '#D9B34C', fontWeight: 900, fontSize: '1.4rem', lineHeight: 1 }}>{getLevel(xp)}</div>
                 </div>
                 <div style={{ flex: 1, background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '0.7rem 0.9rem' }}>
@@ -2009,7 +2021,7 @@ export default function Dashboard() {
                   <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>{xp.toLocaleString()}</div>
                 </div>
                 <div style={{ flex: 1, background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '0.7rem 0.9rem' }}>
-                  <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>רצף</div>
+                  <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>{th.profile.streak}</div>
                   <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>{streak}</div>
                 </div>
               </div>
@@ -2054,7 +2066,7 @@ export default function Dashboard() {
                       >
                         {cat.emoji} {cat.label}
                         {cat.id === 'dating' && !enabled && (
-                          <span style={{ fontSize: '0.6rem', color: '#71717A', marginRight: '0.3rem' }}> (לבחירתך)</span>
+                          <span style={{ fontSize: '0.6rem', color: '#71717A', marginInlineStart: '0.3rem' }}> (לבחירתך)</span>
                         )}
                       </button>
                     )
@@ -2130,10 +2142,10 @@ export default function Dashboard() {
         }}
       >
         {[
-          { id: 'home',     Icon: Home,       label: 'היום'      },
-          { id: 'workouts', Icon: Dumbbell,   label: 'אימונים'   },
-          { id: 'progress', Icon: TrendingUp, label: 'התקדמות'   },
-          { id: 'profile',  Icon: User,       label: 'פרופיל'    },
+          { id: 'home',     Icon: Home,       label: th.tabs.home     },
+          { id: 'workouts', Icon: Dumbbell,   label: th.tabs.workouts },
+          { id: 'progress', Icon: TrendingUp, label: th.tabs.progress },
+          { id: 'profile',  Icon: User,       label: th.tabs.profile  },
         ].map(({ id, Icon, label }) => {
           const active = activeTab === id
           return (
@@ -2282,7 +2294,7 @@ export default function Dashboard() {
           workout={mtPreview}
           levelNum={mtPreview.level}
           trainingOptions={MT_TRAINING_OPTIONS.filter(opt => (mtPreview.supportedModes ?? ['shadow', 'bag']).includes(opt.id))}
-          bagWarningLabel="🦵 לשק כבד: רצועות וכפפות חובה. אין מרפקים על שק רגיל."
+          bagWarningLabel={th.combat.bagWarning}
           onStart={trainingType => { setMtActive({ workout: mtPreview, trainingType, workoutMode: 'regular' }); setMtPreview(null) }}
           onInstant={() => { setMtActive({ workout: INSTANT_MT_WORKOUT, trainingType: 'shadow', workoutMode: 'instant' }); setMtPreview(null) }}
           onBack={() => { setMtPreview(null); setShowMuayThaiPath(true) }}
@@ -2329,7 +2341,7 @@ export default function Dashboard() {
       {mtCompletion && (
         <FullScreen><CombatCompletion
           disciplineEmoji="🦵"
-          completionTitle="האימון הושלם!"
+          completionTitle={th.combat.complete}
           levels={MT_LEVELS}
           reflectionOptions={MT_REFLECTION_OPTIONS}
           workout={mtCompletion.workout}
@@ -2437,10 +2449,10 @@ export default function Dashboard() {
             <span style={{ fontSize: '1.1rem', animation: 'cam-pulse 1.5s ease infinite' }}>🏃‍♂️</span>
             <span style={{ color: '#F5C518', fontWeight: 900, fontSize: '1rem', fontVariantNumeric: 'tabular-nums', letterSpacing: '0.04em' }}>{m}:{s}</span>
             {liveCardio.distance > 0 && (
-              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 700 }}>{liveCardio.distance.toFixed(2)} ק"מ</span>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 700 }}>{liveCardio.distance.toFixed(2)} {th.liveCardio.km}</span>
             )}
-            <span style={{ flex: 1, color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem' }}>{liveCardio.trackName || 'ריצה פעילה'}</span>
-            <span style={{ color: 'rgba(232,232,232,0.5)', fontSize: '0.7rem', fontWeight: 700 }}>הרחב ←</span>
+            <span style={{ flex: 1, color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem' }}>{liveCardio.trackName || th.liveCardio.active}</span>
+            <span style={{ color: 'rgba(232,232,232,0.5)', fontSize: '0.7rem', fontWeight: 700 }}>{th.liveCardio.expand}</span>
           </div>
         )
       })()}
@@ -2506,13 +2518,13 @@ export default function Dashboard() {
               {levelUpModal}
             </div>
             <div style={{ color: '#f1f5f9', fontSize: '1.4rem', fontWeight: 900, marginTop: '0.7rem', marginBottom: '1.8rem' }}>
-              רמה {levelUpModal}
+              {fmt(th.levelUp.level, { n: levelUpModal })}
             </div>
             <div style={{ width: 200, margin: '0 auto 0.6rem', height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 99, overflow: 'hidden' }}>
               <div style={{ height: '100%', width: `${Math.round((getLevelXP(xp) / XP.PER_LEVEL) * 100)}%`, background: 'linear-gradient(90deg,#D4A017,#F5C518)', borderRadius: 99, animation: 'xp-fill 0.9s 0.4s ease both' }} />
             </div>
-            <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.74rem' }}>{toNext} XP לרמה הבאה</div>
-            <div style={{ marginTop: '2.5rem', color: 'rgba(241,245,249,0.18)', fontSize: '0.65rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>לחץ בכל מקום להמשך</div>
+            <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.74rem' }}>{fmt(th.levelUp.toNext, { n: toNext })}</div>
+            <div style={{ marginTop: '2.5rem', color: 'rgba(241,245,249,0.18)', fontSize: '0.65rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>{th.levelUp.tap}</div>
           </div>
         </div>
       )}
