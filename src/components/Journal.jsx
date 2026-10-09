@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { ChevronRight, Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
+import { BackChevron } from './DirChevron'
+import { useLang } from '../context/LangContext'
+import { fmt, localeFor } from '../i18n/fmt'
 import { subscribeEntries, addEntry, updateEntry, deleteEntry, firstLine, isEmptyEntry, MAX_TEXT_LEN, MAX_ANSWER_LEN } from '../services/journalService'
 import { addTask } from '../services/myTasksService'
 import { track } from '../services/analytics'
@@ -14,14 +17,12 @@ const C = {
   ok: '#3FAF7A', danger: '#D85C5C',
 }
 
-const Q_IMPORTANT = 'מה הכי חשוב לי מכל זה ולמה?'
-const Q_STEP      = 'מה הצעד הכי קטן שאני יכול לעשות היום?'
 const EMPTY = { text: '', important: '', step: '' }
 
-function formatDate(key) {
+function formatDate(key, lang) {
   const [y, m, d] = String(key || '').split('-').map(Number)
   if (!y) return ''
-  return new Date(y, m - 1, d).toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' })
+  return new Date(y, m - 1, d).toLocaleDateString(localeFor(lang), { weekday: 'long', day: 'numeric', month: 'long' })
 }
 
 const fieldStyle = {
@@ -50,7 +51,7 @@ function PrimaryButton({ children, disabled, onClick }) {
   )
 }
 
-// done: disabled but showing a success state (e.g. "נוסף ✓") — keep it green, not greyed out.
+// done: disabled but showing a success state (e.g. "Added ✓") — keep it green, not greyed out.
 function SecondaryButton({ children, disabled, done, onClick, color = C.accent }) {
   const muted = disabled && !done
   return (
@@ -67,6 +68,8 @@ function SecondaryButton({ children, disabled, done, onClick, color = C.accent }
 }
 
 export default function Journal({ uid, onClose }) {
+  const { lang, t } = useLang()
+  const tj = t.journal, tc = t.common
   const [entries,  setEntries]  = useState([])
   const [view,     setView]     = useState('write')   // 'write' | 'list' | 'entry'
   const [openId,   setOpenId]   = useState(null)      // entry shown in 'entry' view
@@ -134,10 +137,10 @@ export default function Journal({ uid, onClose }) {
     } catch { setError('save') }
   }
 
-  const title = view === 'list' ? 'רשומות קודמות' : view === 'entry' ? formatDate(openEntry?.date) : editId ? 'עריכת רשומה' : 'הראש שלי'
+  const title = view === 'list' ? tj.listTitle : view === 'entry' ? formatDate(openEntry?.date, lang) : editId ? tj.editTitle : tj.title
 
   return (
-    <div dir="rtl" style={{ minHeight: '100%', background: C.bg, color: C.text, direction: 'rtl' }}>
+    <div style={{ minHeight: '100%', background: C.bg, color: C.text }}>
       {/* Header */}
       <div style={{
         position: 'sticky', top: 0, zIndex: 1, background: C.bg,
@@ -145,8 +148,8 @@ export default function Journal({ uid, onClose }) {
         padding: 'calc(env(safe-area-inset-top, 0px) + 0.5rem) 0.5rem 0.5rem',
         borderBottom: '1px solid rgba(255,255,255,0.05)',
       }}>
-        <button onClick={goBack} aria-label="חזור" style={{ background: 'none', border: 'none', color: C.muted, cursor: 'pointer', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
-          <ChevronRight size={22} />
+        <button onClick={goBack} aria-label={tc.back} style={{ background: 'none', border: 'none', color: C.muted, cursor: 'pointer', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+          <BackChevron size={22} />
         </button>
         <span style={{ flex: 1, minWidth: 0, fontSize: '1rem', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</span>
       </div>
@@ -154,7 +157,7 @@ export default function Journal({ uid, onClose }) {
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '1rem 1rem calc(env(safe-area-inset-bottom, 0px) + 2rem)' }}>
         {error && (
           <div role="alert" style={{ color: C.danger, fontSize: '0.78rem', fontWeight: 600, marginBottom: '0.75rem' }}>
-            {error === 'load' ? 'לא הצלחנו לטעון את היומן' : error === 'task' ? 'לא הצלחנו להוסיף למשימות — נסה שוב' : 'לא הצלחנו לשמור — נסה שוב'}
+            {error === 'load' ? tj.errorLoad : error === 'task' ? tc.errorTask : tc.errorSave}
           </div>
         )}
 
@@ -164,50 +167,47 @@ export default function Journal({ uid, onClose }) {
             <textarea
               value={form.text}
               onChange={set('text')}
-              placeholder="כתוב כל מה שעובר לך בראש…"
-              aria-label="כתיבה חופשית"
+              placeholder={tj.placeholder}
+              aria-label={tj.freeAria}
               maxLength={MAX_TEXT_LEN}
               rows={9}
-              dir="rtl"
               style={{ ...fieldStyle, minHeight: 200 }}
               onFocus={focusOn} onBlur={focusOff}
             />
 
-            <label htmlFor="journal-important" style={labelStyle}>{Q_IMPORTANT}</label>
+            <label htmlFor="journal-important" style={labelStyle}>{tj.qImportant}</label>
             <textarea
               id="journal-important"
               value={form.important}
               onChange={set('important')}
               maxLength={MAX_ANSWER_LEN}
               rows={3}
-              dir="rtl"
               style={fieldStyle}
               onFocus={focusOn} onBlur={focusOff}
             />
 
-            <label htmlFor="journal-step" style={labelStyle}>{Q_STEP}</label>
+            <label htmlFor="journal-step" style={labelStyle}>{tj.qStep}</label>
             <textarea
               id="journal-step"
               value={form.step}
               onChange={set('step')}
               maxLength={MAX_ANSWER_LEN}
               rows={2}
-              dir="rtl"
               style={fieldStyle}
               onFocus={focusOn} onBlur={focusOff}
             />
 
             <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.75rem' }}>
               <SecondaryButton onClick={handleAddTask} disabled={!stepText || addedStep === stepText} done={!!stepText && addedStep === stepText}>
-                {stepText && addedStep === stepText ? 'נוסף ✓' : 'הוסף למשימות שלי'}
+                {stepText && addedStep === stepText ? tc.added : tc.addToTasks}
               </SecondaryButton>
             </div>
 
             <div style={{ display: 'flex', gap: '0.6rem', marginTop: '1.5rem' }}>
-              <PrimaryButton onClick={handleSave} disabled={formEmpty}>{editId ? 'שמור שינויים' : 'שמור'}</PrimaryButton>
+              <PrimaryButton onClick={handleSave} disabled={formEmpty}>{editId ? tc.saveChanges : tc.save}</PrimaryButton>
             </div>
             {saved && (
-              <div role="status" style={{ color: C.ok, fontSize: '0.8rem', fontWeight: 700, textAlign: 'center', marginTop: '0.6rem' }}>נשמר ✓</div>
+              <div role="status" style={{ color: C.ok, fontSize: '0.8rem', fontWeight: 700, textAlign: 'center', marginTop: '0.6rem' }}>{tc.saved}</div>
             )}
 
             {!editId && entries.length > 0 && (
@@ -215,7 +215,7 @@ export default function Journal({ uid, onClose }) {
                 onClick={() => { setSaved(false); setView('list') }}
                 style={{ display: 'block', margin: '1.75rem auto 0', background: 'none', border: 'none', color: C.muted, fontSize: '0.85rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer', minHeight: 44, padding: '0 1rem' }}
               >
-                רשומות קודמות ({entries.length})
+                {fmt(tj.pastCount, { n: entries.length })}
               </button>
             )}
           </>
@@ -224,7 +224,7 @@ export default function Journal({ uid, onClose }) {
         {/* ── Past entries ── */}
         {view === 'list' && (
           entries.length === 0 ? (
-            <div style={{ color: C.faint, fontSize: '0.88rem', textAlign: 'center', marginTop: '2rem' }}>עוד אין רשומות</div>
+            <div style={{ color: C.faint, fontSize: '0.88rem', textAlign: 'center', marginTop: '2rem' }}>{tj.empty}</div>
           ) : (
             <div style={{ background: C.surface, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, overflow: 'hidden' }}>
               {entries.map((e, i) => (
@@ -232,12 +232,12 @@ export default function Journal({ uid, onClose }) {
                   key={e.id}
                   onClick={() => { setOpenId(e.id); setConfirmDelete(false); setView('entry') }}
                   style={{
-                    display: 'block', width: '100%', textAlign: 'right', cursor: 'pointer',
+                    display: 'block', width: '100%', textAlign: 'start', cursor: 'pointer',
                     background: 'none', border: 'none', borderTop: i > 0 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                     padding: '0.8rem 1rem', fontFamily: 'inherit', minHeight: 56,
                   }}
                 >
-                  <div style={{ color: C.accent, fontSize: '0.72rem', fontWeight: 700, marginBottom: '0.2rem' }}>{formatDate(e.date)}</div>
+                  <div style={{ color: C.accent, fontSize: '0.72rem', fontWeight: 700, marginBottom: '0.2rem' }}>{formatDate(e.date, lang)}</div>
                   <div style={{ color: C.text, fontSize: '0.9rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{firstLine(e)}</div>
                 </button>
               ))}
@@ -248,7 +248,7 @@ export default function Journal({ uid, onClose }) {
         {/* ── Single entry ── */}
         {view === 'entry' && (
           !openEntry ? (
-            <div style={{ color: C.faint, fontSize: '0.88rem', textAlign: 'center', marginTop: '2rem' }}>הרשומה לא נמצאה</div>
+            <div style={{ color: C.faint, fontSize: '0.88rem', textAlign: 'center', marginTop: '2rem' }}>{tj.notFound}</div>
           ) : (
             <>
               {openEntry.text && (
@@ -256,23 +256,23 @@ export default function Journal({ uid, onClose }) {
               )}
               {openEntry.important && (
                 <>
-                  <div style={{ ...labelStyle, color: C.accent, fontSize: '0.82rem' }}>{Q_IMPORTANT}</div>
+                  <div style={{ ...labelStyle, color: C.accent, fontSize: '0.82rem' }}>{tj.qImportant}</div>
                   <p style={{ margin: 0, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', fontSize: '0.95rem', lineHeight: 1.6 }}>{openEntry.important}</p>
                 </>
               )}
               {openEntry.step && (
                 <>
-                  <div style={{ ...labelStyle, color: C.accent, fontSize: '0.82rem' }}>{Q_STEP}</div>
+                  <div style={{ ...labelStyle, color: C.accent, fontSize: '0.82rem' }}>{tj.qStep}</div>
                   <p style={{ margin: 0, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', fontSize: '0.95rem', lineHeight: 1.6 }}>{openEntry.step}</p>
                 </>
               )}
 
               <div style={{ display: 'flex', gap: '0.6rem', marginTop: '2rem' }}>
                 <SecondaryButton onClick={() => startEdit(openEntry)}>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}><Pencil size={15} /> ערוך</span>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}><Pencil size={15} /> {tc.edit}</span>
                 </SecondaryButton>
                 <SecondaryButton onClick={() => handleDelete(openEntry)} color={C.danger}>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}><Trash2 size={15} /> {confirmDelete ? 'בטוח? מחק' : 'מחק'}</span>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}><Trash2 size={15} /> {confirmDelete ? tj.confirmDelete : tj.delete}</span>
                 </SecondaryButton>
               </div>
             </>
