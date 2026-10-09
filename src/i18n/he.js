@@ -65,6 +65,7 @@ const he = {
     stepOf: '{n} מתוך {total}',
     habitArrow: '←',
   },
+  social: { aria: 'PRIME ב-{name}' },
   firstWelcome: {
     title: 'מה יש לך בראש?',
     line1: 'תוציא הכל. בלי פילטר. רק אתה רואה.',

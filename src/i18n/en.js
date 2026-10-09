@@ -65,6 +65,7 @@ const en = {
     stepOf: '{n} of {total}',
     habitArrow: '→',
   },
+  social: { aria: 'PRIME on {name}' },
   firstWelcome: {
     title: "What's on your mind?",
     line1: 'Let it all out. No filter. Only you can see it.',

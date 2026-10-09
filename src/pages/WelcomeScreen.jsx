@@ -129,6 +129,7 @@ export default function WelcomeScreen() {
       {englishEnabled && (
         <button
           onClick={() => setLang(isHe ? 'en' : 'he')}
+          lang={isHe ? 'en' : 'he'}
           style={{ position: 'absolute', top: '1.25rem', insetInlineStart: '1.25rem', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'rgba(241,245,249,0.7)', fontSize: '0.78rem', fontWeight: 700, padding: '0.35rem 0.65rem', cursor: 'pointer', letterSpacing: '0.03em' }}
         >
           {t.welcome.langToggle}
