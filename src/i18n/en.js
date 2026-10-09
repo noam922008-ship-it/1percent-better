@@ -52,7 +52,7 @@ const en = {
     goals: { trading: 'Trading', fitness: 'Fitness', learning: 'Learning', mindful: 'Mindfulness', work: 'Deep work', creative: 'Creativity' },
     cue:      'When / cue',
     habit:    'Small habit to attach',
-    time:     'Time',
+    time:     'Cue time',
     timeOpt:  '(optional)',
     note:     'Personal note',
     optional: '(optional)',

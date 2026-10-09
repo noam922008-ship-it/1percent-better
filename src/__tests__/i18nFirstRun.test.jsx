@@ -96,6 +96,13 @@ describe('Hebrew stays as it was', () => {
     expect(screen.getByText('👁 המשך כאורח')).toBeInTheDocument()
     expect(screen.getByText('או')).toBeInTheDocument()
   })
+  it('Setup talks about habits, not the old "focus trigger" feature', () => {
+    const o = he.onboarding
+    expect([o.goal.sub, o.trigger1.title, o.trigger2.title, o.triggerLabel]).toEqual([
+      'נתאים את ההרגלים בהתאם.', 'הגדר את ההרגל הראשון שלך', 'הגדר את ההרגל השני שלך', 'הרגל',
+    ])
+    expect(JSON.stringify({ ...o, time: '' })).not.toMatch(/טריגר/)   // time = the cue's time (unused modal)
+  })
   it('first welcome', () => {
     lang.current = 'he'
     render(<FirstWelcome onStart={() => {}} onSkip={() => {}} />)

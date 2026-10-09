@@ -28,14 +28,22 @@ How it behaves:
 ## Phase 2 — first-run flow: Welcome, Setup, Home (done, 2026-10-09)
 
 Same branch. Commits: `4c4f348` lint rule · `bf5b819` Welcome · `326d209` Setup + habit schedule + first welcome ·
-`a931807` Home (Dashboard) · `ce7c307` tests.
+`a931807` Home (Dashboard) · `ce7c307` tests · `497b1a6` workout intensity ids · Setup Hebrew wording (below).
 
 - **Strings:** new groups in `he.js` / `en.js`: `welcome.*` (auth errors, email form, guest, legal modal), `social`,
   `firstWelcome`, `habitSchedule` (incl. day letters + "X times a week"), `home.*` (greeting, guest banner, ring,
   streaks, daily workout card keyed by workout id, habits card, edit-habit + set-summary modals, tab bar, level-up,
   live cardio bar, combat props). Stale "Focus Trigger" `dashboard.*` keys removed.
-- **English copy** written from the current Hebrew (habits, not triggers). **Hebrew text unchanged** — setup still says
-  "טריגר" in Hebrew (`onboarding.trigger1/2`, `triggerLabel`, `goal.sub`); rewording it is the owner's call.
+- **English copy** written from the current Hebrew (habits, not triggers). Hebrew text unchanged, except Setup's
+  four "טריגר" strings, reworded with the owner's OK:
+  `goal.sub` נתאים את הטריגרים בהתאם. → נתאים את ההרגלים בהתאם. · `trigger1.title` הגדר את טריגר המיקוד הראשון →
+  הגדר את ההרגל הראשון שלך · `trigger2.title` הגדר את טריגר המיקוד השני → הגדר את ההרגל השני שלך ·
+  `triggerLabel` טריגר → הרגל.
+- **"Trigger" as a cue stays.** Where "טריגר" means the cue that starts a habit (edit-habit popup
+  "כשאני... (הטריגר)" — that field edits `trigger.cue`; add-habit step "הוסף טריגר" — picks when; `onboarding.time`
+  "זמן הטריגר") it's a real concept, not the old feature name. English says **cue** there ("When I… (the cue)",
+  "Cue time"), never "habit". Only "טריגר מיקוד" as the name of the whole habit (`dashboard.modalTitle`, unused modal)
+  became "New habit".
 - **Helpers:** `src/i18n/fmt.js` — `fmt(str, vars)` for `{n}`-style placeholders, `plural({ one, two, many }, n)` for
   Hebrew's dual ("יומיים"). `frequencyLabel(tr, t.habitSchedule)` (Hebrew by default). `LangContext` defaults to
   Hebrew when there's no provider (components rendered alone in tests).
@@ -54,7 +62,6 @@ Left on purpose in these screens (still Hebrew, shows as lint warnings):
   `deepTracks` (track day, mission card, "pick a program", tracks archive), `homeXpExtras`, `surpriseMission`.
 - **Never opened today:** `WorkoutLibraryModal`, `GoalTracker` / `GoalEditModal`, `MantraCard`, `AddTriggerModal`
   in `Dashboard.jsx`.
-- **Workout intensity** (`בינוני` / `גבוה` / `נמוך` in `DAILY_WORKOUTS`) — see "Open after Phase 2".
 - **Hebrew keyword lists** in `Dashboard.jsx` (`physical` / `tech` / `finance` / `business`, ~line 730) match what the
   user types, not UI text. **They need English keywords in a later phase**, or English users' input won't match.
 - Child cards Home renders from their own files: My Tasks, "הראש שלי" (Journal), daily lesson, WeekStrip, and the
@@ -62,11 +69,9 @@ Left on purpose in these screens (still Hebrew, shows as lint warnings):
 
 ### Open after Phase 2
 
-- **Workout intensity → ids.** Checked 2026-10-09: intensity is never stored. It lives only in the inline
-  `DAILY_WORKOUTS` constant in `Dashboard.jsx`, where it's shown as a label and picks the label colour. Not in
-  Firestore, localStorage (`ft_workout_log` stores `exerciseId`/`exerciseName`, not intensity), `src/data/`,
-  functions or rules. Switching to `high` / `med` / `low` ids needs no mapping of old values. Waiting for the
-  owner's OK.
+- ~~**Workout intensity → ids**~~ — done (`497b1a6`). Checked first: intensity was never stored (only the inline
+  `DAILY_WORKOUTS` list; not in Firestore, localStorage, `src/data/`, functions or rules), so no mapping of old
+  Hebrew values. Now `high` / `med` / `low` with `t.home.workout.intensity` labels.
 - `exerciseName` in localStorage `ft_workout_log` is now saved in the UI language (`exerciseId` stays stable).
   Nothing in the app reads the log today.
 
@@ -86,12 +91,14 @@ Left on purpose in these screens (still Hebrew, shows as lint warnings):
 ## Next phases (in this order)
 
 1. ~~**Welcome / Setup / Dashboard**~~ — done in Phase 2 (above).
-2. **Home's child cards + other tabs** — My Tasks, "הראש שלי", daily lesson card, WeekStrip, Workouts, Progress,
-   Settings (incl. the `שפה / Language` label); the Hebrew keyword lists in `Dashboard.jsx`.
-3. **Notifications + `lang` on the profile** — in-app (`notificationService.js`) and push (functions already have
+2. **Home's remaining cards** — My Tasks, "הראש שלי" (Journal card + full screen), daily lesson card, WeekStrip.
+   Also the add-habit flow (`HabitCreationFlow`, "הוסף טריגר" → English "Add a cue").
+3. **Workouts tab.**
+4. **Progress and Profile tabs** — incl. Settings' `שפה / Language` label; the Hebrew keyword lists in `Dashboard.jsx`.
+5. **Notifications + `lang` on the profile** — in-app (`notificationService.js`) and push (functions already have
    `he`/`en` copy and read the profile's `lang`); save `lang` to the profile when it changes.
-4. **Legal pages** — privacy policy + terms (`src/data/legal.js`), plus legal review for users abroad.
-5. **Lessons and workouts content** — 35 daily lessons, boxing / Muay Thai drills and paths.
+6. **Legal pages** — privacy policy + terms (`src/data/legal.js`), plus legal review for users abroad.
+7. **Lessons and workouts content** — 35 daily lessons, boxing / Muay Thai drills and paths.
 
 Turn on `FEATURES.english` only after the visible UI is translated and the RTL fixes are done.
 
@@ -127,6 +134,9 @@ translation/review of ~20–25k words and a legal review. Can be split: (1) infr
 - Components use logical properties (`start`/`end`, `inline-start`/`inline-end`) instead of right/left, and
   stop setting `dir="rtl"` themselves. Flex rows flip automatically with `dir`.
 - Direction-carrying icons (ChevronRight for "back", "←" in button labels) are chosen or mirrored by language.
+  **Every chevron / arrow must flip in English** — e.g. the "הראש שלי" card's chevron points left in Hebrew and must
+  point right in English. Arrows inside strings come from `he.js` / `en.js`; icon components need
+  `transform: scaleX(-1)` (or the opposite icon) when `dir` is ltr. Check each screen at 390px in both directions.
 - Dates: `toLocaleDateString(lang === 'he' ? 'he-IL' : 'en-US', …)`.
 
 ## How the user picks a language
