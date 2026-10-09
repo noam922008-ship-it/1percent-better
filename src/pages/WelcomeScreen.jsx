@@ -4,6 +4,7 @@ import SocialLinks from '../components/SocialLinks'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
+import { fmt } from '../i18n/fmt'
 import { loadProfile } from '../services/focusTriggerService'
 
 const S = {
@@ -17,20 +18,13 @@ const S = {
   legal: { color: 'rgba(255,255,255,0.35)', fontSize: '0.72rem', marginTop: '1.5rem', lineHeight: 1.5 },
 }
 
-function emailAuthError(code) {
-  switch (code) {
-    case 'auth/invalid-email':        return 'כתובת אימייל לא תקינה'
-    case 'auth/user-not-found':       return 'לא נמצא חשבון עם אימייל זה'
-    case 'auth/wrong-password':       return 'סיסמה שגויה'
-    case 'auth/invalid-credential':   return 'אימייל או סיסמה שגויים'
-    case 'auth/email-already-in-use': return 'אימייל כבר רשום — נסה להתחבר'
-    case 'auth/weak-password':        return 'הסיסמה חייבת להכיל לפחות 6 תווים'
-    case 'auth/too-many-requests':    return 'יותר מדי ניסיונות — נסה שוב מאוחר יותר'
-    default:                          return 'שגיאה. נסה שוב.'
-  }
+function emailAuthError(code, errors) {
+  return errors[code] || errors.default
 }
 
 function LegalModal({ type, onClose }) {
+  const { t } = useLang()
+  const lm = t.welcome.legalModal
   const isTerms = type === 'terms'
   return (
     <div
@@ -43,7 +37,7 @@ function LegalModal({ type, onClose }) {
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexShrink: 0 }}>
           <span style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '1rem' }}>
-            {isTerms ? '📄 תנאי שימוש' : '🔒 מדיניות פרטיות'}
+            {isTerms ? lm.terms : lm.privacy}
           </span>
           <button
             onClick={onClose}
@@ -52,7 +46,7 @@ function LegalModal({ type, onClose }) {
         </div>
         <div style={{ overflowY: 'auto', flex: 1 }}>
           <LegalContent type={isTerms ? 'terms' : 'privacy'} showTitle={false} />
-          <a href={isTerms ? '/terms' : '/privacy'} style={{ display: 'inline-block', marginTop: '0.75rem', color: '#D9B34C', fontSize: '0.8rem', fontWeight: 700 }}>פתח בעמוד מלא ←</a>
+          <a href={isTerms ? '/terms' : '/privacy'} style={{ display: 'inline-block', marginTop: '0.75rem', color: '#D9B34C', fontSize: '0.8rem', fontWeight: 700 }}>{lm.fullPage}</a>
         </div>
       </div>
     </div>
@@ -71,7 +65,7 @@ export default function WelcomeScreen() {
   const [emailLoading,setEmailLoading]= useState(false)
   const [emailError,  setEmailError]  = useState('')
   const [legalModal,  setLegalModal]  = useState(null) // 'terms' | 'privacy' | null
-  const [ageOk,       setAgeOk]       = useState(false) // "אני מעל 18 ומסכים…" — required before any sign-in
+  const [ageOk,       setAgeOk]       = useState(false) // 18+ and terms checkbox — required before any sign-in
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -95,9 +89,9 @@ export default function WelcomeScreen() {
       if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
         setError('') // user dismissed — not an error
       } else if (code === 'auth/unauthorized-domain') {
-        setError('הדומיין לא מורשה ב-Firebase. הוסף את prime-app-84fe0.web.app תחת Authentication → Authorized Domains.')
+        setError(t.welcome.unauthorizedDomain)
       } else if (code) {
-        setError(`שגיאה: ${code}`)
+        setError(fmt(t.welcome.errorCode, { code }))
       } else {
         setError(t.welcome.error)
       }
@@ -109,13 +103,13 @@ export default function WelcomeScreen() {
     e.preventDefault()
     setEmailError('')
     if (!ageOk) { setEmailError(t.welcome.ageRequired); return }
-    if (!emailVal.trim() || !pwVal) { setEmailError('נא למלא אימייל וסיסמה'); return }
+    if (!emailVal.trim() || !pwVal) { setEmailError(t.welcome.fillEmail); return }
     setEmailLoading(true)
     try {
       if (isSignUp) await registerWithEmail(emailVal.trim(), pwVal)
       else          await loginWithEmail(emailVal.trim(), pwVal)
     } catch (err) {
-      setEmailError(emailAuthError(err.code))
+      setEmailError(emailAuthError(err.code, t.welcome.authErrors))
       setEmailLoading(false)
     }
   }
@@ -135,9 +129,9 @@ export default function WelcomeScreen() {
       {englishEnabled && (
         <button
           onClick={() => setLang(isHe ? 'en' : 'he')}
-          style={{ position: 'absolute', top: '1.25rem', right: '1.25rem', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'rgba(241,245,249,0.7)', fontSize: '0.78rem', fontWeight: 700, padding: '0.35rem 0.65rem', cursor: 'pointer', letterSpacing: '0.03em' }}
+          style={{ position: 'absolute', top: '1.25rem', insetInlineStart: '1.25rem', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'rgba(241,245,249,0.7)', fontSize: '0.78rem', fontWeight: 700, padding: '0.35rem 0.65rem', cursor: 'pointer', letterSpacing: '0.03em' }}
         >
-          {isHe ? 'EN' : 'עב'}
+          {t.welcome.langToggle}
         </button>
       )}
 
@@ -148,7 +142,7 @@ export default function WelcomeScreen() {
 
         <div style={{ marginBottom: '0.5rem' }}>
           {t.welcome.features.map(([icon, text]) => (
-            <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.875rem', marginBottom: '0.55rem', textAlign: isHe ? 'right' : 'left' }}>
+            <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.875rem', marginBottom: '0.55rem', textAlign: 'start' }}>
               <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{icon}</span>
               <span>{text}</span>
             </div>
@@ -156,7 +150,7 @@ export default function WelcomeScreen() {
         </div>
 
         {/* 18+ and terms — one checkbox; every way in stays disabled until it's checked */}
-        <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', textAlign: isHe ? 'right' : 'left', color: 'rgba(241,245,249,0.75)', fontSize: '0.84rem', lineHeight: 1.55, margin: '0.75rem 0 1rem', cursor: 'pointer', minHeight: 44 }}>
+        <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', textAlign: 'start', color: 'rgba(241,245,249,0.75)', fontSize: '0.84rem', lineHeight: 1.55, margin: '0.75rem 0 1rem', cursor: 'pointer', minHeight: 44 }}>
           <input type="checkbox" checked={ageOk} onChange={e => setAgeOk(e.target.checked)} aria-label={t.welcome.ageRequired}
             style={{ width: 20, height: 20, marginTop: 2, flexShrink: 0, accentColor: '#D9B34C', cursor: 'pointer' }} />
           <span>
@@ -185,7 +179,7 @@ export default function WelcomeScreen() {
         {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '1rem 0 0.5rem' }}>
           <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
-          <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.75rem' }}>או</span>
+          <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.75rem' }}>{t.welcome.or}</span>
           <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
         </div>
 
@@ -197,13 +191,13 @@ export default function WelcomeScreen() {
             onMouseEnter={e => { e.currentTarget.style.color = 'rgba(241,245,249,0.7)' }}
             onMouseLeave={e => { e.currentTarget.style.color = 'rgba(241,245,249,0.45)' }}
           >
-            ✉️ {isHe ? 'כניסה עם אימייל' : 'Sign in with Email'}
+            ✉️ {t.welcome.emailMode}
           </button>
         ) : (
           <form onSubmit={handleEmailSubmit} style={{ marginTop: '0.25rem' }}>
             <input
               type="email"
-              placeholder={isHe ? 'אימייל' : 'Email'}
+              placeholder={t.welcome.emailPh}
               value={emailVal}
               onChange={e => { setEmailVal(e.target.value); setEmailError('') }}
               style={inputStyle}
@@ -212,7 +206,7 @@ export default function WelcomeScreen() {
             />
             <input
               type="password"
-              placeholder={isHe ? 'סיסמה (6+ תווים)' : 'Password (6+ chars)'}
+              placeholder={t.welcome.passwordPh}
               value={pwVal}
               onChange={e => { setPwVal(e.target.value); setEmailError('') }}
               style={{ ...inputStyle, marginBottom: '0.75rem' }}
@@ -228,7 +222,7 @@ export default function WelcomeScreen() {
               {emailLoading
                 ? <div style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', animation: 'spin 0.8s linear infinite' }} />
                 : null}
-              {emailLoading ? '...' : isSignUp ? (isHe ? 'צור חשבון' : 'Create Account') : (isHe ? 'כניסה' : 'Sign In')}
+              {emailLoading ? '...' : isSignUp ? t.welcome.createAccount : t.welcome.signInEmail}
             </button>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '0.4rem', marginTop: '0.65rem' }}>
               <button
@@ -236,7 +230,7 @@ export default function WelcomeScreen() {
                 onClick={() => { setIsSignUp(s => !s); setEmailError('') }}
                 style={{ background: 'none', border: 'none', color: 'rgba(165,180,252,0.7)', fontSize: '0.78rem', cursor: 'pointer', padding: 0 }}
               >
-                {isSignUp ? (isHe ? 'כבר יש לי חשבון — כניסה' : 'Already have an account? Sign In') : (isHe ? 'אין לי חשבון — הרשמה' : "Don't have an account? Sign Up")}
+                {isSignUp ? t.welcome.haveAccount : t.welcome.noAccount}
               </button>
               <span style={{ color: 'rgba(255,255,255,0.18)', fontSize: '0.78rem' }}>·</span>
               <button
@@ -244,7 +238,7 @@ export default function WelcomeScreen() {
                 onClick={() => { setEmailMode(false); setEmailError(''); setEmailVal(''); setPwVal('') }}
                 style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.25)', fontSize: '0.78rem', cursor: 'pointer', padding: 0 }}
               >
-                {isHe ? 'ביטול' : 'Cancel'}
+                {t.welcome.cancel}
               </button>
             </div>
           </form>
@@ -257,7 +251,7 @@ export default function WelcomeScreen() {
           onMouseEnter={e => { if (!loading) e.currentTarget.style.color = 'rgba(241,245,249,0.6)' }}
           onMouseLeave={e => { e.currentTarget.style.color = 'rgba(241,245,249,0.38)' }}
         >
-          👁 המשך כאורח
+          👁 {t.welcome.guest}
         </button>
 
         <div style={{ marginTop: '1rem' }}><SocialLinks /></div>
