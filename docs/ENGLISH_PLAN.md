@@ -1,6 +1,7 @@
 # PRIME — English version plan
 
-Status: **Phase 1 (infrastructure) done** on branch `feat/english-phase-1` (2026-10-09) — not merged, not deployed.
+Status: **Phase 1 (infrastructure) and Phase 2 (first-run flow) done** on branch `feat/english-phase-1`
+(2026-10-09) — pushed, not merged, not deployed.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
 
@@ -24,6 +25,51 @@ How it behaves:
   opens the dev app in English.
 - `npm test`: 28 files / 403 tests pass. `npm run build` OK.
 
+## Phase 2 — first-run flow: Welcome, Setup, Home (done, 2026-10-09)
+
+Same branch. Commits: `4c4f348` lint rule · `bf5b819` Welcome · `326d209` Setup + habit schedule + first welcome ·
+`a931807` Home (Dashboard) · `ce7c307` tests.
+
+- **Strings:** new groups in `he.js` / `en.js`: `welcome.*` (auth errors, email form, guest, legal modal), `social`,
+  `firstWelcome`, `habitSchedule` (incl. day letters + "X times a week"), `home.*` (greeting, guest banner, ring,
+  streaks, daily workout card keyed by workout id, habits card, edit-habit + set-summary modals, tab bar, level-up,
+  live cardio bar, combat props). Stale "Focus Trigger" `dashboard.*` keys removed.
+- **English copy** written from the current Hebrew (habits, not triggers). **Hebrew text unchanged** — setup still says
+  "טריגר" in Hebrew (`onboarding.trigger1/2`, `triggerLabel`, `goal.sub`); rewording it is the owner's call.
+- **Helpers:** `src/i18n/fmt.js` — `fmt(str, vars)` for `{n}`-style placeholders, `plural({ one, two, many }, n)` for
+  Hebrew's dual ("יומיים"). `frequencyLabel(tr, t.habitSchedule)` (Hebrew by default). `LangContext` defaults to
+  Hebrew when there's no provider (components rendered alone in tests).
+- **RTL:** in these screens `right` → start, `left` → end (`textAlign: 'start'|'end'`, `marginInline*`,
+  `insetInlineStart`, accent stripes `borderInlineStart`); `FirstWelcome` and `HabitScheduleFields` no longer force
+  `dir="rtl"`. Arrows live inside the strings (`←` in Hebrew, `→` in English). Hebrew screenshots at 390px match `main`
+  (one line differs by anti-aliasing only); English renders ltr with stripes on the left.
+- **ESLint:** `no-restricted-syntax` **warning** for Hebrew in JSX text, string attributes and literals inside `{}`
+  (`src/**/*.jsx`, tests excluded). 1,213 warnings in 63 files before Phase 2 → 1,066 in 59 after.
+- **Tests:** `src/__tests__/i18nFirstRun.test.jsx` — Welcome (email form open), Setup (name → focus → weekly habit →
+  done) and first welcome in English have no Hebrew in text / placeholder / aria-label / title; Hebrew copy unchanged;
+  every key Dashboard reads exists in both files. `npm test`: 29 files / 503 tests.
+
+Left on purpose in these screens (still Hebrew, shows as lint warnings):
+- **Hidden behind `false` flags:** setup energy / time / AI track steps (`setupExtras`, `pathBuilder`); Home
+  `deepTracks` (track day, mission card, "pick a program", tracks archive), `homeXpExtras`, `surpriseMission`.
+- **Never opened today:** `WorkoutLibraryModal`, `GoalTracker` / `GoalEditModal`, `MantraCard`, `AddTriggerModal`
+  in `Dashboard.jsx`.
+- **Workout intensity** (`בינוני` / `גבוה` / `נמוך` in `DAILY_WORKOUTS`) — see "Open after Phase 2".
+- **Hebrew keyword lists** in `Dashboard.jsx` (`physical` / `tech` / `finance` / `business`, ~line 730) match what the
+  user types, not UI text. **They need English keywords in a later phase**, or English users' input won't match.
+- Child cards Home renders from their own files: My Tasks, "הראש שלי" (Journal), daily lesson, WeekStrip, and the
+  Workouts / Progress / Profile (Settings) tabs.
+
+### Open after Phase 2
+
+- **Workout intensity → ids.** Checked 2026-10-09: intensity is never stored. It lives only in the inline
+  `DAILY_WORKOUTS` constant in `Dashboard.jsx`, where it's shown as a label and picks the label colour. Not in
+  Firestore, localStorage (`ft_workout_log` stores `exerciseId`/`exerciseName`, not intensity), `src/data/`,
+  functions or rules. Switching to `high` / `med` / `low` ids needs no mapping of old values. Waiting for the
+  owner's OK.
+- `exerciseName` in localStorage `ft_workout_log` is now saved in the UI language (`exerciseId` stays stable).
+  Nothing in the app reads the log today.
+
 ## Still untranslated after Phase 1 (measured 2026-10-09)
 
 - **Hard-coded Hebrew:** ~5,760 lines in 99 files (excluding `src/i18n/` and tests) — `data/` 3,830, `components/`
@@ -39,12 +85,13 @@ How it behaves:
 
 ## Next phases (in this order)
 
-1. **Welcome / Setup / Dashboard** — extract their strings into `he.js`/`en.js`, rewrite the stale ones, and fix their
-   RTL hard-codes (logical properties, mirrored arrows).
-2. **Notifications + `lang` on the profile** — in-app (`notificationService.js`) and push (functions already have
+1. ~~**Welcome / Setup / Dashboard**~~ — done in Phase 2 (above).
+2. **Home's child cards + other tabs** — My Tasks, "הראש שלי", daily lesson card, WeekStrip, Workouts, Progress,
+   Settings (incl. the `שפה / Language` label); the Hebrew keyword lists in `Dashboard.jsx`.
+3. **Notifications + `lang` on the profile** — in-app (`notificationService.js`) and push (functions already have
    `he`/`en` copy and read the profile's `lang`); save `lang` to the profile when it changes.
-3. **Legal pages** — privacy policy + terms (`src/data/legal.js`), plus legal review for users abroad.
-4. **Lessons and workouts content** — 35 daily lessons, boxing / Muay Thai drills and paths.
+4. **Legal pages** — privacy policy + terms (`src/data/legal.js`), plus legal review for users abroad.
+5. **Lessons and workouts content** — 35 daily lessons, boxing / Muay Thai drills and paths.
 
 Turn on `FEATURES.english` only after the visible UI is translated and the RTL fixes are done.
 
