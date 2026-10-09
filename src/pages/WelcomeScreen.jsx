@@ -61,7 +61,7 @@ function LegalModal({ type, onClose }) {
 
 export default function WelcomeScreen() {
   const { user, authLoading, loginWithGoogle, loginWithEmail, registerWithEmail, loginAsGuest } = useAuth()
-  const { lang, setLang, t } = useLang()
+  const { lang, setLang, t, englishEnabled } = useLang()
   const [loading,     setLoading]     = useState(false)
   const [error,       setError]       = useState('')
   const [emailMode,   setEmailMode]   = useState(false)
@@ -131,13 +131,15 @@ export default function WelcomeScreen() {
 
   return (
     <div style={S.page}>
-      {/* Language toggle */}
-      <button
-        onClick={() => setLang(isHe ? 'en' : 'he')}
-        style={{ position: 'absolute', top: '1.25rem', right: '1.25rem', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'rgba(241,245,249,0.7)', fontSize: '0.78rem', fontWeight: 700, padding: '0.35rem 0.65rem', cursor: 'pointer', letterSpacing: '0.03em' }}
-      >
-        {isHe ? 'EN' : 'עב'}
-      </button>
+      {/* Language toggle — only with English on */}
+      {englishEnabled && (
+        <button
+          onClick={() => setLang(isHe ? 'en' : 'he')}
+          style={{ position: 'absolute', top: '1.25rem', right: '1.25rem', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'rgba(241,245,249,0.7)', fontSize: '0.78rem', fontWeight: 700, padding: '0.35rem 0.65rem', cursor: 'pointer', letterSpacing: '0.03em' }}
+        >
+          {isHe ? 'EN' : 'עב'}
+        </button>
+      )}
 
       <div style={S.card}>
         <div style={S.logo}>⚡</div>

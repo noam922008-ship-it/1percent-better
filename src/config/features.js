@@ -13,5 +13,6 @@ export const FEATURES = {
   pathBuilder:     false, // AI path builder: never auto-opens, no silent background path generation; setup skips the AI track pick
   setupExtras:     false, // setup steps: energy level, time per day, "5 years" vision question
   legacyIntro:     false, // old first-run screens (PrimeOnboarding 1.01³⁶⁵ slides + InitiationFlow) — replaced by FirstWelcome
+  english:         false, // English UI: language detection, Settings picker, welcome EN toggle, ltr. Off = always Hebrew + rtl (dev builds still get it, see i18n/detectLang.js)
   ai:              false, // every Gemini call (coach, path, spark, boxing photo/video analysis): off for launch — the client never calls the function, services fall back to static text, AI-only screens are hidden
 }
