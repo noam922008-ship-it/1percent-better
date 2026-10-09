@@ -1,6 +1,7 @@
 import CombatPathScreen from '../combat/CombatPathScreen'
 import { MT_LEVELS, MT_L1_TECHNIQUES } from '../../data/muayThaiPath'
 import { getMuayThaiState, muayThaiEngine } from '../../utils/muayThaiProgress'
+import { useLang } from '../../context/LangContext'
 
 export default function MuayThaiPathScreen({
   profile,
@@ -11,16 +12,18 @@ export default function MuayThaiPathScreen({
   onQuickHandsElbows,
   quickDuration,
 }) {
+  const { t: tr } = useLang()
+  const tmt = tr.workouts.combat.mt
   const state = getMuayThaiState(profile)
   return (
     <CombatPathScreen
-      title="🦵 מואי תאי — מהיסודות ללוחם"
+      title={tmt.title}
       levels={MT_LEVELS}
       levelOneTechniques={MT_L1_TECHNIQUES}
       state={state}
       engine={muayThaiEngine}
-      freePracticeLabel="תרגול חופשי 🦵"
-      allCompletedLabel="השלמת את כל תכנית המואי תאי!"
+      freePracticeLabel={tmt.free}
+      allCompletedLabel={tmt.allDone}
       onStartWorkout={onStartWorkout}
       onFreeTraining={onFreeTraining}
       onClose={onClose}

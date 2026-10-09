@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useLang } from '../../context/LangContext'
+import { fmt, byLang } from '../../i18n/fmt'
 
 const C = {
   bg:      '#111317',
@@ -11,20 +13,6 @@ const C = {
   green:   '#10b981',
   orange:  '#f97316',
   purple:  '#a78bfa',
-}
-
-const DIFFICULTY_LABEL = {
-  beginner:     'מתחילים',
-  intermediate: 'בינוני',
-  advanced:     'מתקדם',
-}
-
-const ROUND_TYPE_LABEL = {
-  warmup:    'חימום',
-  technique: 'טכניקה',
-  work:      'עבודה',
-  rest:      'מנוחה',
-  cooldown:  'שחרור',
 }
 
 const ROUND_TYPE_COLOR = {
@@ -61,17 +49,18 @@ function TrainingToggle({ value, onChange, options }) {
 }
 
 function RoundStructureRow({ round }) {
+  const { lang, t: tr } = useLang()
   const color  = ROUND_TYPE_COLOR[round.type] ?? C.muted
-  const label  = ROUND_TYPE_LABEL[round.type] ?? round.type
+  const label  = tr.workouts.combat.roundType[round.type] ?? round.type
   const mins   = Math.floor(round.durationSeconds / 60)
   const secs   = round.durationSeconds % 60
   const timeStr = mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `${secs}″`
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', borderBottom: `1px solid ${C.border}`, direction: 'rtl' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', borderBottom: `1px solid ${C.border}` }}>
       <div style={{ width: 4, height: 28, borderRadius: 4, background: color, flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, color: C.text, fontWeight: 500 }}>{round.titleHe}</div>
+        <div style={{ fontSize: 13, color: C.text, fontWeight: 500 }}>{byLang(round, 'title', lang)}</div>
         <div style={{ fontSize: 11, color: C.muted, marginTop: 1 }}>{label}</div>
       </div>
       <div style={{ fontSize: 12, color: C.muted, flexShrink: 0 }}>{timeStr}</div>
@@ -90,6 +79,9 @@ function RoundStructureRow({ round }) {
  * @param {Function} onBack           - Back navigation
  */
 export default function CombatWorkoutPreview({ workout, levelNum, trainingOptions, bagWarningLabel, onStart, onInstant, onBack }) {
+  const { lang, t: tr } = useLang()
+  const tc = tr.workouts.combat
+  const tp = tc.preview
   const [trainingType, setTrainingType] = useState(null)
   const [bagAck, setBagAck] = useState(false)
 
@@ -101,15 +93,15 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
   if (!workout) return null
 
   const workRounds = (workout.rounds ?? []).filter((r) => r.type === 'work')
-  const equipment  = (workout.equipment ?? []).join(' · ')
-  const diffLabel  = DIFFICULTY_LABEL[workout.difficulty] ?? workout.difficulty
+  const equipment  = (workout.equipment ?? []).map((id) => tc.equipment[id] ?? id).join(' · ')
+  const diffLabel  = tc.difficulty[workout.difficulty] ?? workout.difficulty
 
   return (
-    <div style={{ minHeight: '100vh', background: C.bg, color: C.text, direction: 'rtl', fontFamily: 'system-ui, sans-serif', paddingBottom: 32 }}>
+    <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: 'system-ui, sans-serif', paddingBottom: 32 }}>
       {/* Back */}
       <div style={{ padding: '12px 16px 0' }}>
         <button className="btn-tactile" onClick={onBack} style={{ background: 'transparent', border: 'none', color: C.muted, fontSize: 15, cursor: 'pointer', padding: '4px 0', display: 'flex', alignItems: 'center', gap: 6 }}>
-          ← חזרה
+          {tc.backLabel}
         </button>
       </div>
 
@@ -118,25 +110,25 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
             <span style={{ background: C.accent + '22', color: C.accent, borderRadius: 20, padding: '3px 10px', fontSize: 12, fontWeight: 700 }}>
-              רמה {levelNum} · אימון {workout.order}
+              {fmt(tp.levelWorkout, { level: levelNum, n: workout.order })}
             </span>
           </div>
-          <h1 style={{ fontSize: 26, fontWeight: 900, margin: '0 0 8px', lineHeight: 1.2, color: C.text }}>{workout.titleHe}</h1>
-          <p style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.6 }}>{workout.goalHe}</p>
+          <h1 style={{ fontSize: 26, fontWeight: 900, margin: '0 0 8px', lineHeight: 1.2, color: C.text }}>{byLang(workout, 'title', lang)}</h1>
+          <p dir="auto" style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.6 }}>{workout.goalHe}</p>
         </div>
 
         {/* Meta chips */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
-          <MetaChip label={`${workout.estimatedMinutes} דקות`} />
+          <MetaChip label={fmt(tc.minutes, { n: workout.estimatedMinutes })} />
           <MetaChip label={diffLabel} />
           {equipment && <MetaChip label={equipment} />}
-          <MetaChip label="השלמת האימון: עד 30 XP" />
+          <MetaChip label={tp.xpChip} />
         </div>
 
         {/* Training type */}
         <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '16px', marginBottom: 16 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 2 }}>עם מה תתאמן?</div>
-          <div style={{ fontSize: 12, color: C.muted, marginBottom: 0 }}>בחר לפני תחילת האימון</div>
+          <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 2 }}>{tp.withWhat}</div>
+          <div style={{ fontSize: 12, color: C.muted, marginBottom: 0 }}>{tp.chooseFirst}</div>
           <TrainingToggle value={trainingType} onChange={handleTypeChange} options={trainingOptions} />
 
           {trainingType === 'bag' && bagWarningLabel && (
@@ -149,7 +141,7 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
                   onChange={e => setBagAck(e.target.checked)}
                   style={{ width: 18, height: 18, accentColor: C.orange, cursor: 'pointer', flexShrink: 0 }}
                 />
-                <span>קראתי והציוד מוכן</span>
+                <span>{tp.gearReady}</span>
               </label>
             </div>
           )}
@@ -159,8 +151,8 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
         {workout.rounds && workout.rounds.length > 0 && (
           <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '16px', marginBottom: 16 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <span style={{ fontSize: 12, color: C.muted }}>{workRounds.length} סיבובי עבודה</span>
-              <span style={{ fontSize: 15, fontWeight: 700 }}>מבנה האימון</span>
+              <span style={{ fontSize: 12, color: C.muted }}>{fmt(tp.workRounds, { n: workRounds.length })}</span>
+              <span style={{ fontSize: 15, fontWeight: 700 }}>{tp.structure}</span>
             </div>
             {workout.rounds.map((round, idx) => (
               <RoundStructureRow key={round.id ?? idx} round={round} />
@@ -171,12 +163,12 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
         {/* Safety notes */}
         {workout.safetyNotesHe && workout.safetyNotesHe.length > 0 && (
           <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '16px', marginBottom: 24 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>בטיחות</div>
+            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>{tp.safety}</div>
             <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
               {workout.safetyNotesHe.map((note, i) => (
                 <li key={i} style={{ fontSize: 12, color: C.muted, lineHeight: 1.6, padding: '4px 0', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
                   <span style={{ flexShrink: 0, marginTop: 2 }}>•</span>
-                  <span>{note}</span>
+                  <span dir="auto">{note}</span>
                 </li>
               ))}
             </ul>
@@ -188,7 +180,7 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
           const canStart = trainingType && (trainingType !== 'bag' || bagAck)
           return (
             <button className="btn-tactile" onClick={() => canStart && onStart(trainingType)} disabled={!canStart} style={{ width: '100%', background: canStart ? C.accent : C.border, color: canStart ? '#111317' : C.muted, border: 'none', borderRadius: 14, padding: '16px 0', fontSize: 17, fontWeight: 800, cursor: canStart ? 'pointer' : 'not-allowed', transition: 'all 0.2s ease', letterSpacing: 0.3, marginBottom: onInstant ? 10 : 0 }}>
-              {!trainingType ? 'בחר סוג אימון תחילה' : trainingType === 'bag' && !bagAck ? 'אשר ציוד תחילה' : 'התחל אימון ←'}
+              {!trainingType ? tp.pickType : trainingType === 'bag' && !bagAck ? tp.confirmGear : tc.startWorkout}
             </button>
           )
         })()}
@@ -211,7 +203,7 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
               letterSpacing: 0.2,
             }}
           >
-            ⚡ אימון קליל מיידי — 5 דקות, ללא ציוד
+            {tp.instant}
           </button>
         )}
       </div>
