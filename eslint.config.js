@@ -42,6 +42,21 @@ export default defineConfig([
     },
   },
 
+  // ── i18n: Hebrew in JSX should come from src/i18n (he.js / en.js) ──
+  // Warning only — the remaining warnings are the list of screens still to translate.
+  {
+    files: ['src/**/*.jsx'],
+    ignores: ['src/__tests__/**'],
+    rules: {
+      'no-restricted-syntax': ['warn',
+        { selector: 'JSXText[value=/[\\u0590-\\u05FF]/]',                              message: 'Hebrew text in JSX — move it to src/i18n/he.js + en.js.' },
+        { selector: 'JSXAttribute > Literal[value=/[\\u0590-\\u05FF]/]',               message: 'Hebrew attribute in JSX — move it to src/i18n/he.js + en.js.' },
+        { selector: 'JSXExpressionContainer Literal[value=/[\\u0590-\\u05FF]/]',       message: 'Hebrew string in JSX — move it to src/i18n/he.js + en.js.' },
+        { selector: 'JSXExpressionContainer TemplateElement[value.raw=/[\\u0590-\\u05FF]/]', message: 'Hebrew string in JSX — move it to src/i18n/he.js + en.js.' },
+      ],
+    },
+  },
+
   // ── Service Worker ────────────────────────────────────────────────
   {
     files: ['public/sw.js'],
