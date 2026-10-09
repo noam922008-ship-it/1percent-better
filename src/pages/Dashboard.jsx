@@ -110,18 +110,12 @@ const sanitizeInput = str =>
 
 const getLevel   = xp => Math.floor((xp || 0) / XP.PER_LEVEL) + 1
 
+// Labels: t.workouts.combat.mt.options / .reflect, by id
 const MT_TRAINING_OPTIONS = [
-  { id: 'shadow', label: 'צל', emoji: '👤', desc: 'ללא ציוד' },
-  { id: 'bag',    label: 'שק', emoji: '🥊', desc: 'עם שק אימון' },
+  { id: 'shadow', emoji: '👤' },
+  { id: 'bag',    emoji: '🥊' },
 ]
-const MT_REFLECTION_OPTIONS = [
-  { id: 'stance',    label: 'עמידה' },
-  { id: 'guard',     label: 'שמירה' },
-  { id: 'movement',  label: 'תנועה' },
-  { id: 'balance',   label: 'שיווי משקל' },
-  { id: 'timing',    label: 'תזמון' },
-  { id: 'felt-good', label: 'הרגיש טוב' },
-]
+const MT_REFLECTION_IDS = ['stance', 'guard', 'movement', 'balance', 'timing', 'felt-good']
 const getLevelXP = xp => (xp || 0) % XP.PER_LEVEL
 const getToNext  = xp => XP.PER_LEVEL - getLevelXP(xp)
 
@@ -2293,7 +2287,7 @@ export default function Dashboard() {
         <FullScreen><CombatWorkoutPreview
           workout={mtPreview}
           levelNum={mtPreview.level}
-          trainingOptions={MT_TRAINING_OPTIONS.filter(opt => (mtPreview.supportedModes ?? ['shadow', 'bag']).includes(opt.id))}
+          trainingOptions={MT_TRAINING_OPTIONS.filter(opt => (mtPreview.supportedModes ?? ['shadow', 'bag']).includes(opt.id)).map(opt => ({ ...opt, ...tAll.workouts.combat.mt.options[opt.id] }))}
           bagWarningLabel={th.combat.bagWarning}
           onStart={trainingType => { setMtActive({ workout: mtPreview, trainingType, workoutMode: 'regular' }); setMtPreview(null) }}
           onInstant={() => { setMtActive({ workout: INSTANT_MT_WORKOUT, trainingType: 'shadow', workoutMode: 'instant' }); setMtPreview(null) }}
@@ -2343,7 +2337,7 @@ export default function Dashboard() {
           disciplineEmoji="🦵"
           completionTitle={th.combat.complete}
           levels={MT_LEVELS}
-          reflectionOptions={MT_REFLECTION_OPTIONS}
+          reflectionOptions={MT_REFLECTION_IDS.map(id => ({ id, label: tAll.workouts.combat.mt.reflect[id] }))}
           workout={mtCompletion.workout}
           stats={mtCompletion.stats}
           xpAwarded={mtCompletion.xpAwarded}
@@ -2451,7 +2445,7 @@ export default function Dashboard() {
             {liveCardio.distance > 0 && (
               <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 700 }}>{liveCardio.distance.toFixed(2)} {th.liveCardio.km}</span>
             )}
-            <span style={{ flex: 1, color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem' }}>{liveCardio.trackName || th.liveCardio.active}</span>
+            <span style={{ flex: 1, color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem' }}>{tAll.workouts.tracks[liveCardio.trackId]?.name || liveCardio.trackName || th.liveCardio.active}</span>
             <span style={{ color: 'rgba(232,232,232,0.5)', fontSize: '0.7rem', fontWeight: 700 }}>{th.liveCardio.expand}</span>
           </div>
         )

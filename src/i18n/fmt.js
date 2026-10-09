@@ -11,3 +11,6 @@ export function plural(forms, n, vars = {}) {
 
 // Locale for dates: toLocaleDateString(localeFor(lang), …)
 export const localeFor = lang => (lang === 'he' ? 'he-IL' : 'en-US')
+
+// Data fields with a language suffix: byLang(round, 'title', lang) → titleEn in English when present, else titleHe.
+export const byLang = (obj, field, lang) => (lang === 'en' && obj?.[`${field}En`]) || obj?.[`${field}He`] || ''
