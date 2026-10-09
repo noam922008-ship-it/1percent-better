@@ -8,3 +8,6 @@ export function plural(forms, n, vars = {}) {
   const str = n === 1 ? forms.one : n === 2 && forms.two ? forms.two : forms.many
   return fmt(str, { n, ...vars })
 }
+
+// Locale for dates: toLocaleDateString(localeFor(lang), …)
+export const localeFor = lang => (lang === 'he' ? 'he-IL' : 'en-US')
