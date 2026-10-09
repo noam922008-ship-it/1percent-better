@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { saveNote, MAX_LEARNED_LEN, MAX_APPLY_LEN } from '../services/lessonNotesService'
 import { addTask } from '../services/myTasksService'
+import { useLang } from '../context/LangContext'
 
 // "מה למדתי?" / "איך אני משתמש בזה?" — the user's own notes on a lesson.
 // Used at the end of the daily lesson and when editing from the notes page.
@@ -23,6 +24,8 @@ const focusOff = e => { e.target.style.borderColor = C.border }
 const labelStyle = { display: 'block', color: C.text, fontSize: '0.9rem', fontWeight: 700, margin: '1rem 0 0.5rem' }
 
 export default function LessonNotesForm({ uid, lesson, existing, onSaved }) {
+  const { t } = useLang()
+  const tn = t.lesson.notesForm, tc = t.common
   const [learned,   setLearned]   = useState(existing?.learned || '')
   const [apply,     setApply]     = useState(existing?.apply || '')
   const [addedTask, setAddedTask] = useState(null)   // apply text already sent to My Tasks
@@ -55,22 +58,21 @@ export default function LessonNotesForm({ uid, lesson, existing, onSaved }) {
   }
 
   return (
-    <div dir="rtl" style={{ direction: 'rtl' }}>
-      <label htmlFor={`learned-${lesson.id}`} style={{ ...labelStyle, marginTop: 0 }}>מה למדתי?</label>
+    <div>
+      <label htmlFor={`learned-${lesson.id}`} style={{ ...labelStyle, marginTop: 0 }}>{tn.learned}</label>
       <textarea
         id={`learned-${lesson.id}`}
         value={learned}
         onChange={e => { setLearned(e.target.value); setSaved(false) }}
-        placeholder="במילים שלי…"
+        placeholder={tn.learnedPh}
         maxLength={MAX_LEARNED_LEN}
         rows={4}
-        dir="rtl"
         style={fieldStyle}
         onFocus={focusOn} onBlur={focusOff}
       />
 
       <label htmlFor={`apply-${lesson.id}`} style={labelStyle}>
-        איך אני משתמש בזה? <span style={{ color: C.faint, fontWeight: 500, fontSize: '0.78rem' }}>(רשות)</span>
+        {tn.apply} <span style={{ color: C.faint, fontWeight: 500, fontSize: '0.78rem' }}>{tn.optional}</span>
       </label>
       <textarea
         id={`apply-${lesson.id}`}
@@ -78,14 +80,13 @@ export default function LessonNotesForm({ uid, lesson, existing, onSaved }) {
         onChange={e => { setApply(e.target.value); setSaved(false) }}
         maxLength={MAX_APPLY_LEN}
         rows={2}
-        dir="rtl"
         style={fieldStyle}
         onFocus={focusOn} onBlur={focusOff}
       />
 
       {error && (
         <div role="alert" style={{ color: C.danger, fontSize: '0.78rem', fontWeight: 600, marginTop: '0.6rem' }}>
-          {error === 'task' ? 'לא הצלחנו להוסיף למשימות — נסה שוב' : 'לא הצלחנו לשמור — נסה שוב'}
+          {error === 'task' ? tc.errorTask : tc.errorSave}
         </div>
       )}
 
@@ -98,7 +99,7 @@ export default function LessonNotesForm({ uid, lesson, existing, onSaved }) {
           border: `1px solid ${taskDone ? 'rgba(63,175,122,0.35)' : applyText ? 'rgba(217,179,76,0.35)' : C.border}`,
           color: taskDone ? C.ok : applyText ? C.accent : C.faint, fontSize: '0.9rem', fontWeight: 700,
         }}
-      >{taskDone ? 'נוסף ✓' : 'הוסף למשימות שלי'}</button>
+      >{taskDone ? tc.added : tc.addToTasks}</button>
 
       <button
         onClick={handleSave}
@@ -109,9 +110,9 @@ export default function LessonNotesForm({ uid, lesson, existing, onSaved }) {
           background: canSave ? C.accent : 'rgba(217,179,76,0.25)', color: '#09090b',
           fontSize: '0.95rem', fontWeight: 800,
         }}
-      >{existing ? 'שמור שינויים' : 'שמור'}</button>
+      >{existing ? tc.saveChanges : tc.save}</button>
       {saved && (
-        <div role="status" style={{ color: C.ok, fontSize: '0.8rem', fontWeight: 700, textAlign: 'center', marginTop: '0.6rem' }}>נשמר ✓</div>
+        <div role="status" style={{ color: C.ok, fontSize: '0.8rem', fontWeight: 700, textAlign: 'center', marginTop: '0.6rem' }}>{tc.saved}</div>
       )}
     </div>
   )

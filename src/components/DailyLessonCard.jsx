@@ -11,6 +11,8 @@ import {
 } from '../services/dailyLessonService'
 import { subscribeNotes } from '../services/lessonNotesService'
 import LessonNotesForm from './LessonNotesForm'
+import { useLang } from '../context/LangContext'
+import { fmt } from '../i18n/fmt'
 
 const C = {
   bg:      '#111317',
@@ -25,6 +27,7 @@ const C = {
 }
 
 function TopicChip({ topicId }) {
+  const { t } = useLang()
   const topic = LESSON_TOPICS.find(t => t.id === topicId)
   if (!topic) return null
   return (
@@ -41,13 +44,15 @@ function TopicChip({ topicId }) {
       gap: '0.3rem',
     }}>
       <span>{topic.emoji}</span>
-      <span>{topic.label}</span>
+      <span>{t.lesson.topics[topic.id] || topic.label}</span>
     </span>
   )
 }
 
 // Full lesson bottom sheet
 function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative, onFeedback, onComplete, onApply }) {
+  const { t } = useLang()
+  const tv = t.lesson.view
   const [step,       setStep]       = useState('read')   // 'read' | 'question' | 'done'
   const [answered,   setAnswered]   = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
@@ -108,13 +113,13 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <span style={{ fontSize: '1.1rem' }}>{topic?.emoji}</span>
             <span style={{ color: C.muted, fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              {topic?.label} · {lesson.readingMinutes} דקות
+              {t.lesson.topics[topicId] || topic?.label} · {fmt(t.lesson.card.minutes, { n: lesson.readingMinutes })}
             </span>
           </div>
           <button
             onClick={onClose}
             style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: C.muted, fontSize: '0.75rem', fontWeight: 700, padding: '0.25rem 0.65rem', cursor: 'pointer', minHeight: 36 }}
-          >✕ סגור</button>
+          >{tv.close}</button>
         </div>
 
         {/* Title */}
@@ -131,26 +136,26 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
 
         {/* Idea */}
         <div style={{ marginBottom: '1.1rem' }}>
-          <div style={{ color: C.gold, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>הרעיון המרכזי</div>
+          <div style={{ color: C.gold, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.idea}</div>
           <p style={{ color: C.text, fontSize: '0.88rem', lineHeight: 1.65, margin: 0, fontWeight: 600 }}>{lesson.ideaHe}</p>
         </div>
 
         {/* Explanation */}
         <div style={{ marginBottom: '1.1rem' }}>
-          <div style={{ color: C.blue, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>ההסבר</div>
+          <div style={{ color: C.blue, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.explanation}</div>
           <p style={{ color: 'rgba(244,241,232,0.8)', fontSize: '0.85rem', lineHeight: 1.7, margin: 0 }}>{lesson.explanationHe}</p>
         </div>
 
         {/* Example */}
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1.25rem' }}>
-          <div style={{ color: C.green, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>דוגמה מהחיים</div>
+          <div style={{ color: C.green, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.example}</div>
           <p style={{ color: 'rgba(244,241,232,0.7)', fontSize: '0.83rem', lineHeight: 1.65, margin: 0 }}>{lesson.exampleHe}</p>
         </div>
 
         {/* Comprehension question */}
         {(step !== 'read' || alreadyCompleted) && (
           <div style={{ background: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.15)', borderRadius: 12, padding: '0.9rem 1rem', marginBottom: '1.1rem', animation: 'slide-up 0.22s ease' }}>
-            <div style={{ color: C.purple, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.45rem' }}>שאלת הבנה</div>
+            <div style={{ color: C.purple, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.45rem' }}>{tv.question}</div>
             <p style={{ color: C.text, fontSize: '0.85rem', lineHeight: 1.6, margin: '0 0 0.75rem', fontWeight: 600 }}>{lesson.questionHe}</p>
 
             {!answered && !alreadyCompleted && (
@@ -158,13 +163,13 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
                 onClick={handleAnswer}
                 style={{ background: 'rgba(167,139,250,0.12)', border: '1px solid rgba(167,139,250,0.3)', borderRadius: 10, color: C.purple, fontSize: '0.8rem', fontWeight: 700, padding: '0.55rem 1rem', cursor: 'pointer', width: '100%' }}
               >
-                הצג תשובה
+                {tv.showAnswer}
               </button>
             )}
 
             {(showAnswer || alreadyCompleted) && (
               <div style={{ background: 'rgba(63,175,122,0.07)', border: '1px solid rgba(63,175,122,0.2)', borderRadius: 10, padding: '0.7rem 0.85rem', animation: 'fadeIn 0.2s ease' }}>
-                <div style={{ color: C.green, fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>✓ תשובה</div>
+                <div style={{ color: C.green, fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{tv.answer}</div>
                 <p style={{ color: 'rgba(244,241,232,0.75)', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{lesson.answerHe}</p>
               </div>
             )}
@@ -177,14 +182,14 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
             onClick={handleScroll}
             style={{ width: '100%', background: 'rgba(217,179,76,0.08)', border: '1px solid rgba(217,179,76,0.2)', borderRadius: 12, color: C.gold, fontSize: '0.85rem', fontWeight: 700, padding: '0.85rem', cursor: 'pointer', marginBottom: '0.75rem' }}
           >
-            קראתי — הצג שאלת הבנה ←
+            {tv.readDone}
           </button>
         )}
 
         {/* Optional action */}
         {(step === 'done' || alreadyCompleted) && lesson.actionHe && (
           <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${applied ? 'rgba(63,175,122,0.3)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1.1rem', animation: 'slide-up 0.22s ease' }}>
-            <div style={{ color: C.muted, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>פעולה קטנה — רשות</div>
+            <div style={{ color: C.muted, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.action}</div>
             <p style={{ color: 'rgba(244,241,232,0.7)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 0.65rem' }}>{lesson.actionHe}</p>
             <button
               onClick={handleApply}
@@ -199,7 +204,7 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
                 cursor: applied ? 'default' : 'pointer',
               }}
             >
-              {applied ? '✓ ביצעתי את הפעולה' : 'ביצעתי ←'}
+              {applied ? tv.appliedDone : tv.apply}
             </button>
           </div>
         )}
@@ -215,7 +220,7 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
                 borderRadius: 10, color: feedbackGiven === 'more' ? C.green : C.muted,
                 fontSize: '0.78rem', fontWeight: 700, padding: '0.55rem', cursor: feedbackGiven ? 'default' : 'pointer',
               }}
-            >👍 עוד כאלה</button>
+            >{tv.more}</button>
             <button
               onClick={() => handleFeedback('less')}
               style={{
@@ -224,7 +229,7 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
                 borderRadius: 10, color: feedbackGiven === 'less' ? '#f87171' : C.muted,
                 fontSize: '0.78rem', fontWeight: 700, padding: '0.55rem', cursor: feedbackGiven ? 'default' : 'pointer',
               }}
-            >👎 פחות מתאים לי</button>
+            >{tv.less}</button>
           </div>
         )}
 
@@ -240,7 +245,7 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
           onClick={onAlternative}
           style={{ width: '100%', background: 'transparent', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, color: C.muted, fontSize: '0.75rem', fontWeight: 600, padding: '0.65rem', cursor: 'pointer' }}
         >
-          🔄 לבחור שיעור אחר
+          {tv.otherLesson}
         </button>
       </div>
     </div>
@@ -250,6 +255,8 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
 // ── Main exported card ──────────────────────────────────────────────
 
 export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNotes }) {
+  const { t } = useLang()
+  const tl = t.lesson.card
   const [lessonData, setLessonData] = useState(() => getTodayLesson(prefTopics))
   const [showLesson, setShowLesson] = useState(false)
   const [entry,      setEntry]      = useState(() => getTodayLessonEntry())
@@ -311,7 +318,7 @@ export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNot
       <div style={{
         background: C.bg,
         border: '1px solid rgba(255,255,255,0.07)',
-        borderRight: `3px solid ${completed ? 'rgba(63,175,122,0.4)' : 'rgba(167,139,250,0.4)'}`,
+        borderInlineStart: `3px solid ${completed ? 'rgba(63,175,122,0.4)' : 'rgba(167,139,250,0.4)'}`,
         borderRadius: 14,
         padding: '1rem',
         animation: 'slide-up 0.3s ease both',
@@ -320,17 +327,17 @@ export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNot
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
             <span style={{ color: C.muted, fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-              משהו חדש להיום
+              {tl.label}
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             {completed && (
-              <span style={{ color: C.green, fontSize: '0.6rem', fontWeight: 800 }}>✓ נלמד</span>
+              <span style={{ color: C.green, fontSize: '0.6rem', fontWeight: 800 }}>{tl.learned}</span>
             )}
             {applied && (
-              <span style={{ color: C.green, fontSize: '0.6rem', fontWeight: 800 }}>· יושם</span>
+              <span style={{ color: C.green, fontSize: '0.6rem', fontWeight: 800 }}>{tl.applied}</span>
             )}
-            <span style={{ color: C.muted, fontSize: '0.6rem' }}>{lesson.readingMinutes} דקות</span>
+            <span style={{ color: C.muted, fontSize: '0.6rem' }}>{fmt(tl.minutes, { n: lesson.readingMinutes })}</span>
           </div>
         </div>
 
@@ -366,7 +373,7 @@ export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNot
               cursor: 'pointer',
             }}
           >
-            {completed ? '✓ קרא שוב' : 'ללמוד עכשיו ←'}
+            {completed ? tl.readAgain : tl.start}
           </button>
           <button
             onClick={handleAlternative}
@@ -382,7 +389,7 @@ export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNot
               cursor: 'pointer',
             }}
           >
-            נושא אחר
+            {tl.otherTopic}
           </button>
         </div>
 
@@ -392,7 +399,7 @@ export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNot
             onClick={onOpenNotes}
             style={{ display: 'block', margin: '0.6rem auto 0', background: 'none', border: 'none', color: C.muted, fontSize: '0.78rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer', minHeight: 44, padding: '0 1rem' }}
           >
-            מה למדתי{notes.length > 0 ? ` (${notes.length})` : ''} ←
+            {notes.length > 0 ? fmt(tl.notesCount, { n: notes.length }) : tl.notes}
           </button>
         )}
       </div>
