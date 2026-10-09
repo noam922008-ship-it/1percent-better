@@ -1,7 +1,7 @@
 # PRIME — English version plan
 
-Status: **Phase 1 (infrastructure) and Phase 2 (first-run flow) done** on branch `feat/english-phase-1`
-(2026-10-09) — pushed, not merged, not deployed.
+Status: **Phase 1 (infrastructure), Phase 2 (first-run flow) and Phase 3 (Home's remaining cards) done** on branch
+`feat/english-phase-1` (2026-10-09) — pushed, not merged, not deployed.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
 
@@ -64,8 +64,8 @@ Left on purpose in these screens (still Hebrew, shows as lint warnings):
   in `Dashboard.jsx`.
 - **Hebrew keyword lists** in `Dashboard.jsx` (`physical` / `tech` / `finance` / `business`, ~line 730) match what the
   user types, not UI text. **They need English keywords in a later phase**, or English users' input won't match.
-- Child cards Home renders from their own files: My Tasks, "הראש שלי" (Journal), daily lesson, WeekStrip, and the
-  Workouts / Progress / Profile (Settings) tabs.
+- ~~Child cards Home renders from their own files: My Tasks, "הראש שלי" (Journal), daily lesson, WeekStrip~~ — done in
+  Phase 3. Still left: the Workouts / Progress / Profile (Settings) tabs.
 
 ### Open after Phase 2
 
@@ -74,6 +74,52 @@ Left on purpose in these screens (still Hebrew, shows as lint warnings):
   Hebrew values. Now `high` / `med` / `low` with `t.home.workout.intensity` labels.
 - `exerciseName` in localStorage `ft_workout_log` is now saved in the UI language (`exerciseId` stays stable).
   Nothing in the app reads the log today.
+
+## Phase 3 — Home's remaining cards + add-habit flow (done, 2026-10-09)
+
+Same branch. Files: `MyTasks`, `JournalCard`, `Journal`, `DailyLessonCard`, `LessonNotesForm`, `LessonNotesPage`,
+`dashboard/WeekStrip`, `HabitCreationFlow`; new `src/components/DirChevron.jsx`.
+
+- **Strings:** new groups in `he.js` / `en.js`: `common` (back, save, saved, add to My Tasks, errors — shared by My
+  Tasks, Journal and lesson notes), `myTasks`, `journal`, `lesson` (`topics`, `card`, `view`, `notesForm`,
+  `notesPage`), `weekStrip`, `habitFlow` (titles, steps, cue presets). Hebrew text unchanged.
+- **English copy** written fresh from the Hebrew, same voice as Phase 2. "הראש שלי" → **"On my mind"**. The journal's
+  two questions stay first person ("What matters most to me in all this, and why?"). "הוסף טריגר" → **"Add a cue"**;
+  the presets are cues ("When I wake up", "Before bed"…).
+- **`LESSON_TOPICS` labels** (the 5 topic names on the lesson card) are translated in `t.lesson.topics`, by topic id.
+  `data/dailyLessons.js` is unchanged; a test keeps `he.lesson.topics` equal to the data labels. Topic `desc` (only in
+  Settings) is not translated yet.
+- **Lesson content stays Hebrew** (title, summary, sections, question, answer, action). Only the card UI around it is
+  translated.
+- **RTL:** no `dir="rtl"` / `direction: 'rtl'` left in these files (inputs and textareas inherit `<html dir>`);
+  `textAlign: 'right'` → `'start'`; accent stripes `borderRight` → `borderInlineStart`; My Tasks row padding →
+  `paddingInlineStart/End`. Dates: `localeFor(lang)` in `src/i18n/fmt.js` (`he-IL` / `en-US`) in Journal and the
+  "What I learned" page.
+- **Chevrons:** `ForwardChevron` / `BackChevron` (`DirChevron.jsx`) pick `ChevronLeft` / `ChevronRight` from `lang`.
+  Used for the "הראש שלי" card arrow (left in Hebrew, right in English) and the back buttons in Journal and
+  LessonNotesPage. Arrows inside strings come from the language files. `Legal.jsx` / `LegalDoc.jsx` still use fixed
+  chevrons (Phase 6).
+- **Cue presets by id:** `HabitCreationFlow` used to keep the cue as the label text and highlight a preset when
+  `trigger === label`. It now keeps the preset id (`wake` / `bfast` / `phone` / `work` / `sleep` / `custom`) and saves
+  the label in the UI language. A suggestion's Hebrew cue (`triggerSuggestionHe`) is matched to a preset by the Hebrew
+  label, so in English the preset is still highlighted and saved in English. Hebrew saves exactly what it saved
+  before (`habitCreationWeekly.test.jsx` unchanged). Nothing else compares the saved cue to the presets (edit-habit is
+  free text; the duplicate check compares against the user's own habits).
+- **Tests:** `src/__tests__/i18nHome.test.jsx` (15) — My Tasks, "On my mind" card + write / list / entry, lesson card +
+  open lesson + notes form, "What I learned" empty + saved lesson, WeekStrip, add-habit custom path through every step:
+  no Hebrew in English (data/ content excluded); cue highlight + saved value in both languages; chevron direction;
+  no hard-coded rtl / right / left in the 8 files; key parity. `npm test`: 30 files / 520 tests. `npm run build` OK.
+- **Lint:** Hebrew-in-JSX warnings 1,068 → 974; the 8 files have none.
+- **390px check (dev, guest, headless):** Home in Hebrew (rtl, stripes right, card chevron left) and English (ltr,
+  stripes left, chevron right), Journal write view in English. No page errors. Lesson card, WeekStrip and the add-habit
+  sheet were checked by tests only, not by screenshot.
+
+Left on purpose (Phase 3):
+- **Habit suggestions** (`data/habitSuggestions.js`, 76 items: `titleHe`, `triggerSuggestionHe`) still show in Hebrew
+  in the English add-habit sheet. First item of the content phase.
+- **Suggestions whose cue doesn't match a preset still save Hebrew text for English users** (e.g. "שעה לפני השינה",
+  "בדיקה אחרי העבודה"): the cue is kept as the suggestion's text. Fixed when habit suggestions are translated (first
+  item of the content phase).
 
 ## Still untranslated after Phase 1 (measured 2026-10-09)
 
@@ -91,14 +137,17 @@ Left on purpose in these screens (still Hebrew, shows as lint warnings):
 ## Next phases (in this order)
 
 1. ~~**Welcome / Setup / Dashboard**~~ — done in Phase 2 (above).
-2. **Home's remaining cards** — My Tasks, "הראש שלי" (Journal card + full screen), daily lesson card, WeekStrip.
-   Also the add-habit flow (`HabitCreationFlow`, "הוסף טריגר" → English "Add a cue").
+2. ~~**Home's remaining cards**~~ — done in Phase 3 (above).
 3. **Workouts tab.**
 4. **Progress and Profile tabs** — incl. Settings' `שפה / Language` label; the Hebrew keyword lists in `Dashboard.jsx`.
 5. **Notifications + `lang` on the profile** — in-app (`notificationService.js`) and push (functions already have
    `he`/`en` copy and read the profile's `lang`); save `lang` to the profile when it changes.
 6. **Legal pages** — privacy policy + terms (`src/data/legal.js`), plus legal review for users abroad.
-7. **Lessons and workouts content** — 35 daily lessons, boxing / Muay Thai drills and paths.
+7. **Content** — in this order:
+   1. **Habit suggestions** (`data/habitSuggestions.js`, 76 short items) — first: they're short and on the first-habit
+      path. Also fixes suggestions whose cue matches no preset saving Hebrew text for English users (Phase 3).
+   2. **Daily lessons** — 35 lessons (`data/dailyLessons.js`), plus topic `desc`.
+   3. **Workouts** — boxing / Muay Thai drills and paths.
 
 Turn on `FEATURES.english` only after the visible UI is translated and the RTL fixes are done.
 
