@@ -124,6 +124,7 @@ const he = {
       doneAria:  'אימון הושלם',
       category:  { strength: 'כוח', endurance: 'סיבולת', combat: 'לחימה' },
       // id → name, duration, sets (order and ids in Dashboard.jsx DAILY_WORKOUTS)
+      intensity: { high: 'גבוה', med: 'בינוני', low: 'נמוך' },
       items: {
         pushups:  { name: 'שכיבות סמיכה', duration: '15 דקות', sets: '4 סטים × 10' },
         run:      { name: 'ריצה',          duration: '20 דקות', sets: '1 ריצה רציפה' },

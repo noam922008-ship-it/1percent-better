@@ -1691,15 +1691,15 @@ export default function Dashboard() {
                 {/* Daily Workout Card — red accent */}
                 {(() => {
                   const doy = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000)
-                  // Text per id lives in t.home.workout (items + category)
+                  // Text per id lives in t.home.workout (items, category, intensity)
                   const DAILY_WORKOUTS = [
-                    { id: 'pushups',  category: 'strength',  intensity: 'בינוני', icon: '💪', trackId: 'strength-pushups', isCombat: false },
-                    { id: 'run',      category: 'endurance', intensity: 'גבוה',   icon: '🏃', trackId: 'cardio-run',       isCombat: false },
-                    { id: 'squats',   category: 'strength',  intensity: 'בינוני', icon: '🦵', trackId: 'strength-squats',  isCombat: false },
-                    { id: 'boxing',   category: 'combat',    intensity: 'גבוה',   icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
-                    { id: 'pullups',  category: 'strength',  intensity: 'גבוה',   icon: '🏋️', trackId: 'strength-pullups', isCombat: false },
-                    { id: 'walk',     category: 'endurance', intensity: 'נמוך',   icon: '🚶', trackId: 'cardio-walk',      isCombat: false },
-                    { id: 'muaythai', category: 'combat',    intensity: 'גבוה',   icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
+                    { id: 'pushups',  category: 'strength',  intensity: 'med',  icon: '💪', trackId: 'strength-pushups', isCombat: false },
+                    { id: 'run',      category: 'endurance', intensity: 'high', icon: '🏃', trackId: 'cardio-run',       isCombat: false },
+                    { id: 'squats',   category: 'strength',  intensity: 'med',  icon: '🦵', trackId: 'strength-squats',  isCombat: false },
+                    { id: 'boxing',   category: 'combat',    intensity: 'high', icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
+                    { id: 'pullups',  category: 'strength',  intensity: 'high', icon: '🏋️', trackId: 'strength-pullups', isCombat: false },
+                    { id: 'walk',     category: 'endurance', intensity: 'low',  icon: '🚶', trackId: 'cardio-walk',      isCombat: false },
+                    { id: 'muaythai', category: 'combat',    intensity: 'high', icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
                   ]
                   const tw = th.workout
                   const wd = DAILY_WORKOUTS[doy % DAILY_WORKOUTS.length]
@@ -1714,7 +1714,7 @@ export default function Dashboard() {
                       setWorkoutSession({ id: w.trackId, name: w.name, emoji: w.icon, desc: w.sets, trackId: w.trackId })
                     }
                   }
-                  const intensityColor = w.intensity === 'גבוה' ? '#D85C5C' : w.intensity === 'נמוך' ? '#3FAF7A' : '#D9B34C'
+                  const intensityColor = w.intensity === 'high' ? '#D85C5C' : w.intensity === 'low' ? '#3FAF7A' : '#D9B34C'
                   return (
                     <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderInlineStart: '3px solid rgba(180,50,50,0.45)', borderRadius: 14, padding: '1rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.65rem' }}>
@@ -1726,7 +1726,7 @@ export default function Dashboard() {
                         </div>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', alignItems: 'center' }}>
                           <span style={{ background: 'rgba(255,255,255,0.05)', color: '#A4A6AD', fontSize: '0.58rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 5 }}>{w.category}</span>
-                          <span style={{ background: `${intensityColor}22`, color: intensityColor, fontSize: '0.58rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 5 }}>{w.intensity}</span>
+                          <span style={{ background: `${intensityColor}22`, color: intensityColor, fontSize: '0.58rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 5 }}>{tw.intensity[w.intensity]}</span>
                           {workoutDoneToday
                             ? <span style={{ color: '#3FAF7A', fontSize: '0.65rem', fontWeight: 800 }}>✓</span>
                             : <span style={{ color: '#D9B34C', fontSize: '0.65rem', fontWeight: 800 }}>+{XP.WORKOUT} XP</span>

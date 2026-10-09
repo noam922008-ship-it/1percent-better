@@ -133,13 +133,14 @@ describe('Dashboard string keys', () => {
     expect(get(he, key)).toBeDefined()
     expect(get(en, key)).toBeDefined()
   })
-  it('every daily workout id has text in both languages', () => {
-    const ids = [...src.matchAll(/\{ id: '(\w+)',\s+category: '(\w+)'/g)]
+  it('every daily workout id, category and intensity has text in both languages', () => {
+    const ids = [...src.matchAll(/\{ id: '(\w+)',\s+category: '(\w+)',\s+intensity: '(\w+)'/g)]
     expect(ids.length).toBe(7)
-    for (const [, id, cat] of ids) {
+    for (const [, id, cat, level] of ids) {
       for (const L of [he, en]) {
         expect(L.home.workout.items[id]?.name).toBeTruthy()
         expect(L.home.workout.category[cat]).toBeTruthy()
+        expect(L.home.workout.intensity[level]).toBeTruthy()
       }
     }
   })

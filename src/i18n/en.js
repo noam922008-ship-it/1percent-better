@@ -122,6 +122,7 @@ const en = {
       done:      '✓ Workout done',
       doneAria:  'Workout done',
       category:  { strength: 'Strength', endurance: 'Endurance', combat: 'Combat' },
+      intensity: { high: 'High', med: 'Medium', low: 'Low' },
       items: {
         pushups:  { name: 'Push-ups',  duration: '15 min', sets: '4 sets × 10' },
         run:      { name: 'Run',       duration: '20 min', sets: '1 continuous run' },
