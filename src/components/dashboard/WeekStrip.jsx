@@ -1,15 +1,17 @@
 import { useMemo } from 'react'
-
-const DAY_LABELS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש']
+import { useLang } from '../../context/LangContext'
+import { fmt } from '../../i18n/fmt'
 
 export default function WeekStrip({ activityLog }) {
+  const { t } = useLang()
+  const tw = t.weekStrip
   const days = useMemo(() => {
     const log   = new Set(activityLog || [])
     const today = new Date().toISOString().slice(0, 10)
     return Array.from({ length: 7 }, (_, i) => {
       const d   = new Date(Date.now() - (6 - i) * 86400000)
       const key = d.toISOString().slice(0, 10)
-      return { key, label: DAY_LABELS[d.getDay()], isToday: key === today, active: log.has(key) }
+      return { key, day: d.getDay(), isToday: key === today, active: log.has(key) }
     })
   }, [activityLog])
 
@@ -19,10 +21,10 @@ export default function WeekStrip({ activityLog }) {
     <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '0.85rem 1rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
         <span style={{ color: '#A4A6AD', fontSize: '0.62rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-          פעילות שבועית
+          {tw.title}
         </span>
         <span style={{ color: '#71717A', fontSize: '0.68rem', fontWeight: 600 }}>
-          {activeCount} מתוך 7 ימים
+          {fmt(tw.count, { n: activeCount })}
         </span>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: '0.3rem' }}>
@@ -48,7 +50,7 @@ export default function WeekStrip({ activityLog }) {
               {d.active ? '✓' : d.isToday ? '●' : ''}
             </div>
             <span style={{ fontSize: '0.6rem', color: d.isToday ? '#D9B34C' : '#71717A', fontWeight: d.isToday ? 700 : 500 }}>
-              {d.label}
+              {tw.days[d.day]}
             </span>
           </div>
         ))}
