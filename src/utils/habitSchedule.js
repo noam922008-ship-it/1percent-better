@@ -4,10 +4,12 @@
 // days: optional [0..6] (0 = Sunday) — only decides on which days a reminder fires.
 
 import { getLocalDateKey } from './localDate'
+import he from '../i18n/he'
+import { plural } from '../i18n/fmt'
 
 export const MAX_TIMES_PER_WEEK = 6
 export const MAX_ACTIVE_HABITS  = 5
-export const DAY_LABELS = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳']
+export const DAY_LABELS = he.habitSchedule.days   // Hebrew; screens use t.habitSchedule.days
 
 const parseKey = key => {
   const [y, m, d] = String(key).split('-').map(Number)
@@ -48,13 +50,12 @@ export function isReminderDay(tr, dateKey = getLocalDateKey()) {
   return days.includes(parseKey(dateKey).getDay())
 }
 
-// "כל יום" / "3 פעמים בשבוע" (+ days, e.g. "· א׳ ג׳ ה׳")
-export function frequencyLabel(tr) {
-  if (!isWeekly(tr)) return 'כל יום'
-  const n = timesPerWeek(tr)
-  const base = n === 1 ? 'פעם בשבוע' : n === 2 ? 'פעמיים בשבוע' : `${n} פעמים בשבוע`
+// "כל יום" / "3 פעמים בשבוע" (+ days, e.g. "· א׳ ג׳ ה׳"). s = t.habitSchedule (default Hebrew).
+export function frequencyLabel(tr, s = he.habitSchedule) {
+  if (!isWeekly(tr)) return s.everyDay
+  const base = plural(s.perWeek, timesPerWeek(tr))
   const days = normalizeDays(tr.days)
-  return days.length ? `${base} · ${days.map(i => DAY_LABELS[i]).join(' ')}` : base
+  return days.length ? `${base} · ${days.map(i => s.days[i]).join(' ')}` : base
 }
 
 export function normalizeDays(days) {

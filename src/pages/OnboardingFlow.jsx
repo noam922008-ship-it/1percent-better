@@ -9,6 +9,7 @@ import { suggestChallenge } from '../services/coachService'
 import { FEATURES } from '../config/features'
 import HabitScheduleFields from '../components/HabitScheduleFields'
 import { normalizeSchedule, frequencyLabel } from '../utils/habitSchedule'
+import { fmt } from '../i18n/fmt'
 
 // A habit in setup: cue + habit + schedule (every day / X times a week, optional days and time) + note
 const EMPTY_TRIGGER = { cue: '', habit: '', time: '', note: '', weekly: false, times: 3, days: [] }
@@ -71,7 +72,7 @@ const S = {
 function ProgressBar({ step, to }) {
   const idx = STEPS.indexOf(step)
   const pct = (idx / (STEPS.length - 1)) * 100
-  const label = to.stepOf.replace('{n}', idx + 1).replace('{total}', STEPS.length)
+  const label = fmt(to.stepOf, { n: idx + 1, total: STEPS.length })
   return (
     <div style={{ marginBottom: '1.75rem' }}>
       <div style={{ height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
@@ -93,7 +94,7 @@ function OptionGrid({ options, selected, onSelect }) {
           key={opt.id}
           onClick={() => onSelect(opt.id)}
           style={{
-            padding: '0.9rem 1rem', borderRadius: 14, cursor: 'pointer', textAlign: 'left',
+            padding: '0.9rem 1rem', borderRadius: 14, cursor: 'pointer', textAlign: 'end',
             border: selected === opt.id ? '2px solid #facc15' : '1px solid rgba(255,255,255,0.08)',
             background: selected === opt.id ? 'rgba(250,204,21,0.08)' : 'rgba(255,255,255,0.03)',
             transition: 'all 0.15s', display: 'flex', alignItems: 'center', gap: '0.75rem',
@@ -104,7 +105,7 @@ function OptionGrid({ options, selected, onSelect }) {
             <div style={{ color: selected === opt.id ? '#facc15' : '#f1f5f9', fontSize: '0.9rem', fontWeight: 700 }}>{opt.label}</div>
             <div style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.75rem', marginTop: '0.1rem' }}>{opt.sub}</div>
           </div>
-          {selected === opt.id && <span style={{ marginLeft: 'auto', color: '#facc15', fontSize: '1rem' }}>✓</span>}
+          {selected === opt.id && <span style={{ marginInlineEnd: 'auto', color: '#facc15', fontSize: '1rem' }}>✓</span>}
         </button>
       ))}
     </div>
@@ -139,7 +140,7 @@ function TriggerStep({ num, value, onChange, to }) {
 
 export default function OnboardingFlow() {
   const { user }         = useAuth()
-  const { t: tAll, lang } = useLang()
+  const { t: tAll }      = useLang()
   const { setPrefs }     = useUserPrefs()
   const to               = tAll.onboarding
   const navigate         = useNavigate()
@@ -394,7 +395,7 @@ export default function OnboardingFlow() {
             {pickedMeta && (
               <div style={{ background: `${pickedMeta.color}12`, border: `1px solid ${pickedMeta.color}30`, borderRadius: 12, padding: '0.75rem 1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span style={{ fontSize: '1.3rem' }}>{pickedMeta.emoji}</span>
-                <div style={{ textAlign: 'left' }}>
+                <div style={{ textAlign: 'end' }}>
                   <div style={{ color: '#f1f5f9', fontSize: '0.82rem', fontWeight: 700 }}>{pickedMeta.title}</div>
                   <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.7rem' }}>המסלול המומלץ עבורך ✨</div>
                 </div>
@@ -405,10 +406,10 @@ export default function OnboardingFlow() {
               {filledTriggers.map(([id, tr], i) => (
                 <div key={id} style={{ marginBottom: i < filledTriggers.length - 1 ? '0.75rem' : 0 }}>
                   <div style={{ color: '#facc15', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.2rem' }}>
-                    {to.triggerLabel} {i + 1} · {frequencyLabel(normalizeSchedule({ weekly: tr.weekly, times: tr.times, days: tr.days, time: tr.time }))}{tr.time ? ` · ${tr.time}` : ''}
+                    {to.triggerLabel} {i + 1} · {frequencyLabel(normalizeSchedule({ weekly: tr.weekly, times: tr.times, days: tr.days, time: tr.time }), tAll.habitSchedule)}{tr.time ? ` · ${tr.time}` : ''}
                   </div>
                   <div style={{ color: '#f1f5f9', fontSize: '0.875rem' }}>{tr.cue}</div>
-                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem' }}>{lang === 'he' ? '←' : '→'} {tr.habit}</div>
+                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem' }}>{to.habitArrow} {tr.habit}</div>
                 </div>
               ))}
             </div>

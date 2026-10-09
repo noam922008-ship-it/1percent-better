@@ -2,7 +2,8 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import t from '../i18n/translations'
 import { LANG_KEY, LANGS, detectLang, dirFor, isEnglishEnabled } from '../i18n/detectLang'
 
-const LangCtx = createContext()
+// Default (no provider, e.g. a component rendered alone in a test): Hebrew, the production language
+const LangCtx = createContext({ lang: 'he', setLang: () => {}, t: t.he, englishEnabled: false })
 
 export function LangProvider({ children }) {
   const englishEnabled = isEnglishEnabled()
