@@ -575,6 +575,23 @@ const en = {
     d1:      { title: '✅ Day 1 done{name}',           body: 'Good start. Day 2 is where most people quit. Show up again today.' },
     start:   { title: '⚡ Your habits are waiting{name}', body: "Every day you show up is a vote for the person you're becoming. Start today." },
   },
+  // In-app notifications (notificationService.js): habit reminder, evening recap, check-in
+  notify: {
+    habitTitle:   '⚡ Time for your habit',
+    goal:         'Goal: {goal} 💪',
+    goals:        { trading: 'Trading', fitness: 'Fitness', learning: 'Learning', mindful: 'Mindfulness', work: 'Deep work', creative: 'Creativity' },
+    recapTitle:   '🌙 Daily recap',
+    recap: {
+      none:   "You didn't set any habits for today. Tomorrow we start again 💪",
+      allOne: "Well done{name}! 🎉 You completed today's habit.\nHow do you feel?",
+      all:    'Well done{name}! 🎉 You completed all {total} habits today.\nHow do you feel?',
+      zero:   "You haven't completed any habits today{name}. It's not too late 🌙\nHow do you feel?",
+      some:   'You completed {done} of {total} habits today{name}.\nHow do you feel?',
+    },
+    checkinTitle: '⚡ Prime Check-in',
+    gap:          'The gap: {gap}',
+    actions:      { done: '✅ Done', later: '⏰ In an hour', help: '🆘 I need help' },
+  },
   // Profile tab: growth pillars (labels by pillar id; data/pillars.js unchanged)
   pillars: {
     title:    'Areas I want to strengthen',

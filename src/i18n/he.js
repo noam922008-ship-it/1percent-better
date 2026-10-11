@@ -582,6 +582,23 @@ const he = {
     d1:      { title: '✅ יום 1 הושלם{name}',      body: 'התחלה טובה. ביום 2 רוב האנשים מוותרים. תגיע שוב היום.' },
     start:   { title: '⚡ ההרגלים שלך מחכים{name}', body: 'כל יום שאתה מגיע הוא הצבעה עבור האדם שאתה הופך להיות. תתחיל היום.' },
   },
+  // In-app notifications (notificationService.js): habit reminder, evening recap, check-in
+  notify: {
+    habitTitle:   '⚡ זמן להרגל שלך',
+    goal:         'יעד: {goal} 💪',
+    goals:        { trading: 'מסחר', fitness: 'כושר', learning: 'למידה', mindful: 'מיינדפולנס', work: 'עבודה עמוקה', creative: 'יצירתיות' },
+    recapTitle:   '🌙 סיכום יומי',
+    recap: {
+      none:   'לא הגדרת הרגלים להיום. מחר מתחילים מחדש 💪',
+      allOne: 'כל הכבוד{name}! 🎉 השלמת את ההרגל של היום.\nאיך אתה מרגיש?',
+      all:    'כל הכבוד{name}! 🎉 השלמת את כל {total} ההרגלים היום.\nאיך אתה מרגיש?',
+      zero:   'עדיין לא השלמת הרגלים היום{name}. עוד לא מאוחר מדי 🌙\nאיך אתה מרגיש?',
+      some:   'השלמת {done} מתוך {total} הרגלים היום{name}.\nאיך אתה מרגיש?',
+    },
+    checkinTitle: '⚡ Prime Check-in',
+    gap:          'הפער: {gap}',
+    actions:      { done: '✅ עשיתי', later: '⏰ בעוד שעה', help: '🆘 צריך עזרה' },
+  },
   // Profile tab: growth pillars (labels by pillar id; data/pillars.js unchanged)
   pillars: {
     title:    'התחומים שאני רוצה לחזק',
