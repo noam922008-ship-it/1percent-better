@@ -128,7 +128,7 @@ describe('Settings — language picker', () => {
   it('hidden in a production build with English off', () => {
     vi.stubEnv('DEV', false)
     render(<LangProvider><Settings /></LangProvider>)
-    expect(screen.queryByText('שפה / Language')).toBeNull()
+    expect(screen.queryByText('שפה')).toBeNull()
     expect(screen.queryByText('English')).toBeNull()
   })
 
@@ -136,7 +136,7 @@ describe('Settings — language picker', () => {
     vi.stubEnv('DEV', true)
     localStorage.setItem('ft_lang', 'he')
     render(<LangProvider><Settings /></LangProvider>)
-    expect(screen.getByText('שפה / Language')).toBeInTheDocument()
+    expect(screen.getByText('שפה')).toBeInTheDocument()
     fireEvent.click(screen.getByText('English'))
     expect(screen.getByText('English').closest('button')).toHaveAttribute('aria-pressed', 'true')
     expect(document.documentElement.dir).toBe('ltr')
