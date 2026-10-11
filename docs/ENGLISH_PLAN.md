@@ -1,7 +1,7 @@
 # PRIME — English version plan
 
 Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards), Phase 4 (Workouts
-tab) and Phase 5 (Progress and Profile tabs) done** on branch
+tab), Phase 5 (Progress and Profile tabs) and Phase 6 (notifications + `lang` on the profile) done** on branch
 `feat/english-phase-1` (2026-10-11) — pushed, not merged, not deployed.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
@@ -229,8 +229,46 @@ Left on purpose (Phase 5):
   (`surpriseMission`).
 - **"Copy summary" with a streak** puts the most active 30-day track's Hebrew title in the text (`CHALLENGES`, tracks are
   hidden; only users with old track progress). Content phase, or drop the track name.
-- **Other notifications** in `notificationService.js` (evening recap, habit reminders, nudges) are still Hebrew — next
-  phase.
+- ~~**Other notifications** in `notificationService.js`~~ — done in Phase 6.
+
+## Phase 6 — notifications + `lang` on the profile (done, 2026-10-11)
+
+Same branch. Commits: `f036efa` lang + tz on `users/{uid}` · `213220b` accountability default · `aab87ac` rule ·
+`58edb7e` push copy · `8f6cf7b` in-app notifications. Nothing deployed (hosting, functions, rules).
+
+- **Where `lang` lives:** on **`users/{uid}`**, not on the profile (`focusTriggers/{uid}`). `users/{uid}` is the doc the
+  Cloud Functions read (`fcmTokens`, `streak.lastDate`). `syncLocale(uid, lang)` (`focusTriggerService.js`) writes
+  `{ lang, tz }` with merge from Dashboard when a signed-in user loads the app or changes language; only when it
+  changed (remembered in localStorage `prime_locale_{uid}`), never for guests, skipped while an account is being deleted
+  (same flag as the profile auto-create). `tz` = the device's IANA zone (`Intl…resolvedOptions().timeZone`). With
+  English off, every signed-in user gets `lang: 'he'` + their `tz` once.
+- **Rule:** `users/{uid}.lang` must be `'he'` or `'en'`, `tz` a string matching `[A-Za-z0-9_+/-]{1,64}`. 4 emulator
+  tests (2 failed on the old rules). Not deployed.
+- **Send times — found:** server push runs on **Israel time for everyone** (`dailyHabitNudge` 19:30, `accountabilityReminder`
+  18:00, `Asia/Jerusalem`) and compares the Israel date with `streak.lastDate`, which the client writes as a **UTC** date.
+  Fine for Israel (19:30 Israel is the same UTC day); wrong for the US. In-app notifications use the device's local time
+  (`getHours()`), so they're already right abroad, but fire only while the app is open.
+- **Planned, not built — local send time:** when FCM registration is wired (see "Push notifications" below), run the
+  nudge every hour at :30 (UTC) and send only to users whose `tz` local time is 19:30; users without `tz` keep Israel
+  time. "Done today" must then accept `streak.lastDate` equal to the UTC date of either the user's local midnight or now
+  (at 19:30 in Los Angeles it's already the next UTC day).
+- **Server copy** (`functions/notifyCopy.js`, used by `index.js` and its tests — the old test file tested a stale
+  copy): daily nudge reworded with the owner's OK — `ה-Streak` → `הרצף`, no `1%`, `מונק מוד`, `משימות`; English
+  rewritten to match. Test push and the update-broadcast default now have `he` / `en` by `users/{uid}.lang`
+  (an override in `config/app` still goes to everyone as written). Every function defaults to Hebrew
+  (`accountabilityReminder` used to default to English; its copy is unchanged). `ar` copy left as it was — unreachable,
+  the rule allows only `he` / `en`. `index.js` has no Hebrew left (test).
+- **In-app copy** (`t.notify`): habit reminder, evening recap, check-in nudge (gap line + action buttons), goal labels.
+  `checkNotifications(…, lang)` and `checkNudges(…, lang)` get the UI language from Dashboard; the morning nudge passes
+  it to `getDailyNudgeMessage`. Hebrew reworded with the owner's OK: `טריגר` → `הרגל` in the reminder title and recap,
+  no-habits recap `לא הגדרת הרגלים להיום. מחר מתחילים מחדש 💪`, singular `השלמת את ההרגל של היום.` for one habit.
+- **Tests:** `src/__tests__/i18nNotifications.test.js` (9) — recap every case in both languages, reminder, check-in
+  buttons, `checkNotifications` in English, no Hebrew in `en.notify` or `notificationService.js`;
+  `profileLocale.test.js` (7); functions `nudge.test.js` 22 → 29. `npm test`: 34 files / 570 tests. `npm run build` OK.
+
+Left on purpose (Phase 6):
+- `fcmService.sendForegroundTestNotif` (Hebrew) — not called anywhere.
+- `accountabilityReminder` copy (TikTok / push-ups / PRO) — old feature, only the default language changed.
 
 ## Still untranslated after Phase 1 (measured 2026-10-09)
 
@@ -251,10 +289,29 @@ Left on purpose (Phase 5):
 2. ~~**Home's remaining cards**~~ — done in Phase 3 (above).
 3. ~~**Workouts tab**~~ — done in Phase 4 (above), titles included; instructions, cues and safety notes left.
 4. ~~**Progress and Profile tabs**~~ — done in Phase 5 (above).
-5. **Notifications + `lang` on the profile** — in-app (`notificationService.js`) and push (functions already have
-   `he`/`en` copy and read the profile's `lang`); save `lang` to the profile when it changes.
+5. ~~**Notifications + `lang` on the profile**~~ — done in Phase 6 (above).
 6. **Legal pages** — privacy policy + terms (`src/data/legal.js`), plus legal review for users abroad.
-7. **Content** — in this order:
+7. **Push notifications** (app closed) — today server push reaches no one. What's missing:
+   1. **Billing (Blaze)** — off on `better-de9aa`; needed to deploy any function (incl. schedulers). FCM sending itself is
+      free.
+   2. **Deploy the functions** — live ones are old code on nodejs20. Deploy only the notification functions
+      (`--only functions:dailyHabitNudge,…`) so the Gemini secret isn't involved.
+   3. **Token registration** — `registerFcmToken` is never called, so no user has a token. Call it when notifications
+      are turned on in Settings and on each app open with permission granted (tokens rotate); unregister on logout /
+      opt-out; listen for the service worker's `FCM_TOKEN_REFRESH` message (nothing listens today).
+   4. **VAPID key** — done: `VITE_FIREBASE_VAPID_KEY` in `.env.local`, messaging set up in `firebase.js`.
+   5. **Service worker** — `sw.js` has push + click handlers. Probable bug: it reads `payload.title` at the top level,
+      but FCM puts a data-only message's fields under `payload.data`, so a push would likely show "PRIME" with an empty
+      body. Test with a real push.
+   6. **Server logic** — Israel time + UTC-vs-Israel date (Phase 6: build the hourly local-time nudge here);
+      `accountabilityReminder` only targets `isPro` users (none).
+   7. **iOS** — 16.4+ only, only when added to the Home Screen (manifest `display: standalone` ✓), permission asked from
+      a tap inside the installed app (Settings toggle ✓), no push in a Safari tab, every push must show a notification
+      (sw.js does).
+   8. **Android Chrome** — works with the app closed; some phones' battery savers delay pushes.
+   9. **Before launch** — privacy policy mentions push tokens; real E2E with `sendTestNotification` on Android and an
+      installed iPhone app.
+8. **Content** — in this order:
    1. **Habit suggestions** (`data/habitSuggestions.js`, 76 short items) — first: they're short and on the first-habit
       path. Also fixes suggestions whose cue matches no preset saving Hebrew text for English users (Phase 3).
    2. **Daily lessons** — 35 lessons (`data/dailyLessons.js`), plus topic `desc`.
