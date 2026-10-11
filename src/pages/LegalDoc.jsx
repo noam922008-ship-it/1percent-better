@@ -1,18 +1,22 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight } from 'lucide-react'
+import { BackChevron } from '../components/DirChevron'
+import { useLang } from '../context/LangContext'
+import { dirFor } from '../i18n/detectLang'
 import LegalContent from '../components/LegalContent'
 
 // /privacy and /terms — full pages. Linked from the signup screen, Settings and /legal.
 export default function LegalDoc({ type }) {
   const navigate = useNavigate()
+  const { lang, t } = useLang()
+  const dir = dirFor(lang)
   const back = () => (window.history.length > 1 ? navigate(-1) : navigate('/welcome'))
 
   return (
-    <div dir="rtl" style={{ minHeight: '100svh', background: '#09090b', direction: 'rtl' }}>
+    <div dir={dir} style={{ minHeight: '100svh', background: '#09090b', direction: dir }}>
       <div style={{ position: 'sticky', top: 0, background: '#09090b', borderBottom: '1px solid rgba(255,255,255,0.05)',
         display: 'flex', alignItems: 'center', gap: '0.25rem', padding: 'calc(env(safe-area-inset-top, 0px) + 0.5rem) 0.5rem 0.5rem' }}>
-        <button onClick={back} aria-label="חזור" style={{ background: 'none', border: 'none', color: '#A4A6AD', cursor: 'pointer', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
-          <ChevronRight size={22} />
+        <button onClick={back} aria-label={t.legal.back} style={{ background: 'none', border: 'none', color: '#A4A6AD', cursor: 'pointer', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+          <BackChevron size={22} />
         </button>
         <img src="/prime-logo.svg" alt="PRIME" style={{ height: 20 }} />
       </div>

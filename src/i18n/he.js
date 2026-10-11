@@ -675,6 +675,18 @@ const he = {
     finishGoogle:  'התחבר עם Google ומחק',
     cancel:        'ביטול',
   },
+  // Legal pages: /legal hub, /privacy, /terms (document text lives in src/data/legal.js)
+  legal: {
+    hubTitle:    'משפטי ותמיכה',
+    back:        'חזור',
+    privacy:     'מדיניות פרטיות',
+    terms:       'תנאי שימוש',
+    contact:     'יצירת קשר',
+    contactLine: 'לשאלות, בעיות או בקשה למחיקת החשבון:',
+    updated:     'עודכן לאחרונה:',
+    toFill:      'להשלים:',
+    toDecide:    'להחלטה שלך:',
+  },
 }
 
 export default he

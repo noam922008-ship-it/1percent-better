@@ -668,6 +668,18 @@ const en = {
     finishGoogle:  'Sign in with Google and delete',
     cancel:        'Cancel',
   },
+  // Legal pages: /legal hub, /privacy, /terms (document text lives in src/data/legal.js)
+  legal: {
+    hubTitle:    'Legal & support',
+    back:        'Back',
+    privacy:     'Privacy Policy',
+    terms:       'Terms of Use',
+    contact:     'Contact',
+    contactLine: 'Questions, problems or a request to delete your account:',
+    updated:     'Last updated:',
+    toFill:      'To fill in:',
+    toDecide:    'For you to decide:',
+  },
 }
 
 export default en
