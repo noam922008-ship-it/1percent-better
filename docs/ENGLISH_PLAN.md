@@ -1,8 +1,8 @@
 # PRIME — English version plan
 
-Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards) and Phase 4 (Workouts
-tab) done** on branch
-`feat/english-phase-1` (2026-10-09) — pushed, not merged, not deployed.
+Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards), Phase 4 (Workouts
+tab) and Phase 5 (Progress and Profile tabs) done** on branch
+`feat/english-phase-1` (2026-10-11) — pushed, not merged, not deployed.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
 
@@ -63,8 +63,7 @@ Left on purpose in these screens (still Hebrew, shows as lint warnings):
   `deepTracks` (track day, mission card, "pick a program", tracks archive), `homeXpExtras`, `surpriseMission`.
 - **Never opened today:** `WorkoutLibraryModal`, `GoalTracker` / `GoalEditModal`, `MantraCard`, `AddTriggerModal`
   in `Dashboard.jsx`.
-- **Hebrew keyword lists** in `Dashboard.jsx` (`physical` / `tech` / `finance` / `business`, ~line 730) match what the
-  user types, not UI text. **They need English keywords in a later phase**, or English users' input won't match.
+- ~~**Hebrew keyword lists** in `Dashboard.jsx`~~ — done in Phase 5 (moved to `utils/nicheKeywords.js`).
 - ~~Child cards Home renders from their own files: My Tasks, "הראש שלי" (Journal), daily lesson, WeekStrip~~ — done in
   Phase 3. Still left: the Workouts / Progress / Profile (Settings) tabs.
 
@@ -185,6 +184,54 @@ Left on purpose (Phase 4):
 | Quick drills `boxingDrills.js` (rounds) | ~3,300 | instructions + cues for 163 rounds |
 | TrainingMode coach lines | ~250 | openers, motivation, form alerts, improvement tips |
 
+## Phase 5 — Progress and Profile tabs (done, 2026-10-11)
+
+Same branch. Files: `pages/AnalyticsTab` (Progress), `components/Settings`, `GrowthPillarSelector`,
+`DeleteAccountSheet`, `Dashboard.jsx` (profile header numbers, keyword lists), `services/notificationService`
+(`getDailyNudgeMessage` only); new `utils/nicheKeywords.js`.
+
+- **Strings:** new groups in `he.js` / `en.js`: `progress`, `nudge`, `pillars`, `settings`, `deleteAccount`. Hebrew text
+  unchanged, except the Settings language label: `שפה / Language` → `שפה` (English: "Language"), with the owner's OK.
+  The option names stay in their own language (`עברית` / `English`, with a `lang` attribute) so anyone can find them.
+- **Dates and numbers by language:** the 14-day chart's day letters and the insight's day name come from `Intl`
+  (`localeFor(lang)`): `he-IL` gives exactly the old `א׳…ש׳` and `יום ראשון`, `en-US` gives `S M T…` and `Sunday`. XP,
+  streak, level and counts use `toLocaleString(locale)` (Progress stat cards, Profile header). Counted strings use
+  `plural` ("1 day" / "8 days"). Reminder times in English are written `8:00 AM` / `10 AM and 4 PM`.
+- **Pillar labels by id:** `t.pillars.labels` (`data/pillars.js` unchanged; a test keeps `he.pillars.labels` equal to the
+  data). Lesson topics in Settings use `t.lesson.topics` (Phase 3).
+- **Delete account confirm word by language** (owner's OK): Hebrew `מחק`, English `DELETE` (case and spaces don't
+  matter). Only the current language's word works. Nothing is stored. Stat cards keyed by id, not by the Hebrew label.
+- **Daily nudge:** `getDailyNudgeMessage(name, streak, lang = 'he')` reads `t.nudge` (owner's OK to do it now). Hebrew is
+  the default, so the in-app nudge in `checkNotifications` is unchanged (a test compares every band to the old function).
+  The Progress preview card passes the UI language.
+- **Keyword lists** (`NICHE_KEYWORDS`, PathBuilder only — hidden behind `FEATURES.pathBuilder`) moved to
+  `utils/nicheKeywords.js`. They already had English words; added `training`, `exercise`, `technology`, `develop(ment)`,
+  `programming`, `chatgpt`, `investing`, `finance`, `financial`, `sales`, `marketing`. **English keywords now match whole
+  words only** (optional plural `s`; owner's OK): before, `ai` matched "daily" / "again" and `app` matched "happy". Hebrew
+  keywords still match anywhere (prefixes ב/ה/ו stick to the word).
+- **RTL:** no `dir="rtl"` / `direction: 'rtl'` left (nickname input, delete sheet + its input). Physical → logical with
+  Hebrew unchanged: in rtl `left` = end, `right` = start (`marginLeft: 'auto'` → `marginInlineEnd: 'auto'`). Also done
+  in the hidden fight-club / XP-forecast blocks. Settings' toggle knob stays physical (off left, on right in both
+  languages, as today). No chevron icons in these files.
+- **Tests:** `src/__tests__/i18nProgress.test.jsx` (17) — Progress in English (with data, loading, singular) and Hebrew
+  (copy, `יום ראשון`, day letters, `12,345`); nudge Hebrew = old function for every band, English has no Hebrew;
+  Settings signed in / guest in English, Hebrew copy; pillars by id; delete confirm word in both languages; whole-word
+  keywords; no hard-coded rtl / right / left; key parity. `i18n.test.jsx` now expects the label `שפה`.
+  `npm test`: 32 files / 554 tests. `npm run build` OK.
+- **Lint:** warnings 755 → 648. Same 5 pre-existing errors.
+- **390px check (dev, guest, headless):** Hebrew Progress identical to the branch before Phase 5 (max pixel difference
+  1/255); Hebrew Profile differs only in the language label. English Progress and Profile: ltr, no Hebrew except
+  `עברית`, no page errors. The delete sheet and the signed-in Settings rows were checked by tests only.
+
+Left on purpose (Phase 5):
+- **Hidden behind `false` flags, still Hebrew:** fight club + its modal (`fightClub`), XP forecast (`xpForecast`), track
+  progress, rebuild path + its confirm modal, path archive (`deepTracks`), surprise-mission categories
+  (`surpriseMission`).
+- **"Copy summary" with a streak** puts the most active 30-day track's Hebrew title in the text (`CHALLENGES`, tracks are
+  hidden; only users with old track progress). Content phase, or drop the track name.
+- **Other notifications** in `notificationService.js` (evening recap, habit reminders, nudges) are still Hebrew — next
+  phase.
+
 ## Still untranslated after Phase 1 (measured 2026-10-09)
 
 - **Hard-coded Hebrew:** ~5,760 lines in 99 files (excluding `src/i18n/` and tests) — `data/` 3,830, `components/`
@@ -203,7 +250,7 @@ Left on purpose (Phase 4):
 1. ~~**Welcome / Setup / Dashboard**~~ — done in Phase 2 (above).
 2. ~~**Home's remaining cards**~~ — done in Phase 3 (above).
 3. ~~**Workouts tab**~~ — done in Phase 4 (above), titles included; instructions, cues and safety notes left.
-4. **Progress and Profile tabs** — incl. Settings' `שפה / Language` label; the Hebrew keyword lists in `Dashboard.jsx`.
+4. ~~**Progress and Profile tabs**~~ — done in Phase 5 (above).
 5. **Notifications + `lang` on the profile** — in-app (`notificationService.js`) and push (functions already have
    `he`/`en` copy and read the profile's `lang`); save `lang` to the profile when it changes.
 6. **Legal pages** — privacy policy + terms (`src/data/legal.js`), plus legal review for users abroad.
