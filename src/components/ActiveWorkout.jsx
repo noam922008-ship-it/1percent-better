@@ -5,6 +5,8 @@ import { syncWeeklyReps } from '../services/squadService'
 import { analyzeSession, coachConfigured } from '../services/coachService'
 import FeedbackModal from './FeedbackModal'
 import BoxingWorkout from './BoxingWorkout'
+import { useLang } from '../context/LangContext'
+import { fmt } from '../i18n/fmt'
 
 // ── Haversine — great-circle distance between two GPS coords (km) ────
 function haversine(lat1, lon1, lat2, lon2) {
@@ -22,6 +24,8 @@ function haversine(lat1, lon1, lat2, lon2) {
 const CARDIO_KEY = 'prime_cardio_live'
 
 function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
+  const { t: tr } = useLang()
+  const tcar = tr.workouts.cardio
   const [elapsed,   setElapsed]   = useState(() => {
     try {
       const s = JSON.parse(localStorage.getItem(CARDIO_KEY))
@@ -69,7 +73,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
       try {
         localStorage.setItem(CARDIO_KEY, JSON.stringify({
           trackId: track.id,
-          trackName: track.name,
+          trackName: tr.workouts.tracks[track.id]?.name ?? track.name,
           goal,
           startTimestamp: startTsRef.current,
           distance: distRef.current,
@@ -138,10 +142,10 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
     if (!running || finished) { document.title = 'PRIME'; return }
     const m = String(Math.floor(elapsed / 60)).padStart(2, '0')
     const s = String(elapsed % 60).padStart(2, '0')
-    const d = distRef.current > 0 ? ` · ${distRef.current.toFixed(2)}ק"מ` : ''
+    const d = distRef.current > 0 ? ` · ${distRef.current.toFixed(2)}${tcar.kmTitle}` : ''
     document.title = `🏃‍♂️ ${m}:${s}${d} — PRIME`
     return () => { document.title = 'PRIME' }
-  }, [running, finished, elapsed])
+  }, [running, finished, elapsed, tcar])
 
   function handleDone() {
     clearInterval(timerRef.current)
@@ -197,7 +201,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
             transition: 'font-size 0.3s ease, color 0.4s ease',
           }}>{mins}:{secs}</span>
           <span style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700 }}>
-            {finished ? 'נרשם' : `יעד: ${goal} דק'`}
+            {finished ? tcar.logged : fmt(tcar.goal, { n: goal })}
           </span>
         </div>
         {isSprint && (
@@ -228,9 +232,9 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
           <span style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', fontVariantNumeric: 'tabular-nums' }}>
             {distance.toFixed(2)}
           </span>
-          <span style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700 }}>ק״מ</span>
+          <span style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700 }}>{tcar.km}</span>
           {geoStatus === 'denied' && (
-            <span style={{ color: 'rgba(239,68,68,0.6)', fontSize: '0.6rem' }}>GPS חסום</span>
+            <span style={{ color: 'rgba(239,68,68,0.6)', fontSize: '0.6rem' }}>{tcar.gpsBlocked}</span>
           )}
         </div>
       )}
@@ -242,11 +246,11 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
             className="btn-tactile"
             style={{ flex: 1, padding: '1rem', borderRadius: 14, fontSize: '1rem', fontWeight: 800, background: running ? 'rgba(239,68,68,0.12)' : 'rgba(245,197,24,0.12)', border: `1px solid ${running ? 'rgba(239,68,68,0.3)' : 'rgba(245,197,24,0.3)'}`, color: running ? '#f87171' : '#F5C518', cursor: 'pointer' }}
           >
-            {running ? '⏸ עצור' : '▶ התחל'}
+            {running ? tcar.pause : tcar.start}
           </button>
           {elapsed > 0 && (
             <button onClick={handleDone} className="btn-primary btn-tactile" style={{ flex: 1, padding: '1rem', borderRadius: 14, fontSize: '0.95rem', fontWeight: 800 }}>
-              סיימתי ←
+              {tcar.done}
             </button>
           )}
         </div>
@@ -256,7 +260,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
           <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
             <div style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>✅</div>
             <div style={{ color: '#10b981', fontWeight: 900, fontSize: '1rem' }}>
-              {doneMinutes >= goal ? 'יעד הושג!' : `${doneMinutes} דקות`}
+              {doneMinutes >= goal ? tcar.goalReached : fmt(tcar.minutes, { n: doneMinutes })}
             </div>
           </div>
 
@@ -270,17 +274,17 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
               <span style={{ fontSize: '1.1rem' }}>📍</span>
               <div>
                 <div style={{ color: '#10b981', fontWeight: 900, fontSize: '1.4rem', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
-                  {distRef.current.toFixed(2)} ק״מ
+                  {distRef.current.toFixed(2)} {tcar.km}
                 </div>
                 <div style={{ color: 'rgba(16,185,129,0.55)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  נוצר אוטומטי · GPS
+                  {tcar.autoGps}
                 </div>
               </div>
             </div>
           ) : (
             <div style={{ marginBottom: '0.65rem' }}>
               <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-                {geoStatus === 'denied' ? 'GPS חסום — הכנס מרחק ידנית (ק״מ)' : 'מרחק (ק״מ) — אופציונלי'}
+                {geoStatus === 'denied' ? tcar.distDenied : tcar.distOptional}
               </div>
               <input
                 autoFocus
@@ -309,7 +313,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
             className="btn-primary btn-tactile"
             style={{ width: '100%', padding: '1rem', borderRadius: 14, fontSize: '0.97rem', fontWeight: 900, marginBottom: '0.45rem' }}
           >
-            שמור ←
+            {tcar.save}
           </button>
           {!gpsTracked && (
             <button
@@ -317,7 +321,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
               className="btn-tactile"
               style={{ width: '100%', padding: '0.5rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.22)', fontSize: '0.7rem', cursor: 'pointer' }}
             >
-              דלג על מרחק
+              {tcar.skipDistance}
             </button>
           )}
         </div>
@@ -331,6 +335,8 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
 const FUTURE_GOAL_KEY = id => `prime_future_goal_${id}`
 
 function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash }) {
+  const { t: tr } = useLang()
+  const tfu = tr.workouts.future
   const defaultFuture = sessionGoal * 3
   const [futureGoal, setFutureGoal] = useState(() => {
     try { return parseInt(localStorage.getItem(FUTURE_GOAL_KEY(trackId))) || defaultFuture }
@@ -374,7 +380,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
         animation: reps > 0 && !repFlash ? 'rep-flash 0.28s ease-out' : 'none',
       }}>{reps}</div>
       <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.58rem', fontWeight: 700, marginBottom: '0.3rem' }}>
-        / {sessionGoal} · יעד: {futureGoal}
+        {fmt(tfu.goalLine, { goal: sessionGoal, future: futureGoal })}
       </div>
       <div style={{ width: '100%', height: 3, background: 'rgba(255,255,255,0.1)', borderRadius: 99, overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${pct}%`, background: reached ? '#34d399' : '#F5C518', borderRadius: 99, transition: 'width 0.4s ease' }} />
@@ -396,7 +402,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
         <span style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.48rem', fontWeight: 800, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
-          ◈ אני עכשיו vs אני עתידי
+          {tfu.title}
         </span>
         <button onClick={() => { setExpanded(false); setEditing(false) }}
           style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.35)', fontSize: '0.82rem', cursor: 'pointer', padding: '0.1rem 0.2rem', lineHeight: 1 }}>
@@ -409,7 +415,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
         {/* Now */}
         <div style={{ flex: 1, textAlign: 'center' }}>
           <div key={reps} style={{ color: '#F5C518', fontSize: '2.1rem', fontWeight: 900, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{reps}</div>
-          <div style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.56rem', fontWeight: 700, marginTop: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>עכשיו</div>
+          <div style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.56rem', fontWeight: 700, marginTop: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{tfu.now}</div>
         </div>
 
         {/* Arrow + delta */}
@@ -420,7 +426,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
             fontSize: '0.58rem', fontWeight: 900, marginTop: '0.12rem',
             fontVariantNumeric: 'tabular-nums',
           }}>
-            {reached ? '✓ הגעת!' : `−${delta}`}
+            {reached ? tfu.reached : `−${delta}`}
           </div>
         </div>
 
@@ -451,7 +457,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
             </button>
           )}
           <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.56rem', fontWeight: 700, marginTop: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-            יעד 60 יום
+            {tfu.goal60}
           </div>
         </div>
       </div>
@@ -460,7 +466,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
       <div style={{ marginBottom: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.22rem' }}>
           <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.48rem', fontWeight: 700 }}>0</span>
-          <span style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.5rem', fontWeight: 800 }}>{pct}% מהיעד</span>
+          <span style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.5rem', fontWeight: 800 }}>{fmt(tfu.pct, { n: pct })}</span>
           <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.48rem', fontWeight: 700 }}>{futureGoal}</span>
         </div>
         <div style={{ height: 5, background: 'rgba(255,255,255,0.08)', borderRadius: 99, overflow: 'hidden' }}>
@@ -475,7 +481,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
       {/* Vision snippet */}
       {visionProfile?.three_year_vision && (
         <div style={{ marginTop: '0.55rem', padding: '0.38rem 0.6rem', background: 'rgba(245,197,24,0.04)', borderRadius: 9, border: '1px solid rgba(245,197,24,0.1)' }}>
-          <div style={{ color: 'rgba(245,197,24,0.4)', fontSize: '0.46rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.12rem' }}>◈ החזון שלך</div>
+          <div style={{ color: 'rgba(245,197,24,0.4)', fontSize: '0.46rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.12rem' }}>{tfu.vision}</div>
           <div style={{ color: 'rgba(241,245,249,0.42)', fontSize: '0.58rem', lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
             {visionProfile.three_year_vision}
           </div>
@@ -486,7 +492,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
       {!editing && (
         <button onClick={() => { setEditing(true); setEditVal(String(futureGoal)) }}
           style={{ display: 'block', margin: '0.4rem auto 0', background: 'none', border: 'none', color: 'rgba(241,245,249,0.18)', fontSize: '0.52rem', cursor: 'pointer', fontFamily: 'inherit' }}>
-          ✏ הקש על {futureGoal} לעריכת יעד
+          {fmt(tfu.editHint, { n: futureGoal })}
         </button>
       )}
     </div>
@@ -506,26 +512,25 @@ function saveSetLog(entry) {
   } catch {}
 }
 
-function calcSummary(reps, goal, caveInCount) {
+function calcSummary(reps, goal, caveInCount, ts) {
   let score = 100
   if (reps > 0) score -= Math.round(Math.min(60, (caveInCount / reps) * 100))
   score = Math.max(0, Math.round(score / 10) * 10)
 
   const tips = []
-  if (caveInCount > 0) tips.push('שמור על ברכיים מעוגנות מעל אצבעות הרגל')
-  if (reps < goal)     tips.push(`השלמת ${reps} מתוך ${goal} — נסה שוב בסט הבא`)
-  if (caveInCount > 2) tips.push('הורד את הקצב — איכות עדיפה על כמות')
+  if (caveInCount > 0) tips.push(ts.tipKnees)
+  if (reps < goal)     tips.push(fmt(ts.tipPartial, { reps, goal }))
+  if (caveInCount > 2) tips.push(ts.tipSlow)
 
-  const headline = score >= 90 ? 'סט מצוין! 🔥'
-                 : score >= 70 ? 'עבודה טובה — שים לב לטכניקה'
-                 : score >= 50 ? 'בוא נשפר את הטכניקה'
-                 :               'האט — אכפת לנו מהצורה'
+  const headline = ts.headline[score >= 90 ? 'great' : score >= 70 ? 'good' : score >= 50 ? 'improve' : 'slow']
 
   return { score, headline, tips }
 }
 
 // ── Post-set summary panel ────────────────────────────────────────────
 function SetSummaryPanel({ track: _track, reps, goal, score, headline, tips, onSave }) {
+  const { t: tr } = useLang()
+  const ts = tr.workouts.strength
   const scoreColor = score >= 90 ? '#34d399' : score >= 70 ? '#F5C518' : score >= 50 ? '#f59e0b' : '#ef4444'
   return (
     <div style={{ animation: 'slide-up 0.3s ease both' }}>
@@ -533,7 +538,7 @@ function SetSummaryPanel({ track: _track, reps, goal, score, headline, tips, onS
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.25rem 0 1rem' }}>
         <div style={{ width: 88, height: 88, borderRadius: '50%', border: `3px solid ${scoreColor}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: `${scoreColor}12`, marginBottom: '0.75rem' }}>
           <span style={{ color: scoreColor, fontSize: '1.7rem', fontWeight: 900, lineHeight: 1 }}>{score}</span>
-          <span style={{ color: `${scoreColor}99`, fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>ניקוד</span>
+          <span style={{ color: `${scoreColor}99`, fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{ts.score}</span>
         </div>
         <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', textAlign: 'center' }}>{headline}</div>
       </div>
@@ -541,8 +546,8 @@ function SetSummaryPanel({ track: _track, reps, goal, score, headline, tips, onS
       {/* Stats row */}
       <div style={{ display: 'flex', gap: '0.6rem', marginBottom: '1rem' }}>
         {[
-          { label: 'חזרות', value: reps },
-          { label: 'יעד', value: goal },
+          { label: ts.reps, value: reps },
+          { label: ts.goal, value: goal },
           { label: '%', value: `${Math.round((reps / goal) * 100)}%` },
         ].map(s => (
           <div key={s.label} style={{ flex: 1, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '0.65rem 0.5rem', textAlign: 'center' }}>
@@ -555,7 +560,7 @@ function SetSummaryPanel({ track: _track, reps, goal, score, headline, tips, onS
       {/* Tips */}
       {tips.length > 0 && (
         <div style={{ background: 'rgba(245,197,24,0.05)', border: '1px solid rgba(245,197,24,0.15)', borderRadius: 12, padding: '0.75rem 0.9rem', marginBottom: '1rem' }}>
-          <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>◈ טיפים לסט הבא</div>
+          <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>{ts.tipsTitle}</div>
           {tips.map((t, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', marginBottom: i < tips.length - 1 ? '0.35rem' : 0 }}>
               <span style={{ color: '#F5C518', fontSize: '0.7rem', flexShrink: 0, marginTop: '0.05rem' }}>›</span>
@@ -567,13 +572,16 @@ function SetSummaryPanel({ track: _track, reps, goal, score, headline, tips, onS
 
       <button onClick={onSave} className="btn-primary btn-tactile"
         style={{ width: '100%', padding: '1rem', borderRadius: 14, fontSize: '0.97rem', fontWeight: 900 }}>
-        שמור וסגור ←
+        {ts.saveClose}
       </button>
     </div>
   )
 }
 
 function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete, onClose }) {
+  const { t: tr } = useLang()
+  const ts = tr.workouts.strength
+  const trackName = tr.workouts.tracks[track.id]?.name ?? track.name
   const videoRef      = useRef(null)
   const canvasRef     = useRef(null)
   const landmarkerRef = useRef(null)
@@ -781,11 +789,11 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
 
   function finishSet(finalReps) {
     cleanup()
-    const s = calcSummary(finalReps, goal, caveInCountRef.current)
+    const s = calcSummary(finalReps, goal, caveInCountRef.current, ts)
     const today = new Date().toISOString().slice(0, 10)
     saveSetLog({
       id: Date.now(), date: today, timestamp: Date.now(),
-      exerciseId: track.id, exerciseName: track.name, exerciseEmoji: track.emoji,
+      exerciseId: track.id, exerciseName: trackName, exerciseEmoji: track.emoji,
       reps: finalReps, goal, techniqueScore: s.score, caveInCount: caveInCountRef.current,
     })
     if (uid && finalReps > 0) {
@@ -848,7 +856,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
   if (phase === 'loading') return (
     <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
       <div className="anim-spin" style={{ width: 36, height: 36, border: '3px solid rgba(245,197,24,0.2)', borderTopColor: '#F5C518', borderRadius: '50%', margin: '0 auto 1rem' }} />
-      <p style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.85rem' }}>טוען מצלמה ו-AI…</p>
+      <p style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.85rem' }}>{ts.loading}</p>
     </div>
   )
 
@@ -864,36 +872,36 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
       />
       <div style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.22)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1rem' }}>
         <p style={{ color: '#f87171', fontSize: '0.82rem', fontWeight: 700, margin: '0 0 0.5rem' }}>
-          {phase === 'error' ? '⚠️ הרשאת מצלמה נדחתה' : '⚠️ לא ניתן לטעון את המצלמה'}
+          {phase === 'error' ? ts.denied : ts.unavailable}
         </p>
         <p style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem', margin: '0 0 0.75rem' }}>
           {phase === 'error'
-            ? 'אפשר גישה למצלמה בהגדרות הדפדפן ולאחר מכן נסה שוב.'
-            : 'ייתכן שהמודל לא נטען. בדוק חיבור לאינטרנט.'}
+            ? ts.deniedSub
+            : ts.unavailSub}
         </p>
         <button
           onClick={retryCamera}
           className="btn-tactile"
           style={{ background: 'rgba(245,197,24,0.1)', border: '1px solid rgba(245,197,24,0.3)', borderRadius: 10, padding: '0.5rem 1rem', color: '#F5C518', fontSize: '0.8rem', fontWeight: 800, cursor: 'pointer' }}
         >
-          🔄 נסה שוב
+          {ts.retry}
         </button>
       </div>
 
       <label style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.67rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
-        או הכנס ידנית
+        {ts.manual}
       </label>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <input
           type="number" inputMode="numeric" value={manualRep}
           onChange={e => setManualRep(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleManualSave()}
-          placeholder={`יעד: ${goal} חזרות`} className="glow-input"
+          placeholder={fmt(ts.manualPh, { n: goal })} className="glow-input"
           style={{ flex: 1, padding: '0.75rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.09)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.9rem', fontFamily: 'inherit' }}
         />
         <button onClick={handleManualSave} disabled={!manualRep} className="btn-primary btn-tactile"
           style={{ padding: '0.75rem 1.1rem', borderRadius: 11, fontSize: '0.9rem', fontWeight: 800, opacity: manualRep ? 1 : 0.4 }}>
-          שמור ←
+          {ts.save}
         </button>
       </div>
     </div>
@@ -913,7 +921,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
       />
       {aiFeedback && (
         <FeedbackModal
-          exerciseName={track.name}
+          exerciseName={trackName}
           reps={summary.reps}
           goal={goal}
           score={summary.score}
@@ -993,7 +1001,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
           }}>
             <span style={{ color: '#fff', fontSize: '0.72rem', fontWeight: 800 }}>
               {isSquat
-                ? (poseState === 'down' ? '⬇ שוקע' : '⬆ עומד')
+                ? (poseState === 'down' ? ts.down : ts.up)
                 : `${angle}° ${poseState === 'down' ? '▼' : '▲'}`
               }
             </span>
@@ -1008,7 +1016,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
             background: 'rgba(0,0,0,0.45)', pointerEvents: 'none',
           }}>
             <div style={{ color: '#F5C518', fontSize: '3rem', fontWeight: 900, lineHeight: 1 }}>{warmup}</div>
-            <div style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>מתכוננים — תיכנס לעמדה</div>
+            <div style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>{ts.getReady}</div>
           </div>
         )}
 
@@ -1020,7 +1028,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
             backdropFilter: 'blur(6px)', animation: 'fadeIn 0.15s ease',
             color: '#fff', fontSize: '0.8rem', fontWeight: 800, whiteSpace: 'nowrap',
           }}>
-            ⚠️ שים לב לברכיים!
+            {ts.knees}
           </div>
         )}
 
@@ -1032,7 +1040,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
             color: '#fff', fontSize: '0.72rem', fontWeight: 700, whiteSpace: 'nowrap',
             animation: 'fadeIn 0.2s ease', backdropFilter: 'blur(4px)',
           }}>
-            🔍 זוז לתוך הפריים
+            {ts.moveIn}
           </div>
         )}
 
@@ -1041,7 +1049,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
           <div style={{ position: 'absolute', bottom: 10, left: 10, display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(5,5,5,0.72)', borderRadius: 20, padding: '0.25rem 0.6rem', backdropFilter: 'blur(6px)' }}>
             <div style={{ width: 7, height: 7, borderRadius: '50%', background: confidenceLow ? '#ef4444' : '#34d399', animation: 'cam-pulse 1.4s ease-in-out infinite', flexShrink: 0 }} />
             <span style={{ color: confidenceLow ? '#fca5a5' : 'rgba(52,211,153,0.9)', fontSize: '0.6rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace", letterSpacing: '0.06em' }}>
-              {confidenceLow ? 'זיהוי חלש' : 'AI פעיל'}
+              {confidenceLow ? ts.weak : ts.aiOn}
             </span>
           </div>
         )}
@@ -1050,7 +1058,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
         {!goalReached && (
           <button onClick={() => { cleanup(); onClose() }} className="btn-tactile"
             style={{ position: 'absolute', bottom: 10, right: isSquat ? 22 : 10, background: 'rgba(5,5,5,0.72)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.25rem 0.7rem', backdropFilter: 'blur(6px)', color: 'rgba(241,245,249,0.55)', fontSize: '0.62rem', fontWeight: 700, cursor: 'pointer' }}>
-            ✕ סגור מצלמה
+            {ts.closeCam}
           </button>
         )}
 
@@ -1059,7 +1067,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.55)', animation: 'fadeIn 0.3s ease' }}>
             <div style={{ background: 'rgba(5,5,5,0.9)', borderRadius: 18, padding: '1.25rem 2rem', textAlign: 'center', border: '2px solid rgba(245,197,24,0.5)' }}>
               <div style={{ fontSize: '2.5rem' }}>🏆</div>
-              <div style={{ color: '#F5C518', fontWeight: 900, fontSize: '1.1rem', marginTop: '0.25rem' }}>יעד הושג!</div>
+              <div style={{ color: '#F5C518', fontWeight: 900, fontSize: '1.1rem', marginTop: '0.25rem' }}>{ts.goalReached}</div>
             </div>
           </div>
         )}
@@ -1077,7 +1085,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
 
       <button onClick={handleDone} className="btn-primary btn-tactile"
         style={{ width: '100%', padding: '1rem', borderRadius: 14, fontSize: '0.97rem', fontWeight: 800 }}>
-        {goalReached ? 'סיום אימון ←' : `סיימתי (${reps} חזרות) ←`}
+        {goalReached ? ts.finish : fmt(ts.doneReps, { n: reps })}
       </button>
     </div>
   )
@@ -1086,6 +1094,8 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
 // ── Shell modal ─────────────────────────────────────────────────────
 
 export default function ActiveWorkout({ track, goal, uid, userName, visionProfile, onComplete, onClose }) {
+  const { t: tr } = useLang()
+  const label = tr.workouts.tracks[track.id] ?? track
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.88)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', zIndex: 3100 }}>
       <div style={{ width: '100%', maxWidth: 480, background: '#0e0e16', borderRadius: '20px 20px 0 0', padding: '1.4rem 1.4rem 2.5rem', borderTop: '2px solid rgba(245,197,24,0.3)', animation: 'slide-up 0.28s ease' }}>
@@ -1094,8 +1104,8 @@ export default function ActiveWorkout({ track, goal, uid, userName, visionProfil
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <span style={{ fontSize: '1.3rem' }}>{track.emoji}</span>
             <div>
-              <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.97rem' }}>{track.name}</div>
-              <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.7rem', fontWeight: 700 }}>יעד: {goal} {track.unit}</div>
+              <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.97rem' }}>{label.name}</div>
+              <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.7rem', fontWeight: 700 }}>{fmt(tr.workouts.goalUnit, { n: goal, unit: label.unit })}</div>
             </div>
           </div>
           <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(241,245,249,0.5)', padding: '0.3rem 0.8rem', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 700, minHeight: 44 }}>✕</button>

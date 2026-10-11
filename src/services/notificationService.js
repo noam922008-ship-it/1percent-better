@@ -3,8 +3,14 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { getEffectiveStreak } from '../utils/streak'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, isReminderDay } from '../utils/habitSchedule'
 import { getLocalDateKey } from '../utils/localDate'
+import he from '../i18n/he'
+import en from '../i18n/en'
+import { fmt } from '../i18n/fmt'
 
 const todayKey = () => new Date().toISOString().slice(0, 10)
+
+// Notification copy for lang ('he' default — the app's language when nothing is passed)
+const copyFor = lang => (lang === 'en' ? en : he)
 
 // ── localStorage helpers ───────────────────────────────────────────
 
@@ -110,7 +116,7 @@ async function showNotification(title, options) {
 
 // ── Prime Nudge ────────────────────────────────────────────────────
 
-export async function fireNudge(nn, visionProfile, uid) {
+export async function fireNudge(nn, visionProfile, uid, lang = 'he') {
   if (!('Notification' in window) || Notification.permission !== 'granted') return
 
   const key = nudgeKey(nn)
@@ -120,22 +126,23 @@ export async function fireNudge(nn, visionProfile, uid) {
   const vision = visionProfile?.three_year_vision || ''
   const gap    = visionProfile?.the_gap || ''
 
+  const n_   = copyFor(lang).notify
   const trim = (s, n) => s.length > n ? s.slice(0, n - 1) + '…' : s
 
   let body = nn
   if (vision) body += `\n\n💭 "${trim(vision, 65)}"`
-  if (gap)    body += `\nהפער: ${trim(gap, 55)}`
+  if (gap)    body += `\n${fmt(n_.gap, { gap: trim(gap, 55) })}`
 
-  await showNotification('⚡ Prime Check-in', {
+  await showNotification(n_.checkinTitle, {
     body,
     icon: '/favicon.svg',
     tag:  `nudge_${key}`,
     data: { habitLabel: nn, uid: uid || '' },
     requireInteraction: true,
     actions: [
-      { action: 'done',  title: '✅ עשיתי' },
-      { action: 'later', title: '⏰ בעוד שעה' },
-      { action: 'help',  title: '🆘 צריך עזרה' },
+      { action: 'done',  title: n_.actions.done },
+      { action: 'later', title: n_.actions.later },
+      { action: 'help',  title: n_.actions.help },
     ],
   })
 }
@@ -174,7 +181,7 @@ export function __devQueueTestNudge() {
 
 // ── Check nudges (called every 60s from Dashboard) ─────────────────
 
-export async function checkNudges(visionProfile, uid) {
+export async function checkNudges(visionProfile, uid, lang = 'he') {
   if (!isNudgesEnabled()) return
   if (!visionProfile) return
   const nns = visionProfile.non_negotiables
@@ -186,43 +193,39 @@ export async function checkNudges(visionProfile, uid) {
 
   for (const nn of nns) {
     if (typeof nn !== 'string' || !nn.trim()) continue
-    await fireNudge(nn.trim(), visionProfile, uid)
+    await fireNudge(nn.trim(), visionProfile, uid, lang)
   }
 }
 
 // ── Existing exports (unchanged) ────────────────────────────────────
-
-const GOAL_LABELS_HE = {
-  trading: 'מסחר', fitness: 'כושר', learning: 'למידה',
-  mindful: 'מיינדפולנס', work: 'עבודה עמוקה', creative: 'יצירתיות',
-}
 
 export function requestPermission() {
   if (!('Notification' in window)) return
   if (Notification.permission === 'default') Notification.requestPermission()
 }
 
-export function fireTriggerNotif(trigger, profile) {
+export function fireTriggerNotif(trigger, profile, lang = 'he') {
   if (!('Notification' in window) || Notification.permission !== 'granted') return
   const notified = getNotifSet()
   if (notified.has(trigger.id)) return
   markNotified(trigger.id)
 
+  const n_        = copyFor(lang).notify
   const vision    = profile?.vision
-  const goalLabel = GOAL_LABELS_HE[profile?.focusGoal] || ''
+  const goalLabel = n_.goals[profile?.focusGoal] || ''
 
   let body = `${trigger.cue}\n→ ${trigger.habit}`
   if (vision) {
     const snippet = vision.length > 55 ? vision.slice(0, 52) + '…' : vision
     body += `\n\n💭 "${snippet}"`
   } else if (goalLabel) {
-    body += `\n\nיעד: ${goalLabel} 💪`
+    body += `\n\n${fmt(n_.goal, { goal: goalLabel })}`
   }
 
-  new Notification('⚡ זמן לטריגר שלך', { body, icon: '/favicon.svg', tag: trigger.id })
+  new Notification(n_.habitTitle, { body, icon: '/favicon.svg', tag: trigger.id })
 }
 
-export function fireEveningRecap(profile, triggers) {
+export function fireEveningRecap(profile, triggers, lang = 'he') {
   if (!('Notification' in window) || Notification.permission !== 'granted') return
 
   const recapKey = `ft_recap_${todayKey()}`
@@ -234,28 +237,27 @@ export function fireEveningRecap(profile, triggers) {
   const total     = triggers.length
   const name      = profile?.name ? `, ${profile.name}` : ''
 
-  let body
-  if (total === 0)          body = `לא הגדרת טריגרים להיום. מחר מתחילים מחדש 💪`
-  else if (doneCount === total) body = `כל הכבוד${name}! 🎉 השלמת את כל ${total} הטריגרים היום.\nאיך אתה מרגיש?`
-  else if (doneCount === 0)     body = `עדיין לא השלמת טריגרים היום${name}. עוד לא מאוחר מדי 🌙\nאיך אתה מרגיש?`
-  else                          body = `השלמת ${doneCount} מתוך ${total} טריגרים היום${name}.\nאיך אתה מרגיש?`
+  const n_   = copyFor(lang).notify
+  const r    = total === 0 ? n_.recap.none
+             : doneCount === total ? (total === 1 ? n_.recap.allOne : n_.recap.all)
+             : doneCount === 0 ? n_.recap.zero
+             : n_.recap.some
+  const body = fmt(r, { name, total, done: doneCount })
 
-  new Notification('🌙 סיכום יומי', { body, icon: '/favicon.svg', tag: 'evening-recap' })
+  new Notification(n_.recapTitle, { body, icon: '/favicon.svg', tag: 'evening-recap' })
 }
 
-export function getDailyNudgeMessage(name, streak) {
-  const n = name ? `, ${name}` : ''
-  if (streak >= 30) return { title: `🔥 ${streak} ימים${n}`,       body: `אגדה. עוד יום אחד שומר את הלהבה דולקת. אל תשבור את מה שבנית.` }
-  if (streak >= 14) return { title: `💪 רצף של ${streak} ימים${n}!`, body: `שבועיים של נוכחות. היום זה עוד צעד אחד. אל תשבור את השרשרת.` }
-  if (streak >= 7)  return { title: `⚡ שבוע ברצף${n}!`,            body: `7+ ימים ברצף. אתה כבר בין 10% הטובים. אל תיתן ליום הזה לשבור את הרצף.` }
-  if (streak >= 3)  return { title: `🚀 ${streak} ימים ברצף${n}`,   body: `הרצף שלך בונה. הרגל אחד היום שומר על המומנטום. מוכן?` }
-  if (streak === 1) return { title: `✅ יום 1 הושלם${n}`,           body: `התחלה טובה. ביום 2 רוב האנשים מוותרים. תגיע שוב היום.` }
-  return              { title: `⚡ ההרגלים שלך מחכים${n}`,         body: `כל יום שאתה מגיע הוא הצבעה עבור האדם שאתה הופך להיות. תתחיל היום.` }
+// lang: 'he' (default — the in-app nudge below) or 'en'. Copy lives in t.nudge.
+export function getDailyNudgeMessage(name, streak, lang = 'he') {
+  const m = copyFor(lang).nudge
+  const vars = { n: streak, name: name ? `, ${name}` : '' }
+  const pick = streak >= 30 ? m.d30 : streak >= 14 ? m.d14 : streak >= 7 ? m.d7 : streak >= 3 ? m.d3 : streak === 1 ? m.d1 : m.start
+  return { title: fmt(pick.title, vars), body: fmt(pick.body, vars) }
 }
 
 // weekLog: weekly-habit check-ins for this local week ({ [localDate]: { [id]: true } }).
 // Only runs while the app is open (foreground) — see CLAUDE.md for the iPhone limits.
-export function checkNotifications(triggers, profile, recapTime = '20:00', nudgeTime = '08:00', weekLog = {}) {
+export function checkNotifications(triggers, profile, recapTime = '20:00', nudgeTime = '08:00', weekLog = {}, lang = 'he') {
   if (!('Notification' in window) || Notification.permission !== 'granted') return
 
   const devFire = _devFireOnNextTick
@@ -271,7 +273,7 @@ export function checkNotifications(triggers, profile, recapTime = '20:00', nudge
     if (!localStorage.getItem(nudgeKey)) {
       localStorage.setItem(nudgeKey, '1')
       const streak  = getEffectiveStreak(profile)
-      const { title, body } = getDailyNudgeMessage(profile?.name, streak)
+      const { title, body } = getDailyNudgeMessage(profile?.name, streak, lang)
       new Notification(title, { body, icon: '/favicon.svg', tag: 'daily-nudge' })
     }
   }
@@ -286,11 +288,11 @@ export function checkNotifications(triggers, profile, recapTime = '20:00', nudge
       if (doneOn(tr, weekLog, localToday)) return
       if (weeklyDone(tr, weekLog, weekKeys(localToday)) >= timesPerWeek(tr)) return
     } else if (checkins[tr.id]) return
-    fireTriggerNotif(tr, profile)
+    fireTriggerNotif(tr, profile, lang)
   })
 
   // Evening recap
   if (hhmm === recapTime) {
-    fireEveningRecap(profile, triggers.filter(tr => !isWeekly(tr)))   // recap counts today's daily habits
+    fireEveningRecap(profile, triggers.filter(tr => !isWeekly(tr)), lang)   // recap counts today's daily habits
   }
 }

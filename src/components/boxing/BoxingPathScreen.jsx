@@ -19,6 +19,8 @@ import BoxingDrillTimer from './BoxingDrillTimer'
 import BoxingFormAnalysis from './BoxingFormAnalysis'
 import BoxingSessionAnalysis from './BoxingSessionAnalysis'
 import { FEATURES } from '../../config/features'
+import { useLang } from '../../context/LangContext'
+import { fmt, byLang } from '../../i18n/fmt'
 
 // ─── palette ────────────────────────────────────────────────────────────────
 const C = {
@@ -31,22 +33,6 @@ const C = {
   blue:    '#60a5fa',
   green:   '#10b981',
   red:     '#ef4444',
-}
-
-const DIFFICULTY_LABEL = {
-  beginner:     'מתחילים',
-  intermediate: 'בינוני',
-  advanced:     'מתקדם',
-}
-
-// ─── category brief instructions ────────────────────────────────────────────
-const CATEGORY_BRIEF = {
-  'footwork':       'עבוד על תנועה, מיקום ויציאות זווית בכל רמת אינטנסיביות.',
-  'punch-technique': 'תרגל ג׳אב, קרוס, הוק ואפרקט — כל מכה עם חזרה מלאה לגארד.',
-  'defense':        'תרגל גארד נכון, סנטר מורד, התחמקות והתאוששות אחרי מכות.',
-  'combinations':   'תרגל רצפי מכות (1-2, 1-2-3) משולבים עם הגנה ותנועה.',
-  'free-training':  'בחר כמה זמן ותאמן כל טכניקה שתרצה — בלי הגבלה.',
-  'analysis': 'בדיקת יציבה ומיקום גוף מתמונה בודדת. לא מתאים להערכת תנועה או קומבינציות.',
 }
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
@@ -95,7 +81,6 @@ function TechniqueRow({ name, status }) {
         gap: 10,
         padding: '8px 0',
         borderBottom: `1px solid ${C.border}`,
-        direction: 'rtl',
       }}
     >
       <span style={{ color, fontSize: 16, minWidth: 20, textAlign: 'center' }}>{symbol}</span>
@@ -113,6 +98,7 @@ function TechniqueRow({ name, status }) {
 }
 
 function WorkoutRow({ workout, completedIds }) {
+  const { lang, t: tr } = useLang()
   const done = completedIds.includes(workout.id)
   return (
     <div
@@ -123,16 +109,15 @@ function WorkoutRow({ workout, completedIds }) {
         padding: '8px 12px',
         borderRadius: 8,
         background: done ? 'rgba(16,185,129,0.08)' : 'transparent',
-        direction: 'rtl',
       }}
     >
       <span style={{ fontSize: 15, color: done ? C.green : C.muted, minWidth: 20, textAlign: 'center' }}>
         {done ? '✓' : '○'}
       </span>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, color: done ? C.muted : C.text }}>{workout.titleHe}</div>
+        <div style={{ fontSize: 13, color: done ? C.muted : C.text }}>{byLang(workout, 'title', lang)}</div>
         <div style={{ fontSize: 11, color: C.muted, marginTop: 2 }}>
-          {workout.estimatedMinutes} דקות
+          {fmt(tr.workouts.combat.minutes, { n: workout.estimatedMinutes })}
         </div>
       </div>
     </div>
@@ -140,6 +125,8 @@ function WorkoutRow({ workout, completedIds }) {
 }
 
 function LevelAccordion({ level, completedIds, defaultOpen }) {
+  const { lang, t: tr } = useLang()
+  const tc = tr.workouts.combat
   const [open, setOpen] = useState(defaultOpen)
   const unlocked = isLevelUnlocked(level.level, completedIds)
   const { icon, color } = levelStatusIcon(level.level, completedIds)
@@ -165,21 +152,20 @@ function LevelAccordion({ level, completedIds, defaultOpen }) {
           display: 'flex',
           alignItems: 'center',
           gap: 10,
-          direction: 'rtl',
         }}
       >
         <span style={{ fontSize: 18, color, minWidth: 24, textAlign: 'center' }}>{icon}</span>
-        <div style={{ flex: 1, textAlign: 'right' }}>
+        <div style={{ flex: 1, textAlign: 'start' }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: unlocked ? C.text : C.muted }}>
-            רמה {level.level} — {level.titleHe}
+            {fmt(tc.levelTitle, { n: level.level, title: byLang(level, 'title', lang) })}
           </div>
           {unlocked && (
             <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>
-              {progress.completed}/{progress.total} אימונים
+              {fmt(tc.levelCount, { done: progress.completed, total: progress.total })}
             </div>
           )}
           {!unlocked && (
-            <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>נעול — השלם את הרמה הקודמת</div>
+            <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{tc.locked}</div>
           )}
         </div>
         {unlocked && (
@@ -206,6 +192,9 @@ export default function BoxingPathScreen({
   onClose,
   onDrillComplete,
 }) {
+  const { lang, t: tr } = useLang()
+  const tc = tr.workouts.combat
+  const tb = tc.boxing
   // ── guided course state ──
   const state        = getBoxingState(profile)
   const nextWorkout  = getNextWorkout(state)
@@ -240,7 +229,7 @@ export default function BoxingPathScreen({
   const courseProgressText = (() => {
     if (!nextLevel) return null
     const p = getLevelProgress(nextLevel.level, completedIds)
-    return `אימון ${p.completed + 1}/${p.total} · רמה ${nextLevel.level}`
+    return fmt(tb.courseProgress, { n: p.completed + 1, total: p.total, level: nextLevel.level })
   })()
 
   // ─── VIEW: drill-active ───────────────────────────────────────────────────
@@ -285,7 +274,6 @@ export default function BoxingPathScreen({
           minHeight: '100vh',
           background: C.bg,
           color: C.text,
-          direction: 'rtl',
           fontFamily: 'system-ui, sans-serif',
           display: 'flex',
           flexDirection: 'column',
@@ -297,7 +285,7 @@ export default function BoxingPathScreen({
         <div style={{ fontSize: 56, marginBottom: 16 }}>🥊</div>
 
         <div style={{ fontSize: 20, fontWeight: 800, color: C.accent, marginBottom: 24 }}>
-          אימון הושלם!
+          {tb.drillDone}
         </div>
 
         {/* Stats row */}
@@ -323,7 +311,7 @@ export default function BoxingPathScreen({
             <div style={{ fontSize: 20, fontWeight: 700, color: C.text }}>
               {formatDuration(drillStats.durationSeconds)}
             </div>
-            <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>זמן</div>
+            <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>{tc.completion.time}</div>
           </div>
           <div
             style={{
@@ -338,7 +326,7 @@ export default function BoxingPathScreen({
             <div style={{ fontSize: 20, fontWeight: 700, color: C.text }}>
               {drillStats.roundsCompleted}
             </div>
-            <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>סיבובים</div>
+            <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>{tc.completion.rounds}</div>
           </div>
           {selectedCategory && (
             <div
@@ -353,7 +341,7 @@ export default function BoxingPathScreen({
             >
               <div style={{ fontSize: 20}}>{selectedCategory.emoji}</div>
               <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>
-                {selectedCategory.labelHe}
+                {byLang(selectedCategory, 'label', lang)}
               </div>
             </div>
           )}
@@ -395,7 +383,7 @@ export default function BoxingPathScreen({
               cursor: 'pointer',
             }}
           >
-            🔁 חזור על האימון
+            {tb.again}
           </button>
           <button
             className="btn-tactile"
@@ -415,7 +403,7 @@ export default function BoxingPathScreen({
               cursor: 'pointer',
             }}
           >
-            אימון נוסף
+            {tb.another}
           </button>
           {FEATURES.ai && (
           <button
@@ -454,7 +442,7 @@ export default function BoxingPathScreen({
 
   // ─── VIEW: drill-config ───────────────────────────────────────────────────
   if (view === 'drill-config' && selectedCategory) {
-    const brief = CATEGORY_BRIEF[selectedCategory.id] ?? ''
+    const brief = tb.briefs[selectedCategory.id] ?? ''
 
     return (
       <div
@@ -462,7 +450,6 @@ export default function BoxingPathScreen({
           minHeight: '100vh',
           background: C.bg,
           color: C.text,
-          direction: 'rtl',
           fontFamily: 'system-ui, sans-serif',
           paddingBottom: 32,
         }}
@@ -501,10 +488,10 @@ export default function BoxingPathScreen({
               justifyContent: 'center',
             }}
           >
-            ←
+            {tc.back}
           </button>
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'flex-end' }}>
-            <span style={{ fontSize: 17, fontWeight: 700 }}>{selectedCategory.labelHe}</span>
+            <span style={{ fontSize: 17, fontWeight: 700 }}>{byLang(selectedCategory, 'label', lang)}</span>
             <span style={{ fontSize: 22 }}>{selectedCategory.emoji}</span>
           </div>
         </div>
@@ -518,12 +505,12 @@ export default function BoxingPathScreen({
                 color: C.muted,
                 lineHeight: 1.6,
                 marginBottom: 24,
-                textAlign: 'right',
+                textAlign: 'start',
                 background: C.surface,
                 borderRadius: 12,
                 border: `1px solid ${C.border}`,
                 padding: '12px 14px',
-                borderRight: `3px solid ${C.accent}`,
+                borderInlineStart: `3px solid ${C.accent}`,
               }}
             >
               {brief}
@@ -536,11 +523,11 @@ export default function BoxingPathScreen({
               fontSize: 15,
               fontWeight: 700,
               marginBottom: 12,
-              textAlign: 'right',
+              textAlign: 'start',
               color: C.text,
             }}
           >
-            כמה זמן?
+            {tb.howLong}
           </div>
 
           {/* Duration buttons */}
@@ -573,7 +560,7 @@ export default function BoxingPathScreen({
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  {dur} דקות
+                  {fmt(tc.minutes, { n: dur })}
                 </button>
               )
             })}
@@ -600,11 +587,11 @@ export default function BoxingPathScreen({
                 gap: 10,
                 padding: '0 16px',
                 marginBottom: 28,
-                textAlign: 'right',
+                textAlign: 'start',
                 transition: 'all 0.15s ease',
               }}
             >
-              <span>כבר מחוממ/ת — דלג על חימום</span>
+              <span>{tb.skipWarmup}</span>
               <span
                 style={{
                   width: 22,
@@ -647,7 +634,7 @@ export default function BoxingPathScreen({
               letterSpacing: 0.3,
             }}
           >
-            התחל {selectedDuration} דקות ←
+            {fmt(tb.startN, { n: selectedDuration })}
           </button>
         </div>
       </div>
@@ -661,7 +648,6 @@ export default function BoxingPathScreen({
         minHeight: '100vh',
         background: C.bg,
         color: C.text,
-        direction: 'rtl',
         fontFamily: 'system-ui, sans-serif',
         paddingBottom: 32,
         overflowX: 'hidden',
@@ -701,10 +687,10 @@ export default function BoxingPathScreen({
             justifyContent: 'center',
           }}
         >
-          ←
+          {tc.back}
         </button>
-        <h1 style={{ flex: 1, fontSize: 17, fontWeight: 700, margin: 0, textAlign: 'right' }}>
-          🥊 איגרוף
+        <h1 style={{ flex: 1, fontSize: 17, fontWeight: 700, margin: 0, textAlign: 'start' }}>
+          {tb.title}
         </h1>
       </div>
 
@@ -712,8 +698,8 @@ export default function BoxingPathScreen({
 
         {/* ── Quick Start ──────────────────────────────────────────────── */}
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, marginBottom: 8, textAlign: 'right', letterSpacing: 0.3 }}>
-            ⚡ הפעלה מהירה
+          <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, marginBottom: 8, textAlign: 'start', letterSpacing: 0.3 }}>
+            {tc.quickStart}
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
             <button
@@ -743,8 +729,8 @@ export default function BoxingPathScreen({
               }}
             >
               <span style={{ fontSize: 24, lineHeight: 1 }}>👟</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>רגליים מהיר</span>
-              <span style={{ fontSize: 11, color: C.muted }}>{selectedDuration} דק׳</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>{tc.quickLegs}</span>
+              <span style={{ fontSize: 11, color: C.muted }}>{fmt(tc.minShort, { n: selectedDuration })}</span>
             </button>
             <button
               className="btn-tactile"
@@ -773,8 +759,8 @@ export default function BoxingPathScreen({
               }}
             >
               <span style={{ fontSize: 24, lineHeight: 1 }}>🥊</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>ידיים מהיר</span>
-              <span style={{ fontSize: 11, color: C.muted }}>{selectedDuration} דק׳</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>{tc.quickHands}</span>
+              <span style={{ fontSize: 11, color: C.muted }}>{fmt(tc.minShort, { n: selectedDuration })}</span>
             </button>
           </div>
         </div>
@@ -786,10 +772,10 @@ export default function BoxingPathScreen({
             fontWeight: 700,
             color: C.text,
             marginBottom: 12,
-            textAlign: 'right',
+            textAlign: 'start',
           }}
         >
-          על מה עובדים היום?
+          {tb.todayQ}
         </div>
 
         {/* Category grid — 2 columns */}
@@ -819,7 +805,7 @@ export default function BoxingPathScreen({
                 borderRadius: 14,
                 padding: '14px 12px',
                 cursor: 'pointer',
-                textAlign: 'right',
+                textAlign: 'start',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 5,
@@ -831,10 +817,10 @@ export default function BoxingPathScreen({
             >
               <span style={{ fontSize: 26, lineHeight: 1 }}>{cat.emoji}</span>
               <span style={{ fontSize: 13, fontWeight: 700, color: C.text, lineHeight: 1.2, wordBreak: 'break-word' }}>
-                {cat.labelHe}
+                {byLang(cat, 'label', lang)}
               </span>
               <span style={{ fontSize: 11, color: C.muted, lineHeight: 1.4, wordBreak: 'break-word' }}>
-                {cat.descHe}
+                {byLang(cat, 'desc', lang)}
               </span>
             </button>
           ))}
@@ -852,7 +838,7 @@ export default function BoxingPathScreen({
             borderRadius: 14,
             padding: '14px 16px',
             cursor: 'pointer',
-            textAlign: 'right',
+            textAlign: 'start',
             display: 'flex',
             alignItems: 'center',
             gap: 12,
@@ -899,19 +885,18 @@ export default function BoxingPathScreen({
               display: 'flex',
               alignItems: 'center',
               gap: 10,
-              direction: 'rtl',
               minHeight: 52,
             }}
           >
             <span style={{ color: C.muted, fontSize: 14, flexShrink: 0 }}>
               {showCourse ? '▲' : '▼'}
             </span>
-            <div style={{ flex: 1, textAlign: 'right' }}>
+            <div style={{ flex: 1, textAlign: 'start' }}>
               <span style={{ fontSize: 15, fontWeight: 700, color: C.text }}>
-                מסלול מודרך
+                {tb.course}
               </span>
               {courseProgressText && !showCourse && (
-                <span style={{ fontSize: 12, color: C.muted, marginRight: 8 }}>
+                <span style={{ fontSize: 12, color: C.muted, marginInlineStart: 8 }}>
                   {courseProgressText}
                 </span>
               )}
@@ -937,10 +922,10 @@ export default function BoxingPathScreen({
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
                     <div style={{ fontSize: 15, fontWeight: 700, color: C.accent, marginBottom: 4 }}>
-                      כל אימוני רמה 1 הושלמו!
+                      {tb.l1Done}
                     </div>
                     <div style={{ fontSize: 13, color: C.muted, marginBottom: 14 }}>
-                      רמה 2 — תנועה ועבודת רגליים ממתינה לך
+                      {tb.l2Waiting}
                     </div>
                     <button
                       className="btn-tactile"
@@ -956,7 +941,7 @@ export default function BoxingPathScreen({
                         fontWeight: 600,
                       }}
                     >
-                      חזור לתרגל 🥋
+                      {tb.practiceAgain}
                     </button>
                   </div>
                 ) : nextWorkout ? (
@@ -972,21 +957,21 @@ export default function BoxingPathScreen({
                           fontWeight: 700,
                         }}
                       >
-                        רמה {nextLevel?.level ?? 1} · {nextLevel?.titleHe ?? ''}
+                        {fmt(tc.levelChip, { n: nextLevel?.level ?? 1, title: byLang(nextLevel, 'title', lang) })}
                       </span>
                       <span style={{ fontSize: 12, color: C.muted }}>
-                        אימון {nextWorkout.order} מתוך {nextLevel?.workouts.length ?? 6}
+                        {fmt(tc.workoutOf, { n: nextWorkout.order, total: nextLevel?.workouts.length ?? 6 })}
                       </span>
                     </div>
 
                     <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>
-                      {nextWorkout.titleHe}
+                      {byLang(nextWorkout, 'title', lang)}
                     </div>
 
                     <div style={{ fontSize: 13, color: C.muted, marginBottom: 16 }}>
-                      {nextWorkout.estimatedMinutes} דקות ·{' '}
-                      {DIFFICULTY_LABEL[nextWorkout.difficulty] ?? nextWorkout.difficulty} ·{' '}
-                      {(nextWorkout.equipment ?? []).join(', ')}
+                      {fmt(tc.minutes, { n: nextWorkout.estimatedMinutes })} ·{' '}
+                      {tc.difficulty[nextWorkout.difficulty] ?? nextWorkout.difficulty} ·{' '}
+                      {(nextWorkout.equipment ?? []).map((id) => tc.equipment[id] ?? id).join(', ')}
                     </div>
 
                     <button
@@ -1004,12 +989,12 @@ export default function BoxingPathScreen({
                         cursor: 'pointer',
                       }}
                     >
-                      התחל אימון ←
+                      {tc.startWorkout}
                     </button>
                   </>
                 ) : (
                   <div style={{ textAlign: 'center', color: C.muted, fontSize: 14 }}>
-                    🏆 השלמת את כל תכנית האיגרוף!
+                    {tb.allDone}
                   </div>
                 )}
               </div>
@@ -1038,7 +1023,7 @@ export default function BoxingPathScreen({
                       {getLevelProgress(nextLevel.level, completedIds).total}
                     </span>
                     <span style={{ fontSize: 13, fontWeight: 600, color: C.text }}>
-                      התקדמות ברמה
+                      {tc.levelProgress}
                     </span>
                   </div>
                   <ProgressBar
@@ -1058,8 +1043,8 @@ export default function BoxingPathScreen({
                   marginBottom: 12,
                 }}
               >
-                <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, textAlign: 'right' }}>
-                  טכניקות
+                <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, textAlign: 'start' }}>
+                  {tc.techniques}
                 </div>
                 {L1_TECHNIQUES.map((tech) => (
                   <TechniqueRow key={tech} name={tech} status={techStatus(tech)} />
@@ -1068,8 +1053,8 @@ export default function BoxingPathScreen({
 
               {/* Level list */}
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, textAlign: 'right', color: C.text }}>
-                  מפת הדרך
+                <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, textAlign: 'start', color: C.text }}>
+                  {tc.roadmap}
                 </div>
                 {BOXING_LEVELS.map((level) => (
                   <LevelAccordion

@@ -9,38 +9,50 @@ export const DRILL_CATEGORIES = [
   {
     id: 'footwork',
     labelHe: 'עבודת רגליים',
+    labelEn: 'Footwork',
     emoji: '👟',
     descHe: 'תנועה, מיקום ויציאות זווית',
+    descEn: 'Movement, position and angling out',
   },
   {
     id: 'punch-technique',
     labelHe: 'ידיים ומכות',
+    labelEn: 'Punches',
     emoji: '🥊',
     descHe: 'ג׳אב, קרוס, הוק, אפרקט וחזרה להגנה',
+    descEn: 'Jab, cross, hook, uppercut and back to guard',
   },
   {
     id: 'defense',
     labelHe: 'הגנה ושמירת פנים',
+    labelEn: 'Defense and guard',
     emoji: '🛡️',
     descHe: 'גארד, סנטר מורד, השתחמות והתאוששות',
+    descEn: 'Guard, chin down, slipping and recovering',
   },
   {
     id: 'combinations',
     labelHe: 'קומבינציות',
+    labelEn: 'Combinations',
     emoji: '⚡',
     descHe: 'מכות משולבות עם הגנה ותנועה',
+    descEn: 'Punches together with defense and movement',
   },
   {
     id: 'free-training',
     labelHe: 'אימון חופשי',
+    labelEn: 'Free training',
     emoji: '🔥',
     descHe: 'סיבובים לפי בחירתך',
+    descEn: 'Rounds your way',
   },
   {
     id: 'analysis',
     labelHe: 'בדיקת עמידה מתמונה',
+    labelEn: 'Stance check from a photo',
     emoji: '📸',
     descHe: 'צלם תנוחה וקבל משוב על מה שנראה בתמונה',
+    descEn: 'Take a photo of your stance and get feedback on what it shows',
   },
 ]
 
@@ -91,6 +103,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-3-tech',
       type: 'technique',
       titleHe: 'טכניקה: צעד קדימה ואחורה',
+      titleEn: 'Technique: step forward and back',
       instructionHe:
         'עמוד בתנוחת אגרוף: רגל שמאל קדמית, ימין אחורית, כתפיים מעט אלכסוניות. לצעד קדימה — הרגל הקדמית זז ראשונה, הרגל האחורית גוררת בדיוק אותו מרחק. לצעד אחורה — הרגל האחורית זז ראשונה, הקדמית גוררת. שמור על רוחב הכתפיים בין הרגליים בכל עת. אל תצלב את הרגליים ואל תשכח לרחף על קצות האצבעות.',
       durationSeconds: 40,
@@ -100,6 +113,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-3-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — תנועה קדימה-אחורה',
+      titleEn: 'Round 1 — moving forward and back',
       instructionHe:
         'שלושה צעדים קדימה, עצור, שלושה צעדים אחורה, עצור. חזור על הרצף לכל אורך הסיבוב. התמקד בכך שהרגל הגוררת נחה בדיוק במקום הנכון — לא רחוק מדי ולא קרוב מדי. הידיים נשארות בגארד, מבט ישיר קדימה.',
       durationSeconds: 100,
@@ -114,6 +128,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-3-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'צעד איטי במקום, הורד את הידיים, נשום עמוק. מתח את שרירי השוקיים — עמוד על עקבים לשניות ספורות, חזור לכפות. סובב את הקרסוליים בעדינות לשני הכיוונים.',
       durationSeconds: 40,
@@ -126,6 +141,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-5-warm',
       type: 'warmup',
       titleHe: 'חימום — ריצה קלה במקום',
+      titleEn: 'Warm-up — light jog in place',
       instructionHe:
         'ריצה קלה במקום, קצב נוח. הרם את הברכיים מעט — לא ריצת ברכיים גבוהות, רק הפעלת שרירים. לאחר 30 שניות הוסף תנועה קטנה קדימה ואחורה תוך כדי הריצה.',
       durationSeconds: 60,
@@ -135,6 +151,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-5-tech',
       type: 'technique',
       titleHe: 'טכניקה: צעד לצד',
+      titleEn: 'Technique: side step',
       instructionHe:
         'שאפל לצד ימין: רגל ימין זז ראשונה לצד, רגל שמאל עוקבת בדיוק אותו מרחק. לצד שמאל: רגל שמאל זז ראשונה. הרגליים נשארות מקבילות, אל תביא את העקב פנימה. שמור על כיפוף קל בברכיים כל הזמן — "ספוגי", לא נוקשה.',
       durationSeconds: 60,
@@ -144,6 +161,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-5-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — תנועה לצדדים',
+      titleEn: 'Round 1 — moving sideways',
       instructionHe:
         'שני שאפלים לצד ימין, עצור, שני שאפלים לצד שמאל, עצור. חזור. שים לב שהגוף לא מתנדנד — הכתפיים נשארות יציבות, התנועה מגיעה מהרגליים בלבד. אל תניח לרגליים להתקרב אחת לשנייה.',
       durationSeconds: 90,
@@ -158,6 +176,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-5-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — תנועה קדימה + לצד + אחורה',
+      titleEn: 'Round 2 — forward + side + back',
       instructionHe:
         'רצף בצורת L: שני צעדים קדימה, שני שאפלים לצד שמאל, שני צעדים אחורה. חזור לנקודת ההתחלה ועשה את הרצף בצד הנגדי: קדימה, לצד ימין, אחורה. תנועה רציפה ושקטה — דמיין שאתה על קרח דק.',
       durationSeconds: 60,
@@ -172,6 +191,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-5-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'עמוד ישר, נשום עמוק. מתח את חזית הירך — אחוז ברגל אחת מאחור ל-10 שניות לכל צד. סובב את הקרסוליים. לאט לאט.',
       durationSeconds: 30,
@@ -184,6 +204,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-warm',
       type: 'warmup',
       titleHe: 'חימום — הפעלת גוף',
+      titleEn: 'Warm-up — get the body moving',
       instructionHe:
         'ריצה קלה במקום 30 שניות, לאחר מכן סיבובי ירכיים 10 חזרות לכל כיוון, ואז כיפוף קל של הברכיים — סקוואט רדוד 10 פעמים. הכל בקצב נוח.',
       durationSeconds: 60,
@@ -193,6 +214,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-tech',
       type: 'technique',
       titleHe: 'טכניקה: ציר וסיבוב',
+      titleEn: 'Technique: pivot and turn',
       instructionHe:
         'ציר: הרגל הקדמית נשארת במקום ומשמשת כציר. הרגל האחורית מסתובבת החוצה ב-45–90 מעלות. לאחר הסיבוב — אתה עכשיו פונה לזווית שונה. זוהי יציאת זווית — להשתמש אחרי מכה כדי לצאת מהקו הישר. תרגל סיבוב לשמאל ואחר כך לימין לסירוגין.',
       durationSeconds: 60,
@@ -202,6 +224,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — תנועה קדימה-אחורה',
+      titleEn: 'Round 1 — moving forward and back',
       instructionHe:
         'שלושה צעדים קדימה, שלושה אחורה, ברציפות. קצב בינוני-מהיר. הרגל הגוררת אף פעם לא חוצה את הרגל המובילה.',
       durationSeconds: 90,
@@ -216,6 +239,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום עמוק. נשיפה ארוכה. הכן את עצמך לסיבוב הבא.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -224,6 +248,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — צעדים לצד',
+      titleEn: 'Round 2 — side steps',
       instructionHe:
         'שאפל שלושה צעדים לצד ימין, שלושה לשמאל. לאחר 45 שניות — האץ את הקצב, שני שאפלים מהירים לכל כיוון. שמור על גובה קבוע — לא לקפוץ למעלה בין הצעדים.',
       durationSeconds: 90,
@@ -238,6 +263,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה את הכתפיים.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -246,6 +272,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — ציר ויציאת זווית',
+      titleEn: 'Round 3 — pivot and angle out',
       instructionHe:
         'צעד קדימה, ציר על הרגל הקדמית לשמאל — כעת אתה פונה לכיוון חדש. צעד קדימה שוב, ציר לימין. הרצף: קדימה → ציר שמאל → קדימה → ציר ימין. דמיין שאתה עוקף יריב בכל ציר.',
       durationSeconds: 90,
@@ -260,6 +287,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-rest3',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון קרב.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -268,6 +296,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-w4',
       type: 'work',
       titleHe: 'סיבוב 4 — תנועה + ג׳אב',
+      titleEn: 'Round 4 — movement + jab',
       instructionHe:
         'שני צעדים קדימה → ג׳אב אחד → שני צעדים אחורה. חזור על הרצף. המכה מגיעה בסוף התנועה קדימה, לא תוך כדי. לאחר הג׳אב — חזור מיד לגארד לפני שאתה נסוג אחורה. זהו שילוב בסיסי: תנועה → כניסה → מכה → יציאה.',
       durationSeconds: 90,
@@ -282,6 +311,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-10-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'הליכה איטית במקום. מתח את הירכיים והשוקיים. גלגל את הכתפיים אחורה. נשום עמוק דרך האף, שחרר דרך הפה.',
       durationSeconds: 60,
@@ -294,6 +324,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה במקום 30 שניות. קפיצות קטנות על שתי רגליים 15 שניות — הגוף מתחמם ומוכן. 15 שניות אחרונות: סיבובי ירכיים ופתיחת כתפיים.',
       durationSeconds: 60,
@@ -303,6 +334,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-tech',
       type: 'technique',
       titleHe: 'טכניקה: יציאת זווית',
+      titleEn: 'Technique: angling out',
       instructionHe:
         'יציאת זווית היא שילוב של צעד לצד וציר. לאחר ג׳אב-קרוס: צעד לצד שמאל עם הרגל השמאלית בו זמנית שאתה מסיים את הקרוס, ואז ציר קל — עכשיו אתה מחוץ לקו הישר. תרגל: צעד → ציר לשמאל. צעד → ציר לימין.',
       durationSeconds: 60,
@@ -312,6 +344,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — צעדים קדימה-אחורה',
+      titleEn: 'Round 1 — steps forward and back',
       instructionHe:
         'ארבעה צעדים קדימה, ארבעה אחורה. לאחר 60 שניות — שני צעדים קדימה, שני אחורה, בקצב כפול. שמור על תנוחת אגרוף לאורך כל הסיבוב.',
       durationSeconds: 120,
@@ -326,6 +359,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום עמוק. שאיפה 4 שניות, נשיפה 4 שניות.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -334,6 +368,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — שאפל לצדדים',
+      titleEn: 'Round 2 — side shuffle',
       instructionHe:
         'שלושה שאפלים ימינה, שלושה שמאלה. לאחר 60 שניות — הוסף ג׳אב בסוף כל רצף: שאפל ימינה × 3 → ג׳אב, שאפל שמאלה × 3 → ג׳אב.',
       durationSeconds: 120,
@@ -348,6 +383,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. כתפיים רפויות.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -356,6 +392,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — ציר ויציאה',
+      titleEn: 'Round 3 — pivot and exit',
       instructionHe:
         'צעד קדימה → ציר לשמאל → שני שאפלים לצד → ציר חזרה. חזור לכיוון הנגדי. הרצף דומה לריקוד — תנועה זורמת, לא מדורגת. תרגל יציאה משני הצדדים לסירוגין.',
       durationSeconds: 120,
@@ -370,6 +407,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-rest3',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'מתח קל את הירכיים, נשום.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -378,6 +416,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-w4',
       type: 'work',
       titleHe: 'סיבוב 4 — שילוב תנועה + ג׳אב',
+      titleEn: 'Round 4 — movement + jab together',
       instructionHe:
         'שני צעדים קדימה → ג׳אב → שני צעדים אחורה → ציר לצד. חזור. ג׳אב תמיד בסוף הכניסה, ואז יציאה מיידית. לאחר 60 שניות — הוסף קרוס לאחר הג׳אב: כניסה → 1-2 → יציאה.',
       durationSeconds: 120,
@@ -392,6 +431,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-rest4',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'סיבוב אחרון — תן הכל.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -400,6 +440,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-w5',
       type: 'work',
       titleHe: 'סיבוב 5 — אימון חופשי של עבודת רגליים',
+      titleEn: 'Round 5 — free footwork',
       instructionHe:
         'שלב את כל מה שתרגלת: קדימה-אחורה, לצד, ציר, יציאות זווית. אין הוראות — תנוע לפי האינסטינקט. האם אתה עדיין על קצות האצבעות? האם הגארד למעלה? האם אתה לא מצלב רגליים? בדוק את עצמך.',
       durationSeconds: 120,
@@ -414,6 +455,7 @@ const FOOTWORK_ROUNDS = {
       id: 'ft-15-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'הליכה איטית. מתח את שרירי השוקיים, הירכיים, הגב התחתון. גלגל את הכתפיים. נשום עמוק ושחרר.',
       durationSeconds: 60,
@@ -430,6 +472,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-3-tech',
       type: 'technique',
       titleHe: 'טכניקה: הג׳אב',
+      titleEn: 'Technique: the jab',
       instructionHe:
         'ג׳אב הוא היד הקדמית (שמאל אם אתה ממוקם ימני). שלב 1: מהגארד — דחף את האגרוף ישר קדימה, סובב את האמה כך שהמפרקים פונים כלפי מעלה בנקודת ההשפעה. שלב 2: החזר את היד חזרה לגארד בדיוק באותו הנתיב. לא לזרוק ולהשאיר — כל מכה מסתיימת בחזרה לגארד. הכתף עולה מעט להגן על הסנטר.',
       durationSeconds: 40,
@@ -439,6 +482,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-3-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — ג׳אב איטי ומדויק',
+      titleEn: 'Round 1 — slow, precise jab',
       instructionHe:
         'ג׳אב אחד כל שתי שניות. לא מהירות — דיוק. ספור: 1…2…ג׳אב. 1…2…ג׳אב. בכל חזרה בדוק: האם האגרוף חזר לגארד? האם הכתף הגנה על הסנטר? האם המפרקים היו ישרים בנקודת ההשפעה?',
       durationSeconds: 100,
@@ -453,6 +497,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-3-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'פתח ונסגר את האגרופים לאט. נער את הידיים. מתח את האמות.',
       durationSeconds: 40,
       coachingCuesHe: [],
@@ -464,6 +509,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-5-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה במקום 30 שניות. סיבובי כתפיים קדימה × 10, אחורה × 10. פתח ונסגר אגרופים × 15. הכן את פרקי הידיים לעבודה.',
       durationSeconds: 60,
@@ -473,6 +519,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-5-tech',
       type: 'technique',
       titleHe: 'טכניקה: הקרוס',
+      titleEn: 'Technique: the cross',
       instructionHe:
         'קרוס הוא היד האחורית (ימין אם אתה ממוקם ימני). מנגנון: סובב את הירך האחורית קדימה, הדחיפה מגיעה מהרגל האחורית דרך הירך אל הכתף. המרפק נשאר למטה בתחילה, עולה רק בסוף. פיבוט על כדור כף הרגל האחורית — הרגל לא מרימה את העקב מוקדם מדי. אחרי הקרוס — ידיים לגארד מיידית.',
       durationSeconds: 60,
@@ -482,6 +529,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-5-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — ג׳אב בלבד',
+      titleEn: 'Round 1 — jab only',
       instructionHe:
         'ג׳אב בלבד, 2–3 שניות בין מכה למכה. התמקד בנתיב חזרה — היד חוזרת ישר לפנים, לא מחטפת לצד. 30 שניות — קצב שווה. 60 שניות — מעט מהיר יותר, אבל לא על חשבון הדיוק.',
       durationSeconds: 90,
@@ -496,6 +544,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-5-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — קרוס בלבד',
+      titleEn: 'Round 2 — cross only',
       instructionHe:
         'קרוס בלבד. ספור את הפיבוט — בכל מכה שמע את כדור כף רגלך האחורית משפשף ברצפה. זו ראיה שהפיבוט הוא אמיתי. שמור את הגארד ביד הקדמית במלואו — אל תורידה.',
       durationSeconds: 60,
@@ -510,6 +559,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-5-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'נער ידיים, פתח אגרופים, מתח אמות. נשום עמוק.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -521,6 +571,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-10-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10 לכל כיוון. מתיחת אמות: הושט יד, כופף את כף היד כלפיך, אחוז 10 שניות. חזור לשנייה. סיבובי פרקי כף יד × 10.',
       durationSeconds: 60,
@@ -530,6 +581,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-10-tech',
       type: 'technique',
       titleHe: 'טכניקה: הוק וחזרה להגנה',
+      titleEn: 'Technique: hook and back to guard',
       instructionHe:
         'הוק הוא מכת חצי-עיגול מהצד. אל תסובב את האגרוף — הוא נשאר אנכי (בלחי) או אופקי (למקדש). המרפק עולה לגובה הכתף. הכוח מגיע מסיבוב הפלג העליון — לא מהיד בלבד. נקודת ממשות: הגוף צריך לסובב לפני שהיד זזה. אחרי הוק — חזור לגארד עם שתי הידיים.',
       durationSeconds: 60,
@@ -539,6 +591,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-10-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — ג׳אב ואיכות מכה',
+      titleEn: 'Round 1 — jab and punch quality',
       instructionHe:
         'ג׳אב בקצב נוח, מכה אחת כל שנייה וחצי. בכל מכה שאל את עצמך: האם חזרתי לגארד? האם הכתף הגנה? האם הרגליים נשארו מקבילות? 60 שניות שניות קצב בינוני, 60 שניות קצב מהיר יותר.',
       durationSeconds: 120,
@@ -553,6 +606,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-10-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. נער את הידיים.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -561,6 +615,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-10-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — קרוס ופיבוט',
+      titleEn: 'Round 2 — cross and pivot',
       instructionHe:
         'קרוס בלבד, כל שתי שניות. בדוק בכל חזרה: האם אתה שומע/מרגיש פיבוט? האם הירך מובילה? האם חזרת לגארד אחרי? 60 שניות בינוני, 60 שניות — קצב גבוה יותר, כוח מלא.',
       durationSeconds: 120,
@@ -575,6 +630,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-10-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה כתפיים.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -583,6 +639,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-10-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — ג׳אב-קרוס ואיכות 1-2',
+      titleEn: 'Round 3 — jab-cross and a clean 1-2',
       instructionHe:
         'ג׳אב-קרוס (1-2). הקרוס יוצא כשהג׳אב חוזר — ידיים בתנועה מתחלפת, לא בו-זמנית. לאחר ה-2 — שתי ידיים חוזרות לגארד. 60 שניות קצב נוח, 60 שניות — 1-2 מהיר ועצמתי.',
       durationSeconds: 120,
@@ -597,6 +654,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-10-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'נער ידיים ואמות. מתח כל אמה × 10 שניות. סיבובי כתפיים. נשום ושחרר.',
       durationSeconds: 60,
@@ -609,6 +667,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי כתפיים × 15 לכל כיוון. פתיחה וסגירה של האגרופים × 20. מתיחת אמות × 10 שניות לכל יד. שייק-אאוט — נער את כל הגוף 15 שניות.',
       durationSeconds: 90,
@@ -618,6 +677,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-tech',
       type: 'technique',
       titleHe: 'טכניקה: הוק והאפרקט',
+      titleEn: 'Technique: hook and uppercut',
       instructionHe:
         'הוק: מרפק בגובה הכתף, גוף מסתובב, מכה בצד. האפרקט: יד עולה מלמטה, מרפק מופנה למטה, מכה לסנטר. שני הנשקים מגיעים בטווח קצר. תרגל: הוק שמאל → הוק ימין → אפרקט שמאל → אפרקט ימין, בתנועה איטית ומדויקת.',
       durationSeconds: 90,
@@ -627,6 +687,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — ג׳אב',
+      titleEn: 'Round 1 — jab',
       instructionHe:
         'ג׳אב בלבד, 90 שניות. הפוך כל מכה לשאלה: האם זה היה מושלם? קצב נוח. לא מהירות — איכות.',
       durationSeconds: 90,
@@ -641,6 +702,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. נשיפה ארוכה.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -649,6 +711,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — קרוס',
+      titleEn: 'Round 2 — cross',
       instructionHe:
         'קרוס בלבד, 90 שניות. דגש על פיבוט ועל ירך. 45 שניות קצב נוח, 45 שניות — כוח מלא.',
       durationSeconds: 90,
@@ -663,6 +726,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה כתפיים.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -671,6 +735,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — הוק',
+      titleEn: 'Round 3 — hook',
       instructionHe:
         'הוק בלבד — שמאל וימין לסירוגין. 45 שניות איטי ומדויק, 45 שניות — קצב מהיר. בדוק: האם המרפק בגובה הכתף? האם הגוף מסתובב?',
       durationSeconds: 90,
@@ -685,6 +750,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-rest3',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הכן לאפרקט.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -693,6 +759,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-w4',
       type: 'work',
       titleHe: 'סיבוב 4 — ג׳אב-קרוס-הוק',
+      titleEn: 'Round 4 — jab-cross-hook',
       instructionHe:
         'קומבינציה: 1-2-3 (ג׳אב-קרוס-הוק שמאל). חזור. 45 שניות בקצב נוח, 45 שניות — קצב מהיר עם כוח. חזרה לגארד אחרי ה-3.',
       durationSeconds: 90,
@@ -707,6 +774,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-rest4',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון — כוח מלא.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -715,6 +783,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-w5',
       type: 'work',
       titleHe: 'סיבוב 5 — כל 4 המכות',
+      titleEn: 'Round 5 — all 4 punches',
       instructionHe:
         'ג׳אב → קרוס → הוק שמאל → אפרקט ימין. רצף מלא. 1-2-3-4. לאחר 45 שניות — הגבר קצב. כל מכה שלמה לפני הבאה.',
       durationSeconds: 90,
@@ -729,6 +798,7 @@ const PUNCH_ROUNDS = {
       id: 'pt-15-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'נער ידיים, פתח אגרופים לאט. מתח כל אמה × 15 שניות. סיבובי כתפיים. נשום עמוק ושחרר. עבודה טובה.',
       durationSeconds: 90,
@@ -745,6 +815,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-3-tech',
       type: 'technique',
       titleHe: 'טכניקה: גארד וסנטר מורד',
+      titleEn: 'Technique: guard and chin down',
       instructionHe:
         'גארד בסיסי: ידיים ליד הלחיים, מרפקים מכסים את הצלעות, אגרופים מופנים קדימה. סנטר מורד: לשמור את הסנטר מאחורי כתף קדמית — לא לחשוף אותו. בדוק: אם מישהו יזרוק ג׳אב ישר, האם הכתף שלך מגנה? התרגל בתנועת ראש קטנה לצד ימין ושמאל תוך שמירת גארד.',
       durationSeconds: 40,
@@ -754,6 +825,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-3-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — תנועת ראש + גארד',
+      titleEn: 'Round 1 — head movement + guard',
       instructionHe:
         'תנועה איטית: ראש לצד ימין → חזרה → ראש לצד שמאל → חזרה. בכל תנועה — הגארד נשאר סגור, הסנטר מורד. אל תניע רק את הצוואר — הפלג העליון מסתובב מעט. אחרי 45 שניות — תוסיף קצב: תנועת ראש מהירה יותר, כמו שאתה מתחמק ממכות.',
       durationSeconds: 100,
@@ -768,6 +840,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-3-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'מתח את צוואר בעדינות לכל כיוון. גלגל כתפיים. נשום.',
       durationSeconds: 40,
       coachingCuesHe: [],
@@ -779,6 +852,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-5-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי ראש עדינים לכל כיוון × 5. הרמת כתפיים × 10. שייק-אאוט קצר.',
       durationSeconds: 60,
@@ -788,6 +862,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-5-tech',
       type: 'technique',
       titleHe: 'טכניקה: סליפ (החמקה)',
+      titleEn: 'Technique: slip',
       instructionHe:
         'סליפ: תנועת גוף לצד כדי לחמוק ממכה ישרה. סליפ ימינה: הסט את הגוף מעל הרגל הימנית, ראש עובר מעבר לקו הישר. סליפ שמאלה: הסט מעל הרגל השמאלית. התנועה מגיעה מהירכיים — לא רק מהצוואר. גארד נשאר מורם בכל סליפ. תרגל: סליפ ימינה ← → סליפ שמאלה.',
       durationSeconds: 60,
@@ -797,6 +872,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-5-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — תנועת ראש וסליפים',
+      titleEn: 'Round 1 — head movement and slips',
       instructionHe:
         'סליפ קטן לצד ימין, חזרה, סליפ לצד שמאל, חזרה. קצב: כל שנייה. דמיין ג׳אב מגיע לפנים — אתה מחמיק ממנו בכל פעם. גארד לא יורד — ידיים עולות כשהגוף יורד מעט.',
       durationSeconds: 90,
@@ -811,6 +887,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-5-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — גארד ושחזור עמדה',
+      titleEn: 'Round 2 — guard and resetting your stance',
       instructionHe:
         'דמיין שקיבלת מכה לגארד — נסוג צעד אחורה, שקם את הגארד, חזור קדימה. חזור. הנסיגה חייבת להיות מבוקרת — לא נפילה לאחור, צעד שלם ומכוון. לאחר השחזור — עמוד יציב לפני שאתה מתקדם שוב.',
       durationSeconds: 60,
@@ -825,6 +902,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-5-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'מתח צוואר ושכמות. נשום עמוק. הרפה.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -836,6 +914,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-10-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות, סיבובי ראש × 5 לכל כיוון, הרמת כתפיים × 10, מתיחת צוואר × 10 שניות לכל צד.',
       durationSeconds: 60,
@@ -845,6 +924,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-10-tech',
       type: 'technique',
       titleHe: 'טכניקה: סליפ ודאק',
+      titleEn: 'Technique: slip and duck',
       instructionHe:
         'סליפ: תנועה לצד לחמוק ממכה ישרה. דאק: כיפוף ברכיים כלפי מטה לחמוק ממכת הוק. בדאק — הגב נשאר ישר, הברכיים יורדות, לא להרכין ראש. לאחר הדאק — עלייה מהירה עם גארד מורם. תרגל: סליפ ימינה → דאק → עלייה → סליפ שמאלה → דאק → עלייה.',
       durationSeconds: 60,
@@ -854,6 +934,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-10-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — סליפים',
+      titleEn: 'Round 1 — slips',
       instructionHe:
         'סליפ ימינה ← → סליפ שמאלה, קצב נוח. כל שנייה ורבע. גארד מורם לאורך כל הסיבוב. 60 שניות נוח, 60 שניות — הגבר קצב.',
       durationSeconds: 120,
@@ -868,6 +949,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-10-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה כתפיים וצוואר.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -876,6 +958,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-10-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — דאק ועלייה',
+      titleEn: 'Round 2 — duck and come up',
       instructionHe:
         'כפוף ברכיים לדאק, עלה עם גארד. 3 שניות מחזור. בדאק — גב ישר, לא להרכין. בעלייה — גארד מורם לפני שהגוף עולה. 60 שניות נוח, 60 שניות — דאק מהיר ועלייה פורצת.',
       durationSeconds: 120,
@@ -890,6 +973,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-10-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. מתיחת צוואר קצרה.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -898,6 +982,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-10-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — סליפ + דאק משולב',
+      titleEn: 'Round 3 — slip + duck together',
       instructionHe:
         'סליפ ימינה → דאק → עלייה → סליפ שמאלה → דאק → עלייה. רצף. קצב נוח ומבוקר. כל תנועה שלמה לפני הבאה. לאחר 60 שניות — הגבר.',
       durationSeconds: 120,
@@ -912,6 +997,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-10-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'הליכה קלה. מתח צוואר × 15 שניות לכל צד. גלגל כתפיים. נשום עמוק.',
       durationSeconds: 60,
@@ -924,6 +1010,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי ראש × 8 לכל כיוון. הרמת כתפיים × 15. מתיחת צוואר × 15 שניות לכל צד. שייק-אאוט כללי.',
       durationSeconds: 90,
@@ -933,6 +1020,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-tech',
       type: 'technique',
       titleHe: 'טכניקה: פארי (הסטת מכה)',
+      titleEn: 'Technique: parry',
       instructionHe:
         'פארי: הסטה קטנה של מכה נכנסת עם כף יד פתוחה מבחוץ. לג׳אב ימני — הסט עם כף יד שמאל מבחוץ שמאלה. לג׳אב שמאלי — הסט עם כף יד ימין. התנועה קטנה ומדויקת — לא לתפוס, להסיט. רק אחרי ההסטה — תגובה עם מכה. תרגל: פארי ימין → פארי שמאל לסירוגין.',
       durationSeconds: 90,
@@ -942,6 +1030,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — סליפים',
+      titleEn: 'Round 1 — slips',
       instructionHe:
         'סליפ ימינה ← → שמאלה, קצב נוח. 60 שניות בינוני, 60 שניות — מהיר.',
       durationSeconds: 120,
@@ -956,6 +1045,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -964,6 +1054,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — דאק ועלייה',
+      titleEn: 'Round 2 — duck and come up',
       instructionHe:
         'דאק מהיר ועלייה פורצת. 60 שניות נוח, 60 שניות — מהיר ומנצח.',
       durationSeconds: 120,
@@ -978,6 +1069,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. מתיחת צוואר קצרה.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -986,6 +1078,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — פארי',
+      titleEn: 'Round 3 — parry',
       instructionHe:
         'פארי ימין ← → שמאל לסירוגין. תנועה קטנה ומדויקת. 60 שניות נוח, 60 שניות — מהיר.',
       durationSeconds: 120,
@@ -1000,6 +1093,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-rest3',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1008,6 +1102,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-w4',
       type: 'work',
       titleHe: 'סיבוב 4 — הגנה משולבת',
+      titleEn: 'Round 4 — combined defense',
       instructionHe:
         'סליפ → דאק → עלייה → פארי. רצף מלא. קצב מבוקר. כל תנועת הגנה שלמה לפני הבאה. לאחר 60 שניות — הגבר קצב.',
       durationSeconds: 120,
@@ -1022,6 +1117,7 @@ const DEFENSE_ROUNDS = {
       id: 'def-15-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'הליכה קלה. מתח צוואר × 20 שניות לכל צד. גלגול כתפיים. נשום עמוק ושחרר. עבודה טובה.',
       durationSeconds: 90,
@@ -1038,6 +1134,7 @@ const COMBO_ROUNDS = {
       id: 'cb-3-tech',
       type: 'technique',
       titleHe: 'טכניקה: 1-2 (ג׳אב-קרוס)',
+      titleEn: 'Technique: 1-2 (jab-cross)',
       instructionHe:
         'ג׳אב יוצא ראשון (1), הקרוס יוצא בדיוק כשהג׳אב חוזר (2) — לא ביחד. הג׳אב מכין, הקרוס מסיים. לאחר ה-2 — שתי ידיים חוזרות לגארד בו-זמנית. בדוק: האם ה-2 נפלט עם פיבוט? האם הגארד נסגר אחרי הקומבינציה?',
       durationSeconds: 40,
@@ -1047,6 +1144,7 @@ const COMBO_ROUNDS = {
       id: 'cb-3-w1',
       type: 'work',
       titleHe: '1-2 בקצב',
+      titleEn: '1-2 on a rhythm',
       instructionHe:
         'ג׳אב-קרוס כל שתי שניות. ספור: 1…2…1-2. חזור. 45 שניות נוח ומדויק, 55 שניות — קצב גבוה יותר. שמור על חזרה לגארד אחרי כל 1-2.',
       durationSeconds: 100,
@@ -1061,6 +1159,7 @@ const COMBO_ROUNDS = {
       id: 'cb-3-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'נער ידיים. פתח אגרופים. נשום.',
       durationSeconds: 40,
       coachingCuesHe: [],
@@ -1072,6 +1171,7 @@ const COMBO_ROUNDS = {
       id: 'cb-5-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10 לכל כיוון. תנועת ידיים בינוניות × 15 שניות.',
       durationSeconds: 60,
@@ -1081,6 +1181,7 @@ const COMBO_ROUNDS = {
       id: 'cb-5-tech',
       type: 'technique',
       titleHe: 'טכניקה: 1-2-3 (ג׳אב-קרוס-הוק שמאל)',
+      titleEn: 'Technique: 1-2-3 (jab-cross-left hook)',
       instructionHe:
         'לאחר 1-2: הוק שמאל (3) מגיע כשהקרוס חוזר. הוק — מרפק בגובה כתף, גוף מסתובב. לאחר 3 — שתי ידיים לגארד. שלב 1 ו-2 מהירים, שלב 3 — כוח מלא עם סיבוב.',
       durationSeconds: 60,
@@ -1090,6 +1191,7 @@ const COMBO_ROUNDS = {
       id: 'cb-5-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — 1-2',
+      titleEn: 'Round 1 — 1-2',
       instructionHe:
         '1-2 בלבד, 90 שניות. 45 שניות נוח, 45 שניות — מהיר ועצמתי.',
       durationSeconds: 90,
@@ -1104,6 +1206,7 @@ const COMBO_ROUNDS = {
       id: 'cb-5-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — 1-2-3',
+      titleEn: 'Round 2 — 1-2-3',
       instructionHe:
         '1-2-3. 45 שניות בקצב נוח, 45 שניות — מהיר. הוק (3) מגיע עם כוח ועם סיבוב גוף מלא.',
       durationSeconds: 60,
@@ -1118,6 +1221,7 @@ const COMBO_ROUNDS = {
       id: 'cb-5-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'נער ידיים. מתח אמות. נשום עמוק.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -1129,6 +1233,7 @@ const COMBO_ROUNDS = {
       id: 'cb-10-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10. פתיחת אגרופים × 15. תנועת ידיים ומרפקים 15 שניות.',
       durationSeconds: 60,
@@ -1138,6 +1243,7 @@ const COMBO_ROUNDS = {
       id: 'cb-10-tech',
       type: 'technique',
       titleHe: 'טכניקה: 1-2-3-2 (ג׳אב-קרוס-הוק-קרוס)',
+      titleEn: 'Technique: 1-2-3-2 (jab-cross-hook-cross)',
       instructionHe:
         'הקומבינציה הקלאסית. 1: ג׳אב — מכין. 2: קרוס — מסיים. 3: הוק שמאל — פותח. 2: קרוס שני — חוזר ומסיים. הסיום תמיד ביד האחורית. תרגל לאט: 1…2…3…2. לאחר ה-2 האחרון — גארד מלא.',
       durationSeconds: 60,
@@ -1147,6 +1253,7 @@ const COMBO_ROUNDS = {
       id: 'cb-10-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — 1-2',
+      titleEn: 'Round 1 — 1-2',
       instructionHe:
         '1-2 בלבד. 60 שניות נוח, 60 שניות — מהיר. כל פעם — גארד נסגר.',
       durationSeconds: 120,
@@ -1161,6 +1268,7 @@ const COMBO_ROUNDS = {
       id: 'cb-10-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -1169,6 +1277,7 @@ const COMBO_ROUNDS = {
       id: 'cb-10-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — 1-2-3',
+      titleEn: 'Round 2 — 1-2-3',
       instructionHe:
         '1-2-3. 60 שניות נוח, 60 שניות — עצמתי. הוק עם כוח מלא.',
       durationSeconds: 120,
@@ -1183,6 +1292,7 @@ const COMBO_ROUNDS = {
       id: 'cb-10-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הכן לרביעייה.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -1191,6 +1301,7 @@ const COMBO_ROUNDS = {
       id: 'cb-10-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — 1-2-3-2',
+      titleEn: 'Round 3 — 1-2-3-2',
       instructionHe:
         '1-2-3-2. 60 שניות נוח ומדויק, 60 שניות — קצב מהיר. שמור שהגארד נסגר אחרי ה-2 האחרון.',
       durationSeconds: 120,
@@ -1205,6 +1316,7 @@ const COMBO_ROUNDS = {
       id: 'cb-10-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'נער ידיים. מתח אמות × 10 שניות. גלגל כתפיים. נשום.',
       durationSeconds: 60,
       coachingCuesHe: [],
@@ -1216,6 +1328,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי כתפיים × 15. פתיחת אגרופים × 20. מתיחת אמות × 10 שניות לכל יד.',
       durationSeconds: 90,
@@ -1225,6 +1338,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-tech',
       type: 'technique',
       titleHe: 'טכניקה: קומבינציה + יציאה',
+      titleEn: 'Technique: combination + exit',
       instructionHe:
         'אחרי כל קומבינציה — יש לצאת. 1-2 → צעד לצד שמאל. 1-2-3 → ציר ימינה. 1-2-3-2 → שני צעדים אחורה. לעולם לא לעמוד במקום אחרי קומבינציה — יציאה היא חלק מהמכה.',
       durationSeconds: 90,
@@ -1234,6 +1348,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — 1-2 + יציאה',
+      titleEn: 'Round 1 — 1-2 + exit',
       instructionHe:
         '1-2 → יציאה לצד. 60 שניות נוח, 60 שניות — מהיר.',
       durationSeconds: 120,
@@ -1248,6 +1363,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1256,6 +1372,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — 1-2-3 + יציאה',
+      titleEn: 'Round 2 — 1-2-3 + exit',
       instructionHe:
         '1-2-3 → ציר ויציאה. 60 שניות נוח, 60 שניות — עצמתי.',
       durationSeconds: 120,
@@ -1270,6 +1387,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1278,6 +1396,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — 1-2-3-2 + יציאה',
+      titleEn: 'Round 3 — 1-2-3-2 + exit',
       instructionHe:
         '1-2-3-2 → שני צעדים אחורה. 60 שניות נוח, 60 שניות — מהיר.',
       durationSeconds: 120,
@@ -1292,6 +1411,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-rest3',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1300,6 +1420,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-w4',
       type: 'work',
       titleHe: 'סיבוב 4 — קומבינציות חופשיות + יציאה',
+      titleEn: 'Round 4 — free combinations + exit',
       instructionHe:
         'בחר את הקומבינציה בעצמך: 1-2, 1-2-3, או 1-2-3-2. אחרי כל אחת — יציאה. שנה קומבינציה כל 20 שניות. הפגן כל מה שתרגלת.',
       durationSeconds: 120,
@@ -1314,6 +1435,7 @@ const COMBO_ROUNDS = {
       id: 'cb-15-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'נער ידיים. מתח אמות × 15 שניות לכל יד. גלגל כתפיים. נשום עמוק ושחרר.',
       durationSeconds: 90,
@@ -1330,6 +1452,7 @@ const FREE_ROUNDS = {
       id: 'free-3-w1',
       type: 'work',
       titleHe: 'אימון חופשי',
+      titleEn: 'Free training',
       instructionHe:
         'אין הוראות — תתאמן בדרכך. כל טכניקה, כל קצב, כל שילוב. הקשב לגוף שלך.',
       durationSeconds: 180,
@@ -1347,6 +1470,7 @@ const FREE_ROUNDS = {
       id: 'free-5-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10. תנועת ידיים × 15 שניות. הכנה לאימון.',
       durationSeconds: 60,
@@ -1356,6 +1480,7 @@ const FREE_ROUNDS = {
       id: 'free-5-w1',
       type: 'work',
       titleHe: 'אימון חופשי',
+      titleEn: 'Free training',
       instructionHe:
         'שלוש דקות אימון חופשי. כל טכניקה שאתה רוצה. שנה קצב, שנה טכניקות, חקור.',
       durationSeconds: 180,
@@ -1370,6 +1495,7 @@ const FREE_ROUNDS = {
       id: 'free-5-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'הליכה קלה. נשום עמוק. מתח ידיים וכתפיים.',
       durationSeconds: 60,
       coachingCuesHe: [],
@@ -1381,6 +1507,7 @@ const FREE_ROUNDS = {
       id: 'free-10-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10. פתיחת אגרופים × 15. מתיחת אמות קצרה.',
       durationSeconds: 60,
@@ -1390,6 +1517,7 @@ const FREE_ROUNDS = {
       id: 'free-10-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — אימון חופשי',
+      titleEn: 'Round 1 — free training',
       instructionHe: 'אין הוראות. תתאמן בדרכך. שנה קצב וטכניקות.',
       durationSeconds: 140,
       coachingCuesHe: [
@@ -1403,6 +1531,7 @@ const FREE_ROUNDS = {
       id: 'free-10-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הכן לסיבוב הבא.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -1411,6 +1540,7 @@ const FREE_ROUNDS = {
       id: 'free-10-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — אימון חופשי',
+      titleEn: 'Round 2 — free training',
       instructionHe: 'המשך. נסה טכניקות שעוד לא ניסית.',
       durationSeconds: 140,
       coachingCuesHe: [
@@ -1424,6 +1554,7 @@ const FREE_ROUNDS = {
       id: 'free-10-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. נשיפה ארוכה.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -1432,6 +1563,7 @@ const FREE_ROUNDS = {
       id: 'free-10-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — אימון חופשי',
+      titleEn: 'Round 3 — free training',
       instructionHe: 'סיבוב אחרון. תן הכל. שנה קצב.',
       durationSeconds: 140,
       coachingCuesHe: [
@@ -1445,6 +1577,7 @@ const FREE_ROUNDS = {
       id: 'free-10-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'הליכה קלה. נשום. מתח ידיים וכתפיים.',
       durationSeconds: 60,
       coachingCuesHe: [],
@@ -1456,6 +1589,7 @@ const FREE_ROUNDS = {
       id: 'free-15-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי כתפיים × 15. פתיחת אגרופים × 20. מתיחת אמות. שייק-אאוט.',
       durationSeconds: 90,
@@ -1465,6 +1599,7 @@ const FREE_ROUNDS = {
       id: 'free-15-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — אימון חופשי',
+      titleEn: 'Round 1 — free training',
       instructionHe: 'קצב נוח. חמם אותך. בחר טכניקה ועבוד עליה.',
       durationSeconds: 120,
       coachingCuesHe: [
@@ -1478,6 +1613,7 @@ const FREE_ROUNDS = {
       id: 'free-15-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1486,6 +1622,7 @@ const FREE_ROUNDS = {
       id: 'free-15-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — אימון חופשי',
+      titleEn: 'Round 2 — free training',
       instructionHe: 'הגבר. קצב מעט גבוה יותר. שנה טכניקה.',
       durationSeconds: 120,
       coachingCuesHe: [
@@ -1499,6 +1636,7 @@ const FREE_ROUNDS = {
       id: 'free-15-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה כתפיים.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1507,6 +1645,7 @@ const FREE_ROUNDS = {
       id: 'free-15-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — אימון חופשי',
+      titleEn: 'Round 3 — free training',
       instructionHe: 'עבוד על חולשה שלך. מה אתה צריך לשפר?',
       durationSeconds: 120,
       coachingCuesHe: [
@@ -1520,6 +1659,7 @@ const FREE_ROUNDS = {
       id: 'free-15-rest3',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. שני סיבובים נותרו.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1528,6 +1668,7 @@ const FREE_ROUNDS = {
       id: 'free-15-w4',
       type: 'work',
       titleHe: 'סיבוב 4 — אימון חופשי',
+      titleEn: 'Round 4 — free training',
       instructionHe: 'קצב גבוה. שנה בין קומבינציות לתנועה לגרד.',
       durationSeconds: 120,
       coachingCuesHe: [
@@ -1541,6 +1682,7 @@ const FREE_ROUNDS = {
       id: 'free-15-rest4',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1549,6 +1691,7 @@ const FREE_ROUNDS = {
       id: 'free-15-w5',
       type: 'work',
       titleHe: 'סיבוב 5 — אימון חופשי',
+      titleEn: 'Round 5 — free training',
       instructionHe: 'סיבוב אחרון — תן הכל. כל טכניקה שאתה רוצה.',
       durationSeconds: 60,
       coachingCuesHe: [
@@ -1562,6 +1705,7 @@ const FREE_ROUNDS = {
       id: 'free-15-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe:
         'הליכה קלה. מתח ידיים וכתפיים. גלגל כתפיים. נשום עמוק. עבודה טובה.',
       durationSeconds: 90,
@@ -1580,6 +1724,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-3-tech',
       type: 'technique',
       titleHe: 'טכניקה: מרפק אופקי (סוק ספנג 1)',
+      titleEn: 'Technique: horizontal elbow',
       instructionHe:
         'מרפק אופקי: מרפק עולה לגובה הכתף ונסחף אופקית פנימה. כוח מגיע מסיבוב הפלג העליון — הגוף מסתובב, לא היד בלבד. נקודת פגיעה: ראש המרפק. הגארד ביד הנגדית נשאר מורם לאורך כל המכה. תרגל לאט: שמאל → חזרה → ימין → חזרה.',
       durationSeconds: 60,
@@ -1589,6 +1734,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-3-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — מרפק + ג׳אב',
+      titleEn: 'Round 1 — elbow + jab',
       instructionHe:
         'ג׳אב → מרפק אופקי שמאל. חזור. 60 שניות קצב נוח, 60 שניות — גבר. בכל מרפק — בדוק שהגוף מסתובב, לא רק היד. מרפק אחד שלם עדיף על שניים לא נכונים.',
       durationSeconds: 120,
@@ -1603,6 +1749,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-3-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'גלגל כתפיים. מתח אמות. נשום עמוק ושחרר.',
       durationSeconds: 60,
       coachingCuesHe: [],
@@ -1614,6 +1761,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-5-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים קדימה × 10, אחורה × 10. סיבובי מרפקים: פתח זרועות לצד וסובב את האמה קדימה ואחורה × 10. הכן את המפרקים למרפקים.',
       durationSeconds: 60,
@@ -1623,6 +1771,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-5-tech',
       type: 'technique',
       titleHe: 'טכניקה: מרפק אופקי ומרפק עולה',
+      titleEn: 'Technique: horizontal and rising elbow',
       instructionHe:
         'מרפק אופקי (סוק ספנג 1): מרפק עולה לגובה כתף ונסחף אופקית. מרפק עולה (סוק ספנג 6): יד עולה מלמטה, מרפק מכה כלפי מעלה לסנטר. שניהם בטווח קצר. תרגל לאט: מרפק אופקי שמאל → מרפק עולה ימין → חזרה לגארד.',
       durationSeconds: 60,
@@ -1632,6 +1781,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-5-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — מרפק אופקי',
+      titleEn: 'Round 1 — horizontal elbow',
       instructionHe:
         'מרפק אופקי שמאל וימין לסירוגין. 45 שניות איטי ומדויק, 45 שניות — קצב מהיר יותר. בדוק בכל מרפק: האם הגוף סובב? האם המרפק בגובה הכתף?',
       durationSeconds: 90,
@@ -1646,6 +1796,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-5-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — ג׳אב + מרפק',
+      titleEn: 'Round 2 — jab + elbow',
       instructionHe:
         'ג׳אב → מרפק אופקי. חזור. בתוך הטווח — הג׳אב מכין את המרחק, המרפק מסיים. 45 שניות נוח, 45 שניות — קצב גבוה.',
       durationSeconds: 60,
@@ -1660,6 +1811,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-5-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'גלגל כתפיים. מתח אמות × 10 שניות. נשום עמוק.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -1671,6 +1823,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-10-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10 לכל כיוון. סיבובי מרפקים × 10. פתיחת אגרופים × 15. שייק-אאוט קצר.',
       durationSeconds: 60,
@@ -1680,6 +1833,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-10-tech',
       type: 'technique',
       titleHe: 'טכניקה: שלושה מרפקים בסיסיים',
+      titleEn: 'Technique: three basic elbows',
       instructionHe:
         'מרפק אופקי (1): מרפק עולה לגובה כתף ונסחף. מרפק עולה (6): יד עולה מלמטה, מרפק כלפי מעלה. מרפק אחורה (2): מרפק נסחף אחורה ולצד. כולם דורשים סיבוב גוף. תרגל כל אחד × 5 לאט לפני שמגבירים.',
       durationSeconds: 60,
@@ -1689,6 +1843,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-10-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — מרפק אופקי',
+      titleEn: 'Round 1 — horizontal elbow',
       instructionHe:
         'מרפק אופקי שמאל וימין לסירוגין. 60 שניות נוח, 60 שניות — מהיר. בדוק סיבוב גוף בכל חזרה.',
       durationSeconds: 120,
@@ -1703,6 +1858,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-10-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום עמוק. הרפה כתפיים ומרפקים.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -1711,6 +1867,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-10-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — ג׳אב + מרפק אופקי',
+      titleEn: 'Round 2 — jab + horizontal elbow',
       instructionHe:
         'ג׳אב → מרפק אופקי. הג׳אב מכין את המרחק, המרפק מסיים. 60 שניות נוח, 60 שניות — כוח מלא.',
       durationSeconds: 120,
@@ -1725,6 +1882,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-10-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הכן לסיבוב האחרון.',
       durationSeconds: 30,
       coachingCuesHe: [],
@@ -1733,6 +1891,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-10-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — קומבינציה: ג׳אב-קרוס-מרפק',
+      titleEn: 'Round 3 — combination: jab-cross-elbow',
       instructionHe:
         'ג׳אב → קרוס → מרפק אופקי שמאל. חזור. 60 שניות קצב נוח, 60 שניות — מהיר ועצמתי. המרפק מגיע לאחר ה-1-2 — בשלב השלישי הנגד פתוח.',
       durationSeconds: 120,
@@ -1747,6 +1906,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-10-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'גלגל כתפיים לאט. מתח אמות × 10 שניות לכל יד. נשום עמוק ושחרר.',
       durationSeconds: 60,
       coachingCuesHe: [],
@@ -1758,6 +1918,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-warm',
       type: 'warmup',
       titleHe: 'חימום',
+      titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי כתפיים × 15. סיבובי מרפקים × 15. פתיחת אגרופים × 20. שייק-אאוט כללי.',
       durationSeconds: 90,
@@ -1767,6 +1928,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-tech',
       type: 'technique',
       titleHe: 'טכניקה: מרפקים + כניסה ויציאה',
+      titleEn: 'Technique: elbows + stepping in and out',
       instructionHe:
         'מרפקים עובדים בטווח קצר — צריך להיכנס לפני המכה וצריך לצאת אחריה. כניסה: צעד קדימה עם הרגל הקדמית. יציאה: שני צעדים אחורה לאחר המרפק. אל תישאר קרוב אחרי המרפק. תרגל: כניסה → מרפק → יציאה.',
       durationSeconds: 90,
@@ -1776,6 +1938,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-w1',
       type: 'work',
       titleHe: 'סיבוב 1 — מרפק אופקי',
+      titleEn: 'Round 1 — horizontal elbow',
       instructionHe: 'שמאל וימין לסירוגין, 90 שניות. 45 נוח, 45 מהיר.',
       durationSeconds: 90,
       coachingCuesHe: ['גוף מסתובב', 'מרפק בגובה כתף', 'גארד ביד הנגדית', 'נשיפה'],
@@ -1784,6 +1947,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-rest1',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1792,6 +1956,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-w2',
       type: 'work',
       titleHe: 'סיבוב 2 — ג׳אב + מרפק',
+      titleEn: 'Round 2 — jab + elbow',
       instructionHe: 'ג׳אב → מרפק, 90 שניות. 45 נוח, 45 כוח מלא.',
       durationSeconds: 90,
       coachingCuesHe: ['ג׳אב מכין', 'מרפק מסיים', 'יציאה אחרי', 'גארד'],
@@ -1800,6 +1965,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-rest2',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1808,6 +1974,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-w3',
       type: 'work',
       titleHe: 'סיבוב 3 — 1-2-מרפק',
+      titleEn: 'Round 3 — 1-2-elbow',
       instructionHe: 'ג׳אב-קרוס-מרפק. 45 נוח, 45 עצמתי.',
       durationSeconds: 90,
       coachingCuesHe: ['1-2 מהירים, מרפק חזק', 'גוף מסתובב', 'יציאה', 'גארד'],
@@ -1816,6 +1983,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-rest3',
       type: 'rest',
       titleHe: 'מנוחה',
+      titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון.',
       durationSeconds: 45,
       coachingCuesHe: [],
@@ -1824,6 +1992,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-w4',
       type: 'work',
       titleHe: 'סיבוב 4 — מרפקים חופשיים',
+      titleEn: 'Round 4 — free elbows',
       instructionHe:
         'בחר כל שילוב: ג׳אב+מרפק, 1-2+מרפק, מרפק כפול. אחרי כל רצף — יציאה. 90 שניות מלאות.',
       durationSeconds: 90,
@@ -1833,6 +2002,7 @@ const MT_ELBOW_ROUNDS = {
       id: 'mt-el-15-cool',
       type: 'cooldown',
       titleHe: 'שחרור',
+      titleEn: 'Cool-down',
       instructionHe: 'גלגל כתפיים לאט. מתח אמות × 15 שניות. נשום עמוק ושחרר. עבודה טובה.',
       durationSeconds: 90,
       coachingCuesHe: [],
@@ -1854,6 +2024,16 @@ const CATEGORY_TITLES = {
   'mt-elbows':       'ידיים ומרפקים',
 }
 
+const CATEGORY_TITLES_EN = {
+  'footwork':        'Footwork',
+  'punch-technique': 'Punches',
+  'defense':         'Defense and guard',
+  'combinations':    'Combinations',
+  'free-training':   'Free training',
+  'analysis':        'Stance check from a photo',
+  'mt-elbows':       'Hands and elbows',
+}
+
 const CATEGORY_ROUNDS_MAP = {
   'footwork':        FOOTWORK_ROUNDS,
   'punch-technique': PUNCH_ROUNDS,
@@ -1873,16 +2053,18 @@ const CATEGORY_ROUNDS_MAP = {
  * @param {string}  categoryId   - One of the DRILL_CATEGORIES ids
  * @param {number}  durationMin  - One of DRILL_DURATIONS
  * @param {boolean} skipWarmup   - When true, filter out leading warmup rounds
- * @returns {{ id, titleHe, categoryId, durationMin, techniques, rounds }}
+ * @returns {{ id, titleHe, titleEn, categoryId, durationMin, techniques, rounds }}
  */
 export function buildDrill(categoryId, durationMin, skipWarmup = false) {
   const categoryTitle = CATEGORY_TITLES[categoryId] ?? categoryId
   const titleHe = `${categoryTitle} — ${durationMin} דקות`
+  const titleEn = `${CATEGORY_TITLES_EN[categoryId] ?? categoryId} — ${durationMin} min`
 
   if (categoryId === 'analysis') {
     return {
       id: `drill-${categoryId}-${durationMin}min`,
       titleHe,
+      titleEn,
       categoryId,
       durationMin,
       techniques: [],
@@ -1895,6 +2077,7 @@ export function buildDrill(categoryId, durationMin, skipWarmup = false) {
     return {
       id: `drill-${categoryId}-${durationMin}min`,
       titleHe,
+      titleEn,
       categoryId,
       durationMin,
       techniques: [],
@@ -1913,6 +2096,7 @@ export function buildDrill(categoryId, durationMin, skipWarmup = false) {
   return {
     id: `drill-${categoryId}-${durationMin}min`,
     titleHe,
+    titleEn,
     categoryId,
     durationMin,
     techniques: [],

@@ -1,6 +1,10 @@
 import { PILLARS, DEFAULT_PILLARS } from '../data/pillars'
+import { useLang } from '../context/LangContext'
+import { fmt } from '../i18n/fmt'
 
 export default function GrowthPillarSelector({ selected = DEFAULT_PILLARS, onChange }) {
+  const { t } = useLang()
+  const tp = t.pillars
   function toggle(id) {
     const isOn = selected.includes(id)
     if (isOn) {
@@ -15,21 +19,22 @@ export default function GrowthPillarSelector({ selected = DEFAULT_PILLARS, onCha
   return (
     <div>
       <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
-        התחומים שאני רוצה לחזק
+        {tp.title}
       </div>
       <div style={{ color: '#A4A6AD', fontSize: '0.72rem', marginBottom: '0.75rem', lineHeight: 1.5 }}>
-        בחר עד שלושה תחומים — ישפיעו על המלצות הרגלים ומשימות.
+        {tp.sub}
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
         {PILLARS.map(p => {
           const on = selected.includes(p.id)
           const disabled = !on && selected.length >= 3
+          const label = tp.labels[p.id] || p.label
           return (
             <button
               key={p.id}
               onClick={() => !disabled && toggle(p.id)}
               className={on ? 'btn-tactile' : ''}
-              aria-label={`${p.label}${on ? ' — נבחר' : ''}`}
+              aria-label={`${label}${on ? tp.selected : ''}`}
               style={{
                 padding: '0.45rem 0.9rem',
                 borderRadius: 20,
@@ -45,14 +50,14 @@ export default function GrowthPillarSelector({ selected = DEFAULT_PILLARS, onCha
               }}
             >
               <span>{p.emoji}</span>
-              <span>{p.label}</span>
+              <span>{label}</span>
               {on && <span style={{ fontSize: '0.6rem', opacity: 0.7 }}>✓</span>}
             </button>
           )
         })}
       </div>
       <div style={{ color: '#71717A', fontSize: '0.65rem', marginTop: '0.5rem' }}>
-        {selected.length}/3 נבחרו
+        {fmt(tp.count, { n: selected.length })}
       </div>
     </div>
   )

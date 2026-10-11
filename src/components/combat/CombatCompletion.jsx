@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useLang } from '../../context/LangContext'
+import { fmt, byLang } from '../../i18n/fmt'
 
 const C = {
   bg:      '#111317',
@@ -11,12 +13,12 @@ const C = {
   green:   '#10b981',
 }
 
-function formatDuration(seconds) {
-  if (!seconds || seconds < 60) return `${seconds ?? 0} שנ׳`
+function formatDuration(seconds, tc) {
+  if (!seconds || seconds < 60) return fmt(tc.secShort, { n: seconds ?? 0 })
   const m = Math.floor(seconds / 60)
   const s = seconds % 60
-  if (s === 0) return `${m} דק׳`
-  return `${m}:${String(s).padStart(2, '0')} דק׳`
+  if (s === 0) return fmt(tc.minShort, { n: m })
+  return fmt(tc.minShort, { n: `${m}:${String(s).padStart(2, '0')}` })
 }
 
 function StatCard({ value, label }) {
@@ -54,6 +56,9 @@ export default function CombatCompletion({
   levelJustCompleted,
   onDone,
 }) {
+  const { lang, t: tr } = useLang()
+  const tc = tr.workouts.combat
+  const tk = tc.completion
   const [selectedReflection, setSelectedReflection] = useState(null)
 
   const completedLevelNum = workout?.level ?? 1
@@ -67,25 +72,25 @@ export default function CombatCompletion({
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: C.bg, color: C.text, direction: 'rtl', fontFamily: 'system-ui, sans-serif', padding: '32px 16px 40px', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: 'system-ui, sans-serif', padding: '32px 16px 40px', display: 'flex', flexDirection: 'column' }}>
       {/* Success header */}
       <div style={{ textAlign: 'center', marginBottom: 28 }}>
         <div style={{ fontSize: 56, marginBottom: 12 }}>{disciplineEmoji}</div>
         <h1 style={{ fontSize: 26, fontWeight: 900, margin: '0 0 8px', color: C.text }}>{completionTitle}</h1>
-        <p style={{ fontSize: 15, color: C.muted, margin: 0 }}>{workout?.titleHe ?? ''}</p>
+        <p style={{ fontSize: 15, color: C.muted, margin: 0 }}>{byLang(workout, 'title', lang)}</p>
       </div>
 
       {/* Stats row */}
       <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-        <StatCard value={formatDuration(stats?.durationSeconds)} label="זמן" />
-        <StatCard value={stats?.roundsCompleted ?? 0} label="סיבובים" />
-        {techniqueCount > 0 && <StatCard value={techniqueCount} label="טכניקות" />}
+        <StatCard value={formatDuration(stats?.durationSeconds, tc)} label={tk.time} />
+        <StatCard value={stats?.roundsCompleted ?? 0} label={tk.rounds} />
+        {techniqueCount > 0 && <StatCard value={techniqueCount} label={tk.techniques} />}
       </div>
 
       {/* XP card */}
       <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '16px', marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ fontSize: 13, color: C.muted }}>{xpAwarded > 0 ? 'XP שנצבר' : 'XP'}</div>
+          <div style={{ fontSize: 13, color: C.muted }}>{xpAwarded > 0 ? tk.xpEarned : 'XP'}</div>
         </div>
         {xpAwarded > 0 ? (
           <div style={{ fontSize: 24, fontWeight: 900, color: C.accent, display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -93,7 +98,7 @@ export default function CombatCompletion({
             <span style={{ fontSize: 16 }}>XP</span>
           </div>
         ) : (
-          <div style={{ fontSize: 14, color: C.muted, fontStyle: 'italic' }}>ה־XP היומי כבר התקבל</div>
+          <div style={{ fontSize: 14, color: C.muted, fontStyle: 'italic' }}>{tk.xpDoneMt}</div>
         )}
       </div>
 
@@ -101,9 +106,9 @@ export default function CombatCompletion({
       {levelJustCompleted && (
         <div style={{ background: `linear-gradient(135deg, ${C.accent}22, ${C.green}18)`, border: `1px solid ${C.accent}44`, borderRadius: 14, padding: '18px 16px', marginBottom: 16, textAlign: 'center' }}>
           <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
-          <div style={{ fontSize: 17, fontWeight: 800, color: C.accent, marginBottom: 6 }}>רמה {completedLevelNum} הושלמה!</div>
+          <div style={{ fontSize: 17, fontWeight: 800, color: C.accent, marginBottom: 6 }}>{fmt(tk.levelDone, { n: completedLevelNum })}</div>
           {nextLevelObj && (
-            <div style={{ fontSize: 13, color: C.muted }}>רמה {nextLevelObj.level} מופתחת — {nextLevelObj.titleHe}</div>
+            <div style={{ fontSize: 13, color: C.muted }}>{fmt(tk.levelOpen, { n: nextLevelObj.level, title: byLang(nextLevelObj, 'title', lang) })}</div>
           )}
         </div>
       )}
@@ -111,18 +116,18 @@ export default function CombatCompletion({
       {/* Next workout teaser */}
       {!levelJustCompleted && nextWorkout && (
         <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '14px 16px', marginBottom: 16 }}>
-          <div style={{ fontSize: 11, color: C.muted, marginBottom: 6 }}>הבא:</div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 4 }}>{nextWorkout.titleHe}</div>
+          <div style={{ fontSize: 11, color: C.muted, marginBottom: 6 }}>{tk.next}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 4 }}>{byLang(nextWorkout, 'title', lang)}</div>
           <div style={{ fontSize: 12, color: C.muted }}>
-            אימון {nextWorkout.order} מתוך {findNextWorkoutLevelLength()} · {nextWorkout.estimatedMinutes} דקות
+            {fmt(tk.nextMeta, { n: nextWorkout.order, total: findNextWorkoutLevelLength(), min: nextWorkout.estimatedMinutes })}
           </div>
         </div>
       )}
 
       {/* Reflection */}
       <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '16px', marginBottom: 24 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>מה היה לך הכי קשה?</div>
-        <div style={{ fontSize: 12, color: C.muted, marginBottom: 12 }}>אופציונלי — בחר אם מרגיש לך</div>
+        <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{tk.hardestQ}</div>
+        <div style={{ fontSize: 12, color: C.muted, marginBottom: 12 }}>{tk.optional}</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {(reflectionOptions ?? []).map((opt) => {
             const selected = selectedReflection === opt.id
@@ -138,7 +143,7 @@ export default function CombatCompletion({
       <div style={{ flex: 1 }} />
 
       <button className="btn-tactile" onClick={() => onDone(selectedReflection)} style={{ width: '100%', background: C.accent, color: '#111317', border: 'none', borderRadius: 14, padding: '16px 0', fontSize: 17, fontWeight: 800, cursor: 'pointer', letterSpacing: 0.3 }}>
-        המשך ←
+        {tk.continue}
       </button>
     </div>
   )

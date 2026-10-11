@@ -165,6 +165,7 @@ functions/
 
 - Repo: **https://github.com/noam922008-ship-it/1percent-better** (public; transferred from `noam1better`)
 - Auth: `gh` logged in as `noam922008-ship-it`. No token in the remote URL — keep it that way.
+- `feat/english-phase-1` (not merged, not deployed): i18n Phases 1–6 (`FEATURES.english` off) — UI strings in `src/i18n/he.js` + `en.js`, logical RTL, notifications in both languages, `lang` + `tz` saved on `users/{uid}` (read by the functions; rule limits `lang` to he/en). See `docs/ENGLISH_PLAN.md`.
 - Branches: `main` == `origin/main` (pushed 2026-10-04); live hosting = `f2451f7` (this docs commit only changes CLAUDE.md). `analytics`, `release/v2`, `legal`, `weekly-habits`, `fix/phone-feedback` are merged into main. `journal-ai` (pushed) is NOT merged. Old: `my-tasks`, `wip/muay-thai` — pushed.
 
 ---

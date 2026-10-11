@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useLang } from '../../context/LangContext'
+import { fmt, byLang } from '../../i18n/fmt'
 
 const MUTE_KEY = 'prime_boxing_audio_muted'
 
@@ -82,15 +84,9 @@ function roundTimerColor(type) {
   }
 }
 
-function roundPhaseLabel(round, workRoundIndex, totalWorkRounds) {
-  switch (round.type) {
-    case 'warmup':    return 'חימום'
-    case 'technique': return 'טכניקה'
-    case 'rest':      return 'מנוחה'
-    case 'cooldown':  return 'שחרור'
-    case 'work':      return `סיבוב ${workRoundIndex} מתוך ${totalWorkRounds}`
-    default:          return round.titleHe
-  }
+function roundPhaseLabel(round, workRoundIndex, totalWorkRounds, tc, lang) {
+  if (round.type === 'work') return fmt(tc.timer.round, { n: workRoundIndex, total: totalWorkRounds })
+  return tc.roundType[round.type] ?? byLang(round, 'title', lang)
 }
 
 const RADIUS = 90
@@ -138,14 +134,16 @@ function RoundDots({ rounds, currentIndex }) {
 }
 
 function ExitModal({ onContinue, onExit }) {
+  const { t: tr } = useLang()
+  const tt = tr.workouts.combat.timer
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.72)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-      <div style={{ background: C.surface, borderRadius: 20, border: `1px solid ${C.border}`, padding: 28, maxWidth: 340, width: '100%', textAlign: 'center', direction: 'rtl' }}>
-        <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 10 }}>לצאת מהאימון?</div>
-        <div style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, marginBottom: 24 }}>ההתקדמות לא תישמר ולא יינתן XP</div>
+      <div style={{ background: C.surface, borderRadius: 20, border: `1px solid ${C.border}`, padding: 28, maxWidth: 340, width: '100%', textAlign: 'center' }}>
+        <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 10 }}>{tt.exitQ}</div>
+        <div style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, marginBottom: 24 }}>{tt.exitSub}</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <button className="btn-tactile" onClick={onContinue} style={{ background: C.accent, color: '#111317', border: 'none', borderRadius: 12, padding: '14px 0', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>המשך אימון</button>
-          <button className="btn-tactile" onClick={onExit} style={{ background: 'transparent', color: C.muted, border: `1px solid ${C.border}`, borderRadius: 12, padding: '14px 0', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>צא ללא שכר</button>
+          <button className="btn-tactile" onClick={onContinue} style={{ background: C.accent, color: '#111317', border: 'none', borderRadius: 12, padding: '14px 0', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>{tt.keepGoing}</button>
+          <button className="btn-tactile" onClick={onExit} style={{ background: 'transparent', color: C.muted, border: `1px solid ${C.border}`, borderRadius: 12, padding: '14px 0', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>{tt.exitNoXp}</button>
         </div>
       </div>
     </div>
@@ -159,6 +157,8 @@ const BEEP_COMPLETE   = [[440, 0.15, 0], [550, 0.15, 0.2], [660, 0.15, 0.4]]
 const BEEP_WARNING    = [[880, 0.08, 0], [880, 0.08, 0.15], [880, 0.08, 0.3]]
 
 export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarmup = false }) {
+  const { lang, t: tr } = useLang()
+  const tc = tr.workouts.combat
   const effectiveRounds = useMemo(() => {
     const rounds = workout?.rounds ?? []
     if (!skipWarmup) return rounds
@@ -264,24 +264,24 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
   if (!currentRound) {
     return (
       <div style={{ minHeight: '100vh', background: C.bg, color: C.text, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ color: C.muted, fontSize: 15 }}>אין סיבובים לאימון זה</div>
+        <div style={{ color: C.muted, fontSize: 15 }}>{tc.timer.noRounds}</div>
       </div>
     )
   }
 
   const timerColor  = roundTimerColor(currentRound.type)
-  const phaseLabel  = roundPhaseLabel(currentRound, currentWorkRoundNum ?? 0, totalWorkRounds)
+  const phaseLabel  = roundPhaseLabel(currentRound, currentWorkRoundNum ?? 0, totalWorkRounds, tc, lang)
   const coachingCues = (currentRound.coachingCuesHe ?? []).slice(0, 2)
 
   return (
-    <div style={{ minHeight: '100vh', background: C.bg, color: C.text, direction: 'rtl', fontFamily: 'system-ui, sans-serif', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: 'system-ui, sans-serif', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', padding: '12px 16px', borderBottom: `1px solid ${C.border}`, minHeight: 56, gap: 10 }}>
-        <div style={{ flex: 1, fontSize: 14, fontWeight: 600, textAlign: 'right', color: C.text }}>{workout.titleHe}</div>
+        <div style={{ flex: 1, fontSize: 14, fontWeight: 600, textAlign: 'start', color: C.text }}>{byLang(workout, 'title', lang)}</div>
         <button
           className="btn-tactile"
           onClick={() => { audio.toggleMute(); audio.tryUnlock() }}
-          aria-label={audio.muted ? 'הפעל שמע' : 'השתק שמע'}
+          aria-label={audio.muted ? tc.timer.unmute : tc.timer.mute}
           style={{ background: 'transparent', border: `1px solid ${C.border}`, color: audio.muted ? C.muted : C.accent, fontSize: 18, cursor: 'pointer', width: 36, height: 36, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
         >
           {audio.muted ? '🔇' : '🔊'}
@@ -302,8 +302,8 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
         <CircularTimer timeLeft={timeLeft} totalSeconds={totalSeconds} color={timerColor} />
 
         <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '16px', marginTop: 20, marginBottom: 16 }}>
-          <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'right' }}>{currentRound.titleHe}</div>
-          <div style={{ fontSize: 14, color: '#D4D0C8', lineHeight: 1.7, textAlign: 'right' }}>
+          <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'start' }}>{byLang(currentRound, 'title', lang)}</div>
+          <div dir="auto" style={{ fontSize: 14, color: '#D4D0C8', lineHeight: 1.7, textAlign: 'start' }}>
             {currentRound.instructionHe}
           </div>
         </div>
@@ -311,16 +311,16 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
         {currentRound.type === 'work' && coachingCues.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8 }}>
             {coachingCues.map((cue, i) => (
-              <div key={i} style={{ background: timerColor + '12', borderRadius: 10, padding: '8px 14px', fontSize: 13, color: C.muted, textAlign: 'right', borderRight: `3px solid ${timerColor}` }}>{cue}</div>
+              <div key={i} dir="auto" style={{ background: timerColor + '12', borderRadius: 10, padding: '8px 14px', fontSize: 13, color: C.muted, textAlign: 'start', borderInlineStart: `3px solid ${timerColor}` }}>{cue}</div>
             ))}
           </div>
         )}
 
 
         {currentRound.type === 'rest' && nextRound && (
-          <div style={{ background: C.surface, borderRadius: 12, border: `1px solid ${C.border}`, padding: '12px 16px', marginBottom: 16, textAlign: 'right' }}>
-            <div style={{ fontSize: 11, color: C.muted, marginBottom: 4 }}>בסיבוב הבא:</div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{nextRound.titleHe}</div>
+          <div style={{ background: C.surface, borderRadius: 12, border: `1px solid ${C.border}`, padding: '12px 16px', marginBottom: 16, textAlign: 'start' }}>
+            <div style={{ fontSize: 11, color: C.muted, marginBottom: 4 }}>{tc.timer.nextRound}</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{byLang(nextRound, 'title', lang)}</div>
           </div>
         )}
       </div>
@@ -334,23 +334,23 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
             onClick={() => { audio.tryUnlock(); setIsPaused((p) => !p) }}
             style={{ flex: 2, minHeight: 54, background: isPaused ? C.accent : C.surface, color: isPaused ? '#111317' : C.text, border: `1px solid ${isPaused ? C.accent : C.border}`, borderRadius: 14, fontSize: 16, fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s ease' }}
           >
-            {isPaused ? '▶ המשך' : '⏸ השהה'}
+            {isPaused ? tc.timer.resume : tc.timer.pause}
           </button>
           <button
             className="btn-tactile"
             onClick={() => { audio.tryUnlock(); repeatRound() }}
-            aria-label="חזור על הסיבוב"
+            aria-label={tc.timer.repeatAria}
             style={{ flex: 1, minHeight: 54, background: 'transparent', color: C.text, border: `1px solid ${C.border}`, borderRadius: 14, fontSize: 13, fontWeight: 700, cursor: 'pointer', lineHeight: 1.3 }}
           >
-            🔁{' '}חזור
+            🔁{' '}{tc.timer.repeat}
           </button>
           <button
             className="btn-tactile"
             onClick={() => { audio.tryUnlock(); skipStep() }}
-            aria-label="דלג לשלב הבא"
+            aria-label={tc.timer.skipAria}
             style={{ flex: 1, minHeight: 54, background: 'transparent', color: C.muted, border: `1px solid ${C.border}`, borderRadius: 14, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}
           >
-            דלג ←
+            {tc.timer.skip}
           </button>
         </div>
 
@@ -361,7 +361,7 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
             onClick={() => { audio.tryUnlock(); finishEarly() }}
             style={{ width: '100%', minHeight: 44, background: 'transparent', color: C.red, border: `1px solid ${C.red}30`, borderRadius: 12, fontSize: 14, fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s ease' }}
           >
-            סיים אימון
+            {tc.timer.finish}
           </button>
         </div>
       </div>

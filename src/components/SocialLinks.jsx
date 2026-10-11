@@ -3,6 +3,8 @@
 // Profiles live in src/config/social.js.
 
 import { SOCIAL } from '../config/social'
+import { useLang } from '../context/LangContext'
+import { fmt } from '../i18n/fmt'
 
 function InstagramIcon({ size }) {
   return (
@@ -17,6 +19,7 @@ function InstagramIcon({ size }) {
 const ICONS = { instagram: InstagramIcon }
 
 export default function SocialLinks({ size = 18, align = 'center' }) {
+  const { t } = useLang()
   const links = SOCIAL.filter(s => s.url)
   if (!links.length) return null
   return (
@@ -29,7 +32,7 @@ export default function SocialLinks({ size = 18, align = 'center' }) {
             href={s.url}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`PRIME ב-${s.label}`}
+            aria-label={fmt(t.social.aria, { name: s.label })}
             title={s.label}
             style={{
               width: 40, height: 40, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',

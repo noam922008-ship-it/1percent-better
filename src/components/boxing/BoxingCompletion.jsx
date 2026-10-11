@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useLang } from '../../context/LangContext'
+import { fmt, byLang } from '../../i18n/fmt'
 import { BOXING_LEVELS } from '../../data/boxingPath'
 
 // ─── palette ────────────────────────────────────────────────────────────────
@@ -13,22 +15,16 @@ const C = {
   green:   '#10b981',
 }
 
-// ─── reflection options ──────────────────────────────────────────────────────
-const REFLECTIONS = [
-  { id: 'technique', label: 'טכניקה' },
-  { id: 'pace',      label: 'קצב' },
-  { id: 'endurance', label: 'סיבולת' },
-  { id: 'movement',  label: 'תנועה' },
-  { id: 'felt-good', label: 'הרגיש טוב' },
-]
+// ─── reflection options (labels: t.workouts.combat.boxing.reflect) ─────────────
+const REFLECTIONS = ['technique', 'pace', 'endurance', 'movement', 'felt-good']
 
 // ─── helper: format duration ─────────────────────────────────────────────────
-function formatDuration(seconds) {
-  if (!seconds || seconds < 60) return `${seconds ?? 0} שנ׳`
+function formatDuration(seconds, tc) {
+  if (!seconds || seconds < 60) return fmt(tc.secShort, { n: seconds ?? 0 })
   const m = Math.floor(seconds / 60)
   const s = seconds % 60
-  if (s === 0) return `${m} דק׳`
-  return `${m}:${String(s).padStart(2, '0')} דק׳`
+  if (s === 0) return fmt(tc.minShort, { n: m })
+  return fmt(tc.minShort, { n: `${m}:${String(s).padStart(2, '0')}` })
 }
 
 // ─── StatCard ────────────────────────────────────────────────────────────────
@@ -59,6 +55,9 @@ export default function BoxingCompletion({
   onDone,
   levelJustCompleted,
 }) {
+  const { lang, t: tr } = useLang()
+  const tc = tr.workouts.combat
+  const tk = tc.completion
   const [selectedReflection, setSelectedReflection] = useState(null)
 
   // Determine next level info for level-completion banner
@@ -74,7 +73,6 @@ export default function BoxingCompletion({
         minHeight: '100vh',
         background: C.bg,
         color: C.text,
-        direction: 'rtl',
         fontFamily: 'system-ui, sans-serif',
         padding: '32px 16px 40px',
         display: 'flex',
@@ -92,19 +90,19 @@ export default function BoxingCompletion({
             color: C.text,
           }}
         >
-          האימון הושלם!
+          {tk.title}
         </h1>
         <p style={{ fontSize: 15, color: C.muted, margin: 0 }}>
-          {workout?.titleHe ?? ''}
+          {byLang(workout, 'title', lang)}
         </p>
       </div>
 
       {/* ── Stats row ── */}
       <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-        <StatCard value={formatDuration(stats?.durationSeconds)} label="זמן" />
-        <StatCard value={stats?.roundsCompleted ?? 0} label="סיבובים" />
+        <StatCard value={formatDuration(stats?.durationSeconds, tc)} label={tk.time} />
+        <StatCard value={stats?.roundsCompleted ?? 0} label={tk.rounds} />
         {techniqueCount > 0 && (
-          <StatCard value={techniqueCount} label="טכניקות" />
+          <StatCard value={techniqueCount} label={tk.techniques} />
         )}
       </div>
 
@@ -123,7 +121,7 @@ export default function BoxingCompletion({
       >
         <div>
           <div style={{ fontSize: 13, color: C.muted }}>
-            {xpAwarded > 0 ? 'XP שנצבר' : 'XP'}
+            {xpAwarded > 0 ? tk.xpEarned : 'XP'}
           </div>
         </div>
         {xpAwarded > 0 ? (
@@ -142,7 +140,7 @@ export default function BoxingCompletion({
           </div>
         ) : (
           <div style={{ fontSize: 14, color: C.muted, fontStyle: 'italic' }}>
-            XP כבר נצבר היום
+            {tk.xpDoneBoxing}
           </div>
         )}
       </div>
@@ -161,11 +159,11 @@ export default function BoxingCompletion({
         >
           <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
           <div style={{ fontSize: 17, fontWeight: 800, color: C.accent, marginBottom: 6 }}>
-            רמה {completedLevelNum} הושלמה!
+            {fmt(tk.levelDone, { n: completedLevelNum })}
           </div>
           {nextLevelObj && (
             <div style={{ fontSize: 13, color: C.muted }}>
-              רמה {nextLevelObj.level} מופתחת — {nextLevelObj.titleHe}
+              {fmt(tk.levelOpen, { n: nextLevelObj.level, title: byLang(nextLevelObj, 'title', lang) })}
             </div>
           )}
         </div>
@@ -182,14 +180,16 @@ export default function BoxingCompletion({
             marginBottom: 16,
           }}
         >
-          <div style={{ fontSize: 11, color: C.muted, marginBottom: 6 }}>הבא:</div>
+          <div style={{ fontSize: 11, color: C.muted, marginBottom: 6 }}>{tk.next}</div>
           <div style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 4 }}>
-            {nextWorkout.titleHe}
+            {byLang(nextWorkout, 'title', lang)}
           </div>
           <div style={{ fontSize: 12, color: C.muted }}>
-            אימון {nextWorkout.order} מתוך{' '}
-            {BOXING_LEVELS.find((lv) => lv.workouts.some((w) => w.id === nextWorkout.id))?.workouts.length ?? 6}{' '}
-            · {nextWorkout.estimatedMinutes} דקות
+            {fmt(tk.nextMeta, {
+              n: nextWorkout.order,
+              total: BOXING_LEVELS.find((lv) => lv.workouts.some((w) => w.id === nextWorkout.id))?.workouts.length ?? 6,
+              min: nextWorkout.estimatedMinutes,
+            })}
           </div>
         </div>
       )}
@@ -205,20 +205,20 @@ export default function BoxingCompletion({
         }}
       >
         <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>
-          מה היה לך הכי קשה?
+          {tk.hardestQ}
         </div>
         <div style={{ fontSize: 12, color: C.muted, marginBottom: 12 }}>
-          אופציונלי — בחר אם מרגיש לך
+          {tk.optional}
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {REFLECTIONS.map((opt) => {
-            const selected = selectedReflection === opt.id
+          {REFLECTIONS.map((id) => {
+            const selected = selectedReflection === id
             return (
               <button
-                key={opt.id}
+                key={id}
                 className="btn-tactile"
                 onClick={() =>
-                  setSelectedReflection(selected ? null : opt.id)
+                  setSelectedReflection(selected ? null : id)
                 }
                 style={{
                   background: selected ? C.blue + '22' : C.bg,
@@ -232,7 +232,7 @@ export default function BoxingCompletion({
                   transition: 'all 0.15s ease',
                 }}
               >
-                {opt.label}
+                {tc.boxing.reflect[id]}
               </button>
             )
           })}
@@ -259,7 +259,7 @@ export default function BoxingCompletion({
           letterSpacing: 0.3,
         }}
       >
-        המשך ←
+        {tk.continue}
       </button>
     </div>
   )

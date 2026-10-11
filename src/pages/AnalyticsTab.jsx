@@ -4,6 +4,8 @@ import { getDailyNudgeMessage } from '../services/notificationService'
 import { getEffectiveStreak } from '../utils/streak'
 import { getTrackDay } from '../utils/trackDay'
 import { FEATURES } from '../config/features'
+import { useLang } from '../context/LangContext'
+import { fmt, plural, localeFor } from '../i18n/fmt'
 
 const WHATSAPP_LINK = 'https://chat.whatsapp.com/L5AoG0c2l4H29BkAZanCw4'
 const APP_URL       = 'https://prime-app-84fe0.web.app'
@@ -93,7 +95,7 @@ function InitiationModal({ level, onClose }) {
         <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', marginBottom: '1.75rem' }} />
 
         {/* Pledge */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1.5rem', textAlign: 'left' }}>
+        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1.5rem', textAlign: 'end' }}>
           <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>ההתחייבות שלך</div>
           <div style={{ color: 'rgba(241,245,249,0.7)', fontSize: '0.8rem', lineHeight: 1.6, fontStyle: 'italic' }}>
             "אגיע כל יום, אחזיק את עצמי בסטנדרט הגבוה ואסייע לאחרים בקהילה."
@@ -133,9 +135,8 @@ function InitiationModal({ level, onClose }) {
 const FIGHT_CLUB_LEVEL = 5
 const FIGHT_CLUB_XP    = (FIGHT_CLUB_LEVEL - 1) * 100  // 400 XP
 
-const DAY_LABELS  = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת']
-const DAY_SHORT   = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳']
-const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+// Day names by locale: he-IL gives "יום ראשון" / "א׳", en-US "Sunday" / "S"
+const dayName = (d, locale, weekday) => d.toLocaleDateString(locale, { weekday })
 
 function dateKey(d) { return d.toISOString().slice(0, 10) }
 
@@ -147,9 +148,10 @@ function last14Days() {
   })
 }
 
-function generateInsight(activitySet, streak, totalXP, challengeCount) {
+function generateInsight(activitySet, streak, totalXP, challengeCount, tp, locale) {
+  const ti = tp.insight
   if (activitySet.size === 0) {
-    return { icon: '🌱', text: 'עדיין אין פעילות. השלם את ההרגל הראשון שלך היום כדי לבנות רצף.' }
+    return { icon: '🌱', text: ti.empty }
   }
 
   // Day-of-week frequency
@@ -159,17 +161,21 @@ function generateInsight(activitySet, streak, totalXP, challengeCount) {
     dowCount[dow]++
   }
   const peakDow   = dowCount.indexOf(Math.max(...dowCount))
-  const peakLabel = DAY_LABELS[peakDow]
+  // 2026-10-04 was a Sunday: + peakDow gives that weekday
+  const peakLabel = dayName(new Date(2026, 9, 4 + peakDow, 12), locale, 'long')
   const peakCount = dowCount[peakDow]
 
-  if (streak >= 7)  return { icon: '🔥', text: `רצף של ${streak} ימים! אתה בטריטוריה של העילית. יום ${peakLabel} הוא היום החזק ביותר שלך — שמור על העוגן הזה.` }
-  if (streak >= 3)  return { icon: '⚡', text: `${streak} ימים ברצף. יום ${peakLabel} הוא היום העקבי ביותר שלך. תרכב על המומנטום הזה.` }
-  if (peakCount >= 2) return { icon: '📈', text: `אתה מגיע הכי הרבה ביום ${peakLabel}. בנה סביב זה — תזמן את המשימות הקשות ליום הטוב ביותר שלך.` }
-  if (challengeCount >= 3) return { icon: '🎯', text: `${challengeCount} מסלולים פעילים. שקול להתמקד באחד עד יום 10 לפני שמסתעפים.` }
-  return { icon: '💡', text: 'עקביות עולה על עצימות. אפילו הרגל אחד שהושלם ביום מצטבר ל-365× יתרון לאורך שנה.' }
+  if (streak >= 7)  return { icon: '🔥', text: fmt(ti.streak7, { n: streak, day: peakLabel }) }
+  if (streak >= 3)  return { icon: '⚡', text: fmt(ti.streak3, { n: streak, day: peakLabel }) }
+  if (peakCount >= 2) return { icon: '📈', text: fmt(ti.peak, { day: peakLabel }) }
+  if (challengeCount >= 3) return { icon: '🎯', text: fmt(ti.tracks, { n: challengeCount }) }
+  return { icon: '💡', text: ti.default }
 }
 
 export default function AnalyticsTab({ profile, currentUid: _currentUid, activePathName, customPath: _customPath }) {
+  const { lang, t } = useLang()
+  const tp     = t.progress
+  const locale = localeFor(lang)
   const [showCeremony, setShowCeremony] = useState(false)
   const [toast, setToast]               = useState(null)
   const hasSigned = !!localStorage.getItem('ft_fight_club_signed')
@@ -188,24 +194,24 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
     const streakVal = getEffectiveStreak(profile)
     const name      = profile?.name || ''
     const text = streakVal > 0
-      ? `${name} על רצף של ${streakVal} ימים ב"${trackName}" ב-PRIME.\nהצטרף לתנועה ← ${APP_URL}`
-      : `אני בונה הרגלים טובים יותר עם PRIME.\nהצטרף לתנועה ← ${APP_URL}`
+      ? fmt(tp.shareStreak, { name, n: streakVal, track: trackName, url: APP_URL })
+      : fmt(tp.shareNone, { url: APP_URL })
     navigator.clipboard.writeText(text)
-      .then(() => showToast('📋', 'ההתקדמות הועתקה! מוכן לשיתוף.'))
-      .catch(() => showToast('⚠️', 'ההעתקה נכשלה — נסה שוב'))
+      .then(() => showToast('📋', tp.copied))
+      .catch(() => showToast('⚠️', tp.copyFailed))
   }
 
   function handlePreviewNudge() {
     const streakVal = getEffectiveStreak(profile)
-    const { title, body } = getDailyNudgeMessage(profile?.name, streakVal)
+    const { title, body } = getDailyNudgeMessage(profile?.name, streakVal, lang)
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification(title, { body, icon: '/favicon.svg', tag: 'nudge-preview' })
-      showToast('🔔', 'נשלח — בדוק את ההתראות שלך')
+      showToast('🔔', tp.nudgeSent)
     } else if ('Notification' in window && Notification.permission === 'default') {
       Notification.requestPermission().then(p => {
         if (p === 'granted') {
           new Notification(title, { body, icon: '/favicon.svg', tag: 'nudge-preview' })
-          showToast('🔔', 'נשלח — בדוק את ההתראות שלך')
+          showToast('🔔', tp.nudgeSent)
         } else {
           showToast('🔔', `"${title}" — ${body.slice(0, 50)}…`)
         }
@@ -251,8 +257,8 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
   }, [profile?.trackQuizRecs, quizRecs, challenges])
 
   // Longest streak from log
-  const insight      = useMemo(() => generateInsight(activitySet, streak, xp, challengeActive), [activitySet, streak, xp, challengeActive])
-  const nudge        = useMemo(() => getDailyNudgeMessage(profile?.name, streak), [profile?.name, streak])
+  const insight      = useMemo(() => generateInsight(activitySet, streak, xp, challengeActive, tp, locale), [activitySet, streak, xp, challengeActive, tp, locale])
+  const nudge        = useMemo(() => getDailyNudgeMessage(profile?.name, streak, lang), [profile?.name, streak, lang])
   const hasBadge     = streak >= 3
   const inFightClub  = level >= FIGHT_CLUB_LEVEL
   const xpToClub     = Math.max(0, FIGHT_CLUB_XP - xp)
@@ -264,8 +270,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
     const key    = dateKey(d)
     const active = activitySet.has(key)
     const isToday = key === dateKey(new Date())
-    const _label  = d.getDate() === 1 ? MONTH_SHORT[d.getMonth()] : (d.getDay() === 0 ? DAY_LABELS[0] : '')
-    const dayLbl = DAY_SHORT[d.getDay()]
+    const dayLbl = dayName(d, locale, 'narrow')
     return { key, active, isToday, dayLbl, date: d }
   })
 
@@ -276,8 +281,8 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
 
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.5rem' }}>
         <div>
-          <h2 style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '1.15rem', margin: 0 }}>ההתקדמות שלך</h2>
-          <p style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.78rem', marginTop: '0.2rem' }}>מבט כללי על ההתקדמות</p>
+          <h2 style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '1.15rem', margin: 0 }}>{tp.title}</h2>
+          <p style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.78rem', marginTop: '0.2rem' }}>{tp.sub}</p>
         </div>
         <button
           className="btn-tactile"
@@ -289,7 +294,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
             display: 'flex', alignItems: 'center', gap: '0.35rem',
           }}
         >
-          <span>📋</span> העתק סיכום
+          <span>📋</span> {tp.copy}
         </button>
       </div>
 
@@ -297,15 +302,15 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
       {!profile && (
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', background: '#111114', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.8rem 1rem', marginBottom: '1.25rem' }}>
           <div style={{ width: 13, height: 13, borderRadius: '50%', border: '2px solid rgba(245,158,11,0.25)', borderTopColor: '#f59e0b', animation: 'spin 0.9s linear infinite', flexShrink: 0 }} />
-          <span style={{ color: 'rgba(245,158,11,0.8)', fontSize: '0.76rem', fontWeight: 600 }}>מתחבר לנתונים… אם הנתונים לא נטענים — רענן את הדף</span>
+          <span style={{ color: 'rgba(245,158,11,0.8)', fontSize: '0.76rem', fontWeight: 600 }}>{tp.loading}</span>
         </div>
       )}
 
       {/* ── 14-day consistency chart — real progress, shown first ── */}
       <div style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '1.1rem 1.1rem 0.85rem', marginBottom: '1rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '1rem' }}>
-          <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.88rem' }}>עקביות יומית</span>
-          <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.68rem' }}>14 הימים האחרונים</span>
+          <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.88rem' }}>{tp.consistency}</span>
+          <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.68rem' }}>{tp.last14}</span>
         </div>
 
         {/* Bar chart */}
@@ -344,14 +349,14 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         <div style={{ display: 'flex', gap: '1rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
             <div style={{ width: 8, height: 8, borderRadius: 2, background: '#d4a843' }} />
-            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem' }}>פעיל</span>
+            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem' }}>{tp.active}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
             <div style={{ width: 8, height: 8, borderRadius: 2, background: 'rgba(255,255,255,0.08)' }} />
-            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem' }}>לא פעיל</span>
+            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem' }}>{tp.inactive}</span>
           </div>
-          <span style={{ marginLeft: 'auto', color: 'rgba(241,245,249,0.25)', fontSize: '0.65rem' }}>
-            {activitySet.size} ימים פעילים סה״כ
+          <span style={{ marginInlineEnd: 'auto', color: 'rgba(241,245,249,0.25)', fontSize: '0.65rem' }}>
+            {plural(tp.totalActive, activitySet.size, { n: activitySet.size.toLocaleString(locale) })}
           </span>
         </div>
       </div>
@@ -360,7 +365,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
       <div style={{ background: '#111114', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '1rem 1.1rem', marginBottom: '1.25rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
           <span style={{ fontSize: '1.1rem' }}>{insight.icon}</span>
-          <span style={{ color: 'rgba(232,232,232,0.7)', fontWeight: 700, fontSize: '0.82rem' }}>תובנה שבועית</span>
+          <span style={{ color: 'rgba(232,232,232,0.7)', fontWeight: 700, fontSize: '0.82rem' }}>{tp.insightTitle}</span>
         </div>
         <p style={{ color: 'rgba(241,245,249,0.65)', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{insight.text}</p>
       </div>
@@ -368,15 +373,15 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
       {/* ── Stat pills ── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem', marginBottom: '1.5rem' }}>
         {[
-          { label: 'סה״כ XP',            value: xp.toLocaleString(),   icon: '✨', color: '#6366f1' },
-          { label: 'רצף נוכחי',          value: streak === 0 ? 'אין רצף' : streak === 1 ? 'יום אחד' : `${streak} ימים`,          icon: '🔥', color: '#f59e0b' },
-          { label: 'רמה',               value: level,                 icon: '⭐', color: '#8b5cf6' },
-          { label: 'שיעורים שהושלמו',    value: totalLessons,          icon: '📚', color: '#10b981' },
+          { id: 'xp',      value: xp.toLocaleString(locale),     icon: '✨', color: '#6366f1' },
+          { id: 'streak',  value: streak === 0 ? tp.noStreak : plural(tp.streakDays, streak, { n: streak.toLocaleString(locale) }), icon: '🔥', color: '#f59e0b' },
+          { id: 'level',   value: level.toLocaleString(locale),  icon: '⭐', color: '#8b5cf6' },
+          { id: 'lessons', value: totalLessons.toLocaleString(locale), icon: '📚', color: '#10b981' },
         ].map(s => (
-          <div key={s.label} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '0.9rem 1rem' }}>
+          <div key={s.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '0.9rem 1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.35rem' }}>
               <span style={{ fontSize: '0.9rem' }}>{s.icon}</span>
-              <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</span>
+              <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{tp.stats[s.id]}</span>
             </div>
             <div style={{ color: s.color, fontSize: '1.55rem', fontWeight: 800, lineHeight: 1 }}>{s.value}</div>
           </div>
@@ -388,12 +393,12 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         <div style={{ marginBottom: '1rem', background: '#111114', border: '1px solid rgba(212,168,67,0.2)', borderRadius: 16, padding: '1rem 1.15rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(212,168,67,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', flexShrink: 0 }}>🏅</div>
           <div>
-            <div style={{ color: '#d4a843', fontWeight: 800, fontSize: '0.9rem', marginBottom: '0.12rem' }}>אלוף העקביות</div>
-            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.73rem' }}>{streak} ימים ברצף</div>
+            <div style={{ color: '#d4a843', fontWeight: 800, fontSize: '0.9rem', marginBottom: '0.12rem' }}>{tp.badge}</div>
+            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.73rem' }}>{plural(tp.badgeSub, streak, { n: streak.toLocaleString(locale) })}</div>
           </div>
           <div style={{ marginInlineStart: 'auto', textAlign: 'center', flexShrink: 0 }}>
-            <div style={{ color: '#d4a843', fontWeight: 900, fontSize: '1.35rem', lineHeight: 1, fontFamily: "'SF Mono','Fira Code',monospace" }}>{streak}</div>
-            <div style={{ color: 'rgba(212,168,67,0.5)', fontSize: '0.58rem', fontWeight: 700 }}>ימים</div>
+            <div style={{ color: '#d4a843', fontWeight: 900, fontSize: '1.35rem', lineHeight: 1, fontFamily: "'SF Mono','Fira Code',monospace" }}>{streak.toLocaleString(locale)}</div>
+            <div style={{ color: 'rgba(212,168,67,0.5)', fontSize: '0.58rem', fontWeight: 700 }}>{tp.badgeDays}</div>
           </div>
         </div>
       )}
@@ -421,7 +426,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
                 <div style={{ color: 'rgba(241,245,249,0.6)', fontWeight: 700, fontSize: '0.88rem' }}>מועדון הקרב</div>
                 <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.72rem' }}>הגע לרמה {FIGHT_CLUB_LEVEL} כדי לפתוח · נותרו {xpToClub} XP</div>
               </div>
-              <div style={{ marginLeft: 'auto', textAlign: 'right', flexShrink: 0 }}>
+              <div style={{ marginInlineEnd: 'auto', textAlign: 'start', flexShrink: 0 }}>
                 <div style={{ color: 'rgba(241,245,249,0.35)', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>רמה {level}</div>
                 <div style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.6rem' }}>/ רמה {FIGHT_CLUB_LEVEL}</div>
               </div>
@@ -443,12 +448,12 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <span style={{ fontSize: '0.8rem' }}>🔔</span>
-            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.63rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>תזכורת יומית · 08:00</span>
+            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.63rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{tp.nudgeTitle}</span>
           </div>
           <button
             onClick={handlePreviewNudge}
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '0.2rem 0.55rem', color: 'rgba(240,240,240,0.5)', fontSize: '0.62rem', fontWeight: 700, cursor: 'pointer', letterSpacing: '0.04em' }}
-          >▶ תצוגה מקדימה</button>
+          >{tp.preview}</button>
         </div>
         <div style={{ color: '#f1f5f9', fontSize: '0.82rem', fontWeight: 700, marginBottom: '0.15rem' }}>{nudge.title}</div>
         <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.77rem', lineHeight: 1.5 }}>{nudge.body}</div>
@@ -478,11 +483,11 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
 
             {/* Current marker */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.65rem' }}>
-              <div style={{ width: 56, textAlign: 'left', color: 'rgba(241,245,249,0.35)', fontSize: '0.65rem', fontWeight: 700, flexShrink: 0 }}>עכשיו</div>
+              <div style={{ width: 56, textAlign: 'end', color: 'rgba(241,245,249,0.35)', fontSize: '0.65rem', fontWeight: 700, flexShrink: 0 }}>עכשיו</div>
               <div style={{ flex: 1, height: 8, borderRadius: 99, background: 'rgba(255,255,255,0.06)', direction: 'ltr' }}>
                 <div style={{ height: '100%', width: `${Math.round((xp / maxXP) * 100)}%`, borderRadius: 99, background: 'rgba(255,255,255,0.2)' }} />
               </div>
-              <div style={{ width: 60, textAlign: 'right', color: 'rgba(241,245,249,0.5)', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0 }}>{xp.toLocaleString()} XP</div>
+              <div style={{ width: 60, textAlign: 'start', color: 'rgba(241,245,249,0.5)', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0 }}>{xp.toLocaleString()} XP</div>
             </div>
 
             {proj.map((p, i) => {
@@ -490,11 +495,11 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
               const lvl    = Math.floor(p.xp / 100) + 1
               return (
                 <div key={p.days} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: i < 2 ? '0.5rem' : 0 }}>
-                  <div style={{ width: 56, textAlign: 'left', color: colors[i], fontSize: '0.65rem', fontWeight: 700, flexShrink: 0 }}>{p.label}</div>
+                  <div style={{ width: 56, textAlign: 'end', color: colors[i], fontSize: '0.65rem', fontWeight: 700, flexShrink: 0 }}>{p.label}</div>
                   <div style={{ flex: 1, height: 8, borderRadius: 99, background: 'rgba(255,255,255,0.06)', direction: 'ltr' }}>
                     <div style={{ height: '100%', width: `${Math.round((p.xp / maxXP) * 100)}%`, borderRadius: 99, background: colors[i], opacity: 0.7, transition: 'width 0.8s ease' }} />
                   </div>
-                  <div style={{ width: 60, textAlign: 'right', color: colors[i], fontSize: '0.65rem', fontWeight: 800, flexShrink: 0 }}>
+                  <div style={{ width: 60, textAlign: 'start', color: colors[i], fontSize: '0.65rem', fontWeight: 800, flexShrink: 0 }}>
                     {p.xp.toLocaleString()} XP
                     <div style={{ color: `${colors[i]}88`, fontSize: '0.55rem', fontWeight: 600 }}>רמה {lvl}</div>
                   </div>

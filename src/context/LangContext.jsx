@@ -1,25 +1,28 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import t from '../i18n/translations'
+import { LANG_KEY, LANGS, detectLang, dirFor, isEnglishEnabled } from '../i18n/detectLang'
 
-const LangCtx = createContext()
+// Default (no provider, e.g. a component rendered alone in a test): Hebrew, the production language
+const LangCtx = createContext({ lang: 'he', setLang: () => {}, t: t.he, englishEnabled: false })
 
 export function LangProvider({ children }) {
-  const [lang, setLangState] = useState(() => localStorage.getItem('ft_lang') || 'he')
+  const englishEnabled = isEnglishEnabled()
+  const [lang, setLangState] = useState(() => detectLang({ enabled: englishEnabled }))
 
   function setLang(l) {
-    localStorage.setItem('ft_lang', l)
+    // English off: stay Hebrew, don't store a choice that would apply once it's turned on
+    if (!englishEnabled || !LANGS.includes(l)) return
+    try { localStorage.setItem(LANG_KEY, l) } catch { /* ignore */ }
     setLangState(l)
-    document.documentElement.dir  = l === 'he' ? 'rtl' : 'ltr'
-    document.documentElement.lang = l
   }
 
   useEffect(() => {
-    document.documentElement.dir  = lang === 'he' ? 'rtl' : 'ltr'
+    document.documentElement.dir  = dirFor(lang)
     document.documentElement.lang = lang
   }, [lang])
 
   return (
-    <LangCtx.Provider value={{ lang, setLang, t: t[lang] }}>
+    <LangCtx.Provider value={{ lang, setLang, t: t[lang], englishEnabled }}>
       {children}
     </LangCtx.Provider>
   )

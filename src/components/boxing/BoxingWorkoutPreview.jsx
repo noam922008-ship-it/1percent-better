@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useLang } from '../../context/LangContext'
+import { fmt, byLang } from '../../i18n/fmt'
 
 // ─── palette ────────────────────────────────────────────────────────────────
 const C = {
@@ -11,20 +13,6 @@ const C = {
   blue:    '#60a5fa',
   green:   '#10b981',
   orange:  '#f97316',
-}
-
-const DIFFICULTY_LABEL = {
-  beginner:     'מתחילים',
-  intermediate: 'בינוני',
-  advanced:     'מתקדם',
-}
-
-const ROUND_TYPE_LABEL = {
-  warmup:    'חימום',
-  technique: 'טכניקה',
-  work:      'עבודה',
-  rest:      'מנוחה',
-  cooldown:  'שחרור',
 }
 
 const ROUND_TYPE_COLOR = {
@@ -54,9 +42,11 @@ function MetaChip({ label }) {
 }
 
 function TrainingToggle({ value, onChange }) {
+  const { t: tr } = useLang()
+  const tp = tr.workouts.combat.preview
   const options = [
-    { id: 'shadow', label: 'איגרוף צל', emoji: '👤', desc: 'ללא ציוד' },
-    { id: 'bag',    label: 'שק כבד',    emoji: '🥊', desc: 'עם שק אימון' },
+    { id: 'shadow', ...tp.shadow, emoji: '👤' },
+    { id: 'bag',    ...tp.bag,    emoji: '🥊' },
   ]
   return (
     <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
@@ -90,8 +80,9 @@ function TrainingToggle({ value, onChange }) {
 }
 
 function RoundStructureRow({ round, index: _index }) {
+  const { lang, t: tr } = useLang()
   const color = ROUND_TYPE_COLOR[round.type] ?? C.muted
-  const label = ROUND_TYPE_LABEL[round.type] ?? round.type
+  const label = tr.workouts.combat.roundType[round.type] ?? round.type
   const mins  = Math.floor(round.durationSeconds / 60)
   const secs  = round.durationSeconds % 60
   const timeStr = mins > 0
@@ -106,7 +97,6 @@ function RoundStructureRow({ round, index: _index }) {
         gap: 10,
         padding: '9px 0',
         borderBottom: `1px solid ${C.border}`,
-        direction: 'rtl',
       }}
     >
       <div
@@ -119,7 +109,7 @@ function RoundStructureRow({ round, index: _index }) {
         }}
       />
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, color: C.text, fontWeight: 500 }}>{round.titleHe}</div>
+        <div style={{ fontSize: 13, color: C.text, fontWeight: 500 }}>{byLang(round, 'title', lang)}</div>
         <div style={{ fontSize: 11, color: C.muted, marginTop: 1 }}>{label}</div>
       </div>
       <div style={{ fontSize: 12, color: C.muted, flexShrink: 0 }}>{timeStr}</div>
@@ -128,13 +118,16 @@ function RoundStructureRow({ round, index: _index }) {
 }
 
 export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onInstant, onBack }) {
+  const { lang, t: tr } = useLang()
+  const tc = tr.workouts.combat
+  const tp = tc.preview
   const [trainingType, setTrainingType] = useState(null)
 
   if (!workout) return null
 
   const workRounds = (workout.rounds ?? []).filter((r) => r.type === 'work')
-  const equipment  = (workout.equipment ?? []).join(' · ')
-  const diffLabel  = DIFFICULTY_LABEL[workout.difficulty] ?? workout.difficulty
+  const equipment  = (workout.equipment ?? []).map((id) => tc.equipment[id] ?? id).join(' · ')
+  const diffLabel  = tc.difficulty[workout.difficulty] ?? workout.difficulty
 
   return (
     <div
@@ -142,7 +135,6 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
         minHeight: '100vh',
         background: C.bg,
         color: C.text,
-        direction: 'rtl',
         fontFamily: 'system-ui, sans-serif',
         paddingBottom: 32,
       }}
@@ -164,7 +156,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
             gap: 6,
           }}
         >
-          ← חזרה
+          {tc.backLabel}
         </button>
       </div>
 
@@ -182,7 +174,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
                 fontWeight: 700,
               }}
             >
-              רמה {levelNum} · אימון {workout.order}
+              {fmt(tp.levelWorkout, { level: levelNum, n: workout.order })}
             </span>
           </div>
           <h1
@@ -194,16 +186,16 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
               color: C.text,
             }}
           >
-            {workout.titleHe}
+            {byLang(workout, 'title', lang)}
           </h1>
-          <p style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.6 }}>
+          <p dir="auto" style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.6 }}>
             {workout.goalHe}
           </p>
         </div>
 
         {/* ── Meta chips ── */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
-          <MetaChip label={`${workout.estimatedMinutes} דקות`} />
+          <MetaChip label={fmt(tc.minutes, { n: workout.estimatedMinutes })} />
           <MetaChip label={diffLabel} />
           {equipment && <MetaChip label={equipment} />}
         </div>
@@ -219,10 +211,10 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
           }}
         >
           <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 2 }}>
-            עם מה תתאמן?
+            {tp.withWhat}
           </div>
           <div style={{ fontSize: 12, color: C.muted, marginBottom: 0 }}>
-            בחר לפני תחילת האימון
+            {tp.chooseFirst}
           </div>
           <TrainingToggle value={trainingType} onChange={setTrainingType} />
 
@@ -240,7 +232,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
                 fontWeight: 600,
               }}
             >
-              🥊 זכור: רצועות וכפפות חובה!
+              {tp.bagWarning}
             </div>
           )}
         </div>
@@ -265,9 +257,9 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
               }}
             >
               <span style={{ fontSize: 12, color: C.muted }}>
-                {workRounds.length} סיבובי עבודה
+                {fmt(tp.workRounds, { n: workRounds.length })}
               </span>
-              <span style={{ fontSize: 15, fontWeight: 700 }}>מבנה האימון</span>
+              <span style={{ fontSize: 15, fontWeight: 700 }}>{tp.structure}</span>
             </div>
             {workout.rounds.map((round, idx) => (
               <RoundStructureRow key={round.id ?? idx} round={round} index={idx} />
@@ -286,7 +278,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
               marginBottom: 24,
             }}
           >
-            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>בטיחות</div>
+            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>{tp.safety}</div>
             <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
               {workout.safetyNotesHe.map((note, i) => (
                 <li
@@ -302,7 +294,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
                   }}
                 >
                   <span style={{ flexShrink: 0, marginTop: 2 }}>•</span>
-                  <span>{note}</span>
+                  <span dir="auto">{note}</span>
                 </li>
               ))}
             </ul>
@@ -329,7 +321,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
             marginBottom: 10,
           }}
         >
-          {trainingType ? 'התחל אימון ←' : 'בחר סוג אימון תחילה'}
+          {trainingType ? tc.startWorkout : tp.pickType}
         </button>
 
         {/* Quick workout — skips warmup, starts directly at first work round */}
@@ -352,7 +344,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
             marginBottom: onInstant ? 10 : 0,
           }}
         >
-          ⚡ אימון מהיר — דלג על החימום
+          {tp.quick}
         </button>
 
         {/* Instant workout — 5 min, no warmup, no progression, no equipment */}
@@ -373,7 +365,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
               letterSpacing: 0.2,
             }}
           >
-            ⚡ אימון קליל מיידי — 5 דקות, ללא ציוד
+            {tp.instant}
           </button>
         )}
       </div>
