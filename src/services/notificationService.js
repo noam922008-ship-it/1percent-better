@@ -3,6 +3,9 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { getEffectiveStreak } from '../utils/streak'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, isReminderDay } from '../utils/habitSchedule'
 import { getLocalDateKey } from '../utils/localDate'
+import he from '../i18n/he'
+import en from '../i18n/en'
+import { fmt } from '../i18n/fmt'
 
 const todayKey = () => new Date().toISOString().slice(0, 10)
 
@@ -243,14 +246,12 @@ export function fireEveningRecap(profile, triggers) {
   new Notification('🌙 סיכום יומי', { body, icon: '/favicon.svg', tag: 'evening-recap' })
 }
 
-export function getDailyNudgeMessage(name, streak) {
-  const n = name ? `, ${name}` : ''
-  if (streak >= 30) return { title: `🔥 ${streak} ימים${n}`,       body: `אגדה. עוד יום אחד שומר את הלהבה דולקת. אל תשבור את מה שבנית.` }
-  if (streak >= 14) return { title: `💪 רצף של ${streak} ימים${n}!`, body: `שבועיים של נוכחות. היום זה עוד צעד אחד. אל תשבור את השרשרת.` }
-  if (streak >= 7)  return { title: `⚡ שבוע ברצף${n}!`,            body: `7+ ימים ברצף. אתה כבר בין 10% הטובים. אל תיתן ליום הזה לשבור את הרצף.` }
-  if (streak >= 3)  return { title: `🚀 ${streak} ימים ברצף${n}`,   body: `הרצף שלך בונה. הרגל אחד היום שומר על המומנטום. מוכן?` }
-  if (streak === 1) return { title: `✅ יום 1 הושלם${n}`,           body: `התחלה טובה. ביום 2 רוב האנשים מוותרים. תגיע שוב היום.` }
-  return              { title: `⚡ ההרגלים שלך מחכים${n}`,         body: `כל יום שאתה מגיע הוא הצבעה עבור האדם שאתה הופך להיות. תתחיל היום.` }
+// lang: 'he' (default — the in-app nudge below) or 'en'. Copy lives in t.nudge.
+export function getDailyNudgeMessage(name, streak, lang = 'he') {
+  const m = (lang === 'en' ? en : he).nudge
+  const vars = { n: streak, name: name ? `, ${name}` : '' }
+  const pick = streak >= 30 ? m.d30 : streak >= 14 ? m.d14 : streak >= 7 ? m.d7 : streak >= 3 ? m.d3 : streak === 1 ? m.d1 : m.start
+  return { title: fmt(pick.title, vars), body: fmt(pick.body, vars) }
 }
 
 // weekLog: weekly-habit check-ins for this local week ({ [localDate]: { [id]: true } }).
