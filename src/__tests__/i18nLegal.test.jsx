@@ -64,8 +64,16 @@ describe('LegalContent in English', () => {
       'Ad personalization and Google Signals are off', "We don't sell your data", 'paid API key',
       "By default your name doesn't appear on the leaderboard", '"Delete account"', 'within 30 days',
       'ages 18 and up', 'only in the browser on your device', 'Noam Cohen', 'prime.daily.app@gmail.com',
-      'Last updated: September 29, 2026',
+      'Last updated: October 11, 2026',
     ]) expect(t).toContain(phrase)
+  })
+
+  it('terms point users outside Israel to a local line, in both languages', () => {
+    expect(render(<LegalContent type="terms" />).container.textContent)
+      .toContain('Outside Israel: your local emergency number, or findahelpline.com for a helpline in your country.')
+    cleanup(); lang.current = 'he'
+    expect(render(<LegalContent type="terms" />).container.textContent)
+      .toContain('מחוץ לישראל: מספר החירום המקומי, או findahelpline.com לקו תמיכה במדינה שלך.')
   })
 
   it('terms keep Israeli law, Jerusalem courts and the crisis lines', () => {
@@ -81,7 +89,7 @@ describe('Hebrew is unchanged', () => {
     const { container } = render(<LegalContent type="privacy" />)
     expect(container.firstChild.getAttribute('dir')).toBe('rtl')
     expect(container.textContent).toContain('מדיניות פרטיות')
-    expect(container.textContent).toContain('עודכן לאחרונה: 29.9.2026')
+    expect(container.textContent).toContain('עודכן לאחרונה: 11.10.2026')
     expect(container.textContent).toContain('נועם כהן (Noam Cohen)')
   })
 })

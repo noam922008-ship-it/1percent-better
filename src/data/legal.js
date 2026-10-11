@@ -12,14 +12,14 @@ export const LEGAL_CONFIG = {
   minAge:        18,     // Gemini API terms (updated 2026-04-28): 18+, and not in apps likely used by under-18s
   deletionDays:  30,
   courtCity:     'ירושלים',
-  updated:       '29.9.2026',
+  updated:       '11.10.2026',
 }
 
 // English values that differ from the Hebrew ones; everything else comes from LEGAL_CONFIG.
 const LEGAL_CONFIG_EN = {
   operatorName: 'Noam Cohen',
   courtCity:    'Jerusalem',
-  updated:      'September 29, 2026',
+  updated:      'October 11, 2026',
 }
 
 export function legalConfig(lang) {
@@ -158,6 +158,7 @@ export const TERMS = {
       paras: [
         'PRIME לא מחליפה טיפול נפשי, ייעוץ רפואי, פסיכולוגי, פיננסי או משפטי. שאלות, שיעורים ותוכן באפליקציה — כולל שאלות של AI — נועדו לעזור לך לחשוב, לא לאבחן ולא לייעץ.',
         'אם קשה לך עכשיו: ער״ן 1201 (24/7), סה״ר sahar.org.il (צ׳אט אנונימי). במצב חירום: 101 (מד״א) או 100 (משטרה).',
+        'מחוץ לישראל: מספר החירום המקומי, או findahelpline.com לקו תמיכה במדינה שלך.',
       ],
     },
     {
@@ -337,6 +338,7 @@ export const TERMS_EN = {
       paras: [
         "PRIME doesn't replace mental health care or medical, psychological, financial or legal advice. Questions, lessons and content in the app, including AI questions, are meant to help you think, not to diagnose or advise.",
         "If you're having a hard time right now: ERAN 1201 (24/7), SAHAR sahar.org.il (anonymous chat). In an emergency: 101 (Magen David Adom) or 100 (police).",
+        'Outside Israel: your local emergency number, or findahelpline.com for a helpline in your country.',
       ],
     },
     {

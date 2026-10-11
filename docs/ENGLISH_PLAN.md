@@ -280,17 +280,17 @@ Files: `src/data/legal.js`, `src/components/LegalContent.jsx`, `src/pages/Legal.
   sections, paragraphs, list items and placeholders (a test checks the shape). No new promises: Israeli law, Jerusalem
   courts and the Israeli crisis lines stay as in the Hebrew. Hebrew text untouched.
 - **Config:** `legalConfig(lang)` — English overrides only `operatorName` ("Noam Cohen"), `courtCity` ("Jerusalem")
-  and `updated` ("September 29, 2026"); email, age and deletion days are shared. `legalDoc(type, lang)` picks the doc.
+  and `updated` ("October 11, 2026"); email, age and deletion days are shared. `legalDoc(type, lang)` picks the doc.
   Owner-marker labels ("To fill in:", "For you to decide:") in both languages.
 - **Layout:** the three files take `dir` from `dirFor(lang)` (no hard-coded rtl). Chevrons from Phases 3–6 fixed:
   back = `BackChevron`, the hub rows = `ForwardChevron`.
-- **Tests:** `src/__tests__/i18nLegal.test.jsx` (12) — EN/HE shape + placeholder parity, config overrides, no Hebrew
+- **Tests:** `src/__tests__/i18nLegal.test.jsx` (13) — EN/HE shape + placeholder parity, config overrides, no Hebrew
   in English, key phrases kept, Hebrew output unchanged, `dir` and chevron direction on `/legal` and `/privacy` in
-  both languages. `legal.test.jsx` unchanged and passing. `npm test`: 35 files / 582 tests. `npm run build` OK.
+  both languages. `legal.test.jsx` unchanged and passing. `npm test`: 35 files / 583 tests. `npm run build` OK.
 - **390px check (dev, headless, both languages):** `/legal`, `/privacy`, `/terms` — html + page `dir` right, back
   chevron at the start edge, no horizontal scroll, no Hebrew in English, no page errors.
 - **Crisis line abroad (owner's exception):** one added line in both languages — "outside Israel: local emergency
-  number or findahelpline.com". Separate commit, after the owner approves the Hebrew wording.
+  number or findahelpline.com" (approved by the owner). "Last updated" moved to 11.10.2026 / October 11, 2026.
 
 ### Legal gaps for users abroad — open, for a lawyer (not fixed on purpose)
 
