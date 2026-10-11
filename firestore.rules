@@ -14,14 +14,21 @@ service cloud.firestore {
     // Read/write restricted to the authenticated owner only.
     // uid field, if present, must equal the document key (prevents
     // a user from planting a uid that impersonates another account).
+    // lang ('he' | 'en') and tz (IANA zone name) are read by the Cloud Functions for push copy.
     match /users/{uid} {
+      function validLocale(d) {
+        return (!('lang' in d) || d.lang in ['he', 'en'])
+            && (!('tz'   in d) || (d.tz is string && d.tz.matches('[A-Za-z0-9_+/-]{1,64}')));
+      }
       allow read:   if isOwner(uid);
       allow create: if isOwner(uid)
                    && (!('uid' in request.resource.data)
-                       || request.resource.data.uid == uid);
+                       || request.resource.data.uid == uid)
+                   && validLocale(request.resource.data);
       allow update: if isOwner(uid)
                    && (!('uid' in request.resource.data)
-                       || request.resource.data.uid == uid);
+                       || request.resource.data.uid == uid)
+                   && validLocale(request.resource.data);
       allow delete: if isOwner(uid);
 
       // Weekly-habit check-ins — { [triggerId]: true } per local date. Owner-only.

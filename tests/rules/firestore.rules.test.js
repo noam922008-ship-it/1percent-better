@@ -35,6 +35,33 @@ describe('users/{uid}/habitLog — weekly check-ins', () => {
   })
 })
 
+describe('users/{uid} — lang and tz', () => {
+  it('owner can save lang he/en and an IANA time zone', async () => {
+    const ref = doc(as('alice'), 'users/alice')
+    await assertSucceeds(setDoc(ref, { lang: 'he', tz: 'Asia/Jerusalem' }, { merge: true }))
+    await assertSucceeds(setDoc(ref, { lang: 'en', tz: 'America/Argentina/Buenos_Aires' }, { merge: true }))
+    await assertSucceeds(updateDoc(ref, { tz: 'Etc/GMT+3' }))
+  })
+
+  it('rejects any other lang', async () => {
+    const ref = doc(as('alice'), 'users/alice')
+    await assertFails(setDoc(ref, { lang: 'ar' }, { merge: true }))
+    await assertFails(setDoc(ref, { lang: 1 }, { merge: true }))
+  })
+
+  it('rejects a tz that is not a short zone name', async () => {
+    const ref = doc(as('alice'), 'users/alice')
+    await assertFails(setDoc(ref, { tz: 'x'.repeat(65) }, { merge: true }))
+    await assertFails(setDoc(ref, { tz: '<script>' }, { merge: true }))
+    await assertFails(setDoc(ref, { tz: 5 }, { merge: true }))
+  })
+
+  it("other fields still save, and another user can't set alice's lang", async () => {
+    await assertSucceeds(setDoc(doc(as('alice'), 'users/alice'), { streak: { lastDate: '2026-10-11' } }, { merge: true }))
+    await assertFails(setDoc(doc(as('bob'), 'users/alice'), { lang: 'en' }, { merge: true }))
+  })
+})
+
 describe('nudgeResponses/{uid}_{date}', () => {
   const mine = { uid: 'alice', date: '2026-10-04', responses: [{ habitLabel: 'run', response: 'done', ts: 1 }] }
   const seed = data => env.withSecurityRulesDisabled(c => setDoc(doc(c.firestore(), 'nudgeResponses/alice_2026-10-04'), data))
