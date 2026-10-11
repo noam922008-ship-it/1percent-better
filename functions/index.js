@@ -10,6 +10,10 @@ const { getMessaging }            = require('firebase-admin/messaging');
 const { GoogleGenerativeAI }      = require('@google/generative-ai');
 const { GoogleAIFileManager }     = require('@google/generative-ai/server');
 const { getStorage }              = require('firebase-admin/storage');
+const {
+  ACCOUNTABILITY_COPY, TEST_COPY, BROADCAST_COPY,
+  copyFor, todayIsraelDateKey, pickCopy, isCompletedToday,
+} = require('./notifyCopy');
 
 const geminiApiKey = defineSecret('GEMINI_API_KEY');
 
@@ -347,26 +351,6 @@ Rules:
   }
 );
 
-// ── Accountability copy ────────────────────────────────────────────────────────
-
-const ACCOUNTABILITY_COPY = {
-  he: (appName) => ({
-    title: `🔐 לפני שתפתח את ${appName}…`,
-    body:  'עשית 15 שכיבות סמיכה? בוא להרוויח את ה-XP שלך ולפתוח את הגלילה.',
-    lang:  'he',
-  }),
-  en: (appName) => ({
-    title: `🔐 Before you open ${appName}…`,
-    body:  'Did you do your 15 push-ups? Come earn your XP and unlock your scroll time.',
-    lang:  'en',
-  }),
-  ar: (appName) => ({
-    title: `🔐 قبل أن تفتح ${appName}…`,
-    body:  'هل أنهيت 15 ضغطة أرضية؟ تعال واكسب XP الخاص بك.',
-    lang:  'ar',
-  }),
-};
-
 // ── Helper: stale token cleanup (shared) ─────────────────────────────────────
 
 async function purgeStaleTokens(db, staleTokens, tokenToUid) {
@@ -385,82 +369,6 @@ async function purgeStaleTokens(db, staleTokens, tokenToUid) {
     await ref.update(update);
   }
   console.log(`[purgeStaleTokens] purged ${staleTokens.size} tokens from ${affectedUids.size} users`);
-}
-
-// ── Copy variants ─────────────────────────────────────────────────────────────
-// Three punchy lines per language, rotated randomly per user so the nudge
-// feels fresh and doesn't read as automated spam.
-
-const NUDGE_COPY = {
-  he: [
-    {
-      title: 'ה-Streak שלך בסכנה! 🔥',
-      body:  'נשאר לך עוד קצת כדי לסגור את היום ב-1% טוב יותר.',
-    },
-    {
-      title: 'אל תוותר לעצמך היום ⚔️',
-      body:  'כנס לסמן את ההרגלים שלך עכשיו.',
-    },
-    {
-      title: 'מצב מונק מוד מופעל? 🧠',
-      body:  'אל תפיל את הרצף, המשימות מחכות לך.',
-    },
-  ],
-  en: [
-    {
-      title: 'Your streak is at risk! 🔥',
-      body:  "Close today with one small step — you're almost there.",
-    },
-    {
-      title: "Don't quit on yourself today ⚔️",
-      body:  'Check in and mark your habits now.',
-    },
-    {
-      title: 'Monk Mode activated? 🧠',
-      body:  "Don't break the streak — your missions are waiting.",
-    },
-  ],
-  ar: [
-    {
-      title: 'سلسلتك في خطر! 🔥',
-      body:  'أكمل يومك الآن لتكون أفضل بنسبة 1٪.',
-    },
-    {
-      title: 'لا تتخلى عن نفسك اليوم ⚔️',
-      body:  'سجّل عاداتك وأغلق يومك بقوة.',
-    },
-    {
-      title: 'وضع الرهبان مفعّل؟ 🧠',
-      body:  'لا تكسر السلسلة، مهامك بانتظارك.',
-    },
-  ],
-};
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-/** YYYY-MM-DD in Israel local time — matches client dateKey() which uses getFullYear/Month/Date. */
-function todayIsraelDateKey() {
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jerusalem' }).format(new Date());
-}
-
-function pickCopy(lang) {
-  const pool = NUDGE_COPY[lang] || NUDGE_COPY.he;
-  return pool[Math.floor(Math.random() * pool.length)];
-}
-
-/**
- * Returns true if the user has already completed their daily activity today.
- * Uses two independent signals so a syncing delay in one doesn't cause false nudges.
- */
-function isCompletedToday(userData, today) {
-  const streak = userData.streak || {};
-  // Client saves streak.lastDate (not lastPostDate — fixed field name)
-  if (streak.lastDate === today) return true;
-
-  const quests = userData[`dailyQuests_${today}`] || {};
-  if (quests.pushup && quests.monkMode && quests.quickReview) return true;
-
-  return false;
 }
 
 // ── FCM push notification functions ──────────────────────────────────────────
@@ -609,7 +517,7 @@ exports.accountabilityReminder = onSchedule(
 
       const lang    = d.lang || 'he';
       const appName = apps[0]; // most important app (first in list)
-      const copy    = (ACCOUNTABILITY_COPY[lang] || ACCOUNTABILITY_COPY.he)(appName);
+      const copy    = copyFor(ACCOUNTABILITY_COPY, lang)(appName);
 
       for (const token of tokenSet) {
         tokenToUid.set(token, doc.id);
@@ -674,11 +582,10 @@ exports.accountabilityReminder = onSchedule(
 //   version:          string   — current app version, e.g. "2.0.0"
 //   forceUpdate:      boolean  — if true, client blocks until user refreshes
 //   pendingBroadcast: boolean  — set true to trigger this function
-//   broadcastTitle:   string?  — optional override push title
+//   broadcastTitle:   string?  — optional override push title (all users, any language)
 //   broadcastBody:    string?  — optional override push body
+// Without an override each user gets BROADCAST_COPY in their lang (notifyCopy.js).
 
-const DEFAULT_BROADCAST_TITLE = '🚀 PRIME just got better!';
-const DEFAULT_BROADCAST_BODY  = "🚀 Upgrade Alert: The new version of PRIME is live! Open the app to experience the latest features.";
 const APP_URL                  = 'https://prime-app-84fe0.web.app/';
 
 exports.broadcastUpdate = onDocumentWritten(
@@ -699,8 +606,6 @@ exports.broadcastUpdate = onDocumentWritten(
     const db        = getFirestore();
     const messaging = getMessaging();
     const version   = after.version || 'latest';
-    const title     = after.broadcastTitle || DEFAULT_BROADCAST_TITLE;
-    const body      = after.broadcastBody  || DEFAULT_BROADCAST_BODY;
 
     console.log(`[broadcastUpdate] version=${version} — collecting tokens`);
 
@@ -725,6 +630,10 @@ exports.broadcastUpdate = onDocumentWritten(
       const tokenSet = new Set(Array.isArray(d.fcmTokens) ? d.fcmTokens : []);
       if (d.fcmToken) tokenSet.add(d.fcmToken);
       if (!tokenSet.size) continue;
+
+      const copy  = copyFor(BROADCAST_COPY, d.lang);
+      const title = after.broadcastTitle || copy.title;
+      const body  = after.broadcastBody  || copy.body;
 
       for (const token of tokenSet) {
         tokenToUid.set(token, doc.id);
@@ -809,7 +718,8 @@ exports.sendTestNotification = onCall(
       throw new HttpsError('not-found', 'User document not found. Register a push token first.');
     }
 
-    const { fcmTokens = [], fcmToken } = userDoc.data();
+    const { fcmTokens = [], fcmToken, lang } = userDoc.data();
+    const copy = copyFor(TEST_COPY, lang);
     const tokenSet = new Set(Array.isArray(fcmTokens) ? fcmTokens : []);
     if (fcmToken) tokenSet.add(fcmToken);
 
@@ -829,8 +739,8 @@ exports.sendTestNotification = onCall(
           webpush: {
             headers: { Urgency: 'high' },
             data: {
-              title: '🧪 PRIME — בדיקת Push',
-              body:  'ההתראה הגיעה! כל המערכת עובדת.',
+              title: copy.title,
+              body:  copy.body,
               url:   '/',
               icon:  '/icon-192.png',
               badge: '/icon-192.png',

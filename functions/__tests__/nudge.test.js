@@ -1,45 +1,12 @@
 'use strict';
 
-// Pure-logic tests — no Firebase SDK required.
-// We extract the helper functions by re-implementing them here so this
-// test file has zero dependencies and runs instantly.
+// Pure-logic tests — no Firebase SDK required. Copy and helpers come from ../notifyCopy,
+// the same module index.js uses.
 
-// ── Helpers under test (copied from index.js to keep tests dependency-free) ──
-
-function todayIsraelDateKey(now = new Date()) {
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jerusalem' }).format(now);
-}
-
-function isCompletedToday(userData, today) {
-  const streak = userData.streak || {};
-  if (streak.lastPostDate === today) return true;
-  const quests = userData[`dailyQuests_${today}`] || {};
-  if (quests.pushup && quests.monkMode && quests.quickReview) return true;
-  return false;
-}
-
-const NUDGE_COPY = {
-  he: [
-    { title: 'ה-Streak שלך בסכנה! 🔥', body: 'נשאר לך עוד קצת...' },
-    { title: 'אל תוותר לעצמך היום ⚔️', body: 'כנס לסמן את ההרגלים שלך עכשיו.' },
-    { title: 'מצב מונק מוד מופעל? 🧠', body: 'אל תפיל את הרצף, המשימות מחכות לך.' },
-  ],
-  en: [
-    { title: 'Your streak is at risk! 🔥', body: "Close today with one small step — you're almost there." },
-    { title: "Don't quit on yourself today ⚔️", body: 'Check in and mark your habits now.' },
-    { title: 'Monk Mode activated? 🧠', body: "Don't break the streak." },
-  ],
-  ar: [
-    { title: 'سلسلتك في خطر! 🔥', body: 'أكمل يومك الآن.' },
-    { title: 'لا تتخلى عن نفسك اليوم ⚔️', body: 'سجّل عاداتك وأغلق يومك.' },
-    { title: 'وضع الرهبان مفعّل؟ 🧠', body: 'لا تكسر السلسلة.' },
-  ],
-};
-
-function pickCopy(lang) {
-  const pool = NUDGE_COPY[lang] || NUDGE_COPY.he;
-  return pool[Math.floor(Math.random() * pool.length)];
-}
+const {
+  NUDGE_COPY, ACCOUNTABILITY_COPY, TEST_COPY, BROADCAST_COPY,
+  copyFor, todayIsraelDateKey, pickCopy, isCompletedToday,
+} = require('../notifyCopy');
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
@@ -63,17 +30,21 @@ describe('todayIsraelDateKey', () => {
 describe('isCompletedToday', () => {
   const TODAY = '2024-06-10';
 
-  it('returns true when streak.lastPostDate === today', () => {
-    expect(isCompletedToday({ streak: { lastPostDate: TODAY } }, TODAY)).toBe(true);
+  it('ignores the old lastPostDate field', () => {
+    expect(isCompletedToday({ streak: { lastPostDate: TODAY } }, TODAY)).toBe(false);
   });
 
-  it('returns false when streak.lastPostDate is yesterday', () => {
-    expect(isCompletedToday({ streak: { lastPostDate: '2024-06-09' } }, TODAY)).toBe(false);
+  it('returns true when streak.lastDate === today', () => {
+    expect(isCompletedToday({ streak: { lastDate: TODAY } }, TODAY)).toBe(true);
+  });
+
+  it('returns false when streak.lastDate is yesterday', () => {
+    expect(isCompletedToday({ streak: { lastDate: '2024-06-09' } }, TODAY)).toBe(false);
   });
 
   it('returns true when all 3 daily quests are complete', () => {
     const userData = {
-      streak: { lastPostDate: '2024-06-09' },
+      streak: { lastDate: '2024-06-09' },
       [`dailyQuests_${TODAY}`]: { pushup: true, monkMode: true, quickReview: true },
     };
     expect(isCompletedToday(userData, TODAY)).toBe(true);
@@ -129,24 +100,6 @@ describe('pickCopy', () => {
 
 // ── accountabilityReminder helpers ────────────────────────────────────────────
 
-const ACCOUNTABILITY_COPY = {
-  he: (appName) => ({
-    title: `🔐 לפני שתפתח את ${appName}…`,
-    body:  'עשית 15 שכיבות סמיכה? בוא להרוויח את ה-XP שלך ולפתוח את הגלילה.',
-    lang:  'he',
-  }),
-  en: (appName) => ({
-    title: `🔐 Before you open ${appName}…`,
-    body:  'Did you do your 15 push-ups? Come earn your XP and unlock your scroll time.',
-    lang:  'en',
-  }),
-  ar: (appName) => ({
-    title: `🔐 قبل أن تفتح ${appName}…`,
-    body:  'هل أنهيت 15 ضغطة أرضية؟ تعال واكسب XP الخاص بك.',
-    lang:  'ar',
-  }),
-};
-
 function buildAccountabilityMessages(users) {
   const messages   = [];
   const tokenToUid = new Map();
@@ -159,9 +112,9 @@ function buildAccountabilityMessages(users) {
     if (d.fcmToken) tokenSet.add(d.fcmToken);
     if (!tokenSet.size) continue;
 
-    const lang    = d.lang || 'en';
+    const lang    = d.lang || 'he';
     const appName = apps[0];
-    const copy    = (ACCOUNTABILITY_COPY[lang] || ACCOUNTABILITY_COPY.en)(appName);
+    const copy    = copyFor(ACCOUNTABILITY_COPY, lang)(appName);
 
     for (const token of tokenSet) {
       tokenToUid.set(token, uid);
@@ -218,11 +171,12 @@ describe('accountabilityReminder message builder', () => {
     expect(messages[0].copy.title).toContain('YouTube');
   });
 
-  it('falls back to English for unknown lang', () => {
+  it('falls back to Hebrew for unknown or missing lang', () => {
     const { messages } = buildAccountabilityMessages([
       { uid: 'u7', data: { isPro: true, accountabilityApps: ['Reddit'], fcmTokens: ['tok7'], lang: 'jp' } },
+      { uid: 'u9', data: { isPro: true, accountabilityApps: ['Reddit'], fcmTokens: ['tok9'] } },
     ]);
-    expect(messages[0].copy.lang).toBe('en');
+    expect(messages.map(m => m.copy.lang)).toEqual(['he', 'he']);
   });
 
   it('deduplicates tokens from fcmToken scalar + fcmTokens array', () => {
@@ -247,5 +201,50 @@ describe('accountabilityReminder message builder', () => {
     const { messages } = buildAccountabilityMessages(users);
     expect(messages).toHaveLength(2); // only a and d qualify
     expect(messages.map(m => m.token)).toEqual(['t1', 't4']);
+  });
+});
+
+// ── Copy in both languages ───────────────────────────────────────────────────
+
+const HEBREW = /[\u0590-\u05FF]/;
+
+describe('push copy — Hebrew and English', () => {
+  it('nudge has the same number of lines in he and en, English without Hebrew', () => {
+    expect(NUDGE_COPY.en).toHaveLength(NUDGE_COPY.he.length);
+    for (const { title, body } of NUDGE_COPY.en) {
+      expect(title).not.toMatch(HEBREW);
+      expect(body).not.toMatch(HEBREW);
+    }
+  });
+
+  it('Hebrew nudge has none of the old wording (1%, Monk Mode, missions, triggers, Streak)', () => {
+    const all = NUDGE_COPY.he.map(c => c.title + ' ' + c.body).join(' ');
+    for (const old of ['1%', 'מונק', 'משימות', 'טריגר', 'Streak']) expect(all).not.toContain(old);
+  });
+
+  it("nudge 3's body doesn't repeat its title", () => {
+    expect(NUDGE_COPY.he[2].body).not.toContain('מחכים');
+    expect(NUDGE_COPY.en[2].body).not.toContain('waiting');
+  });
+
+  it('test push and broadcast exist in he and en', () => {
+    for (const map of [TEST_COPY, BROADCAST_COPY]) {
+      expect(map.he.title).toMatch(HEBREW);
+      expect(map.he.body).toMatch(HEBREW);
+      expect(map.en.title).not.toMatch(HEBREW);
+      expect(map.en.body).not.toMatch(HEBREW);
+    }
+  });
+
+  it('copyFor picks the lang and falls back to Hebrew', () => {
+    expect(copyFor(TEST_COPY, 'en')).toBe(TEST_COPY.en);
+    expect(copyFor(TEST_COPY, 'he')).toBe(TEST_COPY.he);
+    expect(copyFor(TEST_COPY, undefined)).toBe(TEST_COPY.he);
+    expect(copyFor(TEST_COPY, 'ar')).toBe(TEST_COPY.he);
+  });
+
+  it('index.js has no Hebrew of its own — all copy lives in notifyCopy.js', () => {
+    const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'index.js'), 'utf8');
+    expect(src).not.toMatch(HEBREW);
   });
 });
