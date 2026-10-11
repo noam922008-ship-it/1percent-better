@@ -607,9 +607,9 @@ exports.accountabilityReminder = onSchedule(
       if (d.fcmToken) tokenSet.add(d.fcmToken);
       if (!tokenSet.size) continue;
 
-      const lang    = d.lang || 'en';
+      const lang    = d.lang || 'he';
       const appName = apps[0]; // most important app (first in list)
-      const copy    = (ACCOUNTABILITY_COPY[lang] || ACCOUNTABILITY_COPY.en)(appName);
+      const copy    = (ACCOUNTABILITY_COPY[lang] || ACCOUNTABILITY_COPY.he)(appName);
 
       for (const token of tokenSet) {
         tokenToUid.set(token, doc.id);
