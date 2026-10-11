@@ -10,6 +10,7 @@ import DeleteAccountSheet from './DeleteAccountSheet'
 import { deleteGuestData } from '../services/accountDeletionService'
 import { MAX_NICKNAME_LEN } from '../utils/publicName'
 import { useLang } from '../context/LangContext'
+import { fmt } from '../i18n/fmt'
 
 function Row({ label, desc, children }) {
   return (
@@ -99,7 +100,8 @@ function ConfirmModal({ onConfirm, onCancel }) {
 export default function Settings({ onRebuildPath, activePathName, leaderboardOptIn = false, leaderboardNickname = '', onSaveLeaderboard }) {
   const { user, isGuest, logout } = useAuth()
   const { prefs, setPrefs } = useUserPrefs()
-  const { lang, setLang, englishEnabled } = useLang()
+  const { lang, setLang, englishEnabled, t } = useLang()
+  const ts = t.settings
   const [loggingOut,     setLoggingOut]     = useState(false)
   const [showDelete,     setShowDelete]     = useState(false)
   const [guestWipe,      setGuestWipe]      = useState(false)
@@ -127,14 +129,14 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
 
   const handleTestNotif = useCallback(() => {
     if (!('Notification' in window) || Notification.permission !== 'granted') return
-    new Notification('🧪 בדיקת PRIME', {
-      body: 'ההתראות עובדות! תזכורות יגיעו בזמן הנכון.',
+    new Notification(ts.testTitle, {
+      body: ts.testBody,
       icon: '/icon-192.png',
       tag:  'prime-local-test',
     })
     setTestSent(true)
     setTimeout(() => setTestSent(false), 3000)
-  }, [])
+  }, [ts])
 
   async function handleLogout() {
     setLoggingOut(true)
@@ -155,11 +157,11 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
 
       {/* Header */}
       <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '1.1rem' }}>
-        ⚙ הגדרות
+        {ts.title}
       </div>
 
       {/* Account section */}
-      <SectionHeader title="◈ חשבון" />
+      <SectionHeader title={ts.account} />
       <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '0.75rem 1rem', marginBottom: '0.5rem' }}>
 
         {/* User info */}
@@ -169,20 +171,21 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
           </div>
           <div>
             <div style={{ color: '#e8eaf0', fontSize: '0.9rem', fontWeight: 700 }}>
-              {isGuest ? 'אורח' : (user?.displayName || 'משתמש')}
+              {isGuest ? ts.guest : (user?.displayName || ts.user)}
             </div>
             <div style={{ color: 'rgba(232,234,240,0.4)', fontSize: '0.72rem', marginTop: '0.1rem' }}>
-              {isGuest ? 'התחבר כדי לשמור נתונים' : user?.email}
+              {isGuest ? ts.guestSub : user?.email}
             </div>
           </div>
         </div>
 
         {englishEnabled && (
-          <Row label="שפה / Language" desc="השפה של האפליקציה">
+          <Row label={ts.language} desc={ts.languageDesc}>
             <div style={{ display: 'flex', gap: 6 }}>
               {[['he', 'עברית'], ['en', 'English']].map(([code, name]) => (
                 <button
                   key={code}
+                  lang={code}
                   onClick={() => setLang(code)}
                   aria-pressed={lang === code}
                   style={{ background: lang === code ? 'rgba(245,197,24,0.15)' : 'transparent', border: `1px solid ${lang === code ? 'rgba(245,197,24,0.5)' : 'rgba(255,255,255,0.12)'}`, borderRadius: 10, color: lang === code ? '#F5C518' : 'rgba(232,234,240,0.6)', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.8rem', minHeight: 36, cursor: 'pointer', fontFamily: 'inherit' }}
@@ -194,21 +197,21 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
           </Row>
         )}
 
-        <Row label="התנתקות" desc="יוציא אותך מהחשבון">
+        <Row label={ts.logout} desc={ts.logoutDesc}>
           <button
             onClick={handleLogout}
             disabled={loggingOut}
             className="btn-tactile"
             style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: 10, color: '#f87171', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.9rem', cursor: loggingOut ? 'not-allowed' : 'pointer', opacity: loggingOut ? 0.5 : 1, minHeight: 44 }}
           >
-            {loggingOut ? '...' : 'התנתק'}
+            {loggingOut ? '...' : ts.logoutBtn}
           </button>
         </Row>
 
         {/* Leaderboard — no name by default; optional nickname */}
         {!isGuest && (
           <div style={{ padding: '0.75rem 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-            <Row label="להופיע בטבלת המובילים עם כינוי" desc="כברירת מחדל מופיעים רק XP וחזרות, בלי שם">
+            <Row label={ts.nick} desc={ts.nickDesc}>
               <Toggle on={nickOn} onToggle={() => {
                 const next = !nickOn
                 setNickOn(next); setNickSaved(false)
@@ -218,11 +221,11 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
             {nickOn && (
               <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.4rem' }}>
                 <input value={nick} onChange={e => { setNick(e.target.value); setNickSaved(false) }} maxLength={MAX_NICKNAME_LEN}
-                  placeholder="הכינוי שלך" aria-label="כינוי לטבלת המובילים" dir="rtl"
+                  placeholder={ts.nickPh} aria-label={ts.nickAria}
                   style={{ flex: 1, minHeight: 44, padding: '0.5rem 0.8rem', borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#f1f5f9', fontSize: '1rem', fontFamily: 'inherit' }} />
                 <button onClick={() => { onSaveLeaderboard?.(true, nick); setNickSaved(true) }} disabled={!nick.trim()}
                   style={{ minHeight: 44, padding: '0 1rem', borderRadius: 10, border: '1px solid rgba(245,197,24,0.3)', background: 'transparent', color: nick.trim() ? '#F5C518' : 'rgba(241,245,249,0.3)', fontSize: '0.85rem', fontWeight: 700, fontFamily: 'inherit', cursor: nick.trim() ? 'pointer' : 'default' }}>
-                  {nickSaved ? 'נשמר ✓' : 'שמור'}
+                  {nickSaved ? ts.saved : ts.save}
                 </button>
               </div>
             )}
@@ -232,18 +235,18 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
         {/* Delete account (signed in) / wipe this device (guest) */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '0.25rem' }}>
           {isGuest ? (
-            <Row label="מחק את הנתונים מהמכשיר" desc="כל מה שנשמר בדפדפן הזה">
+            <Row label={ts.wipe} desc={ts.wipeDesc}>
               <button onClick={() => {
                 if (!guestWipe) { setGuestWipe(true); return }
                 deleteGuestData(); window.location.assign('/welcome')
               }} style={{ background: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.3)', borderRadius: 10, color: '#f87171', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.8rem', minHeight: 36, cursor: 'pointer', fontFamily: 'inherit' }}>
-                {guestWipe ? 'בטוח? מחק' : 'מחק'}
+                {guestWipe ? ts.wipeConfirm : ts.wipeBtn}
               </button>
             </Row>
           ) : (
-            <Row label="מחק חשבון" desc="מוחק את החשבון וכל המידע. אי אפשר לשחזר">
+            <Row label={ts.deleteAccount} desc={ts.deleteDesc}>
               <button onClick={() => setShowDelete(true)} style={{ background: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.3)', borderRadius: 10, color: '#f87171', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.8rem', minHeight: 36, cursor: 'pointer', fontFamily: 'inherit' }}>
-                מחק חשבון
+                {ts.deleteAccount}
               </button>
             </Row>
           )}
@@ -256,10 +259,10 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
       {/* Notifications section */}
       {!isGuest && notifPerm !== 'unsupported' && (
         <>
-          <SectionHeader title="◈ התראות" />
+          <SectionHeader title={ts.notifs} />
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '0.1rem 1rem', marginBottom: '0.5rem' }}>
 
-            <Row label="תזכורות PRIME" desc="תזכורות ב-10:00 ו-16:00 מבוססות הרגלי חובה וחזון 3 שנים">
+            <Row label={ts.nudges} desc={ts.nudgesDesc}>
               <Toggle
                 on={nudgesEnabled}
                 onToggle={() => {
@@ -272,11 +275,11 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
 
             {/* Browser permission status */}
             <Row
-              label="הרשאת דפדפן"
+              label={ts.perm}
               desc={
-                notifPerm === 'granted' ? 'התראות מאושרות ✓' :
-                notifPerm === 'denied'  ? 'חסומות — שנה בהגדרות הדפדפן' :
-                'נדרש אישור חד-פעמי כדי לקבל תזכורות'
+                notifPerm === 'granted' ? ts.permGranted :
+                notifPerm === 'denied'  ? ts.permDenied :
+                ts.permDefault
               }
             >
               {notifPerm === 'denied' && (
@@ -291,21 +294,21 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
                   className="btn-tactile"
                   style={{ background: 'rgba(245,197,24,0.06)', border: '1px solid rgba(245,197,24,0.25)', borderRadius: 10, color: 'rgba(245,197,24,0.85)', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.9rem', cursor: 'pointer', minHeight: 44, whiteSpace: 'nowrap' }}
                 >
-                  הפעל
+                  {ts.enable}
                 </button>
               )}
             </Row>
 
             {/* Local test notification — no server required */}
             {notifPerm === 'granted' && (
-              <Row label="שלח התראת בדיקה" desc="התראה מקומית — בדוק שהדפדפן מציג אותה">
+              <Row label={ts.test} desc={ts.testDesc}>
                 <button
                   onClick={handleTestNotif}
                   disabled={testSent}
                   className="btn-tactile"
                   style={{ background: testSent ? 'rgba(52,211,153,0.08)' : 'rgba(255,255,255,0.04)', border: `1px solid ${testSent ? 'rgba(52,211,153,0.3)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 10, color: testSent ? '#34d399' : 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 700, padding: '0.4rem 0.9rem', cursor: testSent ? 'default' : 'pointer', minHeight: 44, whiteSpace: 'nowrap' }}
                 >
-                  {testSent ? '✓ נשלח' : 'בדיקה'}
+                  {testSent ? ts.testSent : ts.testBtn}
                 </button>
               </Row>
             )}
@@ -334,18 +337,18 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
 
       {/* Learning preferences section — only feeds the daily lesson card */}
       {FEATURES.dailyLesson && (<>
-      <SectionHeader title="◈ העדפות למידה" />
+      <SectionHeader title={ts.learning} />
       <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '0.85rem 1rem', marginBottom: '0.5rem' }}>
-        <div style={{ color: '#e8eaf0', fontSize: '0.83rem', fontWeight: 600, marginBottom: '0.55rem' }}>נושאי למידה מועדפים</div>
+        <div style={{ color: '#e8eaf0', fontSize: '0.83rem', fontWeight: 600, marginBottom: '0.55rem' }}>{ts.topics}</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.9rem' }}>
-          {LESSON_TOPICS.map(t => {
-            const selected = (prefs.learnTopics || []).includes(t.id)
+          {LESSON_TOPICS.map(topic => {
+            const selected = (prefs.learnTopics || []).includes(topic.id)
             return (
               <button
-                key={t.id}
+                key={topic.id}
                 onClick={() => {
                   const current = prefs.learnTopics || []
-                  const next = selected ? current.filter(id => id !== t.id) : [...current, t.id]
+                  const next = selected ? current.filter(id => id !== topic.id) : [...current, topic.id]
                   setPrefs({ learnTopics: next })
                 }}
                 style={{
@@ -357,14 +360,14 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
                   display: 'flex', alignItems: 'center', gap: '0.3rem',
                 }}
               >
-                <span>{t.emoji}</span>{t.label}
+                <span>{topic.emoji}</span>{t.lesson.topics[topic.id] || topic.label}
               </button>
             )
           })}
         </div>
-        <div style={{ color: '#e8eaf0', fontSize: '0.83rem', fontWeight: 600, marginBottom: '0.4rem' }}>זמן מועדף לשיעור</div>
+        <div style={{ color: '#e8eaf0', fontSize: '0.83rem', fontWeight: 600, marginBottom: '0.4rem' }}>{ts.duration}</div>
         <div style={{ display: 'flex', gap: '0.4rem' }}>
-          {[{ v: '2', label: '2 דקות' }, { v: '5', label: '5 דקות' }, { v: '10', label: '10 דקות' }].map(opt => {
+          {['2', '5', '10'].map(v => ({ v, label: fmt(ts.minutes, { n: v }) })).map(opt => {
             const selected = prefs.prefDuration === opt.v
             return (
               <button
@@ -384,20 +387,20 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
           })}
         </div>
         <div style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.68rem', marginTop: '0.5rem' }}>
-          שינוי ההעדפות לא מאפס את ההתקדמות שלך
+          {ts.prefsNote}
         </div>
       </div>
       </>)}
 
       {/* Social */}
       <div style={{ marginTop: '1.75rem' }}>
-        <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.5rem' }}>PRIME ברשתות</div>
+        <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ts.social}</div>
         <SocialLinks />
       </div>
 
       {/* Legal links */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '1.75rem' }}>
-        {[['/privacy', 'מדיניות פרטיות'], ['/terms', 'תנאי שימוש'], ['/legal', 'תמיכה']].map(([href, label]) => (
+        {[['/privacy', ts.legal.privacy], ['/terms', ts.legal.terms], ['/legal', ts.legal.support]].map(([href, label]) => (
           <a key={href} href={href} style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid rgba(245,197,24,0.2)', paddingBottom: 1, minHeight: 32, display: 'inline-flex', alignItems: 'center' }}>
             {label}
           </a>
