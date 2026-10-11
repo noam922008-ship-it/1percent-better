@@ -165,8 +165,8 @@ functions/
 
 - Repo: **https://github.com/noam922008-ship-it/1percent-better** (public; transferred from `noam1better`)
 - Auth: `gh` logged in as `noam922008-ship-it`. No token in the remote URL — keep it that way.
-- `feat/english-phase-1` (not merged, not deployed): i18n Phases 1–6 (`FEATURES.english` off) — UI strings in `src/i18n/he.js` + `en.js`, logical RTL, notifications in both languages, `lang` + `tz` saved on `users/{uid}` (read by the functions; rule limits `lang` to he/en). See `docs/ENGLISH_PLAN.md`.
-- Branches: `main` == `origin/main` (pushed 2026-10-04); live hosting = `f2451f7` (this docs commit only changes CLAUDE.md). `analytics`, `release/v2`, `legal`, `weekly-habits`, `fix/phone-feedback` are merged into main. `journal-ai` (pushed) is NOT merged. Old: `my-tasks`, `wip/muay-thai` — pushed.
+- **English i18n Phases 1–6 merged into main (`812d3fd`, 2026-10-11)**, branch `feat/english-phase-1` deleted. `FEATURES.english` off — production is Hebrew only. UI strings in `src/i18n/he.js` + `en.js`, logical RTL, notifications in both languages, `lang` + `tz` saved on `users/{uid}` (read by the functions; rule limits `lang` to he/en). See `docs/ENGLISH_PLAN.md`.
+- Branches: `main` == `origin/main` (pushed 2026-10-11); live hosting = `812d3fd` + Firestore rules deployed 2026-10-11 (every asset byte-identical to the build; headless check with an English browser: Hebrew, rtl, no EN toggle, no errors). Functions not deployed (billing off). `analytics`, `release/v2`, `legal`, `weekly-habits`, `fix/phone-feedback`, `feat/english-phase-1` are merged into main. `journal-ai` (pushed) is NOT merged. Old: `my-tasks`, `wip/muay-thai` — pushed.
 
 ---
 
