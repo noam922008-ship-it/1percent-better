@@ -128,6 +128,35 @@ export async function syncCompletionStatus(uid, date) {
   } catch {}
 }
 
+// IANA zone like "Asia/Jerusalem" or "America/Argentina/Buenos_Aires" — same shape firestore.rules accepts.
+const TZ_RE = /^[A-Za-z0-9_+/-]{1,64}$/
+
+export function deviceTimeZone() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+    return TZ_RE.test(tz || '') ? tz : null
+  } catch {
+    return null
+  }
+}
+
+// Write lang + tz to users/{uid} too: the Cloud Functions read that doc to pick the push
+// language (and, later, to send at the user's local time). Only written when it changed,
+// remembered per uid in localStorage. Skipped while an account is being deleted.
+export async function syncLocale(uid, lang, tz = deviceTimeZone()) {
+  if (!uid || !_autoCreateProfile) return false
+  const memoKey = `prime_locale_${uid}`
+  const value   = `${lang}|${tz || ''}`
+  try { if (localStorage.getItem(memoKey) === value) return false } catch { /* ignore */ }
+  try {
+    await setDoc(doc(db, 'users', uid), tz ? { lang, tz } : { lang }, { merge: true })
+  } catch {
+    return false
+  }
+  try { localStorage.setItem(memoKey, value) } catch { /* ignore */ }
+  return true
+}
+
 export async function joinWaitlist(uid, email) {
   const safeEmail = sanitizeText(email, 254)
   if (!safeEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(safeEmail)) {

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { fmt, plural, localeFor } from '../i18n/fmt'
-import { subscribeProfile, saveProfile, syncLeaderboard, syncCompletionStatus } from '../services/focusTriggerService'
+import { subscribeProfile, saveProfile, syncLeaderboard, syncCompletionStatus, syncLocale } from '../services/focusTriggerService'
 import { checkContractStatus, getRank, getScore } from '../services/disciplineScore'
 import { checkNotifications, checkNudges, saveNudgeResponse, snoozeNudge, markNudgeDone, __devQueueTestNudge } from '../services/notificationService'
 import { analyzeVideoForm } from '../services/coachService'
@@ -860,6 +860,12 @@ export default function Dashboard() {
     )
     return unsub
   }, [user, isGuest])
+
+  // users/{uid}.lang + tz — read by the Cloud Functions (push language, later local send time)
+  useEffect(() => {
+    if (isGuest || !user?.uid) return
+    syncLocale(user.uid, lang)
+  }, [user, isGuest, lang])
 
   // Weekly-habit check-ins for this local week (Sunday → Saturday); re-subscribe when the local day changes
   useEffect(() => {
