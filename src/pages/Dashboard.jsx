@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { fmt, plural } from '../i18n/fmt'
+import { fmt, plural, localeFor } from '../i18n/fmt'
 import { subscribeProfile, saveProfile, syncLeaderboard, syncCompletionStatus } from '../services/focusTriggerService'
 import { checkContractStatus, getRank, getScore } from '../services/disciplineScore'
 import { checkNotifications, checkNudges, saveNudgeResponse, snoozeNudge, markNudgeDone, __devQueueTestNudge } from '../services/notificationService'
@@ -58,6 +58,7 @@ import { publicName, cleanNickname } from '../utils/publicName'
 import { track } from '../services/analytics'
 import { renameWeeklyReps } from '../services/squadService'
 import { getTrackDay } from '../utils/trackDay'
+import { detectNicheRecs } from '../utils/nicheKeywords'
 import BoxingPathScreen from '../components/boxing/BoxingPathScreen'
 import BoxingWorkoutPreview from '../components/boxing/BoxingWorkoutPreview'
 import BoxingActiveWorkout from '../components/boxing/BoxingActiveWorkout'
@@ -722,36 +723,9 @@ function MantraCard({ idx, onCycle }) {
   )
 }
 
-const NICHE_KEYWORDS = {
-  physical: ['gym','sport','fitness','strength','health','body','muscle','workout','train','nutrition','diet','running','כושר','בריאות','כוח','ספורט','גוף','שרירים','אימון','תזונה','ריצה','משמעת','discipline','weight','lifting'],
-  tech:     ['code','coding', 'ai','software','tech','developer','program','app','automation','קוד','בינה','פיתוח','טכנולוגיה','אפליקציה','מפתח','אוטומציה','claude','gpt','machine learning'],
-  finance:  ['trading','invest','investment','money','capital','market','stock','crypto','wealth','מסחר','השקעות','הון','כסף','מניות','בורסה','פיננסי','נדלן','real estate','portfolio'],
-  business: ['business','startup','company','brand','client','sale','product','entrepreneur','freelance','עסק','יזמות','מותג','לקוח','מכירות','מוצר','פרילנס','agency','revenue'],
-}
-const NICHE_TRACKS = {
-  physical: ['self-discipline', 'business-soul'],
-  tech:     ['ai-beginners', 'ai-pioneer', 'claude-code-mastery', 'product-builder'],
-  finance:  ['capital-markets', 'business-mind', 'deal-closer'],
-  business: ['business-mind', 'deal-closer', 'product-builder', 'business-soul'],
-}
-function detectNicheRecs(visionProfile) {
-  const text = [
-    visionProfile?.three_year_vision || '',
-    visionProfile?.the_gap || '',
-    ...(visionProfile?.core_values || []),
-    ...(visionProfile?.non_negotiables || []),
-  ].join(' ').toLowerCase()
-  const scores = Object.fromEntries(Object.keys(NICHE_KEYWORDS).map(k => [k, 0]))
-  for (const [niche, kws] of Object.entries(NICHE_KEYWORDS)) {
-    for (const kw of kws) { if (text.includes(kw)) scores[niche]++ }
-  }
-  const top = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0]
-  return NICHE_TRACKS[top] || NICHE_TRACKS.business
-}
-
 export default function Dashboard() {
   const { user, isGuest }  = useAuth()
-  const { lang: _lang, t: tAll } = useLang()
+  const { lang, t: tAll } = useLang()
   const td  = tAll.dashboard
   const to  = tAll.onboarding
   const th  = tAll.home
@@ -2012,11 +1986,11 @@ export default function Dashboard() {
                 </div>
                 <div style={{ flex: 1, background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '0.7rem 0.9rem' }}>
                   <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>XP</div>
-                  <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>{xp.toLocaleString()}</div>
+                  <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>{xp.toLocaleString(localeFor(lang))}</div>
                 </div>
                 <div style={{ flex: 1, background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '0.7rem 0.9rem' }}>
                   <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>{th.profile.streak}</div>
-                  <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>{streak}</div>
+                  <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>{streak.toLocaleString(localeFor(lang))}</div>
                 </div>
               </div>
             </div>
