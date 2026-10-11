@@ -1,8 +1,9 @@
 # PRIME — English version plan
 
 Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards), Phase 4 (Workouts
-tab), Phase 5 (Progress and Profile tabs) and Phase 6 (notifications + `lang` on the profile) done** on branch
-`feat/english-phase-1` (2026-10-11) — pushed, not merged, not deployed.
+tab), Phase 5 (Progress and Profile tabs) and Phase 6 (notifications + `lang` on the profile) done** — merged into
+`main` (`812d3fd`) and live with English off. **Phase 7 (legal pages)** on branch `feat/english-legal` (2026-10-11),
+not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
 
@@ -270,6 +271,53 @@ Left on purpose (Phase 6):
 - `fcmService.sendForegroundTestNotif` (Hebrew) — not called anywhere.
 - `accountabilityReminder` copy (TikTok / push-ups / PRO) — old feature, only the default language changed.
 
+## Phase 7 — legal pages (2026-10-11, branch `feat/english-legal`)
+
+Files: `src/data/legal.js`, `src/components/LegalContent.jsx`, `src/pages/Legal.jsx`, `src/pages/LegalDoc.jsx`,
+`src/i18n/he.js` / `en.js` (new `legal` group).
+
+- **Faithful translation, owner's decision:** `PRIVACY_EN` / `TERMS_EN` next to the Hebrew in `legal.js` — same
+  sections, paragraphs, list items and placeholders (a test checks the shape). No new promises: Israeli law, Jerusalem
+  courts and the Israeli crisis lines stay as in the Hebrew. Hebrew text untouched.
+- **Config:** `legalConfig(lang)` — English overrides only `operatorName` ("Noam Cohen"), `courtCity` ("Jerusalem")
+  and `updated` ("September 29, 2026"); email, age and deletion days are shared. `legalDoc(type, lang)` picks the doc.
+  Owner-marker labels ("To fill in:", "For you to decide:") in both languages.
+- **Layout:** the three files take `dir` from `dirFor(lang)` (no hard-coded rtl). Chevrons from Phases 3–6 fixed:
+  back = `BackChevron`, the hub rows = `ForwardChevron`.
+- **Tests:** `src/__tests__/i18nLegal.test.jsx` (12) — EN/HE shape + placeholder parity, config overrides, no Hebrew
+  in English, key phrases kept, Hebrew output unchanged, `dir` and chevron direction on `/legal` and `/privacy` in
+  both languages. `legal.test.jsx` unchanged and passing. `npm test`: 35 files / 582 tests. `npm run build` OK.
+- **390px check (dev, headless, both languages):** `/legal`, `/privacy`, `/terms` — html + page `dir` right, back
+  chevron at the start edge, no horizontal scroll, no Hebrew in English, no page errors.
+- **Crisis line abroad (owner's exception):** one added line in both languages — "outside Israel: local emergency
+  number or findahelpline.com". Separate commit, after the owner approves the Hebrew wording.
+
+### Legal gaps for users abroad — open, for a lawyer (not fixed on purpose)
+
+Owner's decision: translate faithfully, leave these to a legal review.
+
+1. **GDPR rights** — no list of rights (access, correction, export, objection, complaint to a supervisory authority)
+   and no legal basis per use of data.
+2. **EU → US transfer** — says "US servers" but names no transfer mechanism (SCCs / Data Privacy Framework).
+3. **GA consent** — **BLOCKER, see below.**
+4. **Retention** — no period for inactive accounts or backups.
+5. **US health data** — habits, workouts and the journal may be "consumer health data" (e.g. Washington My Health My
+   Data Act). "We don't sell" already covers the CCPA sale point.
+6. **Push tokens** — mentioned, but not that they go through Google FCM or how they're removed.
+7. **Time zone / language** — listed, but not that they time the push and pick its language. Minor.
+8. **18+** — self-declared checkbox, no verification. Usually acceptable.
+9. **Israeli law / Jerusalem courts** — EU consumers usually keep their home-country protections; US-style warranty
+   and liability wording is thin.
+
+## Blockers before `FEATURES.english = true`
+
+- **GA consent (EU).** Today GA4 starts on landing (`src/services/analytics.js`) and sets cookies with no consent.
+  ePrivacy / GDPR require consent before non-essential cookies for EU users. Turning English on opens the app to EU
+  users, so this must be solved first (consent banner before GA loads, or GA consent mode with analytics denied by
+  default, or no GA cookies) — and the privacy policy updated to match. **Not an open item: a blocker.**
+- Legal review of the gaps above.
+- The visible UI translated and the RTL fixes done (below).
+
 ## Still untranslated after Phase 1 (measured 2026-10-09)
 
 - **Hard-coded Hebrew:** ~5,760 lines in 99 files (excluding `src/i18n/` and tests) — `data/` 3,830, `components/`
@@ -290,7 +338,8 @@ Left on purpose (Phase 6):
 3. ~~**Workouts tab**~~ — done in Phase 4 (above), titles included; instructions, cues and safety notes left.
 4. ~~**Progress and Profile tabs**~~ — done in Phase 5 (above).
 5. ~~**Notifications + `lang` on the profile**~~ — done in Phase 6 (above).
-6. **Legal pages** — privacy policy + terms (`src/data/legal.js`), plus legal review for users abroad.
+6. ~~**Legal pages**~~ — translated in Phase 7 (above); legal review for users abroad still open, GA consent is a
+   blocker.
 7. **Push notifications** (app closed) — today server push reaches no one. What's missing:
    1. **Billing (Blaze)** — off on `better-de9aa`; needed to deploy any function (incl. schedulers). FCM sending itself is
       free.
@@ -318,7 +367,8 @@ Left on purpose (Phase 6):
    3. **Workouts** — boxing / Muay Thai instructions, coaching cues, safety notes, goals, technique names (ids
       first) and TrainingMode's coach lines (~9k words, table in Phase 4). Titles are already done.
 
-Turn on `FEATURES.english` only after the visible UI is translated and the RTL fixes are done.
+Turn on `FEATURES.english` only after the visible UI is translated and the RTL fixes are done, **and the GA consent
+blocker is solved** (see "Blockers").
 
 ## Where things stand
 
