@@ -21,14 +21,16 @@ function clean(s, max) {
   return String(s || '').replace(/[\x00-\x09\x0B-\x1F\x7F]/g, ' ').trim().slice(0, max)
 }
 
+const LESSON_FIELDS = ['title', 'summary', 'idea', 'explanation', 'example', 'question', 'answer', 'action']
+
 // Copy of the lesson content as it was shown, so the note keeps its context.
-function lessonSnapshot(l) {
+// Hebrew fields always (the fallback). Shown in English: also the lesson's English fields — the notes page reads
+// them with byLang, so a missing or empty one falls back to Hebrew, same as the lesson card.
+export function lessonSnapshot(l, lang = 'he') {
   const pick = k => (typeof l[k] === 'string' ? l[k] : '')
-  return {
-    titleHe: pick('titleHe'), summaryHe: pick('summaryHe'), ideaHe: pick('ideaHe'),
-    explanationHe: pick('explanationHe'), exampleHe: pick('exampleHe'),
-    questionHe: pick('questionHe'), answerHe: pick('answerHe'), actionHe: pick('actionHe'),
-  }
+  const snap = Object.fromEntries(LESSON_FIELDS.map(f => [`${f}He`, pick(`${f}He`)]))
+  if (lang === 'en') for (const f of LESSON_FIELDS) if (typeof l[`${f}En`] === 'string') snap[`${f}En`] = l[`${f}En`]
+  return snap
 }
 
 export function firstLine(s) {
@@ -69,7 +71,8 @@ export function subscribeNotes(uid, onChange, onError) {
 
 // Creates the note for this lesson, or edits it if one already exists.
 // Only learned/apply change on edit; the lesson copy, date and createdAt stay.
-export async function saveNote(uid, lesson, { learned, apply }, exists) {
+// lang: the language the lesson was shown in (for the lesson copy).
+export async function saveNote(uid, lesson, { learned, apply }, exists, lang = 'he') {
   const text = { learned: clean(learned, MAX_LEARNED_LEN), apply: clean(apply, MAX_APPLY_LEN) }
   if (!text.learned) return
   if (!uid) {
@@ -77,7 +80,7 @@ export async function saveNote(uid, lesson, { learned, apply }, exists) {
     if (list.some(n => n.lessonId === lesson.id)) {
       saveGuest(list.map(n => n.lessonId === lesson.id ? { ...n, ...text, updatedAt: Date.now() } : n))
     } else {
-      saveGuest([...list, { lessonId: lesson.id, topicId: lesson.topicId || '', lesson: lessonSnapshot(lesson), ...text, date: getLocalDateKey(), createdAt: Date.now() }])
+      saveGuest([...list, { lessonId: lesson.id, topicId: lesson.topicId || '', lesson: lessonSnapshot(lesson, lang), ...text, date: getLocalDateKey(), createdAt: Date.now() }])
     }
     return
   }
@@ -85,7 +88,7 @@ export async function saveNote(uid, lesson, { learned, apply }, exists) {
     await updateDoc(noteDoc(uid, lesson.id), { ...text, updatedAt: serverTimestamp() })
   } else {
     await setDoc(noteDoc(uid, lesson.id), {
-      lessonId: lesson.id, topicId: lesson.topicId || '', lesson: lessonSnapshot(lesson),
+      lessonId: lesson.id, topicId: lesson.topicId || '', lesson: lessonSnapshot(lesson, lang),
       ...text, date: getLocalDateKey(), createdAt: serverTimestamp(),
     })
   }

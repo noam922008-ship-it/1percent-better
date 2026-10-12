@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Pencil } from 'lucide-react'
 import { BackChevron } from './DirChevron'
 import { useLang } from '../context/LangContext'
-import { localeFor } from '../i18n/fmt'
+import { localeFor, byLang } from '../i18n/fmt'
 import { subscribeNotes, firstLine } from '../services/lessonNotesService'
 import LessonNotesForm from './LessonNotesForm'
 
@@ -23,8 +23,9 @@ function formatDate(key, lang) {
 const sectionLabel = { color: C.accent, fontSize: '0.78rem', fontWeight: 700, margin: '1.25rem 0 0.4rem' }
 const bodyText     = { margin: 0, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', fontSize: '0.92rem', lineHeight: 1.65, color: C.text }
 
-// Lesson sections in the order they were shown (labels in t.lesson.notesPage.sections).
-const LESSON_SECTIONS = ['ideaHe', 'explanationHe', 'exampleHe', 'questionHe', 'answerHe', 'actionHe']
+// Lesson sections in the order they were shown (labels in t.lesson.notesPage.sections, keyed `${field}He`).
+// Text comes from the saved copy with byLang: English when the copy has it, else Hebrew.
+const LESSON_SECTIONS = ['idea', 'explanation', 'example', 'question', 'answer', 'action']
 
 export default function LessonNotesPage({ uid, onClose }) {
   const { lang, t } = useLang()
@@ -47,7 +48,7 @@ export default function LessonNotesPage({ uid, onClose }) {
     else onClose()
   }
 
-  const title = view === 'list' ? tp.title : view === 'edit' ? tp.editTitle : (open?.lesson?.titleHe || '')
+  const title = view === 'list' ? tp.title : view === 'edit' ? tp.editTitle : byLang(open?.lesson, 'title', lang)
 
   return (
     <div style={{ minHeight: '100%', background: C.bg, color: C.text }}>
@@ -88,7 +89,7 @@ export default function LessonNotesPage({ uid, onClose }) {
                   }}
                 >
                   <div style={{ color: C.accent, fontSize: '0.72rem', fontWeight: 700, marginBottom: '0.2rem' }}>{formatDate(n.date, lang)}</div>
-                  <div style={{ color: C.text, fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.15rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{n.lesson?.titleHe}</div>
+                  <div style={{ color: C.text, fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.15rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{byLang(n.lesson, 'title', lang)}</div>
                   <div style={{ color: C.muted, fontSize: '0.84rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{firstLine(n.learned)}</div>
                 </button>
               ))}
@@ -119,11 +120,11 @@ export default function LessonNotesPage({ uid, onClose }) {
 
             <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '1.75rem 0 0.25rem' }} />
             <div style={{ color: C.faint, fontSize: '0.72rem', fontWeight: 700, marginTop: '1rem' }}>{tp.lesson}</div>
-            {open.lesson?.summaryHe && <p style={{ ...bodyText, color: C.muted, fontStyle: 'italic', marginTop: '0.4rem' }}>{open.lesson.summaryHe}</p>}
-            {LESSON_SECTIONS.map(key => open.lesson?.[key] ? (
-              <div key={key}>
-                <div style={{ ...sectionLabel, color: C.muted }}>{tp.sections[key]}</div>
-                <p style={{ ...bodyText, color: 'rgba(244,241,232,0.8)' }}>{open.lesson[key]}</p>
+            {byLang(open.lesson, 'summary', lang) && <p style={{ ...bodyText, color: C.muted, fontStyle: 'italic', marginTop: '0.4rem' }}>{byLang(open.lesson, 'summary', lang)}</p>}
+            {LESSON_SECTIONS.map(f => byLang(open.lesson, f, lang) ? (
+              <div key={f}>
+                <div style={{ ...sectionLabel, color: C.muted }}>{tp.sections[`${f}He`]}</div>
+                <p style={{ ...bodyText, color: 'rgba(244,241,232,0.8)' }}>{byLang(open.lesson, f, lang)}</p>
               </div>
             ) : null)}
           </>

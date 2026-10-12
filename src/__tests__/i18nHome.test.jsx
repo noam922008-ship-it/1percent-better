@@ -3,11 +3,12 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { readFileSync } from 'node:fs'
 import he from '../i18n/he'
 import en from '../i18n/en'
-import { LESSON_TOPICS, DAILY_LESSONS } from '../data/dailyLessons'
+import { LESSON_TOPICS, DAILY_LESSONS, LESSON_BY_ID } from '../data/dailyLessons'
 import { getTopSuggestionsForPillars, HABIT_SUGGESTIONS } from '../data/habitSuggestions'
 
 // Phase 3: Home's remaining cards (My Tasks, "הראש שלי", daily lesson, week strip) and the add-habit flow
-// have no Hebrew UI left when English is on. Lesson content (data/) stays Hebrew for now; habit suggestions are English.
+// have no Hebrew UI left when English is on. Habit suggestions are English; daily lessons are English where translated
+// (batch 1: brain + communication), the rest still Hebrew.
 const lang = { current: 'en' }
 vi.mock('../context/LangContext', () => ({
   useLang: () => ({ lang: lang.current, setLang: () => {}, t: lang.current === 'en' ? en : he, englishEnabled: true }),
@@ -107,9 +108,10 @@ describe('English Home cards have no Hebrew', () => {
     expect(hebrewIn(container)).toEqual([])
   })
 
-  it('daily lesson card and the open lesson, through to the notes form (lesson content excluded)', () => {
+  it('daily lesson card and the open lesson, through to the notes form (untranslated lesson content excluded)', () => {
     const { container } = render(<DailyLessonCard uid={null} onOpenNotes={() => {}} />)
-    const content = DAILY_LESSONS.flatMap(l => [l.titleHe, l.summaryHe, l.ideaHe, l.explanationHe, l.exampleHe, l.questionHe, l.answerHe, l.actionHe])
+    const content = DAILY_LESSONS.filter(l => !('titleEn' in l))
+      .flatMap(l => [l.titleHe, l.summaryHe, l.ideaHe, l.explanationHe, l.exampleHe, l.questionHe, l.answerHe, l.actionHe])
     expect(screen.getByText(en.lesson.card.label)).toBeInTheDocument()
     expect(hebrewIn(container, content)).toEqual([])
     // the topic label is translated, not taken from data/
@@ -135,6 +137,25 @@ describe('English Home cards have no Hebrew', () => {
     fireEvent.click(screen.getByText('Compounding'))
     expect(screen.getByText(en.lesson.notesPage.sections.ideaHe)).toBeInTheDocument()
     expect(hebrewIn(container, Object.values(lesson))).toEqual([])
+  })
+
+  it('"What I learned" page: a lesson saved in English shows in English, Hebrew in Hebrew', () => {
+    const l = LESSON_BY_ID.brain_1
+    const lesson = Object.fromEntries(['title', 'summary', 'idea', 'explanation', 'example', 'question', 'answer', 'action']
+      .flatMap(f => [[`${f}He`, l[`${f}He`]], [`${f}En`, l[`${f}En`]]]))
+    notes.current = [{ id: 'brain_1', lessonId: 'brain_1', date: '2026-10-08', learned: 'Cue first', apply: '', lesson }]
+    const a = render(<LessonNotesPage uid={null} onClose={() => {}} />)
+    expect(screen.getByText(l.titleEn)).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Cue first'))
+    for (const f of ['title', 'summary', 'idea', 'example', 'action']) expect(screen.getAllByText(l[`${f}En`]).length).toBeGreaterThan(0)
+    expect(hebrewIn(a.container)).toEqual([])
+    a.unmount()
+
+    lang.current = 'he'
+    render(<LessonNotesPage uid={null} onClose={() => {}} />)
+    fireEvent.click(screen.getByText('Cue first'))
+    expect(screen.getAllByText(l.titleHe).length).toBeGreaterThan(0)
+    expect(screen.queryByText(l.ideaEn)).toBeNull()
   })
 
   it('week strip: English day letters', () => {
@@ -231,6 +252,42 @@ describe('habit suggestion data', () => {
   })
 })
 
+// Opens today's lesson as `id` (the service keeps today's pick in localStorage) and reads it to the end.
+function openLesson(id) {
+  const d = new Date()
+  const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+  const pick = { date, lessonId: id, topicId: LESSON_BY_ID[id].topicId }
+  localStorage.setItem('prime_lesson_today', JSON.stringify(pick))
+  localStorage.setItem('prime_lesson_log', JSON.stringify([{ ...pick, openedAt: null, completedAt: null, appliedAt: null, feedback: null }]))
+  const t = lang.current === 'en' ? en : he
+  const r = render(<DailyLessonCard uid={null} onOpenNotes={() => {}} />)
+  fireEvent.click(screen.getByText(t.lesson.card.start))
+  fireEvent.click(screen.getByText(t.lesson.view.readDone))
+  return r
+}
+
+describe('daily lesson content in English (batch 1)', () => {
+  it('a translated lesson is fully English, example included', () => {
+    const l = LESSON_BY_ID.brain_1
+    const { container } = openLesson('brain_1')
+    expect(hebrewIn(container)).toEqual([])
+    for (const f of ['title', 'idea', 'example', 'answer', 'action']) expect(screen.getAllByText(l[`${f}En`]).length).toBeGreaterThan(0)
+    expect(screen.getByText(en.lesson.view.example)).toBeInTheDocument()
+  })
+
+  it('a lesson with no example hides the example box', () => {
+    const { container } = openLesson('brain_4')
+    expect(screen.queryByText(en.lesson.view.example)).toBeNull()
+    expect(screen.getByText(LESSON_BY_ID.brain_4.answerEn)).toBeInTheDocument()
+    expect(hebrewIn(container)).toEqual([])
+  })
+
+  it('an untranslated lesson falls back to Hebrew', () => {
+    openLesson('money_1')
+    expect(screen.getAllByText(LESSON_BY_ID.money_1.titleHe).length).toBeGreaterThan(0)
+  })
+})
+
 describe('Hebrew is unchanged', () => {
   beforeEach(() => { lang.current = 'he' })
 
@@ -264,6 +321,18 @@ describe('Hebrew is unchanged', () => {
     render(<HabitCreationFlow growthPillars={['discipline']} existingCount={0} onSave={() => {}} onClose={() => {}} />)
     expect(screen.getByText("כשאני מתעורר · 5 דק'")).toBeInTheDocument()
     expect(screen.getByText('ללא סושיאל מדיה עד 10:00').nextSibling.textContent).toBe('כשאני מתעורר')
+  })
+
+  it('a translated lesson still shows its Hebrew; no example box when there is none', () => {
+    const a = openLesson('brain_1')
+    expect(screen.getAllByText(LESSON_BY_ID.brain_1.titleHe).length).toBeGreaterThan(0)
+    expect(screen.getByText(LESSON_BY_ID.brain_1.exampleHe)).toBeInTheDocument()
+    expect(screen.queryByText(LESSON_BY_ID.brain_1.exampleEn)).toBeNull()
+    a.unmount()
+    localStorage.clear()
+    openLesson('brain_4')
+    expect(screen.queryByText(he.lesson.view.example)).toBeNull()
+    expect(screen.getByText(LESSON_BY_ID.brain_4.answerHe)).toBeInTheDocument()
   })
 
   it('lesson topic labels in he.js match data/dailyLessons.js', () => {

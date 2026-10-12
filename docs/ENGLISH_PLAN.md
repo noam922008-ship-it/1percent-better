@@ -3,7 +3,8 @@
 Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards), Phase 4 (Workouts
 tab), Phase 5 (Progress and Profile tabs) and Phase 6 (notifications + `lang` on the profile) done** — merged into
 `main` (`812d3fd`) and live with English off. **Phase 7 (legal pages)** merged into `main` (`a809de5`). **Content 1
-(habit suggestions)** on branch `feat/english-habit-suggestions` (2026-10-12), not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
+(habit suggestions)** merged into `main` (`ed2db35`), not deployed. **Content 2 (daily lessons, batch 1: brain +
+communication)** on branch `feat/english-daily-lessons` (2026-10-13), not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
 
@@ -88,10 +89,9 @@ Same branch. Files: `MyTasks`, `JournalCard`, `Journal`, `DailyLessonCard`, `Les
   two questions stay first person ("What matters most to me in all this, and why?"). "הוסף טריגר" → **"Add a cue"**;
   the presets are cues ("When I wake up", "Before bed"…).
 - **`LESSON_TOPICS` labels** (the 5 topic names on the lesson card) are translated in `t.lesson.topics`, by topic id.
-  `data/dailyLessons.js` is unchanged; a test keeps `he.lesson.topics` equal to the data labels. Topic `desc` (only in
-  Settings) is not translated yet.
-- **Lesson content stays Hebrew** (title, summary, sections, question, answer, action). Only the card UI around it is
-  translated.
+  `data/dailyLessons.js` is unchanged; a test keeps `he.lesson.topics` equal to the data labels. Topic `desc` isn't
+  shown anywhere (not even Settings), so it needs no translation.
+- ~~**Lesson content stays Hebrew**~~ — translated by topic in Content 2.
 - **RTL:** no `dir="rtl"` / `direction: 'rtl'` left in these files (inputs and textareas inherit `<html dir>`);
   `textAlign: 'right'` → `'start'`; accent stripes `borderRight` → `borderInlineStart`; My Tasks row padding →
   `paddingInlineStart/End`. Dates: `localeFor(lang)` in `src/i18n/fmt.js` (`he-IL` / `en-US`) in Journal and the
@@ -335,6 +335,40 @@ Files: `src/data/habitSuggestions.js`, `src/components/HabitCreationFlow.jsx`, `
   "No social media before 10 AM") and Hebrew (rtl, same text as before, minutes hidden on the 0-minute item). No
   horizontal scroll, no page errors.
 
+## Content 2 — daily lessons (batch 1: 2026-10-13, branch `feat/english-daily-lessons`)
+
+Real size: **30 lessons** (5 topics × 6), **~4,700 Hebrew words** — not 35 / ~7k as estimated below. Fields per lesson:
+`id`, `topicId`, `readingMinutes` + 8 text fields `titleHe`, `summaryHe`, `ideaHe`, `explanationHe`, `exampleHe`,
+`questionHe`, `answerHe`, `actionHe`. English adds the same 8 with `En`.
+
+| Batch | Topic | Lessons | Status |
+|---|---|---|---|
+| 1 | brain + communication | `brain_1-6`, `comm_1-6` | done (this branch) |
+| 2 | creativity | `creativity_1-6` | next — one ₪ amount (`creativity_3`) |
+| 3 | technology | `tech_1-6` | ChatGPT / Claude / GPT mentions — check claims are current |
+| 4 | money | `money_1-6` | needs owner decisions first: ₪ vs universal ($, generic terms; Israel-specific: ת"א-125, ארנונה, ועד בית, pension, Israel's inflation) and the `money_1` fact fix ("more than 4x" → about 2x) |
+
+Batch 1:
+- **Data:** 12 lessons have all 8 `*En` fields, after the Hebrew ones. Titles in sentence case, `→` arrows, "cue"
+  (matches "Add a cue"), "you" voice, universal content, no sentence that isn't in the Hebrew.
+- **Fact fixes in both languages (owner's OK):** `brain_2` "one of the best predictors" → "linked to long-term
+  success" · `brain_3` "about 7 items" → "only a few items (about four)" · `brain_4` the made-up "8 hours / up to 40%"
+  example removed, no replacement (`exampleHe` / `exampleEn` are `''`) · `brain_5` "proof" → "evidence".
+- **Display:** `DailyLessonCard` reads every lesson field with `byLang` (English when present and non-empty, else
+  Hebrew — the existing helper, no new rule). The example box is hidden when the example is empty (`brain_4`).
+- **Notes copy:** `lessonSnapshot(lesson, lang)` keeps the 8 Hebrew fields as before; shown in English it also saves
+  the lesson's `*En` fields. `LessonNotesPage` reads the copy with `byLang`, so old Hebrew-only notes fall back to
+  Hebrew. Hebrew saves exactly what it saved before. No rules change (`lesson is map`).
+- **Open for the owner** (English avoids them; Hebrew unchanged): `comm_1` action "לסיים 3 מחשבות של בן השיח" is
+  unclear (kept literal in English); `comm_1` explanation attributes a claim to "ניתוח שפת גוף" (English drops the
+  attribution); `brain_6` calls dopamine a "hormone" (English: "chemical"); `comm_5` "CNV" → NVC; a few Hebrew typos.
+  Option B fallback (an empty English field never falls back to Hebrew) was proposed and not chosen.
+- **Tests:** `dailyLesson.test.js` (content: Hebrew fields, the 12 translated, the 4 fixes; the "example is truthy"
+  assertion now allows `''`), `i18nHome.test.jsx` (translated lesson fully English, no example box for `brain_4` in
+  both languages, untranslated lesson falls back to Hebrew, notes page in both languages), new
+  `lessonNotes.test.js` (copy in Hebrew unchanged, English fields when shown in English, edit keeps the copy).
+  `npm test`: 38 files / 619 tests. `npm run build` OK.
+
 ## Blockers before `FEATURES.english = true`
 
 - **GA consent (EU) — built, behind `FEATURES.consentBanner = false`** (merged into `main` `7d5ecde` and live with the
@@ -408,7 +442,8 @@ Files: `src/data/habitSuggestions.js`, `src/components/HabitCreationFlow.jsx`, `
       installed iPhone app.
 8. **Content** — in this order:
    1. ~~**Habit suggestions**~~ — done (Content 1, 2026-10-12).
-   2. **Daily lessons** — 35 lessons (`data/dailyLessons.js`), plus topic `desc`.
+   2. **Daily lessons** — 30 lessons (`data/dailyLessons.js`), by topic: batch 1 (brain + communication) done in
+      Content 2; creativity, technology, money left.
    3. **Workouts** — boxing / Muay Thai instructions, coaching cues, safety notes, goals, technique names (ids
       first) and TrainingMode's coach lines (~9k words, table in Phase 4). Titles are already done.
 
@@ -431,7 +466,7 @@ Turn on `FEATURES.english` only after the visible UI is translated and the RTL f
 | **Infrastructure** — language detection, picker in Settings, dir switching, date/number formatting by locale, an ESLint rule that flags Hebrew literals in JSX | small | ~1 day |
 | **RTL → logical layout** — replace the 141 hard-coded right/left with `start`/`end` (`textAlign: 'start'`, `paddingInlineStart`, `marginInlineEnd`), mirror back/forward chevrons and arrow glyphs | medium | ~1 day + 390px QA in both directions |
 | **Visible UI** — welcome, setup, Home, My Tasks, "הראש שלי", habits, Settings, Progress, Workouts; ~700–900 strings in ~60 files | large | 2–3 days to extract + ~5–7k words to translate |
-| **Daily lessons** — 35 lessons (`src/data/dailyLessons.js`) | medium | ~7k words; content, needs a human read |
+| **Daily lessons** — 30 lessons (`src/data/dailyLessons.js`) | medium | ~4.7k words (measured 2026-10-13); content, needs a human read |
 | **Workouts** — boxing / Muay Thai drills and paths, timers (~1,300 lines) | large | ~2 days, ~8–10k words |
 | **Legal** — privacy policy + terms (`src/data/legal.js`) | small | ~2k words **plus legal review**: Israeli law and Jerusalem courts may not fit users abroad |
 | **Notifications** — in-app (`notificationService.js`) and push (functions) | small | ~½ day |

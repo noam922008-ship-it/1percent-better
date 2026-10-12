@@ -20,7 +20,7 @@ import {
   getTodayLessonEntry,
   getTopicFeedback,
 } from '../services/dailyLessonService'
-import { DAILY_LESSONS, LESSON_TOPICS } from '../data/dailyLessons'
+import { DAILY_LESSONS, LESSON_TOPICS, LESSON_BY_ID } from '../data/dailyLessons'
 
 function todayKey() {
   const d = new Date()
@@ -52,7 +52,7 @@ describe('lesson selection', () => {
     expect(lesson.titleHe).toBeTruthy()
     expect(lesson.ideaHe).toBeTruthy()
     expect(lesson.explanationHe).toBeTruthy()
-    expect(lesson.exampleHe).toBeTruthy()
+    expect(typeof lesson.exampleHe).toBe('string')   // may be '' (brain_4) — the card then hides the example box
     expect(lesson.questionHe).toBeTruthy()
     expect(lesson.answerHe).toBeTruthy()
   })
@@ -266,5 +266,50 @@ describe('duplicate XP prevention', () => {
     const second = markLessonApplied(lesson.id)
     expect(first).toBe(true)
     expect(second).toBe(false)
+  })
+})
+
+// ── 9. Lesson content: English (batch 1) and the agreed fact fixes ──
+
+const TEXT_FIELDS = ['title', 'summary', 'idea', 'explanation', 'example', 'question', 'answer', 'action']
+const TRANSLATED  = ['brain_1', 'brain_2', 'brain_3', 'brain_4', 'brain_5', 'brain_6', 'comm_1', 'comm_2', 'comm_3', 'comm_4', 'comm_5', 'comm_6']
+const HEBREW = /[\u0590-\u05FF]/
+
+describe('lesson content', () => {
+  it('every Hebrew field is a non-empty string, except brain_4 which has no example', () => {
+    for (const l of DAILY_LESSONS) {
+      for (const f of TEXT_FIELDS) {
+        expect(typeof l[`${f}He`], `${l.id} ${f}He`).toBe('string')
+        if (!(l.id === 'brain_4' && f === 'example')) expect(l[`${f}He`], `${l.id} ${f}He`).not.toBe('')
+      }
+    }
+    expect(DAILY_LESSONS.filter(l => !l.exampleHe).map(l => l.id)).toEqual(['brain_4'])
+  })
+
+  it('batch 1 has all 8 English fields with no Hebrew; other lessons have none yet', () => {
+    for (const l of DAILY_LESSONS) {
+      const translated = TRANSLATED.includes(l.id)
+      for (const f of TEXT_FIELDS) {
+        const v = l[`${f}En`]
+        if (!translated) { expect(v, `${l.id} ${f}En`).toBeUndefined(); continue }
+        expect(typeof v, `${l.id} ${f}En`).toBe('string')
+        expect(HEBREW.test(v), `${l.id} ${f}En`).toBe(false)
+        if (!(l.id === 'brain_4' && f === 'example')) expect(v, `${l.id} ${f}En`).not.toBe('')
+      }
+    }
+    expect(LESSON_BY_ID.brain_4.exampleEn).toBe('')
+  })
+
+  it('agreed fact fixes are in both languages', () => {
+    const { brain_2, brain_3, brain_4, brain_5 } = LESSON_BY_ID
+    expect(brain_2.ideaHe).not.toContain('המנבאים')
+    expect(brain_2.ideaEn).toContain('linked to long-term success')
+    expect(brain_3.ideaHe).toContain('רק פריטים בודדים (כ-4)')
+    expect(brain_3.ideaEn).toContain('only a few items (about four)')
+    expect(brain_4.exampleHe + brain_4.exampleEn).toBe('')
+    expect(JSON.stringify(brain_4)).not.toMatch(/40%|8 שעות/)
+    expect(brain_5.exampleHe).toContain('עדות')
+    expect(brain_5.exampleHe).not.toContain('הוכחה')
+    expect(brain_5.exampleEn).toContain('evidence')
   })
 })

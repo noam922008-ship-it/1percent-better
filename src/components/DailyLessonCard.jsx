@@ -12,7 +12,7 @@ import {
 import { subscribeNotes } from '../services/lessonNotesService'
 import LessonNotesForm from './LessonNotesForm'
 import { useLang } from '../context/LangContext'
-import { fmt } from '../i18n/fmt'
+import { fmt, byLang } from '../i18n/fmt'
 
 const C = {
   bg:      '#111317',
@@ -51,8 +51,9 @@ function TopicChip({ topicId }) {
 
 // Full lesson bottom sheet
 function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative, onFeedback, onComplete, onApply }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const tv = t.lesson.view
+  const L = field => byLang(lesson, field, lang)   // English when the lesson has it, else Hebrew
   const [step,       setStep]       = useState('read')   // 'read' | 'question' | 'done'
   const [answered,   setAnswered]   = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
@@ -124,12 +125,12 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
 
         {/* Title */}
         <h2 style={{ color: C.text, fontWeight: 900, fontSize: '1.1rem', lineHeight: 1.35, margin: '0 0 0.75rem' }}>
-          {lesson.titleHe}
+          {L('title')}
         </h2>
 
         {/* Summary */}
         <p style={{ color: C.muted, fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 1.25rem', fontStyle: 'italic' }}>
-          {lesson.summaryHe}
+          {L('summary')}
         </p>
 
         <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', marginBottom: '1.25rem' }} />
@@ -137,26 +138,28 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
         {/* Idea */}
         <div style={{ marginBottom: '1.1rem' }}>
           <div style={{ color: C.gold, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.idea}</div>
-          <p style={{ color: C.text, fontSize: '0.88rem', lineHeight: 1.65, margin: 0, fontWeight: 600 }}>{lesson.ideaHe}</p>
+          <p style={{ color: C.text, fontSize: '0.88rem', lineHeight: 1.65, margin: 0, fontWeight: 600 }}>{L('idea')}</p>
         </div>
 
         {/* Explanation */}
         <div style={{ marginBottom: '1.1rem' }}>
           <div style={{ color: C.blue, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.explanation}</div>
-          <p style={{ color: 'rgba(244,241,232,0.8)', fontSize: '0.85rem', lineHeight: 1.7, margin: 0 }}>{lesson.explanationHe}</p>
+          <p style={{ color: 'rgba(244,241,232,0.8)', fontSize: '0.85rem', lineHeight: 1.7, margin: 0 }}>{L('explanation')}</p>
         </div>
 
-        {/* Example */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1.25rem' }}>
-          <div style={{ color: C.green, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.example}</div>
-          <p style={{ color: 'rgba(244,241,232,0.7)', fontSize: '0.83rem', lineHeight: 1.65, margin: 0 }}>{lesson.exampleHe}</p>
-        </div>
+        {/* Example — hidden when the lesson has none */}
+        {L('example') && (
+          <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1.25rem' }}>
+            <div style={{ color: C.green, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.example}</div>
+            <p style={{ color: 'rgba(244,241,232,0.7)', fontSize: '0.83rem', lineHeight: 1.65, margin: 0 }}>{L('example')}</p>
+          </div>
+        )}
 
         {/* Comprehension question */}
         {(step !== 'read' || alreadyCompleted) && (
           <div style={{ background: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.15)', borderRadius: 12, padding: '0.9rem 1rem', marginBottom: '1.1rem', animation: 'slide-up 0.22s ease' }}>
             <div style={{ color: C.purple, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.45rem' }}>{tv.question}</div>
-            <p style={{ color: C.text, fontSize: '0.85rem', lineHeight: 1.6, margin: '0 0 0.75rem', fontWeight: 600 }}>{lesson.questionHe}</p>
+            <p style={{ color: C.text, fontSize: '0.85rem', lineHeight: 1.6, margin: '0 0 0.75rem', fontWeight: 600 }}>{L('question')}</p>
 
             {!answered && !alreadyCompleted && (
               <button
@@ -170,7 +173,7 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
             {(showAnswer || alreadyCompleted) && (
               <div style={{ background: 'rgba(63,175,122,0.07)', border: '1px solid rgba(63,175,122,0.2)', borderRadius: 10, padding: '0.7rem 0.85rem', animation: 'fadeIn 0.2s ease' }}>
                 <div style={{ color: C.green, fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{tv.answer}</div>
-                <p style={{ color: 'rgba(244,241,232,0.75)', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{lesson.answerHe}</p>
+                <p style={{ color: 'rgba(244,241,232,0.75)', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{L('answer')}</p>
               </div>
             )}
           </div>
@@ -187,10 +190,10 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
         )}
 
         {/* Optional action */}
-        {(step === 'done' || alreadyCompleted) && lesson.actionHe && (
+        {(step === 'done' || alreadyCompleted) && L('action') && (
           <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${applied ? 'rgba(63,175,122,0.3)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1.1rem', animation: 'slide-up 0.22s ease' }}>
             <div style={{ color: C.muted, fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>{tv.action}</div>
-            <p style={{ color: 'rgba(244,241,232,0.7)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 0.65rem' }}>{lesson.actionHe}</p>
+            <p style={{ color: 'rgba(244,241,232,0.7)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 0.65rem' }}>{L('action')}</p>
             <button
               onClick={handleApply}
               disabled={applied}
@@ -255,7 +258,7 @@ function LessonView({ lesson, topicId, entry, uid, note, onClose, onAlternative,
 // ── Main exported card ──────────────────────────────────────────────
 
 export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNotes }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const tl = t.lesson.card
   const [lessonData, setLessonData] = useState(() => getTodayLesson(prefTopics))
   const [showLesson, setShowLesson] = useState(false)
@@ -346,10 +349,10 @@ export default function DailyLessonCard({ prefTopics = [], uid = null, onOpenNot
           <span style={{ fontSize: '1.3rem', flexShrink: 0, marginTop: 1 }}>{topic?.emoji}</span>
           <div>
             <div style={{ color: completed ? C.muted : C.text, fontWeight: 800, fontSize: '0.93rem', lineHeight: 1.35, marginBottom: '0.2rem', textDecoration: completed ? 'none' : 'none' }}>
-              {lesson.titleHe}
+              {byLang(lesson, 'title', lang)}
             </div>
             <div style={{ color: C.muted, fontSize: '0.72rem', lineHeight: 1.5 }}>
-              {lesson.summaryHe}
+              {byLang(lesson, 'summary', lang)}
             </div>
           </div>
         </div>

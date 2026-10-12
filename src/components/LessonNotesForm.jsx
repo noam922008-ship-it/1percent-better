@@ -24,7 +24,7 @@ const focusOff = e => { e.target.style.borderColor = C.border }
 const labelStyle = { display: 'block', color: C.text, fontSize: '0.9rem', fontWeight: 700, margin: '1rem 0 0.5rem' }
 
 export default function LessonNotesForm({ uid, lesson, existing, onSaved }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const tn = t.lesson.notesForm, tc = t.common
   const [learned,   setLearned]   = useState(existing?.learned || '')
   const [apply,     setApply]     = useState(existing?.apply || '')
@@ -41,7 +41,7 @@ export default function LessonNotesForm({ uid, lesson, existing, onSaved }) {
     if (!canSave) return
     setSaving(true); setError(null)
     try {
-      await saveNote(uid, lesson, { learned, apply }, !!existing)
+      await saveNote(uid, lesson, { learned, apply }, !!existing, lang)
       setSaved(true)
       onSaved?.()
     } catch { setError('save') }
