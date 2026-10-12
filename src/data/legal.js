@@ -6,6 +6,8 @@
 // { decide: '...' } block. Both render as a highlighted "📝 להשלים / להחלטה" marker until resolved.
 // Text uses {placeholders} that are filled from LEGAL_CONFIG.
 
+import { FEATURES } from '../config/features'
+
 export const LEGAL_CONFIG = {
   operatorName:  'נועם כהן (Noam Cohen)',
   contactEmail:  'prime.daily.app@gmail.com',
@@ -21,6 +23,11 @@ const LEGAL_CONFIG_EN = {
   courtCity:    'Jerusalem',
   updated:      'October 11, 2026',
 }
+
+// Analytics consent (FEATURES.consentBanner). Off = GA starts on landing and these aren't shown.
+// When turning it on: bump LEGAL_CONFIG.updated (+ _EN) — docs/ENGLISH_PLAN.md.
+const CONSENT_HE = 'Google Analytics פועל רק אחרי אישור. עד שבוחרים, שום דבר לא נשלח אליו ושום דבר לא נשמר בשבילו במכשיר — רק הבחירה עצמה נשמרת בדפדפן. אחרי אישור, Google Analytics שומר עוגיות (cookies) בדפדפן, ונשלחים גם האירועים מהביקור שבו אישרת. אפשר לבטל בכל רגע בהגדרות, ואז העוגיות של Google Analytics נמחקות מהמכשיר.'
+const CONSENT_EN = "Google Analytics runs only after you accept. Until you choose, nothing is sent to it and nothing is stored for it on your device — only your choice itself is saved in the browser. After you accept, Google Analytics stores cookies in your browser, and the events from the visit in which you accepted are sent too. You can turn it off anytime in Settings, which deletes the Google Analytics cookies from your device."
 
 export function legalConfig(lang) {
   return lang === 'en' ? { ...LEGAL_CONFIG, ...LEGAL_CONFIG_EN } : LEGAL_CONFIG
@@ -102,6 +109,7 @@ export const PRIVACY = {
       paras: [
         'אנחנו משתמשים ב-Google Analytics כדי להבין איך משתמשים באפליקציה, ברמה כללית: פתיחת האפליקציה ומאיפה הגעת (למשל קישור מקמפיין), התחלה, רשומה ראשונה, הוספת משימה או הרגל, וחזרה למחרת.',
         'אנחנו לא שולחים ל-Google Analytics את מה שאתה כותב, את השם שלך או את האימייל שלך. התאמת פרסומות ו-Google Signals כבויים.',
+        ...(FEATURES.consentBanner ? [CONSENT_HE] : []),
       ],
     },
     {
@@ -282,6 +290,7 @@ export const PRIVACY_EN = {
       paras: [
         'We use Google Analytics to understand, at a general level, how the app is used: opening the app and where you came from (for example a campaign link), getting started, first entry, adding a task or habit, and coming back the next day.',
         "We don't send Google Analytics what you write, your name or your email. Ad personalization and Google Signals are off.",
+        ...(FEATURES.consentBanner ? [CONSENT_EN] : []),
       ],
     },
     {

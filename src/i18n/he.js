@@ -651,6 +651,9 @@ const he = {
     prefsNote:    'שינוי ההעדפות לא מאפס את ההתקדמות שלך',
     social:       'PRIME ברשתות',
     legal:        { privacy: 'מדיניות פרטיות', terms: 'תנאי שימוש', support: 'תמיכה' },
+    privacy:      '◈ פרטיות',
+    analytics:    'שיתוף נתוני שימוש (Google Analytics)',
+    analyticsDesc: 'ברמה כללית, בלי מה שכתוב, בלי שם ובלי אימייל',
   },
   // Delete account sheet (opened from Settings). The user types confirmWord to confirm.
   deleteAccount: {
@@ -674,6 +677,14 @@ const he = {
     finishPassword: 'התחבר ומחק את החשבון',
     finishGoogle:  'התחבר עם Google ומחק',
     cancel:        'ביטול',
+  },
+  // Analytics consent banner (Home, FEATURES.consentBanner). Accepting covers this visit too — see services/analytics.js
+  consent: {
+    aria:    'הסכמה לאנליטיקה',
+    text:    'אנחנו רוצים להשתמש ב-Google Analytics כדי להבין, ברמה כללית, איך משתמשים באפליקציה. לא נשלח שום דבר ממה שכתוב, לא שם ולא אימייל. אישור חל גם על הביקור הזה, מהרגע שהאפליקציה נפתחה. אפשר לשנות בכל רגע בהגדרות.',
+    accept:  'לאשר',
+    decline: 'לא, תודה',
+    privacy: 'מדיניות פרטיות',
   },
   // Legal pages: /legal hub, /privacy, /terms (document text lives in src/data/legal.js)
   legal: {

@@ -644,6 +644,9 @@ const en = {
     prefsNote:    "Changing your preferences doesn't reset your progress",
     social:       'PRIME on social',
     legal:        { privacy: 'Privacy policy', terms: 'Terms of use', support: 'Support' },
+    privacy:      '◈ Privacy',
+    analytics:    'Share usage data (Google Analytics)',
+    analyticsDesc: 'At a general level — nothing you write, no name, no email',
   },
   // Delete account sheet (opened from Settings). The user types confirmWord to confirm (case doesn't matter).
   deleteAccount: {
@@ -667,6 +670,14 @@ const en = {
     finishPassword: 'Sign in and delete the account',
     finishGoogle:  'Sign in with Google and delete',
     cancel:        'Cancel',
+  },
+  // Analytics consent banner (Home, FEATURES.consentBanner). Accepting covers this visit too — see services/analytics.js
+  consent: {
+    aria:    'Analytics consent',
+    text:    "We'd like to use Google Analytics to understand, at a general level, how the app is used. Nothing you write, no name, no email. Accepting also covers this visit, from the moment you opened the app. You can change this anytime in Settings.",
+    accept:  'Accept',
+    decline: 'No thanks',
+    privacy: 'Privacy policy',
   },
   // Legal pages: /legal hub, /privacy, /terms (document text lives in src/data/legal.js)
   legal: {
