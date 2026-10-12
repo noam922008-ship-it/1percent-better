@@ -296,7 +296,8 @@ Owner's decision: translate faithfully, leave these to a legal review.
 1. **GDPR rights** — no list of rights (access, correction, export, objection, complaint to a supervisory authority)
    and no legal basis per use of data.
 2. **EU → US transfer** — says "US servers" but names no transfer mechanism (SCCs / Data Privacy Framework).
-3. **GA consent** — **BLOCKER, see below.**
+3. **GA consent** — built behind `FEATURES.consentBanner` (see "Blockers"); the pre-consent queue is a grey area
+   for this review.
 4. **Retention** — no period for inactive accounts or backups.
 5. **US health data** — habits, workouts and the journal may be "consumer health data" (e.g. Washington My Health My
    Data Act). "We don't sell" already covers the CCPA sale point.
@@ -336,10 +337,30 @@ Files: `src/data/habitSuggestions.js`, `src/components/HabitCreationFlow.jsx`, `
 
 ## Blockers before `FEATURES.english = true`
 
-- **GA consent (EU).** Today GA4 starts on landing (`src/services/analytics.js`) and sets cookies with no consent.
-  ePrivacy / GDPR require consent before non-essential cookies for EU users. Turning English on opens the app to EU
-  users, so this must be solved first (consent banner before GA loads, or GA consent mode with analytics denied by
-  default, or no GA cookies) — and the privacy policy updated to match. **Not an open item: a blocker.**
+- **GA consent (EU) — built, behind `FEATURES.consentBanner = false`** (branch `feat/ga-consent`, 2026-10-12, not
+  merged, not deployed). **Turn `consentBanner` on together with `english`** — same release, never `english` alone.
+  With it off, GA starts on landing exactly as before (ePrivacy / GDPR need consent first for EU users; owner chose a
+  banner for everyone, Hebrew included, once it's on).
+  - **What it does:** a card at the top of Home on the first arrival there (after the welcome screen; guests
+    included — they never see `/setup`), never blocking. Accept / "No thanks" / privacy link. Same choice as a switch
+    in Settings → Privacy. Logic in `src/services/analytics.js`, UI in `components/ConsentBanner.jsx`.
+  - **Before a choice:** GA isn't loaded — no `_ga` cookies, no requests to Google, nothing analytics-related in
+    localStorage. Events wait in memory only and are lost if the tab closes.
+  - **Accept:** GA loads and the waiting events of this visit are sent (with the time of accept, not the time they
+    happened). **Decline:** the waiting events are dropped. **Off later in Settings:** GA stops and its `_ga` cookies
+    and the `return_next_day` keys are deleted.
+  - **Stored:** only the choice itself (`prime_analytics_consent`), so the banner isn't asked again.
+  - **`return_next_day`** now counts from the day of consent, not the first visit (`prime_first_open` is written only
+    after accept).
+  - **Privacy policy:** a consent + cookies paragraph shows in both languages only with the flag on. **When turning
+    it on: bump `LEGAL_CONFIG.updated` (+ `_EN`) in `src/data/legal.js`.**
+  - Tests: `analyticsConsent.test.js`, `consentBanner.test.jsx`. Headless check of a flag-on build (2026-10-12, GA
+    hits blocked): nothing before a choice, `app_open` with utm sent on accept, cookies gone after turning off.
+  - **For the legal review — grey area:** on accept we also send events from *before* the click (this visit's
+    `app_open` with utm, `welcome_start`, …). Nothing leaves the device or is stored before consent, and the banner
+    says so ("אישור חל גם על הביקור הזה" / "Accepting also covers this visit"), but a strict reading says consent
+    can't cover earlier events. Owner's decision: keep the queue with that wording. If the review disagrees: drop
+    the queue in `setConsent` and count only from accept (loses utm attribution for the first visit).
 - Legal review of the gaps above.
 - The visible UI translated and the RTL fixes done (below).
 
@@ -391,8 +412,8 @@ Files: `src/data/habitSuggestions.js`, `src/components/HabitCreationFlow.jsx`, `
    3. **Workouts** — boxing / Muay Thai instructions, coaching cues, safety notes, goals, technique names (ids
       first) and TrainingMode's coach lines (~9k words, table in Phase 4). Titles are already done.
 
-Turn on `FEATURES.english` only after the visible UI is translated and the RTL fixes are done, **and the GA consent
-blocker is solved** (see "Blockers").
+Turn on `FEATURES.english` only after the visible UI is translated and the RTL fixes are done, **and together with
+`FEATURES.consentBanner`** (see "Blockers").
 
 ## Where things stand
 
