@@ -5,10 +5,19 @@
 //     names and emails can't pass sanitizeParams(). No user id is set.
 //   • Google Signals and ad personalization are off.
 // Runs only in production builds with VITE_FIREBASE_MEASUREMENT_ID set; otherwise a no-op.
+//
+// Consent (FEATURES.consentBanner — off = GA starts on landing, as before):
+//   • Until the user chooses, GA isn't loaded: no cookies, no requests, nothing written to
+//     localStorage. Events wait in memory only and are lost when the tab closes.
+//   • Accept → GA loads and the waiting events are sent (the banner says it covers this visit).
+//   • Decline → the waiting events are dropped and nothing is sent. Turning it off later in
+//     Settings also stops GA and deletes its cookies and the return_next_day keys.
+//   • Only the choice itself is stored (CONSENT_KEY), so the banner isn't asked again.
 
-import { initializeAnalytics, logEvent, isSupported } from 'firebase/analytics'
+import { initializeAnalytics, logEvent, isSupported, setAnalyticsCollectionEnabled } from 'firebase/analytics'
 import { app } from './firebase'
 import { getLocalDateKey } from '../utils/localDate'
+import { FEATURES } from '../config/features'
 
 const MEASUREMENT_ID = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 const ENABLED = import.meta.env.PROD && !!MEASUREMENT_ID
@@ -35,12 +44,31 @@ export function sanitizeParams(name, params = {}) {
 }
 
 let analytics = null
+let collecting = false   // GA loaded and allowed to send
+let stopped = false      // GA was loaded, then turned off in Settings
+let loading = null
 const queue = []
+
+export const CONSENT_KEY = 'prime_analytics_consent'
+let choice = null        // this session's choice — still applies if localStorage can't be written
+
+// 'granted' | 'denied' | null (not chosen yet). Flag off: always 'granted', as before.
+export function getConsent(store) {
+  if (!FEATURES.consentBanner) return 'granted'
+  if (choice) return choice
+  try {
+    const v = (store || localStorage).getItem(CONSENT_KEY)
+    return v === 'granted' || v === 'denied' ? v : null
+  } catch { return null }
+}
+
+export const needsConsentChoice = () => FEATURES.consentBanner && getConsent() === null
 
 export function track(name, params) {
   if (!ALLOWED_EVENTS[name]) return
+  if (getConsent() === 'denied') return
   const clean = sanitizeParams(name, params)
-  if (analytics) logEvent(analytics, name, clean)
+  if (collecting) logEvent(analytics, name, clean)
   else if (ENABLED) queue.push([name, clean])
 }
 
@@ -74,13 +102,55 @@ export function checkReturnNextDay(today = getLocalDateKey(), store = localStora
 export async function startAnalytics() {
   const utm = captureUtm()
   track('app_open', utm)
+  if (getConsent() !== 'granted') return   // not chosen yet: app_open waits in memory
+  await loadAnalytics()
+}
+
+function loadAnalytics() {
   if (checkReturnNextDay()) track('return_next_day')
-  if (!ENABLED || !app) return
-  try {
-    if (!(await isSupported())) return
-    analytics = initializeAnalytics(app, {
-      config: { allow_google_signals: false, allow_ad_personalization_signals: false, send_page_view: false },
-    })
+  if (!ENABLED || !app) return Promise.resolve()
+  if (!loading) {
+    loading = (async () => {
+      if (!(await isSupported())) return
+      analytics = initializeAnalytics(app, {
+        config: { allow_google_signals: false, allow_ad_personalization_signals: false, send_page_view: false },
+      })
+    })().catch(() => { analytics = null; loading = null })
+  }
+  return loading.then(() => {
+    if (!analytics || getConsent() !== 'granted') return
+    if (stopped) { setAnalyticsCollectionEnabled(analytics, true); stopped = false }
+    collecting = true
     while (queue.length) { const [n, p] = queue.shift(); logEvent(analytics, n, p) }
-  } catch { analytics = null }
+  })
+}
+
+// The banner (Home) and the Settings switch. No-op with the flag off.
+export async function setConsent(granted, store) {
+  if (!FEATURES.consentBanner) return
+  choice = granted ? 'granted' : 'denied'
+  try { (store || localStorage).setItem(CONSENT_KEY, choice) } catch { /* the in-memory choice still applies */ }
+  if (granted) return loadAnalytics()
+  queue.length = 0
+  if (analytics && !stopped) { setAnalyticsCollectionEnabled(analytics, false); stopped = true }
+  collecting = false
+  clearAnalyticsStorage(store)
+}
+
+// What GA and return_next_day leave on the device: the _ga cookies and our two localStorage keys.
+function clearAnalyticsStorage(store) {
+  try {
+    const s = store || localStorage
+    s.removeItem('prime_first_open')
+    s.removeItem('prime_return_next_day_sent')
+  } catch { /* ignore */ }
+  if (typeof document === 'undefined') return
+  const host = window.location.hostname
+  for (const c of document.cookie.split(';')) {
+    const name = c.split('=')[0].trim()
+    if (!name.startsWith('_ga')) continue
+    for (const domain of ['', `; domain=${host}`, `; domain=.${host}`]) {
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain}`
+    }
+  }
 }

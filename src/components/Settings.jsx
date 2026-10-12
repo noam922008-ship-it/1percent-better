@@ -11,6 +11,7 @@ import { deleteGuestData } from '../services/accountDeletionService'
 import { MAX_NICKNAME_LEN } from '../utils/publicName'
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
+import { getConsent, setConsent } from '../services/analytics'
 
 function Row({ label, desc, children }) {
   return (
@@ -115,6 +116,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
     ('Notification' in window) ? Notification.permission : 'unsupported'
   )
   const [testSent, setTestSent] = useState(false)
+  const [analyticsOn, setAnalyticsOn] = useState(() => getConsent() === 'granted')
 
   useEffect(() => {
     if (!('Notification' in window)) return
@@ -391,6 +393,25 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
         </div>
       </div>
       </>)}
+
+      {/* Privacy — analytics consent, the same choice as the Home banner (FEATURES.consentBanner) */}
+      {FEATURES.consentBanner && (
+        <>
+          <SectionHeader title={ts.privacy} />
+          <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '0.1rem 1rem', marginBottom: '0.5rem' }}>
+            <Row label={ts.analytics} desc={ts.analyticsDesc}>
+              <Toggle
+                on={analyticsOn}
+                onToggle={() => {
+                  const next = !analyticsOn
+                  setAnalyticsOn(next)
+                  setConsent(next)
+                }}
+              />
+            </Row>
+          </div>
+        </>
+      )}
 
       {/* Social */}
       <div style={{ marginTop: '1.75rem' }}>
