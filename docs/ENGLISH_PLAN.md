@@ -337,8 +337,8 @@ Files: `src/data/habitSuggestions.js`, `src/components/HabitCreationFlow.jsx`, `
 
 ## Blockers before `FEATURES.english = true`
 
-- **GA consent (EU) — built, behind `FEATURES.consentBanner = false`** (branch `feat/ga-consent`, 2026-10-12, not
-  merged, not deployed). **Turn `consentBanner` on together with `english`** — same release, never `english` alone.
+- **GA consent (EU) — built, behind `FEATURES.consentBanner = false`** (merged into `main` `7d5ecde` and live with the
+  flag off, 2026-10-12). **Turn `consentBanner` on together with `english`** — same release, never `english` alone.
   With it off, GA starts on landing exactly as before (ePrivacy / GDPR need consent first for EU users; owner chose a
   banner for everyone, Hebrew included, once it's on).
   - **What it does:** a card at the top of Home on the first arrival there (after the welcome screen; guests
