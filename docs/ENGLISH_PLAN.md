@@ -311,14 +311,16 @@ Owner's decision: translate faithfully, leave these to a legal review.
 Files: `src/data/habitSuggestions.js`, `src/components/HabitCreationFlow.jsx`, `src/__tests__/i18nHome.test.jsx`.
 
 - **Data:** all 75 items (not 76) have `titleEn`. Titles are short commands to "you"; cues stay first person like the
-  presets ("When I wake up"). Hebrew fields and everything else are unchanged (checked against `main`).
-- **Cues by id (owner's decision):** the 28 items whose Hebrew cue is a preset label have `cueId`
-  (`wake` 8 · `bfast` 5 · `phone` 2 · `sleep` 13); the card shows `t.habitFlow.cues[cueId]` and the preset is
-  highlighted by id. No text comparison left (`cueFromSuggestion` no longer imports `he`). The other 47 have
-  `triggerSuggestionEn`. `אחרי העבודה` (3 items) is not the preset `אחרי העבודה / הלימודים`, so it stays its own cue
-  ("After work") and Hebrew keeps saving `אחרי העבודה`.
+  presets ("When I wake up"). Hebrew unchanged except, with the owner's OK: two titles fixed — `h_peo_08`
+  "כתוב אחד שאתה מכיר על מי שעזר לך" → "כתוב הודעה למישהו שעזר לך", `h_lif_01` "ציירתי משהו 5 דקות" → "צייר 5 דקות" —
+  and the three `אחרי העבודה` cues below.
+- **Cues by id (owner's decision):** 31 items have `cueId` (`wake` 8 · `bfast` 5 · `phone` 2 · `work` 3 ·
+  `sleep` 13); the card shows `t.habitFlow.cues[cueId]` and the preset is highlighted by id. No text comparison left
+  (`cueFromSuggestion` no longer imports `he`). The other 44 have `triggerSuggestionEn`. The three `אחרי העבודה` items
+  (`h_body_04`, `h_gro_11`, `h_peo_02`) now use the `work` preset (owner's decision): Hebrew shows and saves
+  `אחרי העבודה / הלימודים`, English "After work / school".
 - **Saving:** title and cue are saved in the UI language (`byLang`). Hebrew saves exactly what it saved before. Fixes the
-  Phase 3 bug: the 47 non-preset cues saved Hebrew for English users.
+  Phase 3 bug: non-preset cues saved Hebrew for English users.
 - **Card:** `{cue} · {n} min`, all one language, so the mixed bidi line is gone. **No minutes when
   `estimatedMinutes` is 0** (12 items), both languages (owner's OK) — the only Hebrew display change.
 - **Not changed:** `Dashboard.hasDuplicateHabit` compares a new habit's text with the user's own saved habits, so a
@@ -326,7 +328,7 @@ Files: `src/data/habitSuggestions.js`, `src/components/HabitCreationFlow.jsx`, `
 - **Tests** (`i18nHome.test.jsx`, 15 → 21): English sheet has no Hebrew (suggestion exclusion removed); cards in
   English; preset cue highlighted + English title/cue saved; own cue saved in English; no minutes at 0 in both
   languages; Hebrew own cue still saved in Hebrew; data: 75 items, every `titleEn` / `triggerSuggestionEn` free of
-  Hebrew, `cueId` ⇔ Hebrew cue equals that preset, no item without `cueId` has a preset's Hebrew text, 28 `cueId`s.
+  Hebrew, `cueId` ⇔ Hebrew cue equals that preset, no item without `cueId` has a preset's Hebrew text, 31 `cueId`s.
   `npm test`: 35 files / 589 tests. `npm run build` OK. Lint clean on the 3 files.
 - **390px check (dev, guest, headless):** add-habit sheet in English (ltr, "When I wake up · 5 min", no minutes on
   "No social media before 10 AM") and Hebrew (rtl, same text as before, minutes hidden on the 0-minute item). No

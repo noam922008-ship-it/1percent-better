@@ -227,7 +227,7 @@ describe('habit suggestion data', () => {
         expect(s.triggerSuggestionEn, s.id).not.toMatch(/[\u0590-\u05FF]/)
       }
     }
-    expect(HABIT_SUGGESTIONS.filter(s => s.cueId)).toHaveLength(28)
+    expect(HABIT_SUGGESTIONS.filter(s => s.cueId)).toHaveLength(31)
   })
 })
 
