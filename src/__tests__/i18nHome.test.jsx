@@ -4,10 +4,10 @@ import { readFileSync } from 'node:fs'
 import he from '../i18n/he'
 import en from '../i18n/en'
 import { LESSON_TOPICS, DAILY_LESSONS } from '../data/dailyLessons'
-import { getTopSuggestionsForPillars } from '../data/habitSuggestions'
+import { getTopSuggestionsForPillars, HABIT_SUGGESTIONS } from '../data/habitSuggestions'
 
 // Phase 3: Home's remaining cards (My Tasks, "הראש שלי", daily lesson, week strip) and the add-habit flow
-// have no Hebrew UI left when English is on. Lesson content and habit suggestions (data/) stay Hebrew for now.
+// have no Hebrew UI left when English is on. Lesson content (data/) stays Hebrew for now; habit suggestions are English.
 const lang = { current: 'en' }
 vi.mock('../context/LangContext', () => ({
   useLang: () => ({ lang: lang.current, setLang: () => {}, t: lang.current === 'en' ? en : he, englishEnabled: true }),
@@ -146,8 +146,6 @@ describe('English Home cards have no Hebrew', () => {
 
 describe('English add-habit flow', () => {
   const suggestions = getTopSuggestionsForPillars(['body'], 6)
-  // Suggestions are data/ and stay Hebrew in this phase
-  const suggestionText = suggestions.flatMap(s => [s.titleHe, `${s.triggerSuggestionHe} · ${s.estimatedMinutes} min`])
 
   function create() {
     const saved = []
@@ -157,7 +155,7 @@ describe('English add-habit flow', () => {
 
   it('custom habit, every step, saves the preset cue in English', () => {
     const { saved, container } = create()
-    expect(hebrewIn(container, suggestionText)).toEqual([])
+    expect(hebrewIn(container)).toEqual([])
     fireEvent.click(screen.getByText(en.habitFlow.custom))
     fireEvent.change(screen.getByPlaceholderText(en.habitFlow.titlePh), { target: { value: 'Run' } })
     expect(hebrewIn(container)).toEqual([])
@@ -171,26 +169,65 @@ describe('English add-habit flow', () => {
     expect(saved[0]).toMatchObject({ cue: 'After work / school', habit: 'Run' })
   })
 
-  it('a suggestion whose Hebrew cue matches a preset highlights it and saves it in English', () => {
-    const s = suggestions.find(x => x.triggerSuggestionHe === he.habitFlow.cues.wake)
+  it('suggestion cards are in English: title, cue and minutes', () => {
+    create()
+    const s = suggestions.find(x => x.id === 'h_body_01')
+    expect(screen.getByText(s.titleEn)).toBeInTheDocument()
+    expect(screen.getByText('When I wake up · 1 min')).toBeInTheDocument()
+    expect(screen.getByText('After an hour of sitting · 5 min')).toBeInTheDocument()
+  })
+
+  it('a suggestion with a preset cue highlights it and saves the English title and cue', () => {
+    const s = suggestions.find(x => x.cueId === 'wake')
     const { saved } = create()
-    fireEvent.click(screen.getByText(s.titleHe))
+    fireEvent.click(screen.getByText(s.titleEn))
     expect(screen.getByText('When I wake up')).toHaveAttribute('aria-pressed', 'true')
     fireEvent.click(screen.getByText(en.habitFlow.next))
     fireEvent.click(screen.getByText(en.habitFlow.save))
-    expect(saved[0].cue).toBe('When I wake up')
+    expect(saved[0]).toMatchObject({ cue: 'When I wake up', habit: s.titleEn, source: 'suggested' })
   })
 
-  it("a suggestion whose cue matches no preset keeps its text (Hebrew until suggestions are translated)", () => {
-    const all = getTopSuggestionsForPillars(['body', 'discipline', 'growth', 'people', 'life'], 100)
-    const presets = Object.values(he.habitFlow.cues)
-    const s = all.find(x => !presets.includes(x.triggerSuggestionHe))
+  it('a suggestion with its own cue saves it in English', () => {
+    const s = HABIT_SUGGESTIONS.find(x => x.id === 'h_body_11')
     const saved = []
     render(<HabitCreationFlow growthPillars={[s.pillar]} existingCount={0} onSave={d => saved.push(d)} onClose={() => {}} prefill={s} />)
     expect(screen.queryAllByRole('button', { pressed: true })).toHaveLength(0)
     fireEvent.click(screen.getByText(en.habitFlow.next))
     fireEvent.click(screen.getByText(en.habitFlow.save))
-    expect(saved[0].cue).toBe(s.triggerSuggestionHe)
+    expect(saved[0]).toMatchObject({ cue: 'An hour before bed', habit: 'No phone an hour before bed' })
+  })
+
+  it('no minutes on a card when estimatedMinutes is 0', () => {
+    render(<HabitCreationFlow growthPillars={['discipline']} existingCount={0} onSave={() => {}} onClose={() => {}} />)
+    const s = getTopSuggestionsForPillars(['discipline'], 6).find(x => x.estimatedMinutes === 0)
+    expect(s.id).toBe('h_dis_03')
+    expect(screen.getByText(s.titleEn).nextSibling.textContent).toBe('When I wake up')
+  })
+})
+
+describe('habit suggestion data', () => {
+  const presets = Object.fromEntries(Object.entries(he.habitFlow.cues).filter(([id]) => id !== 'custom').map(([id, label]) => [label, id]))
+
+  it('every suggestion has an English title with no Hebrew', () => {
+    expect(HABIT_SUGGESTIONS).toHaveLength(75)
+    for (const s of HABIT_SUGGESTIONS) {
+      expect(s.titleEn, s.id).toBeTruthy()
+      expect(s.titleEn, s.id).not.toMatch(/[\u0590-\u05FF]/)
+    }
+  })
+
+  it('cue: a cueId whose Hebrew preset equals the Hebrew cue, or English text when no preset matches', () => {
+    for (const s of HABIT_SUGGESTIONS) {
+      if (s.cueId) {
+        expect(he.habitFlow.cues[s.cueId], s.id).toBe(s.triggerSuggestionHe)
+        expect(s.triggerSuggestionEn, s.id).toBeUndefined()
+      } else {
+        expect(presets[s.triggerSuggestionHe], s.id).toBeUndefined()
+        expect(s.triggerSuggestionEn, s.id).toBeTruthy()
+        expect(s.triggerSuggestionEn, s.id).not.toMatch(/[\u0590-\u05FF]/)
+      }
+    }
+    expect(HABIT_SUGGESTIONS.filter(s => s.cueId)).toHaveLength(28)
   })
 })
 
@@ -211,7 +248,22 @@ describe('Hebrew is unchanged', () => {
     expect(screen.getByText('כשאני מתעורר')).toHaveAttribute('aria-pressed', 'true')
     fireEvent.click(screen.getByText('המשך ←'))
     fireEvent.click(screen.getByText('הוסף הרגל ✓'))
-    expect(saved[0].cue).toBe('כשאני מתעורר')
+    expect(saved[0]).toMatchObject({ cue: 'כשאני מתעורר', habit: s.titleHe })
+  })
+
+  it('a suggestion with its own cue saves the Hebrew cue, as before', () => {
+    const s = HABIT_SUGGESTIONS.find(x => x.id === 'h_body_11')
+    const saved = []
+    render(<HabitCreationFlow growthPillars={[s.pillar]} existingCount={0} onSave={d => saved.push(d)} onClose={() => {}} prefill={s} />)
+    fireEvent.click(screen.getByText('המשך ←'))
+    fireEvent.click(screen.getByText('הוסף הרגל ✓'))
+    expect(saved[0]).toMatchObject({ cue: 'שעה לפני השינה', habit: 'אל תיגע בטלפון שעה לפני שינה' })
+  })
+
+  it('suggestion cards keep their Hebrew text; no minutes when 0', () => {
+    render(<HabitCreationFlow growthPillars={['discipline']} existingCount={0} onSave={() => {}} onClose={() => {}} />)
+    expect(screen.getByText("כשאני מתעורר · 5 דק'")).toBeInTheDocument()
+    expect(screen.getByText('ללא סושיאל מדיה עד 10:00').nextSibling.textContent).toBe('כשאני מתעורר')
   })
 
   it('lesson topic labels in he.js match data/dailyLessons.js', () => {
