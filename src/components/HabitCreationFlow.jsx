@@ -4,48 +4,47 @@ import { getPillar } from '../data/pillars'
 import { MAX_ACTIVE_HABITS, normalizeSchedule } from '../utils/habitSchedule'
 import HabitScheduleFields from './HabitScheduleFields'
 import { useLang } from '../context/LangContext'
-import { fmt } from '../i18n/fmt'
-import he from '../i18n/he'
+import { fmt, byLang } from '../i18n/fmt'
 
 // Cue presets, by id. Labels in t.habitFlow.cues; 'custom' opens a free-text field.
 const CUE_IDS = ['wake', 'bfast', 'phone', 'work', 'sleep', 'custom']
 
-// Suggestions carry a Hebrew cue (data/). Match it to a preset id so the preset is highlighted and the
-// cue is saved in the UI language. No match → keep the text as is (still Hebrew until suggestions are translated).
-function cueFromSuggestion(text) {
-  const id = CUE_IDS.find(c => c !== 'custom' && he.habitFlow.cues[c] === text)
-  return id ? { id, text: '' } : { id: '', text: text || '' }
+// A suggestion's cue is a preset (cueId → highlighted) or its own text (triggerSuggestionHe/En, saved in the UI language).
+function cueFromSuggestion(s) {
+  if (s?.cueId) return { id: s.cueId, sug: null }
+  return { id: '', sug: s?.triggerSuggestionHe ? s : null }
 }
 
 export default function HabitCreationFlow({ growthPillars, existingCount, onSave, onClose, prefill }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const tf = t.habitFlow
   // If prefill (from surprise mission), skip to step 2
   const hasPreFill = !!(prefill?.titleHe)
   const [step, setStep]       = useState(hasPreFill ? 2 : 0)
   const [selected, setSelected] = useState(hasPreFill ? prefill : null) // chosen suggestion or { titleHe, pillar }
   const [customTitle, setCustomTitle] = useState(prefill?.titleHe || '')
-  // cue.id: a preset id, 'custom' or '' · cue.text: a suggestion's cue that matches no preset
-  const [cue, setCue] = useState(() => cueFromSuggestion(prefill?.triggerSuggestionHe))
+  // cue.id: a preset id, 'custom' or '' · cue.sug: the suggestion whose own cue (not a preset) is kept
+  const [cue, setCue] = useState(() => cueFromSuggestion(prefill))
   const [customTrigger, setCustomTrigger] = useState('')
   const [schedule, setSchedule] = useState({ weekly: false, times: 3, days: [], time: '' })
 
   const activePillars = growthPillars?.length ? growthPillars : ['discipline', 'body']
   const suggestions = getTopSuggestionsForPillars(activePillars, 6)
   const atMax = existingCount >= MAX_ACTIVE_HABITS
-  const hasCue = !!(cue.id || cue.text)
+  const hasCue = !!(cue.id || cue.sug)
+  const title = selected ? byLang(selected, 'title', lang) : customTitle
 
   function handleSuggestionPick(s) {
     setSelected(s)
-    setCustomTitle(s.titleHe)
-    setCue(cueFromSuggestion(s.triggerSuggestionHe))
+    setCustomTitle(byLang(s, 'title', lang))
+    setCue(cueFromSuggestion(s))
     setStep(2)
   }
 
   function handleCustom() {
     setSelected(null)
     setCustomTitle('')
-    setCue({ id: '', text: '' })
+    setCue({ id: '', sug: null })
     setStep(1)
   }
 
@@ -56,8 +55,8 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
   }
 
   function handleSave() {
-    const finalTitle   = selected?.titleHe || customTitle.trim()
-    const finalTrigger = cue.id === 'custom' ? customTrigger.trim() : cue.id ? tf.cues[cue.id] : cue.text
+    const finalTitle   = title.trim()
+    const finalTrigger = cue.id === 'custom' ? customTrigger.trim() : cue.id ? tf.cues[cue.id] : cue.sug ? byLang(cue.sug, 'triggerSuggestion', lang) : ''
     if (!finalTitle) return
     onSave({
       cue:       finalTrigger || finalTitle,
@@ -128,9 +127,10 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
                       >
                         <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{pillar?.emoji || '⚡'}</span>
                         <div style={{ flex: 1, textAlign: 'start' }}>
-                          <div style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 700 }}>{s.titleHe}</div>
+                          <div style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 700 }}>{byLang(s, 'title', lang)}</div>
                           <div style={{ color: '#71717A', fontSize: '0.67rem', marginTop: '0.1rem' }}>
-                            {s.triggerSuggestionHe} · {fmt(tf.minutes, { n: s.estimatedMinutes })}
+                            {s.cueId ? tf.cues[s.cueId] : byLang(s, 'triggerSuggestion', lang)}
+                            {s.estimatedMinutes > 0 && ` · ${fmt(tf.minutes, { n: s.estimatedMinutes })}`}
                           </div>
                         </div>
                         <span style={{ color: '#71717A', fontSize: '0.8rem' }}>{tf.arrow}</span>
@@ -169,13 +169,13 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
         {/* STEP 2 — Trigger */}
         {step === 2 && (
           <div>
-            <div style={{ color: '#A4A6AD', fontSize: '0.82rem', fontWeight: 700, marginBottom: '0.1rem' }}>{selected?.titleHe || customTitle}</div>
+            <div style={{ color: '#A4A6AD', fontSize: '0.82rem', fontWeight: 700, marginBottom: '0.1rem' }}>{title}</div>
             <div style={{ color: '#71717A', fontSize: '0.7rem', marginBottom: '1rem' }}>{tf.cueQ}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1rem' }}>
               {CUE_IDS.map(id => (
                 <button
                   key={id}
-                  onClick={() => setCue({ id, text: '' })}
+                  onClick={() => setCue({ id, sug: null })}
                   aria-pressed={cue.id === id}
                   className="btn-tactile"
                   style={{
@@ -214,7 +214,7 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
         {/* STEP 3 — How often + optional days/time */}
         {step === 3 && (
           <div>
-            <div style={{ color: '#A4A6AD', fontSize: '0.82rem', fontWeight: 700, marginBottom: '1rem' }}>{selected?.titleHe || customTitle}</div>
+            <div style={{ color: '#A4A6AD', fontSize: '0.82rem', fontWeight: 700, marginBottom: '1rem' }}>{title}</div>
             <HabitScheduleFields value={schedule} onChange={setSchedule} />
             <button
               onClick={handleSave}

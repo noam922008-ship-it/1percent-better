@@ -2,8 +2,8 @@
 
 Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards), Phase 4 (Workouts
 tab), Phase 5 (Progress and Profile tabs) and Phase 6 (notifications + `lang` on the profile) done** — merged into
-`main` (`812d3fd`) and live with English off. **Phase 7 (legal pages)** on branch `feat/english-legal` (2026-10-11),
-not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
+`main` (`812d3fd`) and live with English off. **Phase 7 (legal pages)** merged into `main` (`a809de5`). **Content 1
+(habit suggestions)** on branch `feat/english-habit-suggestions` (2026-10-12), not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
 
@@ -116,11 +116,8 @@ Same branch. Files: `MyTasks`, `JournalCard`, `Journal`, `DailyLessonCard`, `Les
   sheet were checked by tests only, not by screenshot.
 
 Left on purpose (Phase 3):
-- **Habit suggestions** (`data/habitSuggestions.js`, 76 items: `titleHe`, `triggerSuggestionHe`) still show in Hebrew
-  in the English add-habit sheet. First item of the content phase.
-- **Suggestions whose cue doesn't match a preset still save Hebrew text for English users** (e.g. "שעה לפני השינה",
-  "בדיקה אחרי העבודה"): the cue is kept as the suggestion's text. Fixed when habit suggestions are translated (first
-  item of the content phase).
+- ~~**Habit suggestions** still show in Hebrew in the English add-habit sheet~~ — done in Content 1.
+- ~~**Suggestions whose cue doesn't match a preset still save Hebrew text for English users**~~ — fixed in Content 1.
 
 ## Phase 4 — Workouts tab and the screens it opens (done, 2026-10-09)
 
@@ -309,6 +306,34 @@ Owner's decision: translate faithfully, leave these to a legal review.
 9. **Israeli law / Jerusalem courts** — EU consumers usually keep their home-country protections; US-style warranty
    and liability wording is thin.
 
+## Content 1 — habit suggestions (2026-10-12, branch `feat/english-habit-suggestions`)
+
+Files: `src/data/habitSuggestions.js`, `src/components/HabitCreationFlow.jsx`, `src/__tests__/i18nHome.test.jsx`.
+
+- **Data:** all 75 items (not 76) have `titleEn`. Titles are short commands to "you"; cues stay first person like the
+  presets ("When I wake up"). Hebrew unchanged except, with the owner's OK: two titles fixed — `h_peo_08`
+  "כתוב אחד שאתה מכיר על מי שעזר לך" → "כתוב הודעה למישהו שעזר לך", `h_lif_01` "ציירתי משהו 5 דקות" → "צייר 5 דקות" —
+  and the three `אחרי העבודה` cues below.
+- **Cues by id (owner's decision):** 31 items have `cueId` (`wake` 8 · `bfast` 5 · `phone` 2 · `work` 3 ·
+  `sleep` 13); the card shows `t.habitFlow.cues[cueId]` and the preset is highlighted by id. No text comparison left
+  (`cueFromSuggestion` no longer imports `he`). The other 44 have `triggerSuggestionEn`. The three `אחרי העבודה` items
+  (`h_body_04`, `h_gro_11`, `h_peo_02`) now use the `work` preset (owner's decision): Hebrew shows and saves
+  `אחרי העבודה / הלימודים`, English "After work / school".
+- **Saving:** title and cue are saved in the UI language (`byLang`). Hebrew saves exactly what it saved before. Fixes the
+  Phase 3 bug: non-preset cues saved Hebrew for English users.
+- **Card:** `{cue} · {n} min`, all one language, so the mixed bidi line is gone. **No minutes when
+  `estimatedMinutes` is 0** (12 items), both languages (owner's OK) — the only Hebrew display change.
+- **Not changed:** `Dashboard.hasDuplicateHabit` compares a new habit's text with the user's own saved habits, so a
+  user who saved a suggestion in Hebrew, switched to English and picked it again isn't flagged as a duplicate.
+- **Tests** (`i18nHome.test.jsx`, 15 → 21): English sheet has no Hebrew (suggestion exclusion removed); cards in
+  English; preset cue highlighted + English title/cue saved; own cue saved in English; no minutes at 0 in both
+  languages; Hebrew own cue still saved in Hebrew; data: 75 items, every `titleEn` / `triggerSuggestionEn` free of
+  Hebrew, `cueId` ⇔ Hebrew cue equals that preset, no item without `cueId` has a preset's Hebrew text, 31 `cueId`s.
+  `npm test`: 35 files / 589 tests. `npm run build` OK. Lint clean on the 3 files.
+- **390px check (dev, guest, headless):** add-habit sheet in English (ltr, "When I wake up · 5 min", no minutes on
+  "No social media before 10 AM") and Hebrew (rtl, same text as before, minutes hidden on the 0-minute item). No
+  horizontal scroll, no page errors.
+
 ## Blockers before `FEATURES.english = true`
 
 - **GA consent (EU).** Today GA4 starts on landing (`src/services/analytics.js`) and sets cookies with no consent.
@@ -361,8 +386,7 @@ Owner's decision: translate faithfully, leave these to a legal review.
    9. **Before launch** — privacy policy mentions push tokens; real E2E with `sendTestNotification` on Android and an
       installed iPhone app.
 8. **Content** — in this order:
-   1. **Habit suggestions** (`data/habitSuggestions.js`, 76 short items) — first: they're short and on the first-habit
-      path. Also fixes suggestions whose cue matches no preset saving Hebrew text for English users (Phase 3).
+   1. ~~**Habit suggestions**~~ — done (Content 1, 2026-10-12).
    2. **Daily lessons** — 35 lessons (`data/dailyLessons.js`), plus topic `desc`.
    3. **Workouts** — boxing / Muay Thai instructions, coaching cues, safety notes, goals, technique names (ids
       first) and TrainingMode's coach lines (~9k words, table in Phase 4). Titles are already done.
