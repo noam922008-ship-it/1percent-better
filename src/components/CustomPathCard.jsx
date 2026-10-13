@@ -69,7 +69,7 @@ function HabitRow({ item, todayAction, checked, onToggle }) {
         background: checked ? `${item.color}0e` : 'rgba(255,255,255,0.025)',
         border: `1px solid ${checked ? `${item.color}40` : 'rgba(255,255,255,0.07)'}`,
         borderRadius: 12, cursor: 'pointer',
-        textAlign: 'right', width: '100%',
+        textAlign: 'start', width: '100%',
         transition: 'all 0.18s ease',
       }}
     >

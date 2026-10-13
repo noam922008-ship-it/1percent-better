@@ -500,7 +500,6 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
 
   return (
     <div
-      dir="rtl"
       style={{
         position: 'fixed', inset: 0, zIndex: 5500,
         background: '#09090b',
@@ -645,7 +644,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
                   onClick={() => selectProtocol(p)}
                   className="btn-tactile"
                   style={{
-                    width: '100%', textAlign: 'right', padding: '1rem',
+                    width: '100%', textAlign: 'start', padding: '1rem',
                     background: 'rgba(255,255,255,0.025)',
                     border: '1px solid rgba(255,255,255,0.09)',
                     borderRadius: 16, cursor: 'pointer',

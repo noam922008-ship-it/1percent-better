@@ -51,7 +51,7 @@ export default function HobbyReflection({ dayNum, onSave, onClose }) {
                 color: picked === r.id ? r.color : '#A4A6AD',
                 fontSize: '0.92rem', fontWeight: 700,
                 cursor: 'pointer',
-                display: 'flex', alignItems: 'center', gap: '0.65rem', textAlign: 'right',
+                display: 'flex', alignItems: 'center', gap: '0.65rem', textAlign: 'start',
               }}
             >
               <span style={{ fontSize: '1.3rem' }}>{r.emoji}</span>

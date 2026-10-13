@@ -176,7 +176,7 @@ export default function ArenaPage({ uid, userName, isGuest }) {
   }, [uid, isGuest])
 
   return (
-    <div dir="rtl" style={{ minHeight: '100svh', paddingBottom: TAB_H + 16 }}>
+    <div style={{ minHeight: '100svh', paddingBottom: TAB_H + 16 }}>
       {/* Header */}
       <div style={{ padding: '1.5rem 1.25rem 0.5rem', background: '#09090b', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.3rem' }}>

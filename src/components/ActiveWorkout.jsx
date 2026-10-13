@@ -368,7 +368,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
         borderRadius: 14, padding: '0.5rem 0.8rem',
         backdropFilter: 'blur(10px)',
         border: '1px solid rgba(245,197,24,0.22)',
-        cursor: 'pointer', textAlign: 'left',
+        cursor: 'pointer', textAlign: 'end',
         minWidth: 90,
       }}
     >

@@ -204,11 +204,11 @@ function TechDebtReport({ punches, errorLog, duration, onSave }) {
               <div key={type} style={{ marginBottom: '0.55rem' }}>
                 <button
                   onClick={() => setExpandedDrill(isOpen ? null : type)}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: `1px solid ${isOpen ? meta.color + '55' : 'rgba(255,255,255,0.07)'}`, borderRadius: 12, padding: '0.65rem 0.85rem', cursor: 'pointer', textAlign: 'right' }}
+                  style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: `1px solid ${isOpen ? meta.color + '55' : 'rgba(255,255,255,0.07)'}`, borderRadius: 12, padding: '0.65rem 0.85rem', cursor: 'pointer', textAlign: 'start' }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                     <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{meta.emoji}</span>
-                    <div style={{ flex: 1, textAlign: 'right' }}>
+                    <div style={{ flex: 1, textAlign: 'start' }}>
                       <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.82rem' }}>{meta.label.replace('!', '')}</div>
                       <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.65rem' }}>
                         {data.count}× {topPunch ? `— בעיקר ב${PUNCH_LABELS_HE[topPunch] || topPunch}` : ''}

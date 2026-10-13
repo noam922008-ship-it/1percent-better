@@ -160,7 +160,7 @@ function CourseQuiz({ onComplete, onSkip }) {
             key={opt.id}
             onClick={() => handleAnswer(opt.id)}
             className="btn-tactile"
-            style={{ display: 'flex', alignItems: 'center', gap: '0.95rem', padding: '1rem 1.2rem', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', cursor: 'pointer', width: '100%', textAlign: 'right' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.95rem', padding: '1rem 1.2rem', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', cursor: 'pointer', width: '100%', textAlign: 'start' }}
           >
             <span style={{ fontSize: '1.35rem', flexShrink: 0 }}>{opt.emoji}</span>
             <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.9rem', flex: 1 }}>{opt.text}</span>
@@ -716,7 +716,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                       </div>
                     )}
                   </div>
-                  <div style={{ flexShrink: 0, textAlign: 'right' }}>
+                  <div style={{ flexShrink: 0, textAlign: 'start' }}>
                     <div style={{ color: ch.color, fontSize: '0.68rem', fontWeight: 800 }}>+{ch.xpPerDay} XP</div>
                     <div style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.58rem' }}>/ יום</div>
                     <div style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.58rem', marginTop: '0.22rem' }}>{ch.days} שיעורים →</div>
@@ -828,7 +828,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                 style={{
                   width: '100%', background: 'none', border: 'none', cursor: 'pointer',
                   padding: '0.85rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
-                  textAlign: 'right',
+                  textAlign: 'start',
                 }}
               >
                 <span style={{ fontSize: '1.35rem', flexShrink: 0 }}>{slot.icon}</span>
@@ -867,7 +867,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                             background: checked ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)',
                             border: `1px solid ${checked ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)'}`,
                             borderRadius: 10, padding: '0.55rem 0.65rem',
-                            cursor: 'pointer', textAlign: 'right', width: '100%',
+                            cursor: 'pointer', textAlign: 'start', width: '100%',
                             transition: 'all 0.15s ease',
                           }}
                         >

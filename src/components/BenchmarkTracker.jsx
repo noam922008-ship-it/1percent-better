@@ -70,7 +70,7 @@ function BenchmarkModal({ existing, color, onSave, onDelete, onClose }) {
           onChange={e => setLabel(e.target.value)}
           placeholder="לדוגמה: שכיבות סמיכה, ריצת 1 ק״מ..."
           className="glow-input"
-          style={{ ...inputStyle, marginBottom: '1.1rem', direction: 'rtl' }}
+          style={{ ...inputStyle, marginBottom: '1.1rem' }}
         />
 
         {/* Unit */}

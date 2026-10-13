@@ -21,8 +21,7 @@ const card = {
   border: '1px solid rgba(255,255,255,0.07)',
   borderRadius: '22px 28px 24px 26px',
   padding: '2.5rem 2rem 2rem',
-  direction: 'rtl',
-  textAlign: 'right',
+  textAlign: 'start',
 }
 
 const emojiBox = {
