@@ -8,7 +8,7 @@ import { getTopSuggestionsForPillars, HABIT_SUGGESTIONS } from '../data/habitSug
 
 // Phase 3: Home's remaining cards (My Tasks, "הראש שלי", daily lesson, week strip) and the add-habit flow
 // have no Hebrew UI left when English is on. Habit suggestions are English; daily lessons are English where translated
-// (batch 1: brain + communication), the rest still Hebrew.
+// (brain, communication, creativity, money), technology still Hebrew.
 const lang = { current: 'en' }
 vi.mock('../context/LangContext', () => ({
   useLang: () => ({ lang: lang.current, setLang: () => {}, t: lang.current === 'en' ? en : he, englishEnabled: true }),
@@ -266,7 +266,7 @@ function openLesson(id) {
   return r
 }
 
-describe('daily lesson content in English (batch 1)', () => {
+describe('daily lesson content in English', () => {
   it('a translated lesson is fully English, example included', () => {
     const l = LESSON_BY_ID.brain_1
     const { container } = openLesson('brain_1')
@@ -283,8 +283,8 @@ describe('daily lesson content in English (batch 1)', () => {
   })
 
   it('an untranslated lesson falls back to Hebrew', () => {
-    openLesson('money_1')
-    expect(screen.getAllByText(LESSON_BY_ID.money_1.titleHe).length).toBeGreaterThan(0)
+    openLesson('tech_1')
+    expect(screen.getAllByText(LESSON_BY_ID.tech_1.titleHe).length).toBeGreaterThan(0)
   })
 })
 

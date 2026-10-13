@@ -269,10 +269,10 @@ describe('duplicate XP prevention', () => {
   })
 })
 
-// ── 9. Lesson content: English (batch 1) and the agreed fact fixes ──
+// ── 9. Lesson content: English (brain, communication, creativity, money) and the agreed fact fixes ──
 
 const TEXT_FIELDS = ['title', 'summary', 'idea', 'explanation', 'example', 'question', 'answer', 'action']
-const TRANSLATED  = ['brain_1', 'brain_2', 'brain_3', 'brain_4', 'brain_5', 'brain_6', 'comm_1', 'comm_2', 'comm_3', 'comm_4', 'comm_5', 'comm_6']
+const TRANSLATED  = ['brain', 'comm', 'creativity', 'money'].flatMap(t => [1, 2, 3, 4, 5, 6].map(n => `${t}_${n}`))
 const HEBREW = /[\u0590-\u05FF]/
 
 describe('lesson content', () => {
@@ -286,7 +286,7 @@ describe('lesson content', () => {
     expect(DAILY_LESSONS.filter(l => !l.exampleHe).map(l => l.id)).toEqual(['brain_4'])
   })
 
-  it('batch 1 has all 8 English fields with no Hebrew; other lessons have none yet', () => {
+  it('translated lessons have all 8 English fields with no Hebrew; technology has none yet', () => {
     for (const l of DAILY_LESSONS) {
       const translated = TRANSLATED.includes(l.id)
       for (const f of TEXT_FIELDS) {
@@ -311,5 +311,42 @@ describe('lesson content', () => {
     expect(brain_5.exampleHe).toContain('עדות')
     expect(brain_5.exampleHe).not.toContain('הוכחה')
     expect(brain_5.exampleEn).toContain('evidence')
+  })
+
+  it('money: no currency symbols in either language; agreed fixes in both', () => {
+    const money = DAILY_LESSONS.filter(l => l.topicId === 'money')
+    for (const l of money) for (const f of TEXT_FIELDS) {
+      expect(l[`${f}He`], `${l.id} ${f}He`).not.toMatch(/₪|\$/)
+      expect(l[`${f}En`], `${l.id} ${f}En`).not.toMatch(/₪|\$/)
+    }
+    const { money_1, money_5, money_6 } = LESSON_BY_ID
+    expect(money_1.answerHe).toContain('כמעט פי 2')
+    expect(money_1.answerEn).toContain('almost twice as much')
+    expect(money_1.answerHe + money_1.answerEn).not.toMatch(/4x/)
+    expect(money_1.exampleEn).toContain('a third less money')
+    expect(money_5.exampleHe + money_5.exampleEn).not.toMatch(/2020|2024/)
+    expect(money_6.exampleHe).toContain('כ-30,000')
+    expect(money_6.exampleEn).toContain('about 30,000')
+    expect(money_6.actionHe).toContain('זה לא ייעוץ השקעות')
+    expect(money_6.actionEn).toContain("This isn't investment advice")
+  })
+
+  it('creativity and money are universal in both languages: no currency, no Israel-specific references', () => {
+    const LOCAL = /₪|\$|ישראל|תל אביב|ת"א|ארנונה|ועד בית|shekel|Israel|Tel Aviv/
+    for (const l of DAILY_LESSONS.filter(x => ['creativity', 'money'].includes(x.topicId))) {
+      for (const f of TEXT_FIELDS) for (const lang of ['He', 'En']) {
+        expect(l[`${f}${lang}`], `${l.id} ${f}${lang}`).not.toMatch(LOCAL)
+      }
+    }
+  })
+
+  it('creativity: agreed changes in both languages', () => {
+    const { creativity_4, creativity_5 } = LESSON_BY_ID
+    expect(creativity_4.exampleHe + creativity_4.exampleEn).not.toMatch(/shitty|"bad first draft"/i)
+    expect(creativity_4.exampleEn).toMatch(/^The writer Anne Lamott allows herself a bad first draft, on purpose\./)
+    expect(creativity_4.exampleHe).toMatch(/^הסופרת Anne Lamott/)
+    expect(creativity_5.titleEn).toBe('Rest mode: why ideas come in the shower')
+    expect(creativity_5.exampleHe).toContain('3M (15%)')
+    expect(creativity_5.exampleEn).toContain('3M (15%) and Google (20%)')
   })
 })

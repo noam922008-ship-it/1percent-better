@@ -3,8 +3,8 @@
 Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards), Phase 4 (Workouts
 tab), Phase 5 (Progress and Profile tabs) and Phase 6 (notifications + `lang` on the profile) done** — merged into
 `main` (`812d3fd`) and live with English off. **Phase 7 (legal pages)** merged into `main` (`a809de5`). **Content 1
-(habit suggestions)** merged into `main` (`ed2db35`), not deployed. **Content 2 (daily lessons, batch 1: brain +
-communication)** on branch `feat/english-daily-lessons` (2026-10-13), not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
+(habit suggestions)** merged into `main` (`ed2db35`), not deployed. **Content 2 (daily lessons: brain, communication,
+creativity, money — 24 of 30)** on branch `feat/english-daily-lessons` (2026-10-13), not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
 
@@ -343,10 +343,11 @@ Real size: **30 lessons** (5 topics × 6), **~4,700 Hebrew words** — not 35 / 
 
 | Batch | Topic | Lessons | Status |
 |---|---|---|---|
-| 1 | brain + communication | `brain_1-6`, `comm_1-6` | done (this branch) |
-| 2 | creativity | `creativity_1-6` | next — one ₪ amount (`creativity_3`) |
-| 3 | technology | `tech_1-6` | ChatGPT / Claude / GPT mentions — check claims are current |
-| 4 | money | `money_1-6` | needs owner decisions first: ₪ vs universal ($, generic terms; Israel-specific: ת"א-125, ארנונה, ועד בית, pension, Israel's inflation) and the `money_1` fact fix ("more than 4x" → about 2x) |
+| 1 | brain + communication | `brain_1-6`, `comm_1-6` | done, committed (`4e83dab`) |
+| 2 | creativity | `creativity_1-6` | done (owner-approved changes below) |
+| 3 | money | `money_1-6` | done (owner-approved changes below) |
+| 4 | technology | `tech_1-6` | not started — ChatGPT / Claude / GPT mentions, check claims are current |
+| — | Hebrew typos/grammar in brain + communication | `brain_*`, `comm_*` | prepared as a separate patch, waiting for the owner's OK (separate commit) |
 
 Batch 1:
 - **Data:** 12 lessons have all 8 `*En` fields, after the Hebrew ones. Titles in sentence case, `→` arrows, "cue"
@@ -368,6 +369,32 @@ Batch 1:
   both languages, untranslated lesson falls back to Hebrew, notes page in both languages), new
   `lessonNotes.test.js` (copy in Hebrew unchanged, English fields when shown in English, edit keeps the copy).
   `npm test`: 38 files / 619 tests. `npm run build` OK.
+
+### Creativity + money (2026-10-13)
+
+**Rule change (owner): content is universal in BOTH languages, and the Hebrew must be flawless.**
+
+- **Money — Option C:** numbers kept, no currency symbol, in both languages (₪ and $ removed from the Hebrew too).
+  Israel-specific references removed from the Hebrew as well: "בישראל" (money_3), ת"א-125 and the Tel Aviv 125 fund
+  (money_6), ארנונה / ועד בית → מיסי נכס / דמי ניהול לבניין (money_4), Israel's inflation and "the central bank"
+  (money_5 → "most central banks").
+- **Money fact fixes (both languages):** money_1 "more than 4x" → "almost twice as much (about 150,000 vs. 76,000)";
+  money_1 example "much more" → "more — with a third less money put in"; money_6 "~25,000 $" → "about 30,000"
+  (recalculated ≈ 31,700); money_5 "2020 … 2024" → "a few years ago … today"; money_6 action ends with "This isn't
+  investment advice" / "זה לא ייעוץ השקעות".
+- **Creativity (both languages):** 3M (15%) and Google (20%); Anne Lamott line → "The writer Anne Lamott allows herself
+  a bad first draft, on purpose." / "הסופרת Anne Lamott…" (no quotes, no profanity); creativity_2 "מורה בן 65"; creativity_5 retitled "Rest mode: why ideas come in the shower"
+  / "מצב מנוחה: למה רעיונות מגיעים במקלחת"; doubtful facts softened (IDEO timings → "a few minutes / a separate round",
+  IDEO cart → "how different people actually shop", Archimedes / Newton → "as the stories go", Swatch → "turned the
+  watch into a fashion accessory", Dogma 95 → "one of them is considered one of the best films ever made" — **marked
+  for the owner**); creativity_3 budget constraint without currency in both languages.
+- **Hebrew proofread** of every creativity and money field: spelling, grammar and natural phrasing, meaning unchanged.
+  money_1 "המספר הגדול ביותר" → "הגורם החשוב ביותר" (English: "the most important factor").
+- **Open for the owner:** creativity_3 Dogma 95 wording; comm_1 "אין ברירות ברורות" and "לסיים 3 מחשבות" (two readings
+  each, owner to choose).
+- **Tests** (`dailyLesson.test.js`): 24 translated lessons; money and creativity changes in both languages; no
+  currency or Israel-specific terms in creativity + money, either language. "Falls back to Hebrew" tests use `tech_1`.
+  `npm test`: 38 files / 622 tests.
 
 ## Blockers before `FEATURES.english = true`
 
@@ -442,8 +469,8 @@ Batch 1:
       installed iPhone app.
 8. **Content** — in this order:
    1. ~~**Habit suggestions**~~ — done (Content 1, 2026-10-12).
-   2. **Daily lessons** — 30 lessons (`data/dailyLessons.js`), by topic: batch 1 (brain + communication) done in
-      Content 2; creativity, technology, money left.
+   2. **Daily lessons** — 30 lessons (`data/dailyLessons.js`), by topic: brain, communication, creativity, money done
+      in Content 2; technology left.
    3. **Workouts** — boxing / Muay Thai instructions, coaching cues, safety notes, goals, technique names (ids
       first) and TrainingMode's coach lines (~9k words, table in Phase 4). Titles are already done.
 
