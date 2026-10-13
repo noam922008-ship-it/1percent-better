@@ -347,7 +347,7 @@ Real size: **30 lessons** (5 topics × 6), **~4,700 Hebrew words** — not 35 / 
 | 2 | creativity | `creativity_1-6` | done (owner-approved changes below) |
 | 3 | money | `money_1-6` | done (owner-approved changes below) |
 | 4 | technology | `tech_1-6` | not started — ChatGPT / Claude / GPT mentions, check claims are current |
-| — | Hebrew typos/grammar in brain + communication | `brain_*`, `comm_*` | prepared as a separate patch, waiting for the owner's OK (separate commit) |
+| — | Hebrew typos/grammar in brain + communication | `brain_*`, `comm_*` | done (separate commit) |
 
 Batch 1:
 - **Data:** 12 lessons have all 8 `*En` fields, after the Hebrew ones. Titles in sentence case, `→` arrows, "cue"
@@ -390,8 +390,17 @@ Batch 1:
   for the owner**); creativity_3 budget constraint without currency in both languages.
 - **Hebrew proofread** of every creativity and money field: spelling, grammar and natural phrasing, meaning unchanged.
   money_1 "המספר הגדול ביותר" → "הגורם החשוב ביותר" (English: "the most important factor").
-- **Open for the owner:** creativity_3 Dogma 95 wording; comm_1 "אין ברירות ברורות" and "לסיים 3 מחשבות" (two readings
-  each, owner to choose).
+- **Open for the owner:** creativity_3 Dogma 95 wording.
+
+### Brain + communication Hebrew (2026-10-13, separate commit)
+
+- Spelling, grammar and phrasing fixed in all 12 lessons, meaning unchanged: "לביל בחוגגים", "שרירות", "שחוקק",
+  "שנאפשר", "בריאיינים", "ומצרכת", "לאדש", "שטח" → "שטוח" / "ריקנות", "לייהנות", "מלים", "מגע עין" and more.
+  brain_1's Hebrew arrows now point right-to-left.
+- **Owner's decisions:** brain_2 "ויתור עצמי"; brain_6 dopamine is a "נוירוטרנסמיטר" / "neurotransmitter" (title keeps
+  "הורמון ההנאה" in quotes as the popular myth); comm_5 NVC (was CNV); **comm_1 — reading B everywhere:** the example
+  says "אין בהירות" / "there's no clarity", the action is "סכם במילים שלך 3 דברים שבן השיח אמר" / "sum up three things
+  the other person said in your own words", matching the explanation (reflecting).
 - **Tests** (`dailyLesson.test.js`): 24 translated lessons; money and creativity changes in both languages; no
   currency or Israel-specific terms in creativity + money, either language. "Falls back to Hebrew" tests use `tech_1`.
   `npm test`: 38 files / 622 tests.
