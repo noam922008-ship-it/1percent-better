@@ -5,10 +5,11 @@ import he from '../i18n/he'
 import en from '../i18n/en'
 import { LESSON_TOPICS, DAILY_LESSONS, LESSON_BY_ID } from '../data/dailyLessons'
 import { getTopSuggestionsForPillars, HABIT_SUGGESTIONS } from '../data/habitSuggestions'
+import { byLang } from '../i18n/fmt'
 
 // Phase 3: Home's remaining cards (My Tasks, "הראש שלי", daily lesson, week strip) and the add-habit flow
 // have no Hebrew UI left when English is on. Habit suggestions are English; daily lessons are English where translated
-// (brain, communication, creativity, money), technology still Hebrew.
+// (all 30 lessons: brain, communication, creativity, money, technology).
 const lang = { current: 'en' }
 vi.mock('../context/LangContext', () => ({
   useLang: () => ({ lang: lang.current, setLang: () => {}, t: lang.current === 'en' ? en : he, englishEnabled: true }),
@@ -282,9 +283,10 @@ describe('daily lesson content in English', () => {
     expect(hebrewIn(container)).toEqual([])
   })
 
-  it('an untranslated lesson falls back to Hebrew', () => {
-    openLesson('tech_1')
-    expect(screen.getAllByText(LESSON_BY_ID.tech_1.titleHe).length).toBeGreaterThan(0)
+  it('an untranslated field falls back to Hebrew', () => {
+    expect(byLang({ titleHe: 'כותרת', titleEn: '' }, 'title', 'en')).toBe('כותרת')
+    expect(byLang({ titleHe: 'כותרת' }, 'title', 'en')).toBe('כותרת')
+    expect(byLang({ titleHe: 'כותרת', titleEn: 'Title' }, 'title', 'en')).toBe('Title')
   })
 })
 

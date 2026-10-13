@@ -34,7 +34,8 @@ describe('lesson copy saved with a note', () => {
   })
 
   it('shown in English, lesson not translated yet: Hebrew only (the page falls back to it)', () => {
-    expect(Object.keys(lessonSnapshot(LESSON_BY_ID.tech_1, 'en')).sort()).toEqual([...HE_KEYS].sort())
+    const untranslated = Object.fromEntries(Object.entries(LESSON_BY_ID.tech_1).filter(([k]) => !k.endsWith('En')))
+    expect(Object.keys(lessonSnapshot(untranslated, 'en')).sort()).toEqual([...HE_KEYS].sort())
   })
 
   it('an empty English example is kept empty, not filled from Hebrew', () => {

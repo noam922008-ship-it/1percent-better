@@ -272,7 +272,7 @@ describe('duplicate XP prevention', () => {
 // ── 9. Lesson content: English (brain, communication, creativity, money) and the agreed fact fixes ──
 
 const TEXT_FIELDS = ['title', 'summary', 'idea', 'explanation', 'example', 'question', 'answer', 'action']
-const TRANSLATED  = ['brain', 'comm', 'creativity', 'money'].flatMap(t => [1, 2, 3, 4, 5, 6].map(n => `${t}_${n}`))
+const TRANSLATED  = ['brain', 'comm', 'creativity', 'money', 'tech'].flatMap(t => [1, 2, 3, 4, 5, 6].map(n => `${t}_${n}`))
 const HEBREW = /[\u0590-\u05FF]/
 
 describe('lesson content', () => {
@@ -286,7 +286,7 @@ describe('lesson content', () => {
     expect(DAILY_LESSONS.filter(l => !l.exampleHe).map(l => l.id)).toEqual(['brain_4'])
   })
 
-  it('translated lessons have all 8 English fields with no Hebrew; technology has none yet', () => {
+  it('every lesson has all 8 English fields with no Hebrew', () => {
     for (const l of DAILY_LESSONS) {
       const translated = TRANSLATED.includes(l.id)
       for (const f of TEXT_FIELDS) {

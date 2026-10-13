@@ -3,8 +3,8 @@
 Status: **Phase 1 (infrastructure), Phase 2 (first-run flow), Phase 3 (Home's remaining cards), Phase 4 (Workouts
 tab), Phase 5 (Progress and Profile tabs) and Phase 6 (notifications + `lang` on the profile) done** — merged into
 `main` (`812d3fd`) and live with English off. **Phase 7 (legal pages)** merged into `main` (`a809de5`). **Content 1
-(habit suggestions)** merged into `main` (`ed2db35`), not deployed. **Content 2 (daily lessons: brain, communication,
-creativity, money — 24 of 30)** on branch `feat/english-daily-lessons` (2026-10-13), not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
+(habit suggestions)** merged into `main` (`ed2db35`), not deployed. **Content 2 (daily lessons: all 30 — brain, communication,
+creativity, money, technology)** on branch `feat/english-daily-lessons` (2026-10-13), not merged, not deployed. **Blockers before `FEATURES.english = true`:** see "Blockers" below.
 English is behind `FEATURES.english = false`, so production stays Hebrew + rtl. Originally written from the
 codebase as of 2026-09-30 (decided then: not now).
 
@@ -346,7 +346,7 @@ Real size: **30 lessons** (5 topics × 6), **~4,700 Hebrew words** — not 35 / 
 | 1 | brain + communication | `brain_1-6`, `comm_1-6` | done, committed (`4e83dab`) |
 | 2 | creativity | `creativity_1-6` | done (owner-approved changes below) |
 | 3 | money | `money_1-6` | done (owner-approved changes below) |
-| 4 | technology | `tech_1-6` | not started — ChatGPT / Claude / GPT mentions, check claims are current |
+| 4 | technology | `tech_1-6` | done (owner-approved; 12 fact fixes in both languages, brand names kept, Integromat → Make) |
 | — | Hebrew typos/grammar in brain + communication | `brain_*`, `comm_*` | done (separate commit) |
 
 Batch 1:
@@ -402,7 +402,7 @@ Batch 1:
   says "אין בהירות" / "there's no clarity", the action is "סכם במילים שלך 3 דברים שבן השיח אמר" / "sum up three things
   the other person said in your own words", matching the explanation (reflecting).
 - **Tests** (`dailyLesson.test.js`): 24 translated lessons; money and creativity changes in both languages; no
-  currency or Israel-specific terms in creativity + money, either language. "Falls back to Hebrew" tests use `tech_1`.
+  currency or Israel-specific terms in creativity + money, either language. "Falls back to Hebrew" tests no longer use a lesson: all 30 are translated, so they check `byLang` and a copy with the English fields removed.
   `npm test`: 38 files / 622 tests.
 
 ## Blockers before `FEATURES.english = true`
