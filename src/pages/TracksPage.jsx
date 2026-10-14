@@ -6,6 +6,7 @@ import { saveProfile } from '../services/focusTriggerService'
 import { CHALLENGES, CHALLENGE_WEEKS, LESSON_TYPES, getDayTask, getLessonType, getModuleIndex } from '../data/challenges'
 import { getDayContent, hasEnglishLesson } from '../data/lessonContent'
 import { useLang } from '../context/LangContext'
+import { byLang } from '../i18n/fmt'
 import BenchmarkTracker from '../components/BenchmarkTracker'
 import { getEvolution, isEvolved, UNLOCK_AT } from '../data/trackEvolution'
 import { getTrackDay } from '../utils/trackDay'
@@ -18,30 +19,30 @@ const QUIZ_KEY = 'prime_track_quiz'
 const QUIZ_QUESTIONS = [
   {
     step: 1, emoji: '🎯',
-    question: 'What is your main goal?',
+    questionHe: 'מה המטרה הראשית שלך?', questionEn: 'What is your main goal?',
     options: [
-      { id: 'finance',  emoji: '📈', text: 'Financial growth and trading' },
-      { id: 'physical', emoji: '💪', text: 'Physical discipline and strength' },
-      { id: 'business', emoji: '💼', text: 'Business and entrepreneurship' },
-      { id: 'tech',     emoji: '🤖', text: 'Technology and AI' },
+      { id: 'finance',  emoji: '📈', textHe: 'צמיחה פיננסית ומסחר', textEn: 'Financial growth and trading' },
+      { id: 'physical', emoji: '💪', textHe: 'משמעת גופנית וכוח', textEn: 'Physical discipline and strength' },
+      { id: 'business', emoji: '💼', textHe: 'עסקים ויזמות', textEn: 'Business and entrepreneurship' },
+      { id: 'tech',     emoji: '🤖', textHe: 'טכנולוגיה ו-AI', textEn: 'Technology and AI' },
     ],
   },
   {
     step: 2, emoji: '⚡',
-    question: 'How do you learn best?',
+    questionHe: 'איך אתה לומד הכי טוב?', questionEn: 'How do you learn best?',
     options: [
-      { id: 'practical', emoji: '🔧', text: 'Immediate application — tools and doing' },
-      { id: 'deep',      emoji: '📚', text: 'Deep understanding — principles first' },
-      { id: 'challenge', emoji: '🔥', text: 'Challenge — straight to the deep end' },
+      { id: 'practical', emoji: '🔧', textHe: 'יישום מיידי — כלים ועשייה', textEn: 'Immediate application — tools and doing' },
+      { id: 'deep',      emoji: '📚', textHe: 'הבנה עמוקה — עקרונות קודם', textEn: 'Deep understanding — principles first' },
+      { id: 'challenge', emoji: '🔥', textHe: 'אתגר — ישר לעומק', textEn: 'Challenge — straight to the deep end' },
     ],
   },
   {
     step: 3, emoji: '🚀',
-    question: 'What is your experience level?',
+    questionHe: 'מה רמת הניסיון שלך?', questionEn: 'What is your experience level?',
     options: [
-      { id: 'beginner',     emoji: '🌱', text: 'Beginner — building a foundation' },
-      { id: 'intermediate', emoji: '⚡', text: 'Intermediate — want to move forward' },
-      { id: 'advanced',     emoji: '🚀', text: 'Advanced — want to master it' },
+      { id: 'beginner',     emoji: '🌱', textHe: 'מתחיל — בונה בסיס', textEn: 'Beginner — building a foundation' },
+      { id: 'intermediate', emoji: '⚡', textHe: 'בינוני — רוצה להתקדם', textEn: 'Intermediate — want to move forward' },
+      { id: 'advanced',     emoji: '🚀', textHe: 'מתקדם — רוצה לשלוט', textEn: 'Advanced — want to master it' },
     ],
   },
 ]
@@ -90,6 +91,7 @@ function saveQuizData(recs) {
 // ── Course Quiz ────────────────────────────────────────────────────
 
 function CourseQuiz({ onComplete, onSkip }) {
+  const { lang } = useLang()
   const [step,      setStep]      = useState(0)
   const [answers,   setAnswers]   = useState([])
   const [revealing, setRevealing] = useState(false)
@@ -116,9 +118,9 @@ function CourseQuiz({ onComplete, onSkip }) {
       <div style={{ padding: '2.5rem 0', animation: 'fadeIn 0.4s ease' }}>
         <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
           <div style={{ fontSize: '2.4rem', marginBottom: '0.65rem' }}>✨</div>
-          <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.2rem', margin: '0 0 0.4rem' }}>We found your tracks</h2>
+          <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.2rem', margin: '0 0 0.4rem' }}>{lang === 'en' ? 'We found your tracks' : 'מצאנו את המסלולים שלך'}</h2>
           <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.8rem', margin: 0, lineHeight: 1.6 }}>
-            3 tracks that match your goals
+            {lang === 'en' ? '3 tracks that match your goals' : '3 מסלולים שמתאימים בדיוק למטרות שלך'}
           </p>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
@@ -150,8 +152,8 @@ function CourseQuiz({ onComplete, onSkip }) {
       {/* Question */}
       <div style={{ marginBottom: '1.85rem' }}>
         <div style={{ fontSize: '2rem', marginBottom: '0.65rem', lineHeight: 1 }}>{q.emoji}</div>
-        <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.2rem', margin: '0 0 0.3rem', lineHeight: 1.3 }}>{q.question}</h2>
-        <p style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.72rem', margin: 0 }}>Step {q.step} of {QUIZ_QUESTIONS.length}</p>
+        <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.2rem', margin: '0 0 0.3rem', lineHeight: 1.3 }}>{byLang(q, 'question', lang)}</h2>
+        <p style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.72rem', margin: 0 }}>{lang === 'en' ? `Step ${q.step} of ${QUIZ_QUESTIONS.length}` : `שלב ${q.step} מתוך ${QUIZ_QUESTIONS.length}`}</p>
       </div>
 
       {/* Options */}
@@ -164,7 +166,7 @@ function CourseQuiz({ onComplete, onSkip }) {
             style={{ display: 'flex', alignItems: 'center', gap: '0.95rem', padding: '1rem 1.2rem', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', cursor: 'pointer', width: '100%', textAlign: 'start' }}
           >
             <span style={{ fontSize: '1.35rem', flexShrink: 0 }}>{opt.emoji}</span>
-            <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.9rem', flex: 1 }}>{opt.text}</span>
+            <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.9rem', flex: 1 }}>{byLang(opt, 'text', lang)}</span>
             <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.85rem', flexShrink: 0 }}>→</span>
           </button>
         ))}
@@ -175,7 +177,7 @@ function CourseQuiz({ onComplete, onSkip }) {
         onClick={onSkip}
         style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.2)', fontSize: '0.73rem', cursor: 'pointer', display: 'block', width: '100%', textAlign: 'center', padding: '1.5rem 0 0' }}
       >
-        Skip the quiz
+        {lang === 'en' ? 'Skip the quiz' : 'דלג על השאלון'}
       </button>
     </div>
   )
@@ -186,6 +188,7 @@ function CourseQuiz({ onComplete, onSkip }) {
 // ── Review Modal (past lessons only) ──────────────────────────────
 
 function ReviewModal({ challenge, dayNum, onClose }) {
+  const { lang } = useLang()
   const lessonType  = getLessonType(dayNum)
   const _midx       = Math.floor((dayNum - 1) / 5)
   const _dim        = (dayNum - 1) % 5
@@ -205,7 +208,7 @@ function ReviewModal({ challenge, dayNum, onClose }) {
             <div>
               <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.9rem' }}>{lessonType.label}</div>
               <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                {challenge.emoji} {challenge.title} · Day {dayNum}
+                {challenge.emoji} {challenge.title} · {lang === 'en' ? `Day ${dayNum}` : `יום ${dayNum}`}
               </div>
             </div>
           </div>
@@ -213,7 +216,7 @@ function ReviewModal({ challenge, dayNum, onClose }) {
         </div>
 
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '1rem 1.1rem', marginBottom: '1rem' }}>
-          <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.45rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>🎯 Today’s task</div>
+          <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.45rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>🎯 {lang === 'en' ? 'Today’s task' : 'משימת היום'}</div>
           <p style={{ color: '#f1f5f9', fontSize: '0.92rem', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>{moduleTheme}</p>
         </div>
 
@@ -223,7 +226,7 @@ function ReviewModal({ challenge, dayNum, onClose }) {
         </div>
 
         <div style={{ marginTop: '1.1rem', textAlign: 'center' }}>
-          <span style={{ color: '#10b981', fontSize: '0.75rem', fontWeight: 700 }}>✓ Lesson completed</span>
+          <span style={{ color: '#10b981', fontSize: '0.75rem', fontWeight: 700 }}>✓ {lang === 'en' ? 'Lesson completed' : 'שיעור זה הושלם'}</span>
         </div>
       </div>
     </div>
@@ -233,6 +236,7 @@ function ReviewModal({ challenge, dayNum, onClose }) {
 // ── Course Dashboard ───────────────────────────────────────────────
 
 function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isRecommended }) {
+  const { lang } = useLang()
   const [completing,   setCompleting]   = useState(false)
   const [completedNow, setCompletedNow] = useState(false)
   const [showSyllabus, setShowSyllabus] = useState(false)
@@ -277,7 +281,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
           className="btn-tactile"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.55)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '1rem' }}
         >
-          → Tracks
+          {lang === 'en' ? '→ Tracks' : '→ מסלולים'}
         </button>
 
         {/* Track identity */}
@@ -288,7 +292,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
           <div style={{ flex: 1 }}>
             {isRecommended && (
               <div style={{ marginBottom: '0.22rem' }}>
-                <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.5rem', color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800 }}>✨ Picked for you</span>
+                <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.5rem', color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800 }}>{lang === 'en' ? '✨ Picked for you' : '✨ מותאם עבורך'}</span>
               </div>
             )}
             <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.05rem', lineHeight: 1.2 }}>{challenge.title}</div>
@@ -311,10 +315,10 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span style={{ color: col, fontSize: '0.63rem', fontWeight: 800 }}>
-            {finished ? '✓ Completed' : daysCompleted === 0 ? `Day 1 / ${challenge.days}` : `Day ${getTrackDay(challenge, progress).currentDay} / ${challenge.days} · ${daysCompleted} completed`}
+            {finished ? (lang === 'en' ? '✓ Completed' : '✓ הושלם') : daysCompleted === 0 ? (lang === 'en' ? `Day 1 / ${challenge.days}` : `יום 1 / ${challenge.days}`) : (lang === 'en' ? `Day ${getTrackDay(challenge, progress).currentDay} / ${challenge.days} · ${daysCompleted} completed` : `יום ${getTrackDay(challenge, progress).currentDay} / ${challenge.days} · ${daysCompleted} הושלמו`)}
           </span>
           <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.6rem' }}>
-            Module {moduleIdx + 1} / {modules.length} · {pct}%
+            {lang === 'en' ? `Module ${moduleIdx + 1} / ${modules.length} · ${pct}%` : `מודול ${moduleIdx + 1} / ${modules.length} · ${pct}%`}
           </span>
         </div>
       </div>
@@ -326,9 +330,9 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
         {finished ? (
           <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
             <div style={{ fontSize: '3.5rem', marginBottom: '0.75rem' }}>🏆</div>
-            <h2 style={{ color: col, fontWeight: 900, fontSize: '1.3rem', margin: '0 0 0.5rem' }}>You completed {challenge.title}!</h2>
+            <h2 style={{ color: col, fontWeight: 900, fontSize: '1.3rem', margin: '0 0 0.5rem' }}>{lang === 'en' ? `You completed ${challenge.title}!` : `השלמת את ${challenge.title}!`}</h2>
             <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.88rem', lineHeight: 1.6, margin: 0 }}>
-              {challenge.days} days · {challenge.days * challenge.xpPerDay} XP · You grew. 🌟
+              {lang === 'en' ? `${challenge.days} days · ${challenge.days * challenge.xpPerDay} XP · You grew. 🌟` : `${challenge.days} ימים · ${challenge.days * challenge.xpPerDay} XP · גדלת. 🌟`}
             </p>
           </div>
 
@@ -336,13 +340,13 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
         ) : (doneToday || completedNow) ? (
           <div style={{ textAlign: 'center', padding: '2rem 0', animation: 'fadeIn 0.4s ease' }}>
             <div style={{ fontSize: '3rem', marginBottom: '0.65rem' }}>✅</div>
-            <div style={{ color: '#10b981', fontWeight: 900, fontSize: '1.15rem', marginBottom: '0.4rem' }}>🎉 Day {daysCompleted} completed!</div>
+            <div style={{ color: '#10b981', fontWeight: 900, fontSize: '1.15rem', marginBottom: '0.4rem' }}>🎉 {lang === 'en' ? `Day ${daysCompleted} completed!` : `יום ${daysCompleted} הושלם!`}</div>
             <div style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.82rem', lineHeight: 1.6 }}>
-              Come back tomorrow, we keep going! 🚀 · {pct}% completed
+              {lang === 'en' ? `Come back tomorrow, we keep going! 🚀 · ${pct}% completed` : `חזור מחר — ממשיכים לנצח! 🚀 · ${pct}% הושלם`}
             </div>
             {daysCompleted > 0 && daysCompleted % 5 === 0 && (
               <div style={{ marginTop: '1.1rem', display: 'inline-block', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '0.75rem 1.2rem' }}>
-                <span style={{ color: col, fontWeight: 800, fontSize: '0.88rem' }}>🎖 Module {moduleIdx} completed!</span>
+                <span style={{ color: col, fontWeight: 800, fontSize: '0.88rem' }}>🎖 {lang === 'en' ? `Module ${moduleIdx} completed!` : `מודול ${moduleIdx} הושלם!`}</span>
               </div>
             )}
           </div>
@@ -353,7 +357,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
             {/* All steps */}
             <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '1rem 1.1rem', marginBottom: '0.75rem' }}>
               <p style={{ color: col, fontSize: '0.57rem', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
-                ⚡ Tasks for day {currentDay}
+                ⚡ {lang === 'en' ? `Tasks for day ${currentDay}` : `משימות יום ${currentDay}`}
               </p>
               {richContent?.fieldAction?.length > 0
                 ? richContent.fieldAction.map((step, i) => (
@@ -371,7 +375,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
             {/* Real example */}
             {richContent?.realExample && (
               <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '0.75rem' }}>
-                <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>📖 Real example</p>
+                <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>📖 {lang === 'en' ? 'Real example' : 'דוגמה אמיתית'}</p>
                 <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem', lineHeight: 1.6, margin: 0 }}>{richContent.realExample}</p>
               </div>
             )}
@@ -379,7 +383,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
             {/* Micro task / reflection */}
             {richContent?.microTask && (
               <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '0.75rem' }}>
-                <p style={{ color: 'rgba(212,168,67,0.65)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>✏️ Reflection</p>
+                <p style={{ color: 'rgba(212,168,67,0.65)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>✏️ {lang === 'en' ? 'Reflection' : 'רפלקציה'}</p>
                 <p style={{ color: 'rgba(241,245,249,0.68)', fontSize: '0.82rem', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>{richContent.microTask}</p>
               </div>
             )}
@@ -391,7 +395,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
               className="btn-tactile"
               style={{ width: '100%', padding: '1.1rem', borderRadius: 16, border: 'none', fontSize: '1rem', fontWeight: 800, cursor: completing ? 'not-allowed' : 'pointer', marginBottom: '1rem', background: `linear-gradient(135deg,${col}cc,${col})`, color: '#fff', transition: 'all 0.2s', boxShadow: '0 2px 8px rgba(0,0,0,0.4)', opacity: completing ? 0.7 : 1 }}
             >
-              {completing ? '🎉' : `🔥 Finish day ${currentDay}!`}
+              {completing ? '🎉' : (lang === 'en' ? `🔥 Finish day ${currentDay}!` : `🔥 סיים יום ${currentDay}!`)}
             </button>
           </>
         )}
@@ -401,10 +405,10 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
           <div style={{ marginBottom: '0.75rem', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
             <div style={{ padding: '0.75rem 1rem', background: '#18181b', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <span style={{ color: 'rgba(232,232,232,0.25)', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', flex: 1 }}>
-                {evolved ? `Level 2 · ${evolution.label}` : `Level 2 — unlocks on day ${UNLOCK_AT}`}
+                {evolved ? (lang === 'en' ? `Level 2 · ${evolution.label}` : `רמה 2 · ${evolution.label}`) : (lang === 'en' ? `Level 2 — unlocks on day ${UNLOCK_AT}` : `רמה 2 — פותח ביום ${UNLOCK_AT}`)}
               </span>
               <span style={{ fontSize: '0.6rem', fontWeight: 800, color: evolved ? '#d4a843' : 'rgba(232,232,232,0.2)', background: evolved ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.04)', border: `1px solid ${evolved ? 'rgba(212,168,67,0.2)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 20, padding: '0.1rem 0.5rem' }}>
-                {evolved ? `Day ${daysCompleted}` : `${daysCompleted}/${UNLOCK_AT}`}
+                {evolved ? (lang === 'en' ? `Day ${daysCompleted}` : `יום ${daysCompleted}`) : `${daysCompleted}/${UNLOCK_AT}`}
               </span>
             </div>
             {evolved
@@ -417,7 +421,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
               : (
                   <div style={{ padding: '0.7rem 1rem', borderTop: '1px solid rgba(255,255,255,0.05)', background: '#111114', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <span style={{ color: 'rgba(232,232,232,0.2)', fontSize: '0.8rem' }}>🔒</span>
-                    <span style={{ color: 'rgba(232,232,232,0.25)', fontSize: '0.78rem' }}>Complete {UNLOCK_AT - daysCompleted} more days to unlock</span>
+                    <span style={{ color: 'rgba(232,232,232,0.25)', fontSize: '0.78rem' }}>{lang === 'en' ? `Complete ${UNLOCK_AT - daysCompleted} more days to unlock` : `השלם ${UNLOCK_AT - daysCompleted} ימים נוספים לפתיחה`}</span>
                   </div>
                 )
             }
@@ -435,7 +439,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
           className="btn-tactile"
           style={{ width: '100%', padding: '0.65rem', background: 'none', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, color: 'rgba(241,245,249,0.28)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', marginBottom: showSyllabus ? '0.9rem' : 0 }}
         >
-          {showSyllabus ? '▲' : '▼'} Syllabus — {modules.length} modules · {challenge.days} lessons
+          {showSyllabus ? '▲' : '▼'} {lang === 'en' ? `Syllabus — ${modules.length} modules · ${challenge.days} lessons` : `תכנית הלימודים — ${modules.length} מודולים · ${challenge.days} שיעורים`}
         </button>
 
         {showSyllabus && (
@@ -452,7 +456,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
                     <div style={{ width: 22, height: 22, borderRadius: 6, flexShrink: 0, background: moduleDone ? 'rgba(16,185,129,0.16)' : moduleLocked ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.58rem', fontWeight: 800, color: moduleDone ? '#10b981' : moduleLocked ? 'rgba(255,255,255,0.16)' : 'rgba(232,232,232,0.6)' }}>
                       {moduleDone ? '✓' : mIdx + 1}
                     </div>
-                    <span style={{ color: moduleLocked ? 'rgba(241,245,249,0.18)' : moduleDone ? 'rgba(241,245,249,0.38)' : '#f1f5f9', fontSize: '0.78rem', fontWeight: 700 }}>Module {mIdx + 1}</span>
+                    <span style={{ color: moduleLocked ? 'rgba(241,245,249,0.18)' : moduleDone ? 'rgba(241,245,249,0.38)' : '#f1f5f9', fontSize: '0.78rem', fontWeight: 700 }}>{lang === 'en' ? `Module ${mIdx + 1}` : `מודול ${mIdx + 1}`}</span>
                     <span style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.66rem', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>— {modText.slice(0, 38)}{modText.length > 38 ? '…' : ''}</span>
                   </div>
 
@@ -473,9 +477,9 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
                             {completed ? '✓' : locked ? '🔒' : lt.icon}
                           </div>
                           <span style={{ flex: 1, color: locked ? 'rgba(241,245,249,0.18)' : completed ? 'rgba(241,245,249,0.38)' : '#f1f5f9', fontSize: '0.77rem', fontWeight: isCurrent ? 700 : 400 }}>
-                            Day {dayNum} · {lt.label}
+                            {lang === 'en' ? `Day ${dayNum} · ${lt.label}` : `יום ${dayNum} · ${lt.label}`}
                           </span>
-                          {isCurrent && <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.08rem 0.4rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.57rem', fontWeight: 800, flexShrink: 0 }}>Today ↑</span>}
+                          {isCurrent && <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.08rem 0.4rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.57rem', fontWeight: 800, flexShrink: 0 }}>{lang === 'en' ? 'Today ↑' : 'היום ↑'}</span>}
                           {completed && <span style={{ color: 'rgba(16,185,129,0.6)', fontSize: '0.62rem', flexShrink: 0 }}>✓</span>}
                         </div>
                       )
@@ -506,38 +510,38 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
 const PILLARS = [
   {
     id: 'builder',
-    label: 'The Builder',
+    labelHe: 'הבונה', labelEn: 'The Builder',
     icon: '🛠️',
     color: '#6366f1',
-    desc: 'AI, business, economic growth',
-    longDesc: 'Build AI, business and trading skills. This is the pillar that brings in money and builds the future.',
+    descHe: 'AI, עסקים, צמיחה כלכלית', descEn: 'AI, business, economic growth',
+    longDescHe: 'בנה מיומנויות AI, עסקים ומסחר. זו העמודה שמכניסה כסף ובונה עתיד.', longDescEn: 'Build AI, business and trading skills. This is the pillar that brings in money and builds the future.',
     courseIds: ['ai-beginners', 'ai-pioneer', 'business-mind', 'claude-code-mastery', 'capital-markets'],
   },
   {
     id: 'creator',
-    label: 'The Creator',
+    labelHe: 'היוצר', labelEn: 'The Creator',
     icon: '🎨',
     color: '#ec4899',
-    desc: 'Creation, brand, self-expression',
-    longDesc: 'Unlock your creativity. Brand, design, and building the soul of your business.',
+    descHe: 'יצירה, מותג, ביטוי עצמי', descEn: 'Creation, brand, self-expression',
+    longDescHe: 'פתח את היצירתיות שלך. מותג, עיצוב, ובניית נשמת העסק.', longDescEn: 'Unlock your creativity. Brand, design, and building the soul of your business.',
     courseIds: ['product-builder', 'business-soul', 'ai-pioneer', 'claude-code-mastery'],
   },
   {
     id: 'reset',
-    label: 'The Reset',
+    labelHe: 'האיפוס', labelEn: 'The Reset',
     icon: '🧘',
     color: '#10b981',
-    desc: 'Discipline, clarity, mental calm',
-    longDesc: 'Self-discipline and mental clarity. Without it, the other pillars collapse.',
+    descHe: 'משמעת, בהירות, שקט מנטלי', descEn: 'Discipline, clarity, mental calm',
+    longDescHe: 'משמעת עצמית ובהירות מנטלית. בלי זה — שאר העמודות קורסות.', longDescEn: 'Self-discipline and mental clarity. Without it, the other pillars collapse.',
     courseIds: ['self-discipline', 'capital-markets', 'business-mind'],
   },
   {
     id: 'connection',
-    label: 'The Connection',
+    labelHe: 'הקשר', labelEn: 'The Connection',
     icon: '💛',
     color: '#f59e0b',
-    desc: 'Sales, relationships, presence',
-    longDesc: 'Relationships, sales and human presence. Because success alone is empty.',
+    descHe: 'מכירות, יחסים, נוכחות', descEn: 'Sales, relationships, presence',
+    longDescHe: 'יחסים, מכירות ונוכחות אנושית. כי ההצלחה לבד היא ריקה.', longDescEn: 'Relationships, sales and human presence. Because success alone is empty.',
     courseIds: ['deal-closer', 'business-mind', 'ai-beginners'],
   },
 ]
@@ -638,7 +642,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
           className="btn-tactile"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.55)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '0.5rem' }}
         >
-          → Back
+          {lang === 'en' ? '→ Back' : '→ חזור'}
         </button>
         <CourseQuiz onComplete={handleQuizComplete} onSkip={() => setShowQuiz(false)} />
       </div>
@@ -663,15 +667,15 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
           className="btn-tactile"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.55)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '1.25rem' }}
         >
-          ← All pillars
+          {lang === 'en' ? '← All pillars' : '← כל התחומים'}
         </button>
 
         <div style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '1.1rem 1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.7rem', flexShrink: 0 }}>{pillar.icon}</div>
           <div>
-            <div style={{ color: pillar.color, fontSize: '0.6rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Pillar</div>
-            <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', marginBottom: '0.15rem' }}>{pillar.label}</div>
-            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.73rem', lineHeight: 1.4 }}>{pillar.longDesc}</div>
+            <div style={{ color: pillar.color, fontSize: '0.6rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>{lang === 'en' ? 'Pillar' : 'עמודה'}</div>
+            <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', marginBottom: '0.15rem' }}>{byLang(pillar, 'label', lang)}</div>
+            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.73rem', lineHeight: 1.4 }}>{byLang(pillar, 'longDesc', lang)}</div>
           </div>
         </div>
 
@@ -704,11 +708,11 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.12rem' }}>
                       <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.88rem' }}>{ch.title}</span>
-                      {isRec && !done && <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem', color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800 }}>✨ For you</span>}
-                      {ch.expert && !done && <span style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem', color: 'rgba(232,232,232,0.45)', fontSize: '0.57rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace", letterSpacing: '0.06em' }}>Expert</span>}
-                      {done && <span style={{ color: '#10b981', fontSize: '0.57rem', fontWeight: 700, background: 'rgba(16,185,129,0.1)', borderRadius: 20, padding: '0.1rem 0.4rem' }}>✓ Completed</span>}
-                      {inProgress && <span style={{ color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem' }}>Active</span>}
-                      {isEvolved(days) && getEvolution(ch.id) && !done && <span style={{ color: '#d4a843', fontSize: '0.57rem', fontWeight: 800, background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)', borderRadius: 20, padding: '0.1rem 0.45rem' }}>Level 2</span>}
+                      {isRec && !done && <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem', color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800 }}>{lang === 'en' ? '✨ For you' : '✨ בשבילך'}</span>}
+                      {ch.expert && !done && <span style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem', color: 'rgba(232,232,232,0.45)', fontSize: '0.57rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace", letterSpacing: '0.06em' }}>{lang === 'en' ? 'Expert' : 'מומחה'}</span>}
+                      {done && <span style={{ color: '#10b981', fontSize: '0.57rem', fontWeight: 700, background: 'rgba(16,185,129,0.1)', borderRadius: 20, padding: '0.1rem 0.4rem' }}>{lang === 'en' ? '✓ Completed' : '✓ הושלם'}</span>}
+                      {inProgress && <span style={{ color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem' }}>{lang === 'en' ? 'Active' : 'פעיל'}</span>}
+                      {isEvolved(days) && getEvolution(ch.id) && !done && <span style={{ color: '#d4a843', fontSize: '0.57rem', fontWeight: 800, background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)', borderRadius: 20, padding: '0.1rem 0.45rem' }}>{lang === 'en' ? 'Level 2' : 'רמה 2'}</span>}
                     </div>
                     <div style={{ color: 'rgba(241,245,249,0.27)', fontSize: '0.68rem' }}>{ch.subtitle}</div>
                     {days > 0 && (
@@ -722,8 +726,8 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                   </div>
                   <div style={{ flexShrink: 0, textAlign: 'start' }}>
                     <div style={{ color: ch.color, fontSize: '0.68rem', fontWeight: 800 }}>+{ch.xpPerDay} XP</div>
-                    <div style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.58rem' }}>/ day</div>
-                    <div style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.58rem', marginTop: '0.22rem' }}>{ch.days} lessons →</div>
+                    <div style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.58rem' }}>{lang === 'en' ? '/ day' : '/ יום'}</div>
+                    <div style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.58rem', marginTop: '0.22rem' }}>{lang === 'en' ? `${ch.days} lessons →` : `${ch.days} שיעורים →`}</div>
                   </div>
                 </div>
               </div>
@@ -756,40 +760,61 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
   const PROTOCOL_SLOTS = [
     {
       id: 'morning', icon: '🌅', color: '#F5C518',
-      title: 'Morning protocol', subtitle: 'Focus and mindset',
+      title: lang === 'en' ? 'Morning protocol' : 'פרוטוקול בוקר',
+      subtitle: lang === 'en' ? 'Focus and mindset' : 'מיקוד ומנטליות',
       timeLabel: '06:00 – 12:00',
-      steps: [
+      steps: lang === 'en' ? [
         'Review your 3-year vision — just 2 minutes',
         'Set one critical goal to complete today',
         'Decide what will not enter your day (a must-do habit)',
+      ] : [
+        'סקור את הוויזיה שלך ל-3 שנים — 2 דקות בלבד',
+        'הגדר מטרה אחת קריטית שתבצע היום',
+        'קבע מה לא ייכנס ליום שלך (הרגל חובה)',
       ],
-      cta: topTrack && !trackDoneToday ? `Open track: ${topTrack.title} ←` : 'Set up your morning ←',
+      cta: topTrack && !trackDoneToday
+        ? (lang === 'en' ? `Open track: ${topTrack.title} ←` : `פתח מסלול: ${topTrack.title} ←`)
+        : (lang === 'en' ? 'Set up your morning ←' : 'כוון את הבוקר ←'),
       onCta: topTrack && !trackDoneToday ? () => setSelected(topTrack) : null,
     },
     {
       id: 'noon', icon: '⚡', color: '#fb923c',
-      title: 'Afternoon protocol', subtitle: 'Focused action',
+      title: lang === 'en' ? 'Afternoon protocol' : 'פרוטוקול צהריים',
+      subtitle: lang === 'en' ? 'Focused action' : 'עשייה ממוקדת',
       timeLabel: '12:00 – 18:00',
-      steps: [
+      steps: lang === 'en' ? [
         'Turn off notifications — 25 minutes with no interruptions',
         todayTask
           ? `Today’s task: ${todayTask.length > 72 ? todayTask.slice(0, 72) + '…' : todayTask}`
           : 'Do today’s task from your track',
         'Record one concrete result you actually achieved',
+      ] : [
+        'כבה הודעות — 25 דקות ללא הפרעות',
+        todayTask
+          ? `משימת היום: ${todayTask.length > 72 ? todayTask.slice(0, 72) + '…' : todayTask}`
+          : 'בצע את משימת היום מהמסלול שלך',
+        'תעד תוצאה אחת קונקרטית שביצעת בפועל',
       ],
-      cta: topTrack && !trackDoneToday ? `Open track: ${topTrack.title} ←` : '⚡ Start a focus block ←',
+      cta: topTrack && !trackDoneToday
+        ? (lang === 'en' ? `Open track: ${topTrack.title} ←` : `פתח מסלול: ${topTrack.title} ←`)
+        : (lang === 'en' ? '⚡ Start a focus block ←' : '⚡ התחל בלוק עשייה ←'),
       onCta: topTrack && !trackDoneToday ? () => setSelected(topTrack) : null,
     },
     {
       id: 'evening', icon: '🌙', color: '#a78bfa',
-      title: 'Evening protocol', subtitle: 'Reflection and recovery',
+      title: lang === 'en' ? 'Evening protocol' : 'פרוטוקול ערב',
+      subtitle: lang === 'en' ? 'Reflection and recovery' : 'רפלקציה והתאוששות',
       timeLabel: '18:00 – 23:00',
-      steps: [
+      steps: lang === 'en' ? [
         'What did I actually do today? (facts, not impressions)',
         'What would I do differently? (one improvement only)',
         'Set one concrete goal for tomorrow morning',
+      ] : [
+        'מה ביצעתי היום בפועל? (עובדה, לא הערכה)',
+        'מה הייתי עושה אחרת? (שיפור אחד בלבד)',
+        'הגדר מטרה אחת קונקרטית לבוקר של מחר',
       ],
-      cta: 'Wrap up the day ←',
+      cta: lang === 'en' ? 'Wrap up the day ←' : 'סכם את היום ←',
       onCta: null,
     },
   ]
@@ -800,9 +825,9 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
       {FEATURES.routineCards && (<>
       {/* Header */}
       <div style={{ marginBottom: '1.25rem' }}>
-        <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.54rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.2rem' }}>◈ PRIME · Daily protocol</div>
-        <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.1rem', margin: '0 0 0.18rem' }}>Your day is waiting.</h2>
-        <p style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.74rem', margin: 0 }}>Pick a part of the day. Focus on one action. Let's go.</p>
+        <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.54rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.2rem' }}>◈ PRIME · {lang === 'en' ? 'Daily protocol' : 'פרוטוקול יומי'}</div>
+        <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.1rem', margin: '0 0 0.18rem' }}>{lang === 'en' ? 'Your day is waiting.' : 'היום שלך מחכה לך.'}</h2>
+        <p style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.74rem', margin: 0 }}>{lang === 'en' ? "Pick a part of the day. Focus on one action. Let's go." : 'בחר חלק יום. התרכז בפעולה אחת. קדימה.'}</p>
       </div>
 
       {/* 3 Protocol cards */}
@@ -840,10 +865,10 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                     <span style={{ color: slot.color, fontWeight: 800, fontSize: '0.88rem' }}>{slot.title}</span>
                     {isActive && (
-                      <span style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.08rem 0.45rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.52rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace" }}>Now</span>
+                      <span style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.08rem 0.45rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.52rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace" }}>{lang === 'en' ? 'Now' : 'עכשיו'}</span>
                     )}
                     {slotComplete && (
-                      <span style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.28)', borderRadius: 20, padding: '0.08rem 0.45rem', color: '#10b981', fontSize: '0.52rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace" }}>✓ Completed</span>
+                      <span style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.28)', borderRadius: 20, padding: '0.08rem 0.45rem', color: '#10b981', fontSize: '0.52rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace" }}>{lang === 'en' ? '✓ Completed' : '✓ הושלם'}</span>
                     )}
                   </div>
                   <div style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.67rem', marginTop: '0.08rem' }}>
@@ -932,7 +957,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
         }}
       >
         {showTracksArchive ? '▲' : '▼'}
-        <span>Deep tracks — growth areas · 30 days</span>
+        <span>{lang === 'en' ? 'Deep tracks — growth areas · 30 days' : 'מסלולים עמוקים — תחומי צמיחה · 30 יום'}</span>
       </button>
 
       {/* Collapsed archive: 4-pillar grid */}
@@ -959,13 +984,13 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                   }}
                 >
                   <span style={{ fontSize: '1.7rem', lineHeight: 1 }}>{p.icon}</span>
-                  <span style={{ color: p.color, fontSize: '0.78rem', fontWeight: 900 }}>{p.label}</span>
-                  <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.6rem', lineHeight: 1.3 }}>{p.desc}</span>
+                  <span style={{ color: p.color, fontSize: '0.78rem', fontWeight: 900 }}>{byLang(p, 'label', lang)}</span>
+                  <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.6rem', lineHeight: 1.3 }}>{byLang(p, 'desc', lang)}</span>
                   <div style={{ width: '100%', marginTop: '0.2rem' }}>
                     <div style={{ height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.07)', direction: 'ltr', overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: `${pct}%`, borderRadius: 99, background: p.color, opacity: 0.8 }} />
                     </div>
-                    <div style={{ color: pct > 0 ? 'rgba(241,245,249,0.4)' : 'rgba(241,245,249,0.15)', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.15rem' }}>{pct > 0 ? `${pct}%` : `${pillarCourses.length} tracks`}</div>
+                    <div style={{ color: pct > 0 ? 'rgba(241,245,249,0.4)' : 'rgba(241,245,249,0.15)', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.15rem' }}>{pct > 0 ? `${pct}%` : (lang === 'en' ? `${pillarCourses.length} tracks` : `${pillarCourses.length} מסלולים`)}</div>
                   </div>
                 </button>
               )
@@ -976,8 +1001,8 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
             onClick={() => setShowQuiz(true)}
             style={{ background: 'none', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 11, width: '100%', padding: '0.65rem', color: 'rgba(241,245,249,0.22)', fontSize: '0.7rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}
           >
-            Not sure where to start?
-            <span style={{ color: 'rgba(232,232,232,0.35)' }}>Take a short quiz ←</span>
+            {lang === 'en' ? 'Not sure where to start?' : 'לא בטוח מאיפה להתחיל?'}
+            <span style={{ color: 'rgba(232,232,232,0.35)' }}>{lang === 'en' ? 'Take a short quiz ←' : 'ענה על שאלון קצר ←'}</span>
           </button>
         </div>
       )}

@@ -421,7 +421,7 @@ export default function BoxingPathScreen({
               marginTop: 4,
             }}
           >
-            🎬 Analyze session video
+            🎬 {lang === 'en' ? 'Analyze session video' : 'ניתוח וידאו של הסשן'}
           </button>
           )}
         </div>
@@ -847,8 +847,8 @@ export default function BoxingPathScreen({
         >
           <span style={{ fontSize: 26, lineHeight: 1, flexShrink: 0 }}>🎬</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 2 }}>Session analysis</div>
-            <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.4 }}>Upload a clip from your workout for detailed AI analysis</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 2 }}>{lang === 'en' ? 'Session analysis' : 'ניתוח סשן'}</div>
+            <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.4 }}>{lang === 'en' ? 'Upload a clip from your workout for detailed AI analysis' : 'העלה קליפ מהאימון לניתוח AI מפורט'}</div>
           </div>
           <span style={{ fontSize: 16, color: C.muted, flexShrink: 0 }}>←</span>
         </button>
