@@ -271,7 +271,7 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
 
   const timerColor  = roundTimerColor(currentRound.type)
   const phaseLabel  = roundPhaseLabel(currentRound, currentWorkRoundNum ?? 0, totalWorkRounds, tc, lang)
-  const coachingCues = (currentRound.coachingCuesHe ?? []).slice(0, 2)
+  const coachingCues = (byLang(currentRound, 'coachingCues', lang) || []).slice(0, 2)
 
   return (
     <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: 'system-ui, sans-serif', display: 'flex', flexDirection: 'column' }}>
@@ -304,7 +304,7 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
         <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '16px', marginTop: 20, marginBottom: 16 }}>
           <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'start' }}>{byLang(currentRound, 'title', lang)}</div>
           <div dir="auto" style={{ fontSize: 14, color: '#D4D0C8', lineHeight: 1.7, textAlign: 'start' }}>
-            {currentRound.instructionHe}
+            {byLang(currentRound, 'instruction', lang)}
           </div>
         </div>
 

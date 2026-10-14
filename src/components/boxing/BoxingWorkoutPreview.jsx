@@ -189,7 +189,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
             {byLang(workout, 'title', lang)}
           </h1>
           <p dir="auto" style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.6 }}>
-            {workout.goalHe}
+            {byLang(workout, 'goal', lang)}
           </p>
         </div>
 
@@ -268,7 +268,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
         )}
 
         {/* ── Safety notes ── */}
-        {workout.safetyNotesHe && workout.safetyNotesHe.length > 0 && (
+        {(byLang(workout, 'safetyNotes', lang) || []).length > 0 && (
           <div
             style={{
               background: C.surface,
@@ -280,7 +280,7 @@ export default function BoxingWorkoutPreview({ workout, levelNum, onStart, onIns
           >
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>{tp.safety}</div>
             <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-              {workout.safetyNotesHe.map((note, i) => (
+              {byLang(workout, 'safetyNotes', lang).map((note, i) => (
                 <li
                   key={i}
                   style={{

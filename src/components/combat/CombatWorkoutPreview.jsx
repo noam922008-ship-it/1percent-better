@@ -114,7 +114,7 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
             </span>
           </div>
           <h1 style={{ fontSize: 26, fontWeight: 900, margin: '0 0 8px', lineHeight: 1.2, color: C.text }}>{byLang(workout, 'title', lang)}</h1>
-          <p dir="auto" style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.6 }}>{workout.goalHe}</p>
+          <p dir="auto" style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.6 }}>{byLang(workout, 'goal', lang)}</p>
         </div>
 
         {/* Meta chips */}
@@ -161,11 +161,11 @@ export default function CombatWorkoutPreview({ workout, levelNum, trainingOption
         )}
 
         {/* Safety notes */}
-        {workout.safetyNotesHe && workout.safetyNotesHe.length > 0 && (
+        {(byLang(workout, 'safetyNotes', lang) || []).length > 0 && (
           <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '16px', marginBottom: 24 }}>
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>{tp.safety}</div>
             <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-              {workout.safetyNotesHe.map((note, i) => (
+              {byLang(workout, 'safetyNotes', lang).map((note, i) => (
                 <li key={i} style={{ fontSize: 12, color: C.muted, lineHeight: 1.6, padding: '4px 0', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
                   <span style={{ flexShrink: 0, marginTop: 2 }}>•</span>
                   <span dir="auto">{note}</span>
