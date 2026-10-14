@@ -624,7 +624,10 @@ const PUNCH_ROUNDS = {
       titleHe: 'טכניקה: הג׳אב',
       titleEn: 'Technique: the jab',
       instructionHe:
-        'ג׳אב הוא היד הקדמית (שמאל אם אתה ממוקם ימני). שלב 1: מהגארד — דחף את האגרוף ישר קדימה, סובב את האמה כך שהמפרקים פונים כלפי מעלה בנקודת ההשפעה. שלב 2: החזר את היד חזרה לגארד בדיוק באותו הנתיב. לא לזרוק ולהשאיר — כל מכה מסתיימת בחזרה לגארד. הכתף עולה מעט להגן על הסנטר.',
+        'ג׳אב הוא היד הקדמית (שמאל אם אתה ימני). שלב 1: מהגארד — דחף את האגרוף ישר קדימה, סובב את האמה כך שהמפרקים פונים כלפי מעלה בנקודת ההשפעה. שלב 2: החזר את היד חזרה לגארד בדיוק באותו הנתיב. לא לזרוק ולהשאיר — כל מכה מסתיימת בחזרה לגארד. הכתף עולה מעט להגן על הסנטר.',
+      instructionEn:
+        'The jab is the front hand (left if you\'re right-handed). Step 1: from the guard, drive the fist straight forward, turning the forearm so the knuckles face up at the point of impact. Step 2: bring the hand back to guard along exactly the same path. Don\'t throw it and leave it out — every punch ends back in guard. The shoulder rises slightly to protect the chin.',
+      coachingCuesEn: [],
       durationSeconds: 40,
       coachingCuesHe: [],
     },
@@ -635,6 +638,14 @@ const PUNCH_ROUNDS = {
       titleEn: 'Round 1 — slow, precise jab',
       instructionHe:
         'ג׳אב אחד כל שתי שניות. לא מהירות — דיוק. ספור: 1…2…ג׳אב. 1…2…ג׳אב. בכל חזרה בדוק: האם האגרוף חזר לגארד? האם הכתף הגנה על הסנטר? האם המפרקים היו ישרים בנקודת ההשפעה?',
+      instructionEn:
+        'One jab every two seconds. Not speed — precision. Count: 1…2…jab. 1…2…jab. On every rep, check: did the fist return to guard? Did the shoulder protect the chin? Were the knuckles straight at the point of impact?',
+      coachingCuesEn: [
+        'Back to guard — right away, not lazy',
+        'Front shoulder rises to protect the chin',
+        'Elbow not out — keep it tight',
+        'Short exhale with every punch',
+      ],
       durationSeconds: 100,
       coachingCuesHe: [
         'חזרה לגארד — מיידית, לא עצלה',
@@ -648,7 +659,10 @@ const PUNCH_ROUNDS = {
       type: 'cooldown',
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
-      instructionHe: 'פתח ונסגר את האגרופים לאט. נער את הידיים. מתח את האמות.',
+      instructionHe: 'פתח וסגור את האגרופים לאט. נער את הידיים. מתח את האמות.',
+      instructionEn:
+        'Slowly open and close your fists. Shake out your hands. Stretch your forearms.',
+      coachingCuesEn: [],
       durationSeconds: 40,
       coachingCuesHe: [],
     },
@@ -661,7 +675,10 @@ const PUNCH_ROUNDS = {
       titleHe: 'חימום',
       titleEn: 'Warm-up',
       instructionHe:
-        'ריצה קלה במקום 30 שניות. סיבובי כתפיים קדימה × 10, אחורה × 10. פתח ונסגר אגרופים × 15. הכן את פרקי הידיים לעבודה.',
+        'ריצה קלה במקום 30 שניות. סיבובי כתפיים קדימה × 10, אחורה × 10. פתח וסגור אגרופים × 15. הכן את פרקי הידיים לעבודה.',
+      instructionEn:
+        'Light jog in place for 30 seconds. Shoulder circles forward × 10, back × 10. Open and close your fists × 15. Get your wrists ready to work.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -671,7 +688,10 @@ const PUNCH_ROUNDS = {
       titleHe: 'טכניקה: הקרוס',
       titleEn: 'Technique: the cross',
       instructionHe:
-        'קרוס הוא היד האחורית (ימין אם אתה ממוקם ימני). מנגנון: סובב את הירך האחורית קדימה, הדחיפה מגיעה מהרגל האחורית דרך הירך אל הכתף. המרפק נשאר למטה בתחילה, עולה רק בסוף. פיבוט על כדור כף הרגל האחורית — הרגל לא מרימה את העקב מוקדם מדי. אחרי הקרוס — ידיים לגארד מיידית.',
+        'קרוס הוא היד האחורית (ימין אם אתה ימני). מנגנון: סובב את הירך האחורית קדימה, הדחיפה מגיעה מהרגל האחורית דרך הירך אל הכתף. המרפק נשאר למטה בתחילה, עולה רק בסוף. פיבוט על כדור כף הרגל האחורית — הרגל לא מרימה את העקב מוקדם מדי. אחרי הקרוס — ידיים לגארד מיידית.',
+      instructionEn:
+        'The cross is the rear hand (right if you\'re right-handed). How it works: turn the rear hip forward — the drive comes from the back leg, through the hip, to the shoulder. The elbow stays down at first and rises only at the end. Pivot on the ball of the back foot — don\'t lift the heel too early. After the cross — hands back to guard right away.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -681,7 +701,15 @@ const PUNCH_ROUNDS = {
       titleHe: 'סיבוב 1 — ג׳אב בלבד',
       titleEn: 'Round 1 — jab only',
       instructionHe:
-        'ג׳אב בלבד, 2–3 שניות בין מכה למכה. התמקד בנתיב חזרה — היד חוזרת ישר לפנים, לא מחטפת לצד. 30 שניות — קצב שווה. 60 שניות — מעט מהיר יותר, אבל לא על חשבון הדיוק.',
+        'ג׳אב בלבד, 2–3 שניות בין מכה למכה. התמקד בנתיב חזרה — היד חוזרת ישר לפנים, לא בורחת לצד. 30 שניות — קצב שווה. 60 שניות — מעט מהיר יותר, אבל לא על חשבון הדיוק.',
+      instructionEn:
+        'Jab only, 2–3 seconds between punches. Focus on the return path — the hand comes straight back to the face, not out to the side. 30 seconds at a steady pace. 60 seconds a little faster, but not at the cost of precision.',
+      coachingCuesEn: [
+        'Straight back — not to the side',
+        'Shoulder rises on every jab',
+        'Exhale with every punch',
+        'The other hand keeps the guard',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'חזרה ישר — לא לצד',
@@ -696,7 +724,15 @@ const PUNCH_ROUNDS = {
       titleHe: 'סיבוב 2 — קרוס בלבד',
       titleEn: 'Round 2 — cross only',
       instructionHe:
-        'קרוס בלבד. ספור את הפיבוט — בכל מכה שמע את כדור כף רגלך האחורית משפשף ברצפה. זו ראיה שהפיבוט הוא אמיתי. שמור את הגארד ביד הקדמית במלואו — אל תורידה.',
+        'קרוס בלבד. ספור את הפיבוט — בכל מכה שמע את כדור כף רגלך האחורית משפשף ברצפה. זו ראיה שהפיבוט הוא אמיתי. שמור את הגארד ביד הקדמית במלואו — אל תוריד אותו.',
+      instructionEn:
+        'Cross only. Count the pivot — on every punch, hear the ball of your back foot brush the floor. That\'s proof the pivot is real. Keep the front-hand guard fully up — don\'t drop it.',
+      coachingCuesEn: [
+        'Pivot on the ball of the foot',
+        'Hip turns — power comes from the floor',
+        'Front guard stays closed',
+        'Back to guard right away',
+      ],
       durationSeconds: 60,
       coachingCuesHe: [
         'פיבוט על כדור כף הרגל',
@@ -711,6 +747,9 @@ const PUNCH_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'נער ידיים, פתח אגרופים, מתח אמות. נשום עמוק.',
+      instructionEn:
+        'Shake out your hands, open your fists, stretch your forearms. Breathe deeply.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -724,6 +763,9 @@ const PUNCH_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10 לכל כיוון. מתיחת אמות: הושט יד, כופף את כף היד כלפיך, אחוז 10 שניות. חזור לשנייה. סיבובי פרקי כף יד × 10.',
+      instructionEn:
+        'Light jog for 30 seconds. Shoulder circles × 10 in each direction. Forearm stretch: reach your arm out, bend your hand toward you, hold for 10 seconds. Repeat on the other side. Wrist circles × 10.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -733,7 +775,10 @@ const PUNCH_ROUNDS = {
       titleHe: 'טכניקה: הוק וחזרה להגנה',
       titleEn: 'Technique: hook and back to guard',
       instructionHe:
-        'הוק הוא מכת חצי-עיגול מהצד. אל תסובב את האגרוף — הוא נשאר אנכי (בלחי) או אופקי (למקדש). המרפק עולה לגובה הכתף. הכוח מגיע מסיבוב הפלג העליון — לא מהיד בלבד. נקודת ממשות: הגוף צריך לסובב לפני שהיד זזה. אחרי הוק — חזור לגארד עם שתי הידיים.',
+        'הוק הוא מכת חצי-עיגול מהצד. אל תסובב את האגרוף — הוא נשאר אנכי (בלחי) או אופקי (למקדש). המרפק עולה לגובה הכתף. הכוח מגיע מסיבוב הפלג העליון — לא מהיד בלבד. נקודת מפתח: הגוף צריך לסובב לפני שהיד זזה. אחרי הוק — חזור לגארד עם שתי הידיים.',
+      instructionEn:
+        'The hook is a half-circle punch from the side. Don\'t turn the fist — it stays vertical (to the cheek) or horizontal (to the temple). The elbow rises to shoulder height. The power comes from turning the upper body — not from the arm alone. Key point: the body has to turn before the hand moves. After a hook — return to guard with both hands.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -743,7 +788,15 @@ const PUNCH_ROUNDS = {
       titleHe: 'סיבוב 1 — ג׳אב ואיכות מכה',
       titleEn: 'Round 1 — jab and punch quality',
       instructionHe:
-        'ג׳אב בקצב נוח, מכה אחת כל שנייה וחצי. בכל מכה שאל את עצמך: האם חזרתי לגארד? האם הכתף הגנה? האם הרגליים נשארו מקבילות? 60 שניות שניות קצב בינוני, 60 שניות קצב מהיר יותר.',
+        'ג׳אב בקצב נוח, מכה אחת כל שנייה וחצי. בכל מכה שאל את עצמך: האם חזרתי לגארד? האם הכתף הגנה? האם הרגליים נשארו מקבילות? 60 שניות קצב בינוני, 60 שניות קצב מהיר יותר.',
+      instructionEn:
+        'Jab at a comfortable pace, one punch every second and a half. On every punch, ask yourself: did I return to guard? Did the shoulder protect? Did my feet stay parallel? 60 seconds at a medium pace, 60 seconds at a faster pace.',
+      coachingCuesEn: [
+        'Back to guard — always',
+        'Front shoulder rises',
+        'Exhale with every punch',
+        'Feet don\'t move — stay stable',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'חזרה לגארד — תמיד',
@@ -758,6 +811,9 @@ const PUNCH_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. נער את הידיים.',
+      instructionEn:
+        'Breathe. Shake out your hands.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -768,6 +824,14 @@ const PUNCH_ROUNDS = {
       titleEn: 'Round 2 — cross and pivot',
       instructionHe:
         'קרוס בלבד, כל שתי שניות. בדוק בכל חזרה: האם אתה שומע/מרגיש פיבוט? האם הירך מובילה? האם חזרת לגארד אחרי? 60 שניות בינוני, 60 שניות — קצב גבוה יותר, כוח מלא.',
+      instructionEn:
+        'Cross only, every two seconds. Check on every rep: do you hear or feel the pivot? Is the hip leading? Did you return to guard after? 60 seconds medium, 60 seconds — higher pace, full power.',
+      coachingCuesEn: [
+        'Hip turns before the fist',
+        'A real pivot — not a fake one',
+        'Front guard closed',
+        'Power from the leg, not just the arm',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'ירך מסתובבת לפני האגרוף',
@@ -782,6 +846,9 @@ const PUNCH_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה כתפיים.',
+      instructionEn:
+        'Breathe. Relax your shoulders.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -792,6 +859,14 @@ const PUNCH_ROUNDS = {
       titleEn: 'Round 3 — jab-cross and a clean 1-2',
       instructionHe:
         'ג׳אב-קרוס (1-2). הקרוס יוצא כשהג׳אב חוזר — ידיים בתנועה מתחלפת, לא בו-זמנית. לאחר ה-2 — שתי ידיים חוזרות לגארד. 60 שניות קצב נוח, 60 שניות — 1-2 מהיר ועצמתי.',
+      instructionEn:
+        'Jab-cross (1-2). The cross goes out as the jab comes back — the hands alternate, not at the same time. After the 2 — both hands return to guard. 60 seconds at a comfortable pace, 60 seconds — a fast, powerful 1-2.',
+      coachingCuesEn: [
+        '1 and 2 not together — they alternate',
+        'After 2 — both hands to guard',
+        'The jab sets up, the cross finishes',
+        'Exhale on every pair of punches',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         '1 ו-2 לא ביחד — מתחלפות',
@@ -807,6 +882,9 @@ const PUNCH_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'נער ידיים ואמות. מתח כל אמה × 10 שניות. סיבובי כתפיים. נשום ושחרר.',
+      instructionEn:
+        'Shake out your hands and forearms. Stretch each forearm × 10 seconds. Shoulder circles. Breathe and release.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -820,6 +898,9 @@ const PUNCH_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי כתפיים × 15 לכל כיוון. פתיחה וסגירה של האגרופים × 20. מתיחת אמות × 10 שניות לכל יד. שייק-אאוט — נער את כל הגוף 15 שניות.',
+      instructionEn:
+        'Light jog for 45 seconds. Shoulder circles × 15 in each direction. Open and close your fists × 20. Forearm stretch × 10 seconds per hand. Shake-out — shake your whole body for 15 seconds.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -830,6 +911,9 @@ const PUNCH_ROUNDS = {
       titleEn: 'Technique: hook and uppercut',
       instructionHe:
         'הוק: מרפק בגובה הכתף, גוף מסתובב, מכה בצד. האפרקט: יד עולה מלמטה, מרפק מופנה למטה, מכה לסנטר. שני הנשקים מגיעים בטווח קצר. תרגל: הוק שמאל → הוק ימין → אפרקט שמאל → אפרקט ימין, בתנועה איטית ומדויקת.',
+      instructionEn:
+        'Hook: elbow at shoulder height, body turns, punch from the side. Uppercut: the hand comes up from below, elbow pointing down, punch to the chin. Both are short-range weapons. Practice: left hook → right hook → left uppercut → right uppercut, slowly and precisely.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -840,6 +924,14 @@ const PUNCH_ROUNDS = {
       titleEn: 'Round 1 — jab',
       instructionHe:
         'ג׳אב בלבד, 90 שניות. הפוך כל מכה לשאלה: האם זה היה מושלם? קצב נוח. לא מהירות — איכות.',
+      instructionEn:
+        'Jab only, 90 seconds. Turn every punch into a question: was that perfect? Comfortable pace. Not speed — quality.',
+      coachingCuesEn: [
+        'Back to guard, always',
+        'Shoulder rises to protect',
+        'Exhale with every punch',
+        'Eyes forward',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'חזרה לגארד תמיד',
@@ -854,6 +946,9 @@ const PUNCH_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. נשיפה ארוכה.',
+      instructionEn:
+        'Breathe. Long exhale.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -864,6 +959,14 @@ const PUNCH_ROUNDS = {
       titleEn: 'Round 2 — cross',
       instructionHe:
         'קרוס בלבד, 90 שניות. דגש על פיבוט ועל ירך. 45 שניות קצב נוח, 45 שניות — כוח מלא.',
+      instructionEn:
+        'Cross only, 90 seconds. Focus on the pivot and the hip. 45 seconds at a comfortable pace, 45 seconds — full power.',
+      coachingCuesEn: [
+        'A real pivot',
+        'Hip leads',
+        'Front guard closed',
+        'Back to guard right away',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'פיבוט אמיתי',
@@ -878,6 +981,9 @@ const PUNCH_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה כתפיים.',
+      instructionEn:
+        'Breathe. Relax your shoulders.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -888,6 +994,14 @@ const PUNCH_ROUNDS = {
       titleEn: 'Round 3 — hook',
       instructionHe:
         'הוק בלבד — שמאל וימין לסירוגין. 45 שניות איטי ומדויק, 45 שניות — קצב מהיר. בדוק: האם המרפק בגובה הכתף? האם הגוף מסתובב?',
+      instructionEn:
+        'Hook only — left and right, alternating. 45 seconds slow and precise, 45 seconds — fast pace. Check: is the elbow at shoulder height? Is the body turning?',
+      coachingCuesEn: [
+        'Elbow at shoulder height',
+        'Body turns — not just the arm',
+        'Back to guard right away',
+        'Other hand in guard at all times',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'מרפק בגובה הכתף',
@@ -901,7 +1015,10 @@ const PUNCH_ROUNDS = {
       type: 'rest',
       titleHe: 'מנוחה',
       titleEn: 'Rest',
-      instructionHe: 'נשום. הכן לאפרקט.',
+      instructionHe: 'נשום. הכן לקומבינציה.',
+      instructionEn:
+        'Breathe. Get ready for the combination.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -912,6 +1029,14 @@ const PUNCH_ROUNDS = {
       titleEn: 'Round 4 — jab-cross-hook',
       instructionHe:
         'קומבינציה: 1-2-3 (ג׳אב-קרוס-הוק שמאל). חזור. 45 שניות בקצב נוח, 45 שניות — קצב מהיר עם כוח. חזרה לגארד אחרי ה-3.',
+      instructionEn:
+        'Combination: 1-2-3 (jab-cross-left hook). Repeat. 45 seconds at a comfortable pace, 45 seconds — fast pace with power. Back to guard after the 3.',
+      coachingCuesEn: [
+        '1-2-3 — not all at once',
+        'Each punch finishes before the next one goes',
+        'Always back to guard',
+        'Short exhale with every set of three',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         '1-2-3 — לא 123 ביחד',
@@ -926,6 +1051,9 @@ const PUNCH_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון — כוח מלא.',
+      instructionEn:
+        'Breathe. Last round — full power.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -936,6 +1064,14 @@ const PUNCH_ROUNDS = {
       titleEn: 'Round 5 — all 4 punches',
       instructionHe:
         'ג׳אב → קרוס → הוק שמאל → אפרקט ימין. רצף מלא. 1-2-3-4. לאחר 45 שניות — הגבר קצב. כל מכה שלמה לפני הבאה.',
+      instructionEn:
+        'Jab → cross → left hook → right uppercut. Full sequence. 1-2-3-4. After 45 seconds — raise the pace. Each punch complete before the next.',
+      coachingCuesEn: [
+        '1-2-3-4 — not all together',
+        'Guard closes at the end of the sequence',
+        'Power in every punch',
+        'Exhale at the end of every 4',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         '1-2-3-4 — לא ביחד',
@@ -951,6 +1087,9 @@ const PUNCH_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'נער ידיים, פתח אגרופים לאט. מתח כל אמה × 15 שניות. סיבובי כתפיים. נשום עמוק ושחרר. עבודה טובה.',
+      instructionEn:
+        'Shake out your hands, open your fists slowly. Stretch each forearm × 15 seconds. Shoulder circles. Breathe deeply and release. Good work.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
