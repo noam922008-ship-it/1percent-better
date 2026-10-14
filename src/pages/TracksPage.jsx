@@ -18,30 +18,30 @@ const QUIZ_KEY = 'prime_track_quiz'
 const QUIZ_QUESTIONS = [
   {
     step: 1, emoji: '🎯',
-    question: 'מה המטרה הראשית שלך?',
+    question: 'What is your main goal?',
     options: [
-      { id: 'finance',  emoji: '📈', text: 'צמיחה פיננסית ומסחר' },
-      { id: 'physical', emoji: '💪', text: 'משמעת גופנית וכוח' },
-      { id: 'business', emoji: '💼', text: 'עסקים ויזמות' },
-      { id: 'tech',     emoji: '🤖', text: 'טכנולוגיה ו-AI' },
+      { id: 'finance',  emoji: '📈', text: 'Financial growth and trading' },
+      { id: 'physical', emoji: '💪', text: 'Physical discipline and strength' },
+      { id: 'business', emoji: '💼', text: 'Business and entrepreneurship' },
+      { id: 'tech',     emoji: '🤖', text: 'Technology and AI' },
     ],
   },
   {
     step: 2, emoji: '⚡',
-    question: 'איך אתה לומד הכי טוב?',
+    question: 'How do you learn best?',
     options: [
-      { id: 'practical', emoji: '🔧', text: 'יישום מיידי — כלים ועשייה' },
-      { id: 'deep',      emoji: '📚', text: 'הבנה עמוקה — עקרונות קודם' },
-      { id: 'challenge', emoji: '🔥', text: 'אתגר — ישר לעומק' },
+      { id: 'practical', emoji: '🔧', text: 'Immediate application — tools and doing' },
+      { id: 'deep',      emoji: '📚', text: 'Deep understanding — principles first' },
+      { id: 'challenge', emoji: '🔥', text: 'Challenge — straight to the deep end' },
     ],
   },
   {
     step: 3, emoji: '🚀',
-    question: 'מה רמת הניסיון שלך?',
+    question: 'What is your experience level?',
     options: [
-      { id: 'beginner',     emoji: '🌱', text: 'מתחיל — בונה בסיס' },
-      { id: 'intermediate', emoji: '⚡', text: 'בינוני — רוצה להתקדם' },
-      { id: 'advanced',     emoji: '🚀', text: 'מתקדם — רוצה לשלוט' },
+      { id: 'beginner',     emoji: '🌱', text: 'Beginner — building a foundation' },
+      { id: 'intermediate', emoji: '⚡', text: 'Intermediate — want to move forward' },
+      { id: 'advanced',     emoji: '🚀', text: 'Advanced — want to master it' },
     ],
   },
 ]
@@ -213,7 +213,7 @@ function ReviewModal({ challenge, dayNum, onClose }) {
         </div>
 
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '1rem 1.1rem', marginBottom: '1rem' }}>
-          <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.45rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>🎯 משימת היום</div>
+          <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.45rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>🎯 Today’s task</div>
           <p style={{ color: '#f1f5f9', fontSize: '0.92rem', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>{moduleTheme}</p>
         </div>
 
@@ -506,38 +506,38 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
 const PILLARS = [
   {
     id: 'builder',
-    label: 'הבונה',
+    label: 'The Builder',
     icon: '🛠️',
     color: '#6366f1',
-    desc: 'AI, עסקים, צמיחה כלכלית',
-    longDesc: 'בנה מיומנויות AI, עסקים ומסחר. זו העמודה שמכניסה כסף ובונה עתיד.',
+    desc: 'AI, business, economic growth',
+    longDesc: 'Build AI, business and trading skills. This is the pillar that brings in money and builds the future.',
     courseIds: ['ai-beginners', 'ai-pioneer', 'business-mind', 'claude-code-mastery', 'capital-markets'],
   },
   {
     id: 'creator',
-    label: 'היוצר',
+    label: 'The Creator',
     icon: '🎨',
     color: '#ec4899',
-    desc: 'יצירה, מותג, ביטוי עצמי',
-    longDesc: 'פתח את היצירתיות שלך. מותג, עיצוב, ובניית נשמת העסק.',
+    desc: 'Creation, brand, self-expression',
+    longDesc: 'Unlock your creativity. Brand, design, and building the soul of your business.',
     courseIds: ['product-builder', 'business-soul', 'ai-pioneer', 'claude-code-mastery'],
   },
   {
     id: 'reset',
-    label: 'האיפוס',
+    label: 'The Reset',
     icon: '🧘',
     color: '#10b981',
-    desc: 'משמעת, בהירות, שקט מנטלי',
-    longDesc: 'משמעת עצמית ובהירות מנטלית. בלי זה — שאר העמודות קורסות.',
+    desc: 'Discipline, clarity, mental calm',
+    longDesc: 'Self-discipline and mental clarity. Without it, the other pillars collapse.',
     courseIds: ['self-discipline', 'capital-markets', 'business-mind'],
   },
   {
     id: 'connection',
-    label: 'הקשר',
+    label: 'The Connection',
     icon: '💛',
     color: '#f59e0b',
-    desc: 'מכירות, יחסים, נוכחות',
-    longDesc: 'יחסים, מכירות ונוכחות אנושית. כי ההצלחה לבד היא ריקה.',
+    desc: 'Sales, relationships, presence',
+    longDesc: 'Relationships, sales and human presence. Because success alone is empty.',
     courseIds: ['deal-closer', 'business-mind', 'ai-beginners'],
   },
 ]
@@ -756,40 +756,40 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
   const PROTOCOL_SLOTS = [
     {
       id: 'morning', icon: '🌅', color: '#F5C518',
-      title: 'פרוטוקול בוקר', subtitle: 'מיקוד ומנטליות',
+      title: 'Morning protocol', subtitle: 'Focus and mindset',
       timeLabel: '06:00 – 12:00',
       steps: [
-        'סקור את הוויזיה שלך ל-3 שנים — 2 דקות בלבד',
-        'הגדר מטרה אחת קריטית שתבצע היום',
-        'קבע מה לא ייכנס ליום שלך (הרגל חובה)',
+        'Review your 3-year vision — just 2 minutes',
+        'Set one critical goal to complete today',
+        'Decide what will not enter your day (a must-do habit)',
       ],
-      cta: topTrack && !trackDoneToday ? `פתח מסלול: ${topTrack.title} ←` : 'כוון את הבוקר ←',
+      cta: topTrack && !trackDoneToday ? `Open track: ${topTrack.title} ←` : 'Set up your morning ←',
       onCta: topTrack && !trackDoneToday ? () => setSelected(topTrack) : null,
     },
     {
       id: 'noon', icon: '⚡', color: '#fb923c',
-      title: 'פרוטוקול צהריים', subtitle: 'עשייה ממוקדת',
+      title: 'Afternoon protocol', subtitle: 'Focused action',
       timeLabel: '12:00 – 18:00',
       steps: [
-        'כבה הודעות — 25 דקות ללא הפרעות',
+        'Turn off notifications — 25 minutes with no interruptions',
         todayTask
-          ? `משימת היום: ${todayTask.length > 72 ? todayTask.slice(0, 72) + '…' : todayTask}`
-          : 'בצע את משימת היום מהמסלול שלך',
-        'תעד תוצאה אחת קונקרטית שביצעת בפועל',
+          ? `Today’s task: ${todayTask.length > 72 ? todayTask.slice(0, 72) + '…' : todayTask}`
+          : 'Do today’s task from your track',
+        'Record one concrete result you actually achieved',
       ],
-      cta: topTrack && !trackDoneToday ? `פתח מסלול: ${topTrack.title} ←` : '⚡ התחל בלוק עשייה ←',
+      cta: topTrack && !trackDoneToday ? `Open track: ${topTrack.title} ←` : '⚡ Start a focus block ←',
       onCta: topTrack && !trackDoneToday ? () => setSelected(topTrack) : null,
     },
     {
       id: 'evening', icon: '🌙', color: '#a78bfa',
-      title: 'פרוטוקול ערב', subtitle: 'רפלקציה והתאוששות',
+      title: 'Evening protocol', subtitle: 'Reflection and recovery',
       timeLabel: '18:00 – 23:00',
       steps: [
-        'מה ביצעתי היום בפועל? (עובדה, לא הערכה)',
-        'מה הייתי עושה אחרת? (שיפור אחד בלבד)',
-        'הגדר מטרה אחת קונקרטית לבוקר של מחר',
+        'What did I actually do today? (facts, not impressions)',
+        'What would I do differently? (one improvement only)',
+        'Set one concrete goal for tomorrow morning',
       ],
-      cta: 'סכם את היום ←',
+      cta: 'Wrap up the day ←',
       onCta: null,
     },
   ]
