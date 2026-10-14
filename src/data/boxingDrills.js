@@ -106,6 +106,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Technique: step forward and back',
       instructionHe:
         'עמוד בתנוחת אגרוף: רגל שמאל קדמית, ימין אחורית, כתפיים מעט אלכסוניות. לצעד קדימה — הרגל הקדמית זז ראשונה, הרגל האחורית גוררת בדיוק אותו מרחק. לצעד אחורה — הרגל האחורית זז ראשונה, הקדמית גוררת. שמור על רוחב הכתפיים בין הרגליים בכל עת. אל תצלב את הרגליים ואל תשכח לרחף על קצות האצבעות.',
+      instructionEn:
+        'Stand in a boxing stance: left foot forward, right foot back, shoulders slightly angled. To step forward, the front foot moves first and the back foot drags the same distance. To step back, the back foot moves first and the front foot drags. Keep your shoulder width between your feet at all times. Don\'t cross your feet, and remember to stay light on the balls of your feet.',
+      coachingCuesEn: [],
       durationSeconds: 40,
       coachingCuesHe: [],
     },
@@ -116,6 +119,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 1 — moving forward and back',
       instructionHe:
         'שלושה צעדים קדימה, עצור, שלושה צעדים אחורה, עצור. חזור על הרצף לכל אורך הסיבוב. התמקד בכך שהרגל הגוררת נחה בדיוק במקום הנכון — לא רחוק מדי ולא קרוב מדי. הידיים נשארות בגארד, מבט ישיר קדימה.',
+      instructionEn:
+        'Three steps forward, stop, three steps back, stop. Repeat the sequence for the whole round. Focus on the trailing foot landing in exactly the right spot — not too far and not too close. Hands stay in guard, eyes straight ahead.',
+      coachingCuesEn: [
+        'Lead foot moves first — always',
+        'Don\'t cross, keep shoulder width',
+        'Stay light on the balls of your feet',
+        'Guard up at every step',
+      ],
       durationSeconds: 100,
       coachingCuesHe: [
         'רגל קדמית זה ראשון — תמיד',
@@ -131,6 +142,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'צעד איטי במקום, הורד את הידיים, נשום עמוק. מתח את שרירי השוקיים — עמוד על עקבים לשניות ספורות, חזור לכפות. סובב את הקרסוליים בעדינות לשני הכיוונים.',
+      instructionEn:
+        'Step in place slowly, lower your hands, breathe deeply. Stretch your calves — stand on your heels for a few seconds, then return to the balls of your feet. Gently rotate your ankles in both directions.',
+      coachingCuesEn: [],
       durationSeconds: 40,
       coachingCuesHe: [],
     },
@@ -144,6 +158,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Warm-up — light jog in place',
       instructionHe:
         'ריצה קלה במקום, קצב נוח. הרם את הברכיים מעט — לא ריצת ברכיים גבוהות, רק הפעלת שרירים. לאחר 30 שניות הוסף תנועה קטנה קדימה ואחורה תוך כדי הריצה.',
+      instructionEn:
+        'Light jog in place at a comfortable pace. Lift your knees slightly — not high-knee running, just waking up the muscles. After 30 seconds, add small movements forward and back while you jog.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -154,6 +171,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Technique: side step',
       instructionHe:
         'שאפל לצד ימין: רגל ימין זז ראשונה לצד, רגל שמאל עוקבת בדיוק אותו מרחק. לצד שמאל: רגל שמאל זז ראשונה. הרגליים נשארות מקבילות, אל תביא את העקב פנימה. שמור על כיפוף קל בברכיים כל הזמן — "ספוגי", לא נוקשה.',
+      instructionEn:
+        'Side step to the right: the right foot moves first to the side, and the left foot follows the exact same distance. To the left: the left foot moves first. Feet stay parallel, don\'t bring the heel inward. Keep a slight bend in the knees the whole time — springy, not stiff.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -164,6 +184,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 1 — moving sideways',
       instructionHe:
         'שני שאפלים לצד ימין, עצור, שני שאפלים לצד שמאל, עצור. חזור. שים לב שהגוף לא מתנדנד — הכתפיים נשארות יציבות, התנועה מגיעה מהרגליים בלבד. אל תניח לרגליים להתקרב אחת לשנייה.',
+      instructionEn:
+        'Two side steps to the right, stop, two side steps to the left, stop. Repeat. Make sure your body doesn\'t sway — shoulders stay stable, and the movement comes from the legs only. Don\'t let your feet get closer together.',
+      coachingCuesEn: [
+        'Feet parallel, not a V',
+        'Knees bent — springy',
+        'Guard up the whole round',
+        'Don\'t stomp — land softly',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'רגליים מקבילות, לא V',
@@ -179,6 +207,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 2 — forward + side + back',
       instructionHe:
         'רצף בצורת L: שני צעדים קדימה, שני שאפלים לצד שמאל, שני צעדים אחורה. חזור לנקודת ההתחלה ועשה את הרצף בצד הנגדי: קדימה, לצד ימין, אחורה. תנועה רציפה ושקטה — דמיין שאתה על קרח דק.',
+      instructionEn:
+        'L-shaped sequence: two steps forward, two side steps to the left, two steps back. Return to the starting point and do the sequence on the other side: forward, right, back. Smooth and quiet movement — imagine you\'re on thin ice.',
+      coachingCuesEn: [
+        'Smooth movement, no unnecessary stops',
+        'Hands in guard between every change of direction',
+        'Head up — don\'t look at the floor',
+        'Steady pace, not rushed',
+      ],
       durationSeconds: 60,
       coachingCuesHe: [
         'תנועה רציפה, בלי עצירות מיותרות',
@@ -194,6 +230,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'עמוד ישר, נשום עמוק. מתח את חזית הירך — אחוז ברגל אחת מאחור ל-10 שניות לכל צד. סובב את הקרסוליים. לאט לאט.',
+      instructionEn:
+        'Stand tall and breathe deeply. Stretch the front of your thigh — hold one foot behind you for 10 seconds on each side. Rotate your ankles. Slowly.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -207,6 +246,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Warm-up — get the body moving',
       instructionHe:
         'ריצה קלה במקום 30 שניות, לאחר מכן סיבובי ירכיים 10 חזרות לכל כיוון, ואז כיפוף קל של הברכיים — סקוואט רדוד 10 פעמים. הכל בקצב נוח.',
+      instructionEn:
+        'Light jog in place for 30 seconds, then 10 hip circles in each direction, then a light knee bend — 10 shallow squats. All at a comfortable pace.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -217,6 +259,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Technique: pivot and turn',
       instructionHe:
         'ציר: הרגל הקדמית נשארת במקום ומשמשת כציר. הרגל האחורית מסתובבת החוצה ב-45–90 מעלות. לאחר הסיבוב — אתה עכשיו פונה לזווית שונה. זוהי יציאת זווית — להשתמש אחרי מכה כדי לצאת מהקו הישר. תרגל סיבוב לשמאל ואחר כך לימין לסירוגין.',
+      instructionEn:
+        'Pivot: the front foot stays in place and serves as the axis. The back foot turns outward 45–90 degrees. After the turn, you are now facing a different angle. This is an angle-out — use it after a punch to get off the straight line. Practice turning left and then right, alternating.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -227,6 +272,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 1 — moving forward and back',
       instructionHe:
         'שלושה צעדים קדימה, שלושה אחורה, ברציפות. קצב בינוני-מהיר. הרגל הגוררת אף פעם לא חוצה את הרגל המובילה.',
+      instructionEn:
+        'Three steps forward, three steps back, continuously. Medium-fast pace. The trailing foot never crosses the leading foot.',
+      coachingCuesEn: [
+        'Lead foot moves first — iron rule',
+        'Don\'t cross your feet',
+        'Stay on the balls of your feet',
+        'Guard up',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'רגל מובילה זז ראשון — כלל ברזל',
@@ -241,6 +294,9 @@ const FOOTWORK_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום עמוק. נשיפה ארוכה. הכן את עצמך לסיבוב הבא.',
+      instructionEn:
+        'Breathe deeply. Long exhale. Get ready for the next round.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -251,6 +307,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 2 — side steps',
       instructionHe:
         'שאפל שלושה צעדים לצד ימין, שלושה לשמאל. לאחר 45 שניות — האץ את הקצב, שני שאפלים מהירים לכל כיוון. שמור על גובה קבוע — לא לקפוץ למעלה בין הצעדים.',
+      instructionEn:
+        'Shuffle three steps to the right, three to the left. After 45 seconds, speed up — two quick shuffles in each direction. Keep a constant height — don\'t bounce up between steps.',
+      coachingCuesEn: [
+        'Constant height — don\'t jump',
+        'Feet parallel the whole time',
+        'Breathe with the movement',
+        'Hands in guard, elbows in',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'גובה קבוע — אל תקפוץ',
@@ -265,6 +329,9 @@ const FOOTWORK_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה את הכתפיים.',
+      instructionEn:
+        'Breathe. Let your shoulders relax.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -275,6 +342,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 3 — pivot and angle out',
       instructionHe:
         'צעד קדימה, ציר על הרגל הקדמית לשמאל — כעת אתה פונה לכיוון חדש. צעד קדימה שוב, ציר לימין. הרצף: קדימה → ציר שמאל → קדימה → ציר ימין. דמיין שאתה עוקף יריב בכל ציר.',
+      instructionEn:
+        'Step forward, pivot on the front foot to the left — now you are facing a new direction. Step forward again, pivot to the right. The sequence: forward → pivot left → forward → pivot right. Imagine you are getting around an opponent with every pivot.',
+      coachingCuesEn: [
+        'Pivot on the ball of the front foot',
+        'The body turns, not just the legs',
+        'Guard immediately after the pivot',
+        'Don\'t stand upright after the pivot — stay in position',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'ציר על כדור כף הרגל הקדמית',
@@ -289,6 +364,9 @@ const FOOTWORK_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון קרב.',
+      instructionEn:
+        'Breathe. Last round coming up.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -299,6 +377,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 4 — movement + jab',
       instructionHe:
         'שני צעדים קדימה → ג׳אב אחד → שני צעדים אחורה. חזור על הרצף. המכה מגיעה בסוף התנועה קדימה, לא תוך כדי. לאחר הג׳אב — חזור מיד לגארד לפני שאתה נסוג אחורה. זהו שילוב בסיסי: תנועה → כניסה → מכה → יציאה.',
+      instructionEn:
+        'Two steps forward → one jab → two steps back. Repeat the sequence. The punch comes at the end of the forward movement, not while moving. After the jab, return to guard right away, before you step back. This is a basic combination: movement → entry → punch → exit.',
+      coachingCuesEn: [
+        'Movement first, punch after',
+        'Return to guard right after the jab',
+        'Step back — don\'t stay on the line',
+        'Don\'t look at the floor',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'תנועה קודם, מכה אחר כך',
@@ -314,6 +400,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'הליכה איטית במקום. מתח את הירכיים והשוקיים. גלגל את הכתפיים אחורה. נשום עמוק דרך האף, שחרר דרך הפה.',
+      instructionEn:
+        'Walk slowly in place. Stretch your hips and calves. Roll your shoulders back. Breathe deeply through the nose, release through the mouth.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -327,6 +416,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה במקום 30 שניות. קפיצות קטנות על שתי רגליים 15 שניות — הגוף מתחמם ומוכן. 15 שניות אחרונות: סיבובי ירכיים ופתיחת כתפיים.',
+      instructionEn:
+        'Light jog in place for 30 seconds. Small two-foot hops for 15 seconds — the body warms up and gets ready. For the last 15 seconds: hip circles and opening the shoulders.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -337,6 +429,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Technique: angling out',
       instructionHe:
         'יציאת זווית היא שילוב של צעד לצד וציר. לאחר ג׳אב-קרוס: צעד לצד שמאל עם הרגל השמאלית בו זמנית שאתה מסיים את הקרוס, ואז ציר קל — עכשיו אתה מחוץ לקו הישר. תרגל: צעד → ציר לשמאל. צעד → ציר לימין.',
+      instructionEn:
+        'Angling out is a combination of a side step and a pivot. After a jab-cross: step to the left with your left foot at the same time you finish the cross, then a light pivot — now you are off the straight line. Practice: step → pivot left. Step → pivot right.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -347,6 +442,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 1 — steps forward and back',
       instructionHe:
         'ארבעה צעדים קדימה, ארבעה אחורה. לאחר 60 שניות — שני צעדים קדימה, שני אחורה, בקצב כפול. שמור על תנוחת אגרוף לאורך כל הסיבוב.',
+      instructionEn:
+        'Four steps forward, four steps back. After 60 seconds — two steps forward, two back, at double the pace. Keep a boxing stance the whole round.',
+      coachingCuesEn: [
+        'Lead foot — always first',
+        'Balls of the feet, not the whole foot',
+        'Guard — hands by the cheeks',
+        'Knees slightly bent',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'רגל מובילה — תמיד ראשון',
@@ -361,6 +464,9 @@ const FOOTWORK_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום עמוק. שאיפה 4 שניות, נשיפה 4 שניות.',
+      instructionEn:
+        'Breathe deeply. Inhale for 4 seconds, exhale for 4 seconds.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -371,6 +477,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 2 — side shuffle',
       instructionHe:
         'שלושה שאפלים ימינה, שלושה שמאלה. לאחר 60 שניות — הוסף ג׳אב בסוף כל רצף: שאפל ימינה × 3 → ג׳אב, שאפל שמאלה × 3 → ג׳אב.',
+      instructionEn:
+        'Three shuffles to the right, three to the left. After 60 seconds — add a jab at the end of each sequence: shuffle right × 3 → jab, shuffle left × 3 → jab.',
+      coachingCuesEn: [
+        'Even height — don\'t sink',
+        'The jab comes straight from the guard',
+        'Return to guard right after the jab',
+        'Breathe — don\'t hold your breath',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גובה אחיד — אל תשקע',
@@ -385,6 +499,9 @@ const FOOTWORK_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. כתפיים רפויות.',
+      instructionEn:
+        'Breathe. Shoulders loose.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -395,6 +512,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 3 — pivot and exit',
       instructionHe:
         'צעד קדימה → ציר לשמאל → שני שאפלים לצד → ציר חזרה. חזור לכיוון הנגדי. הרצף דומה לריקוד — תנועה זורמת, לא מדורגת. תרגל יציאה משני הצדדים לסירוגין.',
+      instructionEn:
+        'Step forward → pivot left → two side shuffles → pivot back. Repeat in the opposite direction. The sequence is like a dance — flowing movement, not step by step. Practice exiting from both sides alternately.',
+      coachingCuesEn: [
+        'Pivot on the ball of the front foot',
+        'Eyes forward on every pivot',
+        'Keep your body low — don\'t straighten up',
+        'Flow — no stops',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'ציר על כדור כף הרגל הקדמית',
@@ -409,6 +534,9 @@ const FOOTWORK_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'מתח קל את הירכיים, נשום.',
+      instructionEn:
+        'Gently stretch your hips, breathe.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -419,6 +547,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 4 — movement + jab together',
       instructionHe:
         'שני צעדים קדימה → ג׳אב → שני צעדים אחורה → ציר לצד. חזור. ג׳אב תמיד בסוף הכניסה, ואז יציאה מיידית. לאחר 60 שניות — הוסף קרוס לאחר הג׳אב: כניסה → 1-2 → יציאה.',
+      instructionEn:
+        'Two steps forward → jab → two steps back → pivot to the side. Repeat. The jab always comes at the end of the entry, then an immediate exit. After 60 seconds — add a cross after the jab: entry → 1-2 → exit.',
+      coachingCuesEn: [
+        'Entry → punch → exit: this sequence is everything',
+        'Don\'t stay on the line after the punch',
+        'Return to guard before you move',
+        'Hands don\'t drop during movement',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'כניסה → מכה → יציאה: הרצף הזה הוא הכל',
@@ -433,6 +569,9 @@ const FOOTWORK_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'סיבוב אחרון — תן הכל.',
+      instructionEn:
+        'Last round — give it everything.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -443,6 +582,14 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Round 5 — free footwork',
       instructionHe:
         'שלב את כל מה שתרגלת: קדימה-אחורה, לצד, ציר, יציאות זווית. אין הוראות — תנוע לפי האינסטינקט. האם אתה עדיין על קצות האצבעות? האם הגארד למעלה? האם אתה לא מצלב רגליים? בדוק את עצמך.',
+      instructionEn:
+        'Combine everything you practiced: forward and back, sideways, pivots, angling out. No instructions — move by instinct. Are you still on the balls of your feet? Is your guard up? Are you not crossing your feet? Check yourself.',
+      coachingCuesEn: [
+        'Balls of the feet — always',
+        'Guard up',
+        'Don\'t cross your feet',
+        'Keep moving without stopping',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'קצות האצבעות — תמיד',
@@ -458,6 +605,9 @@ const FOOTWORK_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'הליכה איטית. מתח את שרירי השוקיים, הירכיים, הגב התחתון. גלגל את הכתפיים. נשום עמוק ושחרר.',
+      instructionEn:
+        'Walk slowly. Stretch your calves, thighs, and lower back. Roll your shoulders. Breathe deeply and release.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
