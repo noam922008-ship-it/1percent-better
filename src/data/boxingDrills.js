@@ -2388,6 +2388,9 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Technique: horizontal elbow',
       instructionHe:
         'מרפק אופקי: מרפק עולה לגובה הכתף ונסחף אופקית פנימה. כוח מגיע מסיבוב הפלג העליון — הגוף מסתובב, לא היד בלבד. נקודת פגיעה: ראש המרפק. הגארד ביד הנגדית נשאר מורם לאורך כל המכה. תרגל לאט: שמאל → חזרה → ימין → חזרה.',
+      instructionEn:
+        'Horizontal elbow: the elbow rises to shoulder height and sweeps horizontally inward. Power comes from turning the upper body — the body turns, not the arm alone. Point of impact: the tip of the elbow. The guard on the opposite hand stays up through the whole punch. Practice slowly: left → back → right → back.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2398,6 +2401,14 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Round 1 — elbow + jab',
       instructionHe:
         'ג׳אב → מרפק אופקי שמאל. חזור. 60 שניות קצב נוח, 60 שניות — גבר. בכל מרפק — בדוק שהגוף מסתובב, לא רק היד. מרפק אחד שלם עדיף על שניים לא נכונים.',
+      instructionEn:
+        'Jab → left horizontal elbow. Return. 60 seconds at a comfortable pace, 60 seconds — faster. On every elbow, check that the body turns, not just the arm. One complete elbow is better than two incorrect ones.',
+      coachingCuesEn: [
+        'Body turns — not the arm alone',
+        'Elbow at shoulder height',
+        'Guard on the opposite hand',
+        'Back to guard right away',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גוף מסתובב — לא יד בלבד',
@@ -2412,6 +2423,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'גלגל כתפיים. מתח אמות. נשום עמוק ושחרר.',
+      instructionEn:
+        'Roll your shoulders. Stretch your forearms. Breathe deeply and release.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2425,6 +2439,9 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים קדימה × 10, אחורה × 10. סיבובי מרפקים: פתח זרועות לצד וסובב את האמה קדימה ואחורה × 10. הכן את המפרקים למרפקים.',
+      instructionEn:
+        'Light jog for 30 seconds. Shoulder circles forward × 10, back × 10. Elbow circles: open your arms to the side and rotate your forearms forward and back × 10. Prepare your joints for the elbows.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2435,6 +2452,9 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Technique: horizontal and rising elbow',
       instructionHe:
         'מרפק אופקי (סוק ספנג 1): מרפק עולה לגובה כתף ונסחף אופקית. מרפק עולה (סוק ספנג 6): יד עולה מלמטה, מרפק מכה כלפי מעלה לסנטר. שניהם בטווח קצר. תרגל לאט: מרפק אופקי שמאל → מרפק עולה ימין → חזרה לגארד.',
+      instructionEn:
+        'Horizontal elbow (Sok Spang 1): the elbow rises to shoulder height and sweeps horizontally. Rising elbow (Sok Spang 6): the hand rises from below, the elbow strikes upward to the chin. Both work at short range. Practice slowly: left horizontal elbow → right rising elbow → back to guard.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2445,6 +2465,14 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Round 1 — horizontal elbow',
       instructionHe:
         'מרפק אופקי שמאל וימין לסירוגין. 45 שניות איטי ומדויק, 45 שניות — קצב מהיר יותר. בדוק בכל מרפק: האם הגוף סובב? האם המרפק בגובה הכתף?',
+      instructionEn:
+        'Horizontal elbow, left and right alternating. 45 seconds slow and precise, 45 seconds — faster pace. Check on every elbow: did the body turn? Is the elbow at shoulder height?',
+      coachingCuesEn: [
+        'Body turns with every elbow',
+        'Elbow at shoulder height',
+        'Guard on the opposite hand',
+        'Exhale with every elbow',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'גוף מסתובב עם כל מרפק',
@@ -2460,6 +2488,14 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Round 2 — jab + elbow',
       instructionHe:
         'ג׳אב → מרפק אופקי. חזור. בתוך הטווח — הג׳אב מכין את המרחק, המרפק מסיים. 45 שניות נוח, 45 שניות — קצב גבוה.',
+      instructionEn:
+        'Jab → horizontal elbow. Return. Within range — the jab sets up the distance, the elbow finishes. 45 seconds comfortable, 45 seconds — high pace.',
+      coachingCuesEn: [
+        'The jab sets up the distance',
+        'The elbow finishes — power from the body',
+        'Back to guard after the elbow',
+        'Don\'t stay on the line',
+      ],
       durationSeconds: 60,
       coachingCuesHe: [
         'ג׳אב מכין את המרחק',
@@ -2474,6 +2510,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'גלגל כתפיים. מתח אמות × 10 שניות. נשום עמוק.',
+      instructionEn:
+        'Roll your shoulders. Stretch your forearms × 10 seconds. Breathe deeply.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -2487,6 +2526,9 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10 לכל כיוון. סיבובי מרפקים × 10. פתיחת אגרופים × 15. שייק-אאוט קצר.',
+      instructionEn:
+        'Light jog for 30 seconds. Shoulder circles × 10 in each direction. Elbow circles × 10. Open and close your fists × 15. A short shake-out.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2497,6 +2539,9 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Technique: three basic elbows',
       instructionHe:
         'מרפק אופקי (1): מרפק עולה לגובה כתף ונסחף. מרפק עולה (6): יד עולה מלמטה, מרפק כלפי מעלה. מרפק אחורה (2): מרפק נסחף אחורה ולצד. כולם דורשים סיבוב גוף. תרגל כל אחד × 5 לאט לפני שמגבירים.',
+      instructionEn:
+        'Horizontal elbow (1): the elbow rises to shoulder height and sweeps. Rising elbow (6): the hand rises from below, the elbow goes upward. Backward elbow (2): the elbow sweeps back and to the side. All of them require a body turn. Practice each one × 5 slowly before you increase the pace.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2507,6 +2552,14 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Round 1 — horizontal elbow',
       instructionHe:
         'מרפק אופקי שמאל וימין לסירוגין. 60 שניות נוח, 60 שניות — מהיר. בדוק סיבוב גוף בכל חזרה.',
+      instructionEn:
+        'Horizontal elbow, left and right alternating. 60 seconds comfortable, 60 seconds — fast. Check the body turn on every rep.',
+      coachingCuesEn: [
+        'The body turns always',
+        'Elbow at shoulder height',
+        'Guard on the opposite hand',
+        'Exhale with every elbow',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גוף מסתובב תמיד',
@@ -2521,6 +2574,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום עמוק. הרפה כתפיים ומרפקים.',
+      instructionEn:
+        'Breathe deeply. Relax your shoulders and elbows.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -2531,6 +2587,14 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Round 2 — jab + horizontal elbow',
       instructionHe:
         'ג׳אב → מרפק אופקי. הג׳אב מכין את המרחק, המרפק מסיים. 60 שניות נוח, 60 שניות — כוח מלא.',
+      instructionEn:
+        'Jab → horizontal elbow. The jab sets up the distance, the elbow finishes. 60 seconds comfortable, 60 seconds — full power.',
+      coachingCuesEn: [
+        'Short jab — don\'t forget to return to guard',
+        'Elbow with body power',
+        'Step back after the sequence',
+        'Exhale with the elbow',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'ג׳אב קצר — אל תשכח לחזור לגארד',
@@ -2545,6 +2609,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הכן לסיבוב האחרון.',
+      instructionEn:
+        'Breathe. Get ready for the last round.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -2555,6 +2622,14 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Round 3 — combination: jab-cross-elbow',
       instructionHe:
         'ג׳אב → קרוס → מרפק אופקי שמאל. חזור. 60 שניות קצב נוח, 60 שניות — מהיר ועצמתי. המרפק מגיע לאחר ה-1-2 — בשלב השלישי הנגד פתוח.',
+      instructionEn:
+        'Jab → cross → left horizontal elbow. Return. 60 seconds at a comfortable pace, 60 seconds — fast and powerful. The elbow comes after the 1-2 — on the third step, the opponent\'s guard is open.',
+      coachingCuesEn: [
+        '1-2 set up, the elbow finishes',
+        'Body turns on the 1-2 and on the elbow',
+        'Back to guard after the elbow',
+        'Exhale at the end of the sequence',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         '1-2 מכינים, מרפק מסיים',
@@ -2569,6 +2644,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'גלגל כתפיים לאט. מתח אמות × 10 שניות לכל יד. נשום עמוק ושחרר.',
+      instructionEn:
+        'Roll your shoulders slowly. Stretch each forearm × 10 seconds per hand. Breathe deeply and release.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2582,6 +2660,9 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי כתפיים × 15. סיבובי מרפקים × 15. פתיחת אגרופים × 20. שייק-אאוט כללי.',
+      instructionEn:
+        'Light jog for 45 seconds. Shoulder circles × 15. Elbow circles × 15. Open your fists × 20. A full-body shake-out.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -2592,6 +2673,9 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Technique: elbows + stepping in and out',
       instructionHe:
         'מרפקים עובדים בטווח קצר — צריך להיכנס לפני המכה וצריך לצאת אחריה. כניסה: צעד קדימה עם הרגל הקדמית. יציאה: שני צעדים אחורה לאחר המרפק. אל תישאר קרוב אחרי המרפק. תרגל: כניסה → מרפק → יציאה.',
+      instructionEn:
+        'Elbows work at short range — you need to get in before the punch and get out after it. Entry: step forward with the front foot. Exit: two steps back after the elbow. Don\'t stay close after the elbow. Practice: entry → elbow → exit.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -2601,6 +2685,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'סיבוב 1 — מרפק אופקי',
       titleEn: 'Round 1 — horizontal elbow',
       instructionHe: 'שמאל וימין לסירוגין, 90 שניות. 45 נוח, 45 מהיר.',
+      instructionEn:
+        'Left and right alternating, 90 seconds. 45 comfortable, 45 fast.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: ['גוף מסתובב', 'מרפק בגובה כתף', 'גארד ביד הנגדית', 'נשיפה'],
     },
@@ -2610,6 +2697,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום.',
+      instructionEn:
+        'Breathe.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -2619,6 +2709,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'סיבוב 2 — ג׳אב + מרפק',
       titleEn: 'Round 2 — jab + elbow',
       instructionHe: 'ג׳אב → מרפק, 90 שניות. 45 נוח, 45 כוח מלא.',
+      instructionEn:
+        'Jab → elbow, 90 seconds. 45 comfortable, 45 full power.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: ['ג׳אב מכין', 'מרפק מסיים', 'יציאה אחרי', 'גארד'],
     },
@@ -2628,6 +2721,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
+      instructionEn:
+        'Breathe. Relax.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -2637,6 +2733,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'סיבוב 3 — 1-2-מרפק',
       titleEn: 'Round 3 — 1-2-elbow',
       instructionHe: 'ג׳אב-קרוס-מרפק. 45 נוח, 45 עצמתי.',
+      instructionEn:
+        'Jab-cross-elbow. 45 comfortable, 45 powerful.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: ['1-2 מהירים, מרפק חזק', 'גוף מסתובב', 'יציאה', 'גארד'],
     },
@@ -2646,6 +2745,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון.',
+      instructionEn:
+        'Breathe. Last round.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -2656,6 +2758,9 @@ const MT_ELBOW_ROUNDS = {
       titleEn: 'Round 4 — free elbows',
       instructionHe:
         'בחר כל שילוב: ג׳אב+מרפק, 1-2+מרפק, מרפק כפול. אחרי כל רצף — יציאה. 90 שניות מלאות.',
+      instructionEn:
+        'Choose any combination: jab + elbow, 1-2 + elbow, or double elbow. After every sequence — exit. 90 full seconds.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: ['בחר רצף ועמוד עליו', 'יציאה אחרי כל רצף', 'גארד', 'נשיפה'],
     },
@@ -2665,6 +2770,9 @@ const MT_ELBOW_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'גלגל כתפיים לאט. מתח אמות × 15 שניות. נשום עמוק ושחרר. עבודה טובה.',
+      instructionEn:
+        'Roll your shoulders slowly. Stretch your forearms × 15 seconds. Breathe deeply and release. Good work.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
