@@ -321,6 +321,13 @@ const L1_W3 = {
     'אל תסתובב יתר על המידה קדימה — הגוף נשאר בתוך שטח הרגליים.',
     'שמור על יד שמאל על הלחי השמאלית לאורך כל הקרוס.',
   ],
+  descriptionEn: 'Learn the cross — the power punch that comes from turning the hips and body weight, not from the hand alone.',
+  goalEn: 'Goal: understand that the power of the cross comes from the hips and the back leg, and throw a cross with the correct pivot.',
+  safetyNotesEn: [
+    'Pivot the back foot on the ball of the foot during the cross — to avoid stress on the knee.',
+    'Don\'t over-rotate forward — keep your body within the width of your legs.',
+    'Keep your left hand on your left cheek throughout the cross.',
+  ],
   rounds: [
     {
       id: 'L1-W3-R1',
@@ -328,6 +335,12 @@ const L1_W3 = {
       titleHe: 'חימום',
       titleEn: 'Warm-up',
       instructionHe: 'בצע 60 שניות ריצה קלה במקום עם הרמת ברכיים, ואחריה 60 שניות סיבובי אגן — ידיים על המותניים, סובב את האגן בעיגולים גדולים 10 פעמים לכל כיוון.',
+      instructionEn:
+        'Do 60 seconds of light jogging in place with high knees, then 60 seconds of hip circles — hands on your hips, rotate your pelvis in large circles 10 times in each direction.',
+      coachingCuesEn: [
+        'Warm up the hip joint',
+        'Large, slow circles',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['חמם את מפרק הירך', 'עיגולים גדולים ואיטיים'],
     },
@@ -337,6 +350,12 @@ const L1_W3 = {
       titleHe: 'טכניקה: קרוס וסיבוב אגן',
       titleEn: 'Technique: cross and hip rotation',
       instructionHe: 'עמוד בעמידת מוצא. שלח את האגרוף הימני ישר קדימה תוך כדי: (1) דחיפת כף הרגל האחורית לרצפה, (2) סיבוב האגן והכתף הימנית קדימה, (3) כיפוף קל של הברך הקדמית. כף היד מסתובבת כלפי מטה בנקודת הסיום. יד שמאל נשארת על הלחי.',
+      instructionEn:
+        'Stand in the fighting stance. Send the right fist straight forward while: (1) pushing the back foot into the floor, (2) turning the pelvis and right shoulder forward, (3) bending the front knee slightly. The palm rotates downward at the end point. The left hand stays on the cheek.',
+      coachingCuesEn: [
+        'The power comes from the leg — not the hand',
+        'The back toe turns on the floor',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['הכוח בא מהרגל — לא מהיד', 'בוהן האחורית מסתובבת על הרצפה'],
     },
@@ -346,6 +365,12 @@ const L1_W3 = {
       titleHe: 'תרגיל סיבוב אגן בלבד',
       titleEn: 'Hip rotation only',
       instructionHe: 'ללא ידיים — הצב את הידיים על המותניים ובצע רק את תנועת האגן של הקרוס: דחוף את הרגל האחורית, סובב את האגן קדימה, ועצור. חזור 15 פעמים בקצב איטי. זכור לסובב את כף הרגל האחורית על הבוהן.',
+      instructionEn:
+        'No hands — place your hands on your hips and do only the pelvis movement of the cross: push the back foot, turn the pelvis forward, and stop. Repeat 15 times at a slow pace. Remember to pivot the back foot on the ball of the foot.',
+      coachingCuesEn: [
+        'Hands on hips — focus on the pelvis',
+        'Every turn — stop and check',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['ידיים על מותניים — מתמקד באגן', 'כל סיבוב — עצור ובדוק'],
     },
@@ -355,6 +380,12 @@ const L1_W3 = {
       titleHe: 'קרוס איטי — תרגול',
       titleEn: 'Slow cross — drill',
       instructionHe: 'בצע קרוס מלא באיטיות — 3 שניות לכיוון, 3 שניות חזרה. בכל מכה בדוק: האם האגן הסתובב? האם כף הרגל האחורית עשתה ציר? האם יד שמאל נשארה על הלחי? חזור 8 פעמים.',
+      instructionEn:
+        'Throw a full cross slowly — 3 seconds out, 3 seconds back. On every punch, check: did the pelvis turn? Did the back foot pivot? Did the left hand stay on the cheek? Repeat 8 times.',
+      coachingCuesEn: [
+        'Feel the pelvis starting the movement',
+        'Left hand — doesn\'t move',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['מרגיש את האגן מתחיל את התנועה', 'יד שמאל — לא זזה'],
     },
@@ -364,6 +395,11 @@ const L1_W3 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. בצע 5 נשימות עמוקות — שאיפה 4 שניות, נשיפה 6 שניות.',
+      instructionEn:
+        'Rest and sip some water. Take 5 deep breaths — inhale for 4 seconds, exhale for 6 seconds.',
+      coachingCuesEn: [
+        'Deep breathing to release',
+      ],
       durationSeconds: 45,
       coachingCuesHe: ['נשימה עמוקה לשחרור'],
     },
@@ -373,6 +409,12 @@ const L1_W3 = {
       titleHe: 'סיבוב 1 — קרוס בקצב',
       titleEn: 'Round 1 — cross on a rhythm',
       instructionHe: 'בצע קרוס אחד כל 3 שניות. בכל מכה — ציר הרגל האחורית, סיבוב האגן, החזרת היד. התמקד בתחושה של הכוח שמגיע מהרגל ועולה דרך האגן לאגרוף.',
+      instructionEn:
+        'Throw one cross every 3 seconds. On every punch — pivot the back foot, turn the pelvis, and return the hand. Focus on the feeling of power coming from the leg and rising through the pelvis into the fist.',
+      coachingCuesEn: [
+        'Power from the floor — not the shoulder',
+        'Return to the fighting stance between punches',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['כוח מהרצפה — לא מהכתף', 'חזור לעמידת מוצא בין מכה למכה'],
     },
@@ -382,6 +424,11 @@ const L1_W3 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. נענע את יד ימין בעדינות.',
+      instructionEn:
+        'Rest and sip some water. Gently shake out your right hand.',
+      coachingCuesEn: [
+        'Release the right fist',
+      ],
       durationSeconds: 45,
       coachingCuesHe: ['שחרר את האגרוף הימני'],
     },
@@ -391,6 +438,12 @@ const L1_W3 = {
       titleHe: 'סיבוב 2 — קרוס ×2',
       titleEn: 'Round 2 — cross ×2',
       instructionHe: 'שלח שני קרוסים רצופים עם הפסקה של 4 שניות ביניהם. בכל צמד — הראשון לאט ומדויק, השני מעט מהיר יותר. חזור לאורך כל הסיבוב.',
+      instructionEn:
+        'Throw two crosses in a row with a 4-second pause between them. In each pair — the first slow and precise, the second a little faster. Repeat throughout the round.',
+      coachingCuesEn: [
+        'Slow → fast — increasing the pace',
+        'Foot pivot on every punch',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['איטי → מהיר — עלייה בקצב', 'ציר רגל בכל מכה'],
     },
@@ -400,6 +453,12 @@ const L1_W3 = {
       titleHe: 'סיבוב 3 — קרוס חופשי',
       titleEn: 'Round 3 — free cross',
       instructionHe: 'בחר קצב נוח ובצע קרוסים לאורך כל הסיבוב. כל 20 שניות — עצור 5 שניות ובדוק את הגארד ואת עמידת המוצא. חשוב לחזור לעמידת מוצא נכונה בין כל מכה.',
+      instructionEn:
+        'Choose a comfortable pace and throw crosses throughout the round. Every 20 seconds — stop for 5 seconds and check your guard and your fighting stance. It\'s important to return to the correct fighting stance between every punch.',
+      coachingCuesEn: [
+        'Focus on technique — not power',
+        'Guard returns between punches',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['מיקוד בטכניקה — לא בכוח', 'גארד חוזר בין מכות'],
     },
@@ -409,6 +468,12 @@ const L1_W3 = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'עמוד ישר ומתח את יד ימין על פני החזה עם יד שמאל — החזק 20 שניות. החלף לשמאל. לאחר מכן שב עם רגליים פשוקות וסובב את הגוף העליון לאט משמאל לימין 8 פעמים.',
+      instructionEn:
+        'Stand tall and stretch your right arm across your chest with your left arm — hold for 20 seconds. Switch to the left. Then sit with your legs apart and slowly rotate your upper body from left to right 8 times.',
+      coachingCuesEn: [
+        'Gentle stretch for the shoulders',
+        'Breathe steadily',
+      ],
       durationSeconds: 60,
       coachingCuesHe: ['מתח עדין לכתפיים', 'נשם בסדירות'],
     },
