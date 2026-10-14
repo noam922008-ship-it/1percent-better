@@ -26,6 +26,13 @@ const L1_W1 = {
     'אל תנעל את הברכיים — שמור על כפיפה קלה לספיגת כוח.',
     'עמוד על כדורי כפות הרגליים — לא על העקבים, כדי שתוכל לזוז בכל עת.',
   ],
+  descriptionEn: 'Learn the foundation of boxing — a correct fighting stance and a basic guard that protects you.',
+  goalEn: 'Goal: learn the correct boxing stance and feel balanced and protected before every punch.',
+  safetyNotesEn: [
+    'Keep your chin down — your chin is a target, don\'t expose it.',
+    'Don\'t lock your knees — keep a slight bend to absorb force.',
+    'Stand on the balls of your feet — not on your heels, so you can move at any moment.',
+  ],
   rounds: [
     {
       id: 'L1-W1-R1',
@@ -33,6 +40,12 @@ const L1_W1 = {
       titleHe: 'חימום',
       titleEn: 'Warm-up',
       instructionHe: 'בצע 60 שניות קפיצה קלה במקום עם ידיים רפויות לצדדים, ואחריה 60 שניות סיבובי כתפיים קדימה ואחורה — 10 חזרות לכל כיוון.',
+      instructionEn:
+        'Do 60 seconds of light jumping in place with your arms relaxed at your sides, then 60 seconds of shoulder circles forward and back — 10 reps in each direction.',
+      coachingCuesEn: [
+        'Breathe deeply and evenly',
+        'Release your shoulders',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['נשום עמוק ואחיד', 'שחרר את הכתפיים'],
     },
@@ -42,6 +55,12 @@ const L1_W1 = {
       titleHe: 'טכניקה: עמידת מוצא',
       titleEn: 'Technique: fighting stance',
       instructionHe: 'הצב את כף הרגל השמאלית קדימה ברוחב כתפיים מהרגל הימנית. כוון את הרגל השמאלית ישר קדימה והימנית בזווית 45°. פזר 60% ממשקלך על הרגל האחורית. הרם את שתי האגרופים — השמאלי מול הסנטר, הימני על הלחי הימנית. הורד את הסנטר לכיוון החזה.',
+      instructionEn:
+        'Place your left foot forward, shoulder-width from your right foot. Point your left foot straight ahead and your right foot at a 45° angle. Put 60% of your weight on your back foot. Raise both fists — the left in front of your chin, the right on your right cheek. Lower your chin toward your chest.',
+      coachingCuesEn: [
+        '60/40 — most of the weight goes back',
+        'Guard in front of your face — always',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['60/40 — רוב המשקל אחורה', 'גארד מול הפנים תמיד'],
     },
@@ -51,6 +70,12 @@ const L1_W1 = {
       titleHe: 'תרגול עמידה — איטי',
       titleEn: 'Stance drill — slow',
       instructionHe: 'היכנס לעמידת מוצא, החזק 5 שניות, ובדוק: רגליים ברוחב כתפיים? סנטר מורד? גארד מול הפנים? צא לעמידה רגילה ושוב חזור לעמידת מוצא. חזור על המחזור הזה לאורך כל הסיבוב.',
+      instructionEn:
+        'Enter the fighting stance and hold it for 5 seconds. Check: are your feet shoulder-width apart? Is your chin down? Is your guard in front of your face? Return to a regular stance, then go back to the fighting stance. Repeat this cycle for the whole round.',
+      coachingCuesEn: [
+        'The balls of your feet are in contact with the floor',
+        'Knees slightly bent',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['כדורי כפות הרגליים בקשר עם הרצפה', 'ברכיים כפופות קלות'],
     },
@@ -60,6 +85,12 @@ const L1_W1 = {
       titleHe: 'סיבוב 1 — עמידה וגארד',
       titleEn: 'Round 1 — stance and guard',
       instructionHe: 'היכנס לעמידת מוצא והחזק אותה. כל 10 שניות בדוק את עצמך בקול: "סנטר?" — הורד. "גארד?" — הרם. "משקל?" — בדוק שהוא על הרגל האחורית. הישאר בתנועה עדינה קדימה-אחורה על כפות הרגליים.',
+      instructionEn:
+        'Enter the fighting stance and hold it. Every 10 seconds, check yourself out loud: "Chin?" — lower it. "Guard?" — raise it. "Weight?" — check that it\'s on your back foot. Stay in gentle movement forward and back on the balls of your feet.',
+      coachingCuesEn: [
+        'Gentle movement — don\'t stand like a statue',
+        'Shoulders relaxed, not tense',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['תנועה עדינה — לא עומד כמו פסל', 'כתפיים מרופות, לא נוקשות'],
     },
@@ -69,6 +100,11 @@ const L1_W1 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח, לגום מים, ונשום בנשיפות ארוכות דרך הפה. השתמש בזמן הזה לשחרר את הכתפיים ולנפנף את הידיים.',
+      instructionEn:
+        'Rest, sip some water, and breathe out slowly through your mouth. Use this time to release your shoulders and shake out your hands.',
+      coachingCuesEn: [
+        'Breathe deeply and evenly',
+      ],
       durationSeconds: 45,
       coachingCuesHe: ['נשם עמוק ואחיד'],
     },
@@ -78,6 +114,12 @@ const L1_W1 = {
       titleHe: 'סיבוב 2 — עמידה + שמירת גארד',
       titleEn: 'Round 2 — stance + holding the guard',
       instructionHe: 'היכנס לעמידת מוצא ונסה לשמור על הגארד כשאתה מזיז את הגוף מעט קדימה ואחורה ממרחק קטן. הגארד חייב לחזור למקומו בכל פעם — אגרוף שמאל מול הסנטר, ימין על הלחי. בדוק את עצמך מדי 15 שניות.',
+      instructionEn:
+        'Enter the fighting stance and try to hold your guard while you move your body slightly forward and back over a short distance. The guard must return to its place every time — the left fist in front of your chin, the right on your cheek. Check yourself every 15 seconds.',
+      coachingCuesEn: [
+        'The guard doesn\'t drop when you move',
+        'Chin down — always',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['הגארד לא "נופל" כשמתנועעים', 'סנטר כלפי מטה תמיד'],
     },
@@ -87,6 +129,12 @@ const L1_W1 = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'עמוד ישר ומתח את הידיים לצדדים בגובה הכתפיים. בצע סיבוב איטי של פלג גוף עליון שמאלה וימינה — 10 חזרות. לאחר מכן שחרר את הידיים ונענע את הפרקים בעדינות למשך 30 שניות.',
+      instructionEn:
+        'Stand tall and stretch your arms out to the sides at shoulder height. Do a slow upper-body rotation to the left and right — 10 reps. Then release your arms and gently shake out your wrists for 30 seconds.',
+      coachingCuesEn: [
+        'Notice your breathing',
+        'Cool-down — not effort',
+      ],
       durationSeconds: 60,
       coachingCuesHe: ['נשים לב לנשימה', 'שחרור — לא מאמץ'],
     },
