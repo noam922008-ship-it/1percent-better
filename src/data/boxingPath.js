@@ -498,6 +498,13 @@ const L1_W4 = {
     'בקומבינציה — הגארד על הצד השני נשאר על הלחי כל הזמן.',
     'אם מרגיש עייף — עצור ונוח; קומבינציה בטעות גרועה יותר מאחת טובה.',
   ],
+  descriptionEn: 'Learn to combine the jab and the cross into your first combination — rhythm, timing, and a return to guard.',
+  goalEn: 'Goal: throw a smooth jab–cross combination at an even pace and return to guard right away.',
+  safetyNotesEn: [
+    'Bring the jab back to guard before the cross goes out — both hands should not be out at the same time.',
+    'In the combination, the guard on the other side stays on the cheek the whole time.',
+    'If you feel tired, stop and rest. Sloppy combinations are worse than one clean punch.',
+  ],
   rounds: [
     {
       id: 'L1-W4-R1',
@@ -505,6 +512,12 @@ const L1_W4 = {
       titleHe: 'חימום',
       titleEn: 'Warm-up',
       instructionHe: 'בצע 60 שניות קפיצות קלות ממקום למקום עם תנועת ידיים חופשית, ואחריה 60 שניות ג׳אבים וקרוסים באוויר בלי כוח — רק לחמם את המפרקים.',
+      instructionEn:
+        'Do 60 seconds of light hopping from place to place with loose arm movement, then 60 seconds of jabs and crosses in the air with no power — just to warm up the joints.',
+      coachingCuesEn: [
+        'Fast and loose jab–cross — warm-up only',
+        'Keep breathing',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['ג׳אב–קרוס מהיר ורפוי — רק חימום', 'שמור על נשימה'],
     },
@@ -514,6 +527,12 @@ const L1_W4 = {
       titleHe: 'טכניקה: ג׳אב–קרוס',
       titleEn: 'Technique: jab–cross',
       instructionHe: 'עמוד בעמידת מוצא. שלח ג׳אב ימין (תחושת חזרה של הידית) — ברגע שהיד השמאלית חוזרת לנגוע בלחי, שלח את הקרוס. הג׳אב "פותח דלת", הקרוס "סוגר" אותה. המחזור: ג׳אב, גארד, קרוס, גארד.',
+      instructionEn:
+        'Stand in the fighting stance. Throw a right jab (feel the handle return). As soon as the left hand returns to touch the cheek, throw the cross. The jab opens the door, the cross closes it. The cycle: jab, guard, cross, guard.',
+      coachingCuesEn: [
+        'Jab opens — cross closes',
+        'Guard between every punch',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['ג׳אב פותח — קרוס סוגר', 'גארד בין כל מכה'],
     },
@@ -523,6 +542,12 @@ const L1_W4 = {
       titleHe: 'קומבינציה איטית — תרגול',
       titleEn: 'Slow combination — drill',
       instructionHe: 'בצע ג׳אב–קרוס בקצב מאוד איטי: ג׳אב (3 שניות), גארד (2 שניות), קרוס (3 שניות), גארד (2 שניות). ספור בקול כדי לשמור קצב. חזור 5 פעמים.',
+      instructionEn:
+        'Throw the jab–cross at a very slow pace: jab (3 seconds), guard (2 seconds), cross (3 seconds), guard (2 seconds). Count out loud to keep the rhythm. Repeat 5 times.',
+      coachingCuesEn: [
+        'Count out loud — 1 jab, 2 guard, 3 cross',
+        'Don\'t rush — steady rhythm',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['ספור בקול — 1 ג׳אב, 2 גארד, 3 קרוס', 'אל תמהר — קצב קבוע'],
     },
@@ -532,6 +557,12 @@ const L1_W4 = {
       titleHe: 'סיבוב 1 — ג׳אב–קרוס בקצב',
       titleEn: 'Round 1 — jab–cross on a rhythm',
       instructionHe: 'בצע ג׳אב–קרוס כל 4 שניות לאורך הסיבוב. הפסקה בין כל קומבינציה לשמירת הגארד. מיקוד: הג׳אב חוזר לפני שהקרוס יוצא.',
+      instructionEn:
+        'Throw a jab–cross every 4 seconds for the whole round. Pause between each combination to keep the guard. Focus: the jab returns before the cross goes out.',
+      coachingCuesEn: [
+        'Jab returns — then cross',
+        'High guard between combinations',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['ג׳אב חוזר — אז קרוס', 'גארד גבוה בין קומבינציות'],
     },
@@ -541,6 +572,9 @@ const L1_W4 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. בצע 5 נשימות עמוקות. ביחד עם הנשיפה — שחרר את הכתפיים למטה.',
+      instructionEn:
+        'Rest and sip water. Take 5 deep breaths. On each exhale, let your shoulders drop.',
+      coachingCuesEn: ['Shoulders down and loose'],
       durationSeconds: 45,
       coachingCuesHe: ['כתפיים למטה ורפויות'],
     },
@@ -550,6 +584,12 @@ const L1_W4 = {
       titleHe: 'סיבוב 2 — קצב מוגבר',
       titleEn: 'Round 2 — faster pace',
       instructionHe: 'בצע ג׳אב–קרוס בקצב מעט מהיר יותר — קומבינציה אחת כל 3 שניות. שמור על שיטת הגארד בין כל צמד. לא מדובר במהירות מרבית — מדובר בקצב בינוני אחיד.',
+      instructionEn:
+        'Throw jab–crosses at a slightly faster pace — one combination every 3 seconds. Keep the guard between each pair. This isn\'t maximum speed — it\'s an even, medium pace.',
+      coachingCuesEn: [
+        'Medium pace — not a sprint',
+        'Every combination full and clean',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['קצב בינוני — לא ספרינט', 'כל קומבינציה מלאה וניקיה'],
     },
@@ -559,6 +599,9 @@ const L1_W4 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. מתח בעדינות את אצבעות שתי הידיים לאחור.',
+      instructionEn:
+        'Rest and sip water. Gently stretch the fingers of both hands backward.',
+      coachingCuesEn: ['Stretch fingers — avoid stiffness'],
       durationSeconds: 45,
       coachingCuesHe: ['מתח אצבעות — נמנע מנוקשות'],
     },
@@ -568,6 +611,12 @@ const L1_W4 = {
       titleHe: 'סיבוב 3 — קומבינציה ×3',
       titleEn: 'Round 3 — combination ×3',
       instructionHe: 'שלח 3 ג׳אב–קרוס רצופים, ואחריהם הפסקה של 5 שניות בגארד מלא. חזור לאורך כל הסיבוב. קומבינציה שלישית קצת יותר חזקה מהראשונה.',
+      instructionEn:
+        'Throw 3 jab–crosses in a row, then pause for 5 seconds in full guard. Repeat through the whole round. The third combination should be a bit stronger than the first.',
+      coachingCuesEn: [
+        '3 combinations → guard → again',
+        'Don\'t forget to breathe',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['3 קומבינציות → גארד → שוב', 'נשמת? אל תשכח'],
     },
@@ -577,6 +626,9 @@ const L1_W4 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'מנוחה מלאה. לגום מים, תנשום, ותחמיא לעצמך — הגעת ל-3 סיבובים.',
+      instructionEn:
+        'Full rest. Sip water, breathe, and give yourself credit — you\'ve reached 3 rounds.',
+      coachingCuesEn: ['Really rest — one more round to go'],
       durationSeconds: 45,
       coachingCuesHe: ['נוח באמת — יש עוד סיבוב'],
     },
@@ -586,6 +638,12 @@ const L1_W4 = {
       titleHe: 'סיבוב 4 — ג׳אב–קרוס חופשי',
       titleEn: 'Round 4 — free jab–cross',
       instructionHe: 'בחר קצב נוח ובצע קומבינציות ג׳אב–קרוס לאורך הסיבוב. בכל 20 שניות — עצור ובדוק: גארד? עמידת מוצא? קצב? חזור לאחר הבדיקה.',
+      instructionEn:
+        'Choose a comfortable pace and throw jab–cross combinations throughout the round. Every 20 seconds — stop and check: guard? stance? pace? Then go back to it.',
+      coachingCuesEn: [
+        'Your pace — full technique',
+        'Be proud of every clean combination',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['קצב שלך — טכניקה שלמה', 'גאווה על כל קומבינציה נקייה'],
     },
@@ -595,6 +653,12 @@ const L1_W4 = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'מתח כל זרוע ישר קדימה ומשוך בעדינות כף יד כלפיך — 20 שניות לכל יד. לאחר מכן, עמוד עם רגליים צמודות ונענע את הגוף כולו בעדינות לשחרור.',
+      instructionEn:
+        'Stretch each arm straight forward and gently pull your hand back toward you — 20 seconds per hand. Then stand with your feet together and gently sway your whole body to release.',
+      coachingCuesEn: [
+        'Gentle stretch, not force',
+        'Good work — 4 rounds',
+      ],
       durationSeconds: 60,
       coachingCuesHe: ['מתח עדין, לא מאמץ', 'עבודה טובה — 4 סיבובים'],
     },
@@ -619,6 +683,13 @@ const L1_W5 = {
     'הרגל שבכיוון התנועה זז ראשונה: קדימה — שמאל ראשון; אחורה — ימין ראשון.',
     'שמור על רוחב כתפיים קבוע בין הרגליים גם בזמן התנועה.',
   ],
+  descriptionEn: 'Learn the basics of footwork — stepping forward and back while keeping your distance.',
+  goalEn: 'Goal: move forward and back from the fighting stance without crossing your feet, while keeping your balance.',
+  safetyNotesEn: [
+    'Never cross your feet while moving — it will break your balance.',
+    'The leg on the side of the movement moves first: forward — left first; back — right first.',
+    'Keep your shoulder-width stance between your feet even while moving.',
+  ],
   rounds: [
     {
       id: 'L1-W5-R1',
@@ -626,6 +697,12 @@ const L1_W5 = {
       titleHe: 'חימום',
       titleEn: 'Warm-up',
       instructionHe: 'בצע 60 שניות ריצה קלה במקום עם הרמת ברכיים גבוה, ואחריה 60 שניות צעידה אחורה-קדימה 3 צעדים לכל כיוון — רגל אחת אחרי השניה, בלי קפיצה.',
+      instructionEn:
+        'Do 60 seconds of light jogging in place with high knees, then 60 seconds of walking forward and back, 3 steps in each direction — one foot after the other, no jumping.',
+      coachingCuesEn: [
+        'High knees in the warm-up',
+        'Warm legs before moving',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['ברכיים גבוה בחימום', 'רגליים חמות לפני עבודת תנועה'],
     },
@@ -635,6 +712,12 @@ const L1_W5 = {
       titleHe: 'טכניקה: צעד קדימה ואחורה',
       titleEn: 'Technique: step forward and back',
       instructionHe: 'עמוד בעמידת מוצא. צעד קדימה: שלח את הרגל השמאלית צעד קטן קדימה — ואז גרור את הרגל הימנית באותו מרחק. הרגליים לא נפגשות! צעד אחורה: שלח את הרגל הימנית אחורה — ואז גרור את השמאלית. כל הזמן — רוחב כתפיים נשמר.',
+      instructionEn:
+        'Stand in the fighting stance. Step forward: send the left foot a small step forward, then drag the right foot the same distance. The feet never meet! Step back: send the right foot back, then drag the left. Keep your shoulder width the whole time.',
+      coachingCuesEn: [
+        'Direction of movement — the near leg moves first',
+        'Don\'t yank — slide with balance',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['כיוון התנועה — הרגל הקרובה זזה ראשונה', 'לא מושך — גורר עם איזון'],
     },
@@ -644,6 +727,12 @@ const L1_W5 = {
       titleHe: 'תרגיל תנועה — איטי',
       titleEn: 'Movement drill — slow',
       instructionHe: 'בצע 3 צעדים קדימה ו-3 אחורה באיטיות מלאה — 2 שניות לכל צעד. ספור בקול: "קדימה–שמאל, קדימה–ימין, קדימה–שמאל, אחורה–ימין, אחורה–שמאל, אחורה–ימין". חזור על הרצף 5 פעמים.',
+      instructionEn:
+        'Do 3 steps forward and 3 back in full slow motion — 2 seconds per step. Count out loud: \'forward–left, forward–right, forward–left, back–right, back–left, back–right\'. Repeat the sequence 5 times.',
+      coachingCuesEn: [
+        'Shoulder width — don\'t narrow it',
+        'Count out loud — it helps the rhythm',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['רוחב כתפיים — לא מצטמצם', 'ספור בקול — עוזר לקצב'],
     },
@@ -653,6 +742,12 @@ const L1_W5 = {
       titleHe: 'סיבוב 1 — תנועה + ג׳אב',
       titleEn: 'Round 1 — movement + jab',
       instructionHe: 'נוע 2 צעדים קדימה, שלח ג׳אב, נוע 2 צעדים אחורה. חזור על הרצף הזה לאורך הסיבוב. הג׳אב יוצא רק בזמן שאתה עומד — לא תוך כדי צעד.',
+      instructionEn:
+        'Move 2 steps forward, throw a jab, then move 2 steps back. Repeat this sequence through the round. The jab only goes out while you\'re standing still — not while stepping.',
+      coachingCuesEn: [
+        'Forward → jab → back',
+        'Movement stops before the punch',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['קדימה → ג׳אב → אחורה', 'תנועה עוצרת לפני המכה'],
     },
@@ -662,6 +757,9 @@ const L1_W5 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. נענע את שתי הרגליים לסירוגין לשחרור.',
+      instructionEn:
+        'Rest and sip water. Shake both legs alternately to release them.',
+      coachingCuesEn: ['Release your leg muscles'],
       durationSeconds: 45,
       coachingCuesHe: ['שחרר את שרירי הרגל'],
     },
@@ -671,6 +769,12 @@ const L1_W5 = {
       titleHe: 'סיבוב 2 — תנועה בקצב',
       titleEn: 'Round 2 — movement on a rhythm',
       instructionHe: 'בצע תנועה אחורה וקדימה ברציפות — צעד אחד כל שנייה. אל תעמוד יותר מ-2 שניות במקום. הגארד עולה ונשאר גבוה בזמן כל התנועה. תחיש כשרוצה, האט כשנחוץ.',
+      instructionEn:
+        'Move back and forth continuously — one step every second. Don\'t stand still for more than 2 seconds. Keep the guard up and high through all the movement. Speed up when you want, slow down when you need to.',
+      coachingCuesEn: [
+        'High guard while moving',
+        'Continuous movement — no long stops',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['גארד גבוה בתנועה', 'תנועה רציפה — לא עצירות ארוכות'],
     },
@@ -680,6 +784,9 @@ const L1_W5 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. נשום 5 נשיפות ארוכות.',
+      instructionEn:
+        'Rest and sip water. Take 5 long exhales.',
+      coachingCuesEn: ['Almost done — one round left'],
       durationSeconds: 45,
       coachingCuesHe: ['כמעט סיימת — נשאר סיבוב אחד'],
     },
@@ -689,6 +796,12 @@ const L1_W5 = {
       titleHe: 'סיבוב 3 — תנועה + ג׳אב–קרוס',
       titleEn: 'Round 3 — movement + jab–cross',
       instructionHe: 'נוע 2 צעדים קדימה, שלח ג׳אב–קרוס, נוע 2 צעדים אחורה. זהו הרצף המלא. חזור לאורך הסיבוב. תחיל בקצב איטי ואם מרגיש בטוח — הגבר מעט.',
+      instructionEn:
+        'Move 2 steps forward, throw a jab–cross, then move 2 steps back. This is the full sequence. Repeat through the round. Start at a slow pace, and if you feel confident, pick it up a little.',
+      coachingCuesEn: [
+        'Forward → combination → back',
+        'Guard while moving — always',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['קדימה → קומבינציה → אחורה', 'גארד בתנועה — תמיד'],
     },
@@ -698,6 +811,12 @@ const L1_W5 = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'עמוד עם רגל שמאל מושטת קדימה וכף הרגל מוצמדת לרצפה — מתח את שריר השוק 20 שניות. החלף ל-20 שניות עם הרגל הימנית. לאחר מכן עמוד זקוף ובצע 10 סיבובי קרסול לכל כיוון.',
+      instructionEn:
+        'Stand with your left leg stretched forward and the foot flat on the floor — stretch the calf muscle for 20 seconds. Switch to 20 seconds with the right leg. Then stand upright and do 10 ankle circles in each direction.',
+      coachingCuesEn: [
+        'Stretch the calf — injury prevention',
+        'Ankles kept mobile for boxing movement',
+      ],
       durationSeconds: 60,
       coachingCuesHe: ['מתח שריר שוק — מניעת פציעה', 'קרסוליים — נשמרים בתנועת בוקס'],
     },
@@ -722,6 +841,13 @@ const L1_W6 = {
     'שתה מים בכל מנוחה — אימון הסיכום ארוך יותר מהרגיל.',
     'בדוק את הגארד ואת עמידת המוצא כל 30 שניות — עייפות פוגעת בטכניקה.',
   ],
+  descriptionEn: 'Review all Level 1 techniques and perform them in sequence — stance, jab, cross, combination, and movement.',
+  goalEn: 'Goal: perform all the techniques learned in Level 1 independently and continuously.',
+  safetyNotesEn: [
+    'If you feel extra tired, reduce the intensity of the rounds — don\'t skip them.',
+    'Drink water at every rest — the review workout is longer than usual.',
+    'Check your guard and fighting stance every 30 seconds — fatigue hurts technique.',
+  ],
   rounds: [
     {
       id: 'L1-W6-R1',
@@ -729,6 +855,12 @@ const L1_W6 = {
       titleHe: 'חימום',
       titleEn: 'Warm-up',
       instructionHe: 'בצע 60 שניות ריצה קלה עם הרמת ברכיים, ואחריה 60 שניות: 10 סיבובי כתפיים, 10 סיבובי אגן, ו-10 כפיפות ברכיים עמוקות. הכן את הגוף לאימון ארוך.',
+      instructionEn:
+        'Do 60 seconds of light jogging with high knees, then 60 seconds of: 10 shoulder circles, 10 hip circles, and 10 deep knee bends. Prepare your body for a long workout.',
+      coachingCuesEn: [
+        'Full warm-up — the workout is long today',
+        'Loosen every joint',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['חימום מלא — האימון ארוך היום', 'שחרר כל מפרק'],
     },
@@ -738,6 +870,12 @@ const L1_W6 = {
       titleHe: 'סיבוב 1 — עמידה וגארד',
       titleEn: 'Round 1 — stance and guard',
       instructionHe: 'סיבוב ראשון מוקדש לעמידת מוצא וגארד. היכנס ויצא מהעמידה כל 10 שניות. בכל כניסה — בדוק: רגליים ברוחב כתפיים, סנטר מורד, גארד מול הפנים, משקל אחורה. נוע קלות ושמור על עמידה נכונה.',
+      instructionEn:
+        'This first round is dedicated to stance and guard. Enter and exit the stance every 10 seconds. At each entry, check: feet shoulder-width apart, chin down, guard in front of your face, weight back. Move lightly and keep your stance correct.',
+      coachingCuesEn: [
+        'Every stance entry — self-check',
+        'Light movement — not frozen in place',
+      ],
       durationSeconds: 150,
       coachingCuesHe: ['כל כניסה לעמידה — בדיקה עצמית', 'תנועה קלה — לא קפוא במקום'],
     },
@@ -747,6 +885,9 @@ const L1_W6 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. ספר לעצמך אחד דבר שעשית טוב בסיבוב הראשון.',
+      instructionEn:
+        'Rest and sip water. Tell yourself one thing you did well in the first round.',
+      coachingCuesEn: ['Drink water — long workout'],
       durationSeconds: 45,
       coachingCuesHe: ['שתה מים — אימון ארוך'],
     },
@@ -756,6 +897,12 @@ const L1_W6 = {
       titleHe: 'סיבוב 2 — ג׳אב',
       titleEn: 'Round 2 — jab',
       instructionHe: 'סיבוב שני מוקדש לג׳אב. בצע ג׳אבים בקצב בינוני לאורך כל הסיבוב — ג׳אב אחד כל 2-3 שניות. ודא שהכתף מסתובבת, כף היד מסתובבת כלפי מטה, והיד חוזרת לגארד מיידית.',
+      instructionEn:
+        'This second round is dedicated to the jab. Throw jabs at a medium pace for the whole round — one jab every 2–3 seconds. Make sure the shoulder turns, the palm turns downward, and the hand returns to guard immediately.',
+      coachingCuesEn: [
+        'Shoulder → hand → back — pace',
+        'Right hand on the cheek the whole round',
+      ],
       durationSeconds: 150,
       coachingCuesHe: ['כתף → יד → חזרה — קצב', 'ימין על הלחי כל הסיבוב'],
     },
@@ -765,6 +912,9 @@ const L1_W6 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. מתח בעדינות את אצבעות יד שמאל לאחור.',
+      instructionEn:
+        'Rest and sip water. Gently stretch the fingers of your left hand backward.',
+      coachingCuesEn: ['Stretch — avoid stiffness'],
       durationSeconds: 45,
       coachingCuesHe: ['מתח — מניעת נוקשות'],
     },
@@ -774,6 +924,12 @@ const L1_W6 = {
       titleHe: 'סיבוב 3 — קרוס',
       titleEn: 'Round 3 — cross',
       instructionHe: 'סיבוב שלישי מוקדש לקרוס. בצע קרוסים בקצב בינוני — קרוס אחד כל 3 שניות. מיקוד: ציר הרגל האחורית, סיבוב האגן, כוח שמגיע מהרגל. יד שמאל על הלחי בכל קרוס.',
+      instructionEn:
+        'This third round is dedicated to the cross. Throw crosses at a medium pace — one cross every 3 seconds. Focus: the back-leg pivot, hip rotation, power coming from the leg. Left hand on the cheek with every cross.',
+      coachingCuesEn: [
+        'Power from the leg — not the shoulder',
+        'Back toe turns',
+      ],
       durationSeconds: 150,
       coachingCuesHe: ['כוח מהרגל — לא מהכתף', 'בוהן אחורית מסתובבת'],
     },
@@ -783,6 +939,9 @@ const L1_W6 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. 3 נשימות עמוקות — שאיפה 4 שניות, נשיפה 6 שניות.',
+      instructionEn:
+        'Rest and sip water. 3 deep breaths — inhale for 4 seconds, exhale for 6 seconds.',
+      coachingCuesEn: ['Breathe — as important as the workout'],
       durationSeconds: 45,
       coachingCuesHe: ['נשים — חשוב כמו האימון'],
     },
@@ -792,6 +951,12 @@ const L1_W6 = {
       titleHe: 'סיבוב 4 — ג׳אב–קרוס',
       titleEn: 'Round 4 — jab–cross',
       instructionHe: 'סיבוב רביעי מוקדש לקומבינציה. בצע ג׳אב–קרוס כל 4 שניות. ודא שהג׳אב חוזר לפני שהקרוס יוצא, וגארד מלא בין כל קומבינציה. הגבר מעט עוצמה בחצי השני.',
+      instructionEn:
+        'This fourth round is dedicated to the combination. Throw a jab–cross every 4 seconds. Make sure the jab returns before the cross goes out, with a full guard between each combination. Increase the power a little in the second half.',
+      coachingCuesEn: [
+        'Jab → guard → cross → guard',
+        'Even pace — not too fast',
+      ],
       durationSeconds: 150,
       coachingCuesHe: ['ג׳אב → גארד → קרוס → גארד', 'קצב אחיד — לא מהיר מדי'],
     },
@@ -801,6 +966,9 @@ const L1_W6 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ולגום מים. נעמד ישר ונניח את הידיים על הברכיים — נשם עמוק.',
+      instructionEn:
+        'Rest and sip water. Stand straight and rest your hands on your knees — breathe deeply.',
+      coachingCuesEn: ['The last round is coming — give it everything'],
       durationSeconds: 45,
       coachingCuesHe: ['סיבוב אחרון מגיע — תיתן הכל'],
     },
@@ -810,6 +978,12 @@ const L1_W6 = {
       titleHe: 'סיבוב 5 — הכל ביחד',
       titleEn: 'Round 5 — all together',
       instructionHe: 'הסיבוב האחרון משלב הכל. נוע 2 צעדים קדימה, שלח ג׳אב–קרוס, ונוע 2 צעדים אחורה. חזור לאורך הסיבוב. כל 30 שניות — עצור לבדיקת הגארד ועמידת המוצא. זהו הסיכום שלך — תבצע עם גאווה.',
+      instructionEn:
+        'The last round puts it all together. Move 2 steps forward, throw a jab–cross, and move 2 steps back. Repeat through the round. Every 30 seconds, stop to check your guard and fighting stance. This is your summary — do it with pride.',
+      coachingCuesEn: [
+        'Forward → combination → back',
+        'That\'s it — all Level 1 fundamentals',
+      ],
       durationSeconds: 150,
       coachingCuesHe: ['קדימה → קומבינציה → אחורה', 'זהו — כל יסודות רמה 1'],
     },
@@ -819,6 +993,12 @@ const L1_W6 = {
       titleHe: 'שחרור מלא',
       titleEn: 'Full cool-down',
       instructionHe: 'מתח כל זרוע 20 שניות. מתח את שריר השוק 20 שניות לכל רגל. לאחר מכן שב על הרצפה, פרוש את הרגליים בצורת V, ובצע 5 הטיות איטיות לכל כיוון. סיים עם 5 נשיפות עמוקות בעמידה.',
+      instructionEn:
+        'Stretch each arm for 20 seconds. Stretch the calf muscle for 20 seconds per leg. Then sit on the floor, spread your legs in a V shape, and do 5 slow bends in each direction. Finish with 5 deep exhales standing.',
+      coachingCuesEn: [
+        'Full cool-down — your body worked hard',
+        'Every stretch — at least 20 seconds',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['שחרור מלא — הגוף עבד קשה', 'כל מתיחה — 20 שניות לפחות'],
     },
