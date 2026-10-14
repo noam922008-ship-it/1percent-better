@@ -163,7 +163,79 @@ const BOXING_FORM_ALERTS = {
 const POSE_COOLDOWN_MS  = 4500  // min ms between same alert type
 const POSE_INTERVAL_MS  = 100   // ~10 fps analysis rate
 
-function buildSummary(stats, disc, tf) {
+// English coach lines, used when the app language is English (speak() picks the voice from the text)
+const MOTIVATIONAL_EN = {
+  light: [
+    'Nice! Keep your guard up',
+    'Relax your shoulders',
+    'Breathe in rhythm, don’t stop',
+    'Eyes forward, always',
+    'Keep moving, don’t freeze',
+  ],
+  medium: [
+    'Faster! Tighten the combo',
+    'Keep your hands up!',
+    'Press forward, don’t wait',
+    'Focused! Clean combo',
+    'Keep the rhythm, don’t break',
+    'Attack! He doesn’t rest',
+  ],
+  hard: [
+    'Faster! Explode!',
+    'Give it everything now!',
+    'Non-stop! More!',
+    'No rest! Push!',
+    'Head down, push forward!',
+    'Explode! Don’t run!',
+  ],
+}
+
+const OPENERS_EN = {
+  boxing: {
+    light:  'Ready? Jab, cross — classic boxing, start!',
+    medium: 'Let’s work! Jab, cross, hook — go!',
+    hard:   'All in now! Jab, cross, hook, uppercut — explode!',
+  },
+  'muay-thai': {
+    light:  'Ready? Jab, cross, kick — Muay Thai, start!',
+    medium: 'Full arsenal! Jab, cross, roundhouse kick — go!',
+    hard:   'All in now! Jab, cross, hook, knee — explode!',
+  },
+}
+
+const IMPROVEMENT_TIPS_EN = {
+  timing: {
+    boxing:      'Sharpen your timing — hit right after the jab, don’t wait',
+    'muay-thai': 'Improve your timing — roundhouse kick right after the jab and cross, no pause',
+  },
+  stance: {
+    boxing:      'Keep your stance — knees slightly bent, weight balanced between your feet',
+    'muay-thai': 'Stable base — feet shoulder-width apart, always on the balls of your feet',
+  },
+  power: {
+    boxing:      'Rotate your hips on every punch — power comes from the floor, not the arm',
+    'muay-thai': 'Snap your kicks — straighten from the thigh, hit with full rotation',
+  },
+  cardio: {
+    boxing:      'Breathe with rhythm — short exhale with every punch, inhale between combos',
+    'muay-thai': 'Manage your energy — steady pace in combos, short pause between sets',
+  },
+  strikes: {
+    boxing:      'Build volume — chain two or three combos in each attack burst',
+    'muay-thai': 'Do more — jab and cross must open every combo before a kick',
+  },
+}
+
+const BOXING_FORM_ALERTS_EN = {
+  guardBoth:  'Hands up! Protect your chin!',
+  guardLeft:  'Left hand dropped — keep your guard!',
+  guardRight: 'Right hand dropped — keep your guard!',
+  elbowFlare: 'Bend your elbows, protect your body!',
+}
+
+const PUNCH_OK_EN = { hard: 'Explosion! That’s how you keep going!', normal: 'Clean punch!' }
+
+function buildSummary(stats, disc, tf, lang = 'he') {
   const accuracy = Math.round(stats.timing * 0.4 + stats.stance * 0.35 + stats.power * 0.25)
   const accuracyLabel = tf.accuracyLabel[
     accuracy >= 85 ? 'excellent' : accuracy >= 70 ? 'veryGood' : accuracy >= 55 ? 'good' : accuracy >= 40 ? 'fair' : 'needsWork'
@@ -177,7 +249,8 @@ function buildSummary(stats, disc, tf) {
   const weakest  = sorted.slice(0, 2).map(s => s.key)
   const strongest = sorted[sorted.length - 1].key
 
-  const tips = weakest.map(k => IMPROVEMENT_TIPS[k]?.[disc] || IMPROVEMENT_TIPS[k]?.boxing)
+  const tipMap = lang === 'en' ? IMPROVEMENT_TIPS_EN : IMPROVEMENT_TIPS
+  const tips = weakest.map(k => tipMap[k]?.[disc] || tipMap[k]?.boxing)
 
   const highlight = fmt(tf.highlight, { stat: tf.stats[strongest].toLowerCase() })
   const voiceTip  = tips[0] || ''
@@ -257,7 +330,7 @@ function speak(text, diff) {
 }
 
 export default function TrainingMode({ onClose, onAwardXP }) {
-  const { t: tr } = useLang()
+  const { lang, t: tr } = useLang()
   const tf = tr.workouts.free
   const [phase,      setPhase]      = useState('select')
   const [discipline, setDiscipline] = useState(null)   // 'boxing' | 'muay-thai'
@@ -329,7 +402,8 @@ export default function TrainingMode({ onClose, onAwardXP }) {
 
     const cfg    = DIFFICULTIES[diff]
     const disc   = discipline   // capture for interval closures
-    const opener = OPENERS[disc]?.[diff] || OPENERS.boxing[diff]
+    const openers = lang === 'en' ? OPENERS_EN : OPENERS
+    const opener = openers[disc]?.[diff] || openers.boxing[diff]
     addCue(opener)
     speak(opener, diff)
 
@@ -355,7 +429,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
 
     coachRef.current = setInterval(() => {
       cueType.current = (cueType.current + 1) % 3
-      const pool = cueType.current === 2 ? MOTIVATIONAL[diff] : COMBOS[disc][diff]
+      const pool = cueType.current === 2 ? (lang === 'en' ? MOTIVATIONAL_EN : MOTIVATIONAL)[diff] : COMBOS[disc][diff]
       const pick = pool[Math.floor(Math.random() * pool.length)]
       const cue  = Array.isArray(pick) ? pick.map(id => tf.moves[id]).join(', ') : pick
       addCue(cue)
@@ -412,7 +486,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
         const last = alertedRef.current[v] || 0
         if (now - last > POSE_COOLDOWN_MS) {
           alertedRef.current[v] = now
-          const msg = BOXING_FORM_ALERTS[v]
+          const msg = (lang === 'en' ? BOXING_FORM_ALERTS_EN : BOXING_FORM_ALERTS)[v]
           if (msg) { addCue(msg); speak(msg, diff) }
         }
       }
@@ -422,7 +496,9 @@ export default function TrainingMode({ onClose, onAwardXP }) {
         const last = alertedRef.current['punch+'] || 0
         if (now - last > 6000) {
           alertedRef.current['punch+'] = now
-          const msg = diff === 'hard' ? 'פיצוץ! כך ממשיכים!' : 'מכה נקייה!'
+          const msg = lang === 'en'
+            ? (diff === 'hard' ? PUNCH_OK_EN.hard : PUNCH_OK_EN.normal)
+            : (diff === 'hard' ? 'פיצוץ! כך ממשיכים!' : 'מכה נקייה!')
           addCue(msg); speak(msg, diff)
         }
       }
@@ -441,7 +517,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
     if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
 
     const xp  = Math.max(10, Math.round((elapsed / 60) * 25 * DIFFICULTIES[difficulty].xpMult))
-    const sum = buildSummary(stats, discipline, tf)
+    const sum = buildSummary(stats, discipline, tf, lang)
     setXpEarned(xp)
     setSummary(sum)
 
