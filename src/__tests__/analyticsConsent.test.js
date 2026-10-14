@@ -62,15 +62,15 @@ describe('flag on, before a choice', () => {
 })
 
 describe('accept', () => {
-  it('loads GA and sends this visit\'s waiting events in order, then live ones', async () => {
+  it('loads GA and sends only events from the choice on; nothing from before it', async () => {
     const a = await load(true)
     await a.startAnalytics()
     a.track('welcome_start')
     await a.setConsent(true)
     expect(calls.init).toBe(1)
-    expect(calls.logged).toEqual([['app_open', { utm_source: 'tiktok' }], ['welcome_start', {}]])
+    expect(calls.logged).toEqual([])
     a.track('task_added')
-    expect(calls.logged.at(-1)).toEqual(['task_added', {}])
+    expect(calls.logged).toEqual([['task_added', {}]])
     expect(localStorage.getItem(a.CONSENT_KEY)).toBe('granted')
     expect(a.needsConsentChoice()).toBe(false)
   })

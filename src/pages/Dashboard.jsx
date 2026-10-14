@@ -76,7 +76,6 @@ import { INSTANT_BOXING_WORKOUT, INSTANT_MT_WORKOUT } from '../data/instantWorko
 import DailyLessonCard from '../components/DailyLessonCard'
 import MyTasks from '../components/MyTasks'
 import JournalCard from '../components/JournalCard'
-import ConsentBanner from '../components/ConsentBanner'
 import Journal from '../components/Journal'
 import LessonNotesPage from '../components/LessonNotesPage'
 
@@ -1477,8 +1476,6 @@ export default function Dashboard() {
         {/* ── HOME TAB — Command Center ── */}
         {activeTab === 'home' && (
           <div className="prime-home-outer">
-            {/* Analytics consent — first arrival at Home, after the welcome screen (FEATURES.consentBanner) */}
-            {FEATURES.consentBanner && <ConsentBanner />}
             {/* My Tasks — the user's own tasks, always first */}
             <div style={{ marginBottom: '0.875rem' }}>
               <MyTasks uid={isGuest ? null : user?.uid} />

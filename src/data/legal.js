@@ -26,8 +26,8 @@ const LEGAL_CONFIG_EN = {
 
 // Analytics consent (FEATURES.consentBanner). Off = GA starts on landing and these aren't shown.
 // When turning it on: bump LEGAL_CONFIG.updated (+ _EN) — docs/ENGLISH_PLAN.md.
-const CONSENT_HE = 'Google Analytics פועל רק אחרי אישור. עד שבוחרים, שום דבר לא נשלח אליו ושום דבר לא נשמר בשבילו במכשיר — רק הבחירה עצמה נשמרת בדפדפן. אחרי אישור, Google Analytics שומר עוגיות (cookies) בדפדפן, ונשלחים גם האירועים מהביקור שבו אישרת. אפשר לבטל בכל רגע בהגדרות, ואז העוגיות של Google Analytics נמחקות מהמכשיר.'
-const CONSENT_EN = "Google Analytics runs only after you accept. Until you choose, nothing is sent to it and nothing is stored for it on your device — only your choice itself is saved in the browser. After you accept, Google Analytics stores cookies in your browser, and the events from the visit in which you accepted are sent too. You can turn it off anytime in Settings, which deletes the Google Analytics cookies from your device."
+const CONSENT_HE = 'Google Analytics פועל רק אם הפעלת אותו בהגדרות, והוא כבוי כברירת מחדל. עד אז, שום דבר לא נשלח אליו ושום דבר לא נשמר בשבילו במכשיר — רק הבחירה עצמה נשמרת בדפדפן. אחרי ההפעלה, Google Analytics שומר עוגיות (cookies) בדפדפן, ונשלחים אליו רק אירועים מרגע ההפעלה. אפשר לכבות בכל רגע בהגדרות, ואז העוגיות של Google Analytics נמחקות מהמכשיר.'
+const CONSENT_EN = "Google Analytics runs only if you turn it on in Settings, and it is off by default. Until then, nothing is sent to it and nothing is stored for it on your device — only your choice itself is saved in the browser. After you turn it on, Google Analytics stores cookies in your browser, and only events from that point on are sent. You can turn it off anytime in Settings, which deletes the Google Analytics cookies from your device."
 
 export function legalConfig(lang) {
   return lang === 'en' ? { ...LEGAL_CONFIG, ...LEGAL_CONFIG_EN } : LEGAL_CONFIG

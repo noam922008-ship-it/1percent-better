@@ -3,7 +3,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react'
 import he from '../i18n/he'
 import en from '../i18n/en'
 
-// The consent banner (Home) and the Settings switch, with FEATURES.consentBanner on and off.
+// The Settings switch (no banner) and the privacy policy wording, with FEATURES.consentBanner on and off.
 const state = vi.hoisted(() => ({ lang: 'he', flags: { consentBanner: true, dailyLesson: true }, consent: null, set: [] }))
 vi.mock('../config/features', () => ({ FEATURES: state.flags }))
 vi.mock('../services/analytics', () => ({
@@ -22,51 +22,10 @@ vi.mock('react-router-dom', () => ({
   Link: ({ to, children, ...rest }) => <a href={to} data-router-link {...rest}>{children}</a>,
 }))
 
-import ConsentBanner from '../components/ConsentBanner'
 import Settings from '../components/Settings'
 
 beforeEach(() => { state.lang = 'he'; state.flags.consentBanner = true; state.consent = null; state.set = [] })
 afterEach(cleanup)
-
-describe('banner', () => {
-  it('Hebrew text says it covers this visit, accept + decline + privacy link (router, no reload)', () => {
-    render(<ConsentBanner />)
-    expect(screen.getByText(he.consent.text)).toBeInTheDocument()
-    expect(he.consent.text).toContain('אישור חל גם על הביקור הזה')
-    expect(screen.getByRole('button', { name: he.consent.accept })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: he.consent.decline })).toBeInTheDocument()
-    const link = screen.getByRole('link', { name: he.consent.privacy })
-    expect(link).toHaveAttribute('href', '/privacy')
-    expect(link).toHaveAttribute('data-router-link')
-  })
-
-  it('English text', () => {
-    state.lang = 'en'
-    render(<ConsentBanner />)
-    expect(screen.getByText(en.consent.text)).toBeInTheDocument()
-    expect(en.consent.text).toContain('also covers this visit')
-  })
-
-  it('accept → setConsent(true), banner gone', () => {
-    render(<ConsentBanner />)
-    fireEvent.click(screen.getByRole('button', { name: he.consent.accept }))
-    expect(state.set).toEqual([true])
-    expect(screen.queryByRole('region', { name: he.consent.aria })).toBeNull()
-  })
-
-  it('decline → setConsent(false), banner gone', () => {
-    render(<ConsentBanner />)
-    fireEvent.click(screen.getByRole('button', { name: he.consent.decline }))
-    expect(state.set).toEqual([false])
-    expect(screen.queryByText(he.consent.text)).toBeNull()
-  })
-
-  it('not shown once a choice is saved', () => {
-    state.consent = 'denied'
-    const { container } = render(<ConsentBanner />)
-    expect(container).toBeEmptyDOMElement()
-  })
-})
 
 describe('Settings switch', () => {
   it('flag on: switch reflects the choice and changes it', () => {
@@ -100,7 +59,7 @@ describe('privacy policy', () => {
     const off = await policy(false)
     expect(text(off)).not.toContain('cookies')
     const on = await policy(true)
-    expect(text(on)).toContain('נשלחים גם האירועים מהביקור שבו אישרת')
-    expect(text(on)).toContain('the events from the visit in which you accepted are sent too')
+    expect(text(on)).toContain('נשלחים אליו רק אירועים מרגע ההפעלה')
+    expect(text(on)).toContain('only events from that point on are sent')
   })
 })

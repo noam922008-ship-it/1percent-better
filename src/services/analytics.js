@@ -6,13 +6,14 @@
 //   • Google Signals and ad personalization are off.
 // Runs only in production builds with VITE_FIREBASE_MEASUREMENT_ID set; otherwise a no-op.
 //
-// Consent (FEATURES.consentBanner — off = GA starts on landing, as before):
-//   • Until the user chooses, GA isn't loaded: no cookies, no requests, nothing written to
-//     localStorage. Events wait in memory only and are lost when the tab closes.
-//   • Accept → GA loads and the waiting events are sent (the banner says it covers this visit).
-//   • Decline → the waiting events are dropped and nothing is sent. Turning it off later in
-//     Settings also stops GA and deletes its cookies and the return_next_day keys.
-//   • Only the choice itself is stored (CONSENT_KEY), so the banner isn't asked again.
+// Consent (FEATURES.consentBanner — off = GA starts on landing, as before). No banner: the
+// choice is the switch in Settings → Privacy, off until the user turns it on.
+//   • Until the user turns it on, GA isn't loaded: no cookies, no requests, nothing written to
+//     localStorage. Events are not kept either — nothing from before the choice is sent later.
+//   • On → GA loads; only events from then on are sent.
+//   • Off → nothing is sent. Turning it off also stops GA and deletes its cookies and the
+//     return_next_day keys.
+//   • Only the choice itself is stored (CONSENT_KEY).
 
 import { initializeAnalytics, logEvent, isSupported, setAnalyticsCollectionEnabled } from 'firebase/analytics'
 import { app } from './firebase'
@@ -69,7 +70,7 @@ export function track(name, params) {
   if (getConsent() === 'denied') return
   const clean = sanitizeParams(name, params)
   if (collecting) logEvent(analytics, name, clean)
-  else if (ENABLED) queue.push([name, clean])
+  else if (ENABLED && getConsent() === 'granted') queue.push([name, clean])   // allowed, GA still loading
 }
 
 // UTM parameters from the landing URL — read before the router redirects '/' → '/welcome'
@@ -102,7 +103,7 @@ export function checkReturnNextDay(today = getLocalDateKey(), store = localStora
 export async function startAnalytics() {
   const utm = captureUtm()
   track('app_open', utm)
-  if (getConsent() !== 'granted') return   // not chosen yet: app_open waits in memory
+  if (getConsent() !== 'granted') return   // not turned on: app_open is dropped, not kept
   await loadAnalytics()
 }
 
@@ -125,7 +126,7 @@ function loadAnalytics() {
   })
 }
 
-// The banner (Home) and the Settings switch. No-op with the flag off.
+// The Settings switch. No-op with the flag off.
 export async function setConsent(granted, store) {
   if (!FEATURES.consentBanner) return
   choice = granted ? 'granted' : 'denied'
