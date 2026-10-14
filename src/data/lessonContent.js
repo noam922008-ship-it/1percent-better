@@ -1573,6 +1573,7 @@ export const LESSON_CONTENT = {
     // Module 0 · Days 1–5 · חשיבה עסקית: מודלים מנטליים
     {
       bottomLine: 'כל עסק גדול נבנה על אנשים שחשבו אחרת. לא חכמים יותר — חשבו עם מודלים טובים יותר. מודל מנטלי = עדשה שדרכה רואים את המציאות. יש לך מספיק עדשות = רואים מה אחרים מפספסים.',
+      bottomLineEn: 'Every major business was built by people who thought differently. Not smarter people, but people who used better mental models. A mental model is a lens through which you see reality. The more lenses you have, the more you see what others miss.',
       days: [
         {
           fieldAction: [
@@ -1583,6 +1584,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Elon Musk כשהקים SpaceX ב-2002: "רקטות עולות 65M$. למה?" פירוק First Principles: אלומיניום + טיטניום + פלסטיק + אלקטרוניקה = 2% ממחיר הרקטה. ה-98% הנותרים = קונבנציות תעשייתיות. הוא בנה מאפס. SpaceX הוריד מחיר שיגור ב-90%. חשיבה First Principles = לקחת מה שנחשב "נתון" ולשאול "למה?"',
           microTask: 'כתוב: "בעיה עסקית שפירקתי ל-First Principles: ___. 5 ה-למה: (1)___ (2)___ (3)___ (4)___ (5)___. הנחה שגיליתי שהיא שגויה: ___."',
+          fieldActionEn: [
+            'Write: "The most recent business decision I made was ___. What basic assumption stood behind it?"',
+            'Learn about first-principles thinking: "What is actually true here, before any assumptions?"',
+            'Take one problem in your work or business. Ask "why?" five times until you reach the root.',
+            'Write: "The root cause I found: ___. A solution I had not thought of: ___."',
+          ],
+          realExampleEn: 'Elon Musk has described his approach to rockets as first-principles thinking. Rather than accepting the market price of a rocket as fixed, he asked what its raw materials and components actually cost. Breaking the problem down this way led him to challenge many assumptions about how rockets were built and priced when SpaceX was founded in 2002.',
+          microTaskEn: 'Write: "A business problem I broke down to first principles: ___. My five whys: (1) ___ (2) ___ (3) ___ (4) ___ (5) ___. An assumption I found was wrong: ___."',
         },
         {
           fieldAction: [
@@ -1593,6 +1602,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Jeff Bezos עזב עבודתו בוול סטריט ב-1994 עם בונוס שנתי של 1M$. הוא השתמש ב"Regret Minimization Framework": "ב-80 אני שואל את עצמי — האם אצטער שלא ניסיתי?" אז הסתכל על Opportunity Cost בהיפוך: מה אני מוותר עליו אם לא אנצל הזדמנות זו. הצד ההפוך של Opportunity Cost.',
           microTask: 'כתוב: "ה-Opportunity Cost שאני משלם עכשיו: ___. האם ההחלפה כדאית? ___ כי ___. משהו שאני צריך להפסיק לעשות כדי לפנות מקום ל-___: ___."',
+          fieldActionEn: [
+            'Learn "opportunity cost": every business choice means not choosing every alternative.',
+            'List three projects or opportunities you are working on now.',
+            'Next to each one: "What opportunity am I giving up by spending time on this?"',
+            'Write: "The biggest opportunity cost in my business right now: ___."',
+          ],
+          realExampleEn: 'Jeff Bezos has described a "regret minimization framework": imagining himself at 80 and asking which choice he would regret less. In 1994 he left a secure job in finance to start an online bookstore. The lesson is that the real cost of staying put is often the opportunity you never pursued.',
+          microTaskEn: 'Write: "The opportunity cost I am paying now: ___. Is the trade-off worth it? ___ because ___. Something I need to stop doing to make room for ___: ___."',
         },
         {
           fieldAction: [
@@ -1603,6 +1620,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Vilfredo Pareto גילה 1896: 80% מהאדמה באיטליה שייכת ל-20% מהאוכלוסייה. IBM מדדה 1963: 80% מהפניות לתמיכה נגרמות מ-20% מהבאגים. ב-2019, Shopify בדקה: 20% מהמוצרים מייצרים 80% מהמכירות. 20% מהלקוחות מייצרים 80% מהרווח. תמיד שאל: "מי/מה הם ה-20%?"',
           microTask: 'כתוב: "ה-20% מהפעולות שמייצרות 80% מהתוצאות שלי: ___. ה-80% שמייצרים רק 20%: ___. דבר אחד שמחר אני מפסיק לעשות: ___."',
+          fieldActionEn: [
+            'Learn the Pareto Principle (80/20): roughly 20% of effort often produces about 80% of results.',
+            'List all the actions you take at work or in your business in one week.',
+            'Rate each action: "What percentage of my results does this action produce?"',
+            'Identify: which 20% of the actions produce 80% of the value? Invest more there.',
+          ],
+          realExampleEn: 'In the 1890s, the economist Vilfredo Pareto observed that a large share of the land in Italy was owned by a small share of the population. The 80/20 pattern he noticed has since been applied to many areas, from sales to software bugs. The question to ask is always: which are the vital few?',
+          microTaskEn: 'Write: "The 20% of my actions that produce 80% of my results: ___. The 80% that produce only 20%: ___. One thing I will stop doing tomorrow: ___."',
         },
         {
           fieldAction: [
@@ -1613,6 +1638,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Charlie Munger, שותף וורן באפט, שאל בנאום Harvard: "תנו לי לדעת איפה אמות כדי שלא אלך לשם." Inversion. הוא אמר שכל החלטה השקעה שלו מתחילה ב"מה יכול להרוג את ההשקעה הזו?" רק אחרי ש-3 גורמי-מוות ממוגנים הוא בוחן את הפוטנציאל. Berkshire Hathaway: 20% תשואה שנתית במשך 60 שנה.',
           microTask: 'כתוב: "Pre-Mortem שלי: נניח שהפרויקט ___ נכשל ב-12 חודשים — מה קרה? 3 גורמי הכישלון: ___, ___, ___. מה אני עושה מחר כדי למגן מכל אחד: ___, ___, ___."',
+          fieldActionEn: [
+            'Learn "inversion thinking": instead of asking "how do I succeed?", ask "how would I fail? Then avoid that."',
+            'Choose a business goal. Ask: "What are the five best ways to make this fail?"',
+            'For each cause of failure, write: "How do I prevent this?"',
+            'Build a "pre-mortem": "Imagine that in a year this has failed. What happened?"',
+          ],
+          realExampleEn: 'Charlie Munger, Warren Buffett\'s long-time partner, popularized inversion. He often quoted the mathematician Carl Jacobi: "Invert, always invert." Munger said he wanted to know where he would die, so he would never go there. Listing the ways a plan could fail before committing to it is a practical check against optimism.',
+          microTaskEn: 'Write: "My pre-mortem: imagine the project ___ failed after 12 months. What happened? Three causes of failure: ___, ___, ___. What I will do tomorrow to guard against each: ___, ___, ___."',
         },
         {
           fieldAction: [
@@ -1623,6 +1656,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'וורן באפט סירב להשקיע בטכנולוגיה ב-90s (כולל Amazon, Google). כולם לעגו. אחר כך הבועה התפוצצה. הוא אמר: "אני לא מבין את זה — זה מחוץ ל-Circle of Competence שלי." הכלל שלו: "סיכון גדול = לא לדעת מה אתה עושה." ב-2016 קנה Apple (לאחר שלמד אותה 5 שנים) — עשה 100B$+.',
           microTask: 'כתוב: "ה-Circle of Competence שלי — Core: ___. Peripheral: ___. Outside: ___. תחום Outside שאני עוסק בו ויש לי למצוא מומחה: ___."',
+          fieldActionEn: [
+            'Learn the "circle of competence": you have areas you understand well, and areas you only think you understand.',
+            'Draw three circles: Core (understand very well), Peripheral (understand a little), Outside (do not understand).',
+            'Place your business in them: what is in the Core? What is Peripheral? What do you do that is Outside?',
+            'Decision: "What is Outside, I find an expert for. What is Core, I go deeper."',
+          ],
+          realExampleEn: 'Warren Buffett has often said he invests only within his circle of competence. He has explained avoiding many technology businesses he did not understand, even when others were excited. Years later he invested in Apple after studying the business for a long time, and he framed it as within his circle once he understood it.',
+          microTaskEn: 'Write: "My circle of competence. Core: ___. Peripheral: ___. Outside: ___. An Outside area I work in that needs an expert: ___."',
         },
       ],
     },
@@ -1630,6 +1671,7 @@ export const LESSON_CONTENT = {
     // Module 1 · Days 6–10 · ניתוח שוק ותחרות
     {
       bottomLine: 'שוק שלא הבנת אותו הוא לוטו. שוק שהבנת אותו — שחמט. ניתוח שוק אמיתי אינו "כמה גדול?" אלא "מי משחק? מי מנצח? ולמה? ואיפה הפרצה שאף אחד לא ראה?"',
+      bottomLineEn: 'A market you do not understand is a lottery. A market you do understand is chess. Real market analysis is not "how big is it?" but "who is playing, who is winning, why, and where is the gap no one has seen?"',
       days: [
         {
           fieldAction: [
@@ -1640,6 +1682,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Netflix vs. Blockbuster. Blockbuster 2000: 9,000 חנויות, 60,000 עובדים, 800M$ הכנסה. Netflix הציע ללא-קנסות דמי איחור + משלוח הביתה. Blockbuster דחה הצעת קנייה ב-50M$. 2010: Blockbuster פשט רגל. Netflix 2024: 300B$ שווי. הניצחון לא היה טכנולוגיה — היה הבנת כאב לקוח (קנסות) שמהווה 16% מהכנסות Blockbuster.',
           microTask: 'כתוב: "שוק שאני מנתח: ___. 3 שחקנים מובילים: ___, ___, ___. הכאב שהמובילים לא פותרים: ___. הפרצה שאני רואה: ___."',
+          fieldActionEn: [
+            'Choose a market or industry that matters to you. Find three leading players.',
+            'For each player: how big is it? How many employees? What is its main product? Who is its customer?',
+            'Ask: "Who is winning now, and why? What could threaten the leaders?"',
+            'Write: "The current winner wins because ___. Its biggest risk: ___."',
+          ],
+          realExampleEn: 'Netflix and Blockbuster: in the late 1990s and early 2000s, Blockbuster was the dominant video rental chain, and it turned down an offer from Netflix to be acquired. Netflix focused on removing a painful customer habit: late fees and trips to the store. Blockbuster filed for bankruptcy in 2010. The winning insight was not technology alone. It was understanding the customer\'s pain.',
+          microTaskEn: 'Write: "The market I am analyzing: ___. Three leading players: ___, ___, ___. The customer pain the leaders do not solve: ___. The gap I see: ___."',
         },
         {
           fieldAction: [
@@ -1652,6 +1702,16 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Apple בטלפונים: Barriers = גבוהים (ecosystem lock-in, brand). כוח קונים = נמוך (אנשים ישלמו 1,200$ לאייפון). כוח ספקים = TSMC — גבוה (הם המשחק יחיד לשבבים מתקדמים). תחליפים = Android קיים אבל switching cost גבוה. תחרות = Samsung, Google — אבל Apple שולטת ב-80% רווחי הענף. Five Forces מגלה למה Apple כל כך רווחית.',
           microTask: 'כתוב: "Five Forces לשוק שלי: Barriers=___/10. כוח קונים=___/10. כוח ספקים=___/10. תחליפים=___/10. תחרות=___/10. נקודת החולשה הכי גדולה: ___."',
+          fieldActionEn: [
+            'Run Porter\'s Five Forces on your market:',
+            '1. Threat of new entrants (barriers to entry): high or low?',
+            '2. Bargaining power of buyers: can customers push prices down?',
+            '3. Bargaining power of suppliers: how dependent are you on them?',
+            '4. Threat of substitutes: what could replace the product?',
+            '5. Rivalry: how many companies are fighting for the same customers?',
+          ],
+          realExampleEn: 'Michael Porter\'s Five Forces explain why some industries are more profitable than others. For example, smartphones have high barriers to entry because of brand loyalty and ecosystems, which reduce buyer power. Concentrated chip manufacturing gives suppliers influence. The framework helps explain where profit tends to concentrate.',
+          microTaskEn: 'Write: "Five Forces for my market: barriers ___/10. Buyer power ___/10. Supplier power ___/10. Substitutes ___/10. Rivalry ___/10. My biggest weak point: ___."',
         },
         {
           fieldAction: [
@@ -1662,6 +1722,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Cirque du Soleil: שוק הסירקוס גסס ב-90s. כולם התחרו על קהל ילדים + חיות. Cirque השמיט חיות + ליצנים, הוסיף עלילה + מוזיקה מקורית + קהל מבוגרים + מחיר כרטיס גבוה פי 5. Blue Ocean: ספורט + בידור + תיאטרון למבוגרים. 2024: 2B$ הכנסות שנתיות. שוק שלא היה קיים ב-1984.',
           microTask: 'כתוב: "כל השחקנים בשוק שלי מתמקדים ב-___. הלקוח שמוזנח: ___. ה-feature שאוסיף שאף אחד לא מציע: ___. ה-feature שאוריד כדי לפשט: ___."',
+          fieldActionEn: [
+            'Identify a "blue ocean" in your market: where is there little competition because few people have looked there?',
+            'Write: "All the players in the market compete for ___. Which customer does no one serve?"',
+            'Think: "What if we removed a central feature? What if we added a feature no one offers?"',
+            'Write: "The blue ocean I identified: ___."',
+          ],
+          realExampleEn: 'Cirque du Soleil reinvented the circus in the 1980s and 1990s. Traditional circuses competed on animals and clowns aimed at children. Cirque removed the animals and clowns, added storytelling, original music, and a higher-priced adult audience. This is the central example in W. Chan Kim and Renée Mauborgne\'s book Blue Ocean Strategy.',
+          microTaskEn: 'Write: "All the players in my market focus on ___. The customer they neglect: ___. A feature I will add that no one offers: ___. A feature I will remove to simplify: ___."',
         },
         {
           fieldAction: [
@@ -1672,6 +1740,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Dropbox ב-2007. Drew Houston שאל 50 אנשים: "מה הבעיה הכי גדולה שלך עם קבצים?" הוא ציפה לשמוע "storage" — שמע "sync בין מכשירים". הוא עיצב MVP סביב sync, לא storage. 3 שנים אחר כך: 100M משתמשים. "Customer Discovery מצא בעיה אחרת ממה שחשבתי שיש."',
           microTask: 'כתוב: "3 שיחות Customer Discovery שניהלתי עם: ___, ___, ___. הבעיה שהפתיעה אותי: ___. כיצד משנה את מה שתכננתי: ___."',
+          fieldActionEn: [
+            'Talk to three potential customers today.',
+            'Ask: "What is the biggest problem you have in [area]?" Do not offer a solution. Just listen.',
+            'Ask: "How much time or money does it cost you? How do you solve it now?"',
+            'Write: "What surprised me in what I heard: ___."',
+          ],
+          realExampleEn: 'Steve Blank, who developed the "customer development" approach, argues that founders should talk to customers before building a product. He has observed that many startups fail not because they cannot build, but because they build what they imagined rather than what customers need. Listen first, then build.',
+          microTaskEn: 'Write: "Three customer conversations I had with: ___, ___, ___. The problem that surprised me: ___. How this changes my plan: ___."',
         },
         {
           fieldAction: [
@@ -1682,6 +1758,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Slack Value Proposition: "We help teams communicate and collaborate more effectively than email." ב-2014 כשהם השיקו, שלחו גרסה ל-8,000 איש והשתמשו ב-feedback לחדד. 24 שעות: 8,000 sign-ups. 2 שבועות: 15,000. ה-clarity של ה-Value Proposition היה הוויראליות הראשונה. אנשים הבינו מיד ושלחו לחברים.',
           microTask: 'כתוב: "Value Proposition שלי (גרסה טובה ביותר): ___. מה 2 האנשים שבדקתי אמרו: ___. מה שיניתי לאחר הפידבק: ___."',
+          fieldActionEn: [
+            'Write a clear value proposition: "We help [who] do [what] by [how], unlike [alternative]."',
+            'Write three versions of this sentence.',
+            'Test each version: would someone who does not know your business understand what you do?',
+            'Ask two people to read it and say: "Based on this, what do you do?"',
+          ],
+          realExampleEn: 'Dropbox\'s early growth was helped by a short demo video that showed a simple idea: files that sync automatically across your devices. The message was concrete and easy to repeat. Clear, specific messaging tends to spread faster than vague claims about being the best.',
+          microTaskEn: 'Write: "My best value proposition: ___. What the two people I tested said: ___. What I changed after their feedback: ___."',
         },
       ],
     },
@@ -1689,6 +1773,7 @@ export const LESSON_CONTENT = {
     // Module 2 · Days 11–15 · פיננסים ומספרים
     {
       bottomLine: 'עסק ללא הבנת מספרים הוא עיוור. לא צריך להיות רואה חשבון — צריך להבין 5 מספרים קריטיים. מי שמבין אותם יודע אם העסק בריא, גדל, ומה הסכנה הבאה.',
+      bottomLineEn: 'A business without an understanding of numbers is blind. You do not need to be an accountant. You need to understand five critical numbers. Whoever understands them knows whether the business is healthy, growing, and what the next danger is.',
       days: [
         {
           fieldAction: [
@@ -1699,6 +1784,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Starbucks LTV: לקוח ממוצע קונה 5× בשבוע × 50 שנה × 6$ = 78,000$ ל-lifetime. CAC: ~50$ (פרסום + תוכנית נאמנות). LTV:CAC = 1,560:1. זו הסיבה שהם מוציאים 1B$ על תוכנית הנאמנות — כי כל לקוח מחזיר 78K$. הם לא מוכרים קפה — הם מוכרים habit.',
           microTask: 'כתוב: "CAC שלי: ___₪. LTV שלי: ___₪. Ratio: ___:1. האם זה בריא (3:1+)? ___. מה אני יכול לשנות כדי לשפר: ___."',
+          fieldActionEn: [
+            'Learn unit economics: the profit (or loss) you make on each unit or each customer.',
+            'Calculate CAC (customer acquisition cost): how much does it cost to acquire one customer?',
+            'Calculate LTV (lifetime value): how much revenue does an average customer generate over their entire relationship with you?',
+            'Write: "My LTV:CAC ratio is ___. (A ratio of at least 3:1 is often considered healthy.)"',
+          ],
+          realExampleEn: 'Subscription and loyalty businesses are often analyzed through lifetime value. A single purchase looks small, but a customer who keeps coming back for years can be worth far more than their first order. That is why companies invest in retention programs: they know the total value of a customer, not just one transaction.',
+          microTaskEn: 'Write: "My CAC: ___. My LTV: ___. My ratio: ___:1. Is it healthy? ___. What I could change to improve it: ___."',
         },
         {
           fieldAction: [
@@ -1709,6 +1802,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Apple Q3 2024: Gross Margin 46.3%. Net Margin 26.4%. השוואה: Samsung Gross Margin 14%. Apple גובה פי 3 על מוצרים שעולים פחות לייצר. הסוד: Brand + Ecosystem = pricing power. מי שמבין Margin מבין למה Apple שווה יותר מ-3T$ עם 0 הברנשות.',
           microTask: 'כתוב: "Gross Margin שלי: ___%. Net Margin שלי: ___%. ממוצע בתעשייה: ___%. מה גורם להפרש: ___. כיצד אשפר ב-5%: ___."',
+          fieldActionEn: [
+            'Learn gross margin vs. net margin: what remains after costs?',
+            'Calculate gross margin: (revenue − cost of goods or service) ÷ revenue × 100.',
+            'Calculate net margin: (revenue − all expenses) ÷ revenue × 100.',
+            'Compare with the average for your industry. (Software often has much higher gross margins than retail or restaurants.)',
+          ],
+          realExampleEn: 'Two businesses can have similar revenue and very different profits. Software companies often have high gross margins, because delivering each additional copy costs very little. Retail and restaurant businesses typically keep a much smaller share of each sale. Margin, not revenue size, determines how much a business keeps.',
+          microTaskEn: 'Write: "My gross margin: ___%. My net margin: ___%. Industry average: ___%. What explains the gap: ___. How I could improve by 5%: ___."',
         },
         {
           fieldAction: [
@@ -1719,6 +1820,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'WeWork 2019: רווחי על הנייר — גדל 100% בשנה. Cash Flow: שלילי 2.9B$ בשנה. ב-Roadshow IPO גילו שאם מבצע עוצר — חברה נופלת תוך 90 יום. שווי נפל מ-47B$ ל-8B$ בשבועות. 2023: פשיטת רגל. "Profit on paper but dead in cash."',
           microTask: 'כתוב: "Cash Flow שלי החודש: נכנס ___₪, יצא ___₪, יתרה ___₪. האם יש Cash Gap? ___. מהן 2 שורות הוצאה שאני יכול להוריד: ___, ___."',
+          fieldActionEn: [
+            'Learn cash flow vs. profit: a business can be profitable on paper and still run out of cash.',
+            'Build a simple cash flow statement: how much came in this month? How much went out? What is the balance?',
+            'Identify any cash gap. (For example: you pay suppliers before your customers pay you.)',
+            'Write: "My cash gap: ___ days. My solution: ___."',
+          ],
+          realExampleEn: 'WeWork\'s 2019 attempt to go public exposed heavy losses and large cash burn, and its valuation dropped sharply. Revenue growth alone did not show that the business generated cash. Many companies have failed while looking profitable on paper, because cash ran out first.',
+          microTaskEn: 'Write: "My cash flow this month: in ___, out ___, balance ___. Is there a cash gap: ___. Two expense lines I could cut: ___, ___."',
         },
         {
           fieldAction: [
@@ -1729,6 +1838,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'McDonald\'s franchise Break-Even: Fixed Costs ~25,000$/חודש. Gross Profit לכל המבורגר: ~1.8$. Break-Even: 25,000 ÷ 1.8 = ~14,000 המבורגרים/חודש = 466 ביום. ממוצע franchise מוכר 850/יום. הם ב-182% מ-Break-Even. הם רוכשים franchise כי הם יודעים שה-math עובד.',
           microTask: 'כתוב: "Fixed Costs שלי: ___₪/חודש. Variable Cost ליחידה: ___₪. מחיר ליחידה: ___₪. Break-Even: ___ יחידות. כרגע אני מוכר ___. עד Break-Even: ___ יחידות נוספות."',
+          fieldActionEn: [
+            'Learn break-even analysis: how much do you need to sell to cover all your costs?',
+            'Calculate fixed costs (rent, fixed salaries) and variable costs (cost per unit).',
+            'Break-even = fixed costs ÷ (price per unit − variable cost per unit).',
+            'Write: "My break-even is ___ units per month. Right now I sell ___. I am at ___% of break-even."',
+          ],
+          realExampleEn: 'Imagine a café with $3,000 in fixed monthly costs and a profit of $3 per drink. Break-even is 1,000 drinks a month. Knowing that number makes the business concrete: if the café sells 700 a month, it is losing money, and the question becomes how to close the gap.',
+          microTaskEn: 'Write: "My fixed costs: ___ per month. Variable cost per unit: ___. Price per unit: ___. Break-even: ___ units. I currently sell ___. I need ___ more units to break even."',
         },
         {
           fieldAction: [
@@ -1739,6 +1856,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Amazon 2001: Net Loss 567M$. אבל Gross Margin עלה מ-22% ל-26%. Bezos הראה למשקיעים P&L שמראה שהם רווחיים ב-unit level — ההפסד הגיע מהשקעות עתידיות. 2004: Net Profit ראשון. 2024: 1.5T$ שווי. מי שמבין P&L ראה ב-2001 מה השוק לא ראה.',
           microTask: 'כתוב: "P&L שלי לחודש שעבר: הכנסות ___₪. Gross Profit ___₪. Net Profit ___₪. ההוצאה הגדולה ביותר: ___₪ (___%). האם זה הגיוני: כן/לא כי ___."',
+          fieldActionEn: [
+            'Learn to read a basic profit and loss statement (P&L).',
+            'Build a simple P&L for last month: revenue − cost of goods = gross profit. Gross profit − operating expenses = net profit.',
+            'Identify: what is your largest expense line? Does that make sense?',
+            'Write: "If I had to cut 20% of expenses, I would start with: ___."',
+          ],
+          realExampleEn: 'Amazon reported losses for several years while investing heavily in growth and infrastructure. Its shareholders were shown gross margins and unit economics that improved over time. The company reached its first full-year profit in 2003. Investors who could read the P&L could see the direction of the business before the bottom line turned positive.',
+          microTaskEn: 'Write: "My P&L for last month: revenue ___. Gross profit ___. Net profit ___. My largest expense: ___ (___%). Does that make sense? Yes / no because ___."',
         },
       ],
     },
@@ -1746,6 +1871,7 @@ export const LESSON_CONTENT = {
     // Module 3 · Days 16–20 · מנהיגות ואנשים
     {
       bottomLine: 'העסק הוא רק כל כך טוב כמו האנשים שבו. מנהיגות לא = כריזמה. מנהיגות = יצירת סביבה שבה אנשים עושים את עבודתם הטובה ביותר — גם כשאתה לא בחדר.',
+      bottomLineEn: 'A business is only as good as the people in it. Leadership is not charisma. Leadership is creating an environment where people do their best work, even when you are not in the room.',
       days: [
         {
           fieldAction: [
@@ -1756,6 +1882,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Steve Jobs לא ידע לכתוב קוד. Steve Wozniak לא ידע לשווק. Jobs ידע שהוא צריך Woz כדי לבנות Apple I. Woz ידע שהוא צריך Jobs כדי לשווק אותו. יחד: 3T$ בשווי. לבד: שניהם ב-mediocrity. The best CEOs know what they don\'t know.',
           microTask: 'כתוב: "החולשות שלי שצריכות כיסוי: ___. האדם/תפקיד שיכסה: ___. שיחה שאני צריך לקיים כדי לסגור את הפער הזה: ___."',
+          fieldActionEn: [
+            'Write: "Three skills that people on my team or partners have that complement my weak points: ___, ___, ___."',
+            'Define: "I am strongest at ___. Weakest at ___. So I need to bring in or partner with someone for ___."',
+            'Ask: "Is there an action I am doing now that someone else could do better than me?"',
+            'Write: "The first thing I will hand over: ___. By when: ___."',
+          ],
+          realExampleEn: 'Steve Jobs did not write the code for the Apple I. Steve Wozniak designed it. Jobs saw what Wozniak could build and knew how to bring it to the market. Each partner covered the other\'s gap. Strong leaders know what they do not know, and they build around it.',
+          microTaskEn: 'Write: "My weaknesses that need covering: ___. The person or role that will cover them: ___. The conversation I need to have to close this gap: ___."',
         },
         {
           fieldAction: [
@@ -1766,6 +1900,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Richard Branson מנהל 400+ חברות עם 71,000 עובדים. הוא מעולם לא עבד יותר מ-4 שעות ביום בפרטי. הסוד: "אני שוכר אנשים טובים יותר ממני ומאמין להם לחלוטין. תפקידי: להציב כיוון ולסיר מכשולים." כל CEO שמוצא את עצמו ב-Level 1-2 Delegation — הוא מנהל, לא מנהיג.',
           microTask: 'כתוב: "משימה שהעברתי ל-Level 4-5 delegation: ___. למי: ___. מה שמניח לי כדי לוודא שהם מצליחים: ___. כיצד ארגיש אם לא אשלוט: ___."',
+          fieldActionEn: [
+            'Learn the "delegation ladder": five levels of delegation, from "do exactly what I say" to "make the decision and report back."',
+            'Map your tasks onto the ladder: which are at levels 1–2? Which at levels 4–5?',
+            'Identify: what do you do at levels 1–2 that should be at levels 4–5?',
+            'Today, choose one task to move to "make the decision and report back to me."',
+          ],
+          realExampleEn: 'Richard Branson has described building Virgin by hiring people who were better than him in specific areas and then trusting them to make decisions. His role, as he has put it, was to set direction and remove obstacles. A leader who still makes every decision is managing, not leading.',
+          microTaskEn: 'Write: "A task I moved to delegation level 4–5: ___. To whom: ___. What I will check to make sure they succeed: ___. How I will feel if I am not in control: ___."',
         },
         {
           fieldAction: [
@@ -1776,6 +1918,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Ray Dalio ב-Bridgewater: כל פגישה מוקלטת ונגישה לכל עובד. כל טעות נדונה בפומבי — לא כעונש אלא כ"מה נלמד?" ב-2019 HBR מדד: Bridgewater מניבה 10× יותר רווח לעובד מהממוצע בתעשייה. "Radical Transparency" — פידבק כל הזמן, מכולם, לכולם. זה מה שמייצר ביצועים.',
           microTask: 'כתוב: "פידבק אחד שאני צריך לתת (ולא נתתי): ___. ב-SBI: Situation=___. Behavior=___. Impact=___. אני אתן פידבק זה ל-___ עד ___."',
+          fieldActionEn: [
+            'Learn the "feedback culture" principle: link feedback to performance.',
+            'Write: "The last time I gave feedback to someone was ___. How did I give it?"',
+            'Learn the SBI framework: Situation, Behavior, Impact.',
+            'Practice: "In [situation], when you did [behavior], I saw [impact]." Without judgment.',
+          ],
+          realExampleEn: 'Ray Dalio, in his book Principles, describes Bridgewater\'s culture of radical transparency: meetings are recorded, and mistakes are discussed openly as things to learn from rather than to punish. The idea is that honest, frequent feedback helps people improve faster.',
+          microTaskEn: 'Write: "A feedback I need to give but have not yet: ___. Using SBI: Situation ___. Behavior ___. Impact ___. I will give it to ___ by ___."',
         },
         {
           fieldAction: [
@@ -1786,6 +1936,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Google מגייסת 25,000+ עובדים בשנה. תהליך: 4–6 ראיונות מובנים, הערכת "Googliness" (אתיקה), "Coding" + "Leadership". Google ניתחה שהמנבאים הכי טובים לביצועים הם: (1) מה עשה בעבר, (2) כיצד פותר בעיות חדשות — לא GPA, לא אוניברסיטה. "A person only grows faster than you expected or slower — hire who outpaces you."',
           microTask: 'כתוב: "3 הכישורים הכי קריטיים שאני מחפש בשותף/עובד הבא: ___, ___, ___. השאלה הכי טובה שאשאל בגיוס: ___. טעות גיוס שעשיתי בעבר ולמה: ___."',
+          fieldActionEn: [
+            'Learn the "cost of a bad hire": many companies find that a wrong hire is very expensive, both in salary and in lost productivity.',
+            'Examine your hiring or partnership process. Is there a clear job scorecard?',
+            'Define 3 critical competencies for each role on your team.',
+            'Write: "My hiring process now makes sure there is ___. What is missing: ___."',
+          ],
+          realExampleEn: 'Google\'s internal research project Aristotle studied what makes teams effective. Among the many factors examined, psychological safety, the sense that people can speak up and take risks without fear, stood out as the strongest predictor of team performance. Skills matter, but the team climate matters too.',
+          microTaskEn: 'Write: "The three most critical things I look for in my next partner or hire: ___, ___, ___. The best question I can ask: ___. A hiring mistake I made and why: ___."',
         },
         {
           fieldAction: [
@@ -1796,6 +1954,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Enron 2001 — ערכים מוצהרים: Integrity, Communication, Respect, Excellence. בפועל: הונאות חשבונאיות של 74B$. Patagonia 2024: ערך "Don\'t buy our jacket" — מעודדים תיקון לפני קנייה. 2024: 1.5B$ הכנסות בגלל brand שמכבד ערכיו. Values שנגלמים → trust → growth.',
           microTask: 'כתוב: "3 הערכים שאני מגלם בפועל (לא רק מצהיר): ___, ___, ___. ה-Gap הכי גדול בין מה שאמרתי לבין מה שעשיתי: ___. שינוי אחד להתאמה: ___."',
+          fieldActionEn: [
+            'Define the culture of your team or business: what are three values you will not compromise on?',
+            'Write: "When someone does ___, it shows they fit our culture. When they do ___, they do not."',
+            'Check: are the values you wrote the values you actually live by? (Not what you say, but what you do.)',
+            'Identify the gap between the values you declare and what happens in practice.',
+          ],
+          realExampleEn: 'Enron\'s public materials emphasized integrity and respect, while its actual accounting practices were fraudulent, and the company collapsed in 2001. In contrast, Patagonia\'s 2011 "Don\'t Buy This Jacket" advertisement encouraged customers to think before buying, and the company is often cited as a brand whose actions match its stated values. Values that are lived build trust.',
+          microTaskEn: 'Write: "The three values I actually live by (not just declare): ___, ___, ___. The biggest gap between what I said and what I did: ___. One change to close it: ___."',
         },
       ],
     },
@@ -1803,6 +1969,7 @@ export const LESSON_CONTENT = {
     // Module 4 · Days 21–25 · אסטרטגיה ויתרון תחרותי
     {
       bottomLine: 'אסטרטגיה = לא מה שאתה עושה — אלא מה שאתה בוחר לא לעשות. עסק ללא אסטרטגיה ברורה עושה הכל בינוני. עסק עם אסטרטגיה ברורה עושה דבר אחד בצורה שאי-אפשר להתחרות.',
+      bottomLineEn: 'Strategy is not what you do. It is what you choose not to do. A business without a clear strategy does everything averagely. A business with a clear strategy does one thing in a way that is hard to compete with.',
       days: [
         {
           fieldAction: [
@@ -1813,6 +1980,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'LinkedIn Moat: Network Effect. כל משתמש שמצטרף הופך את הרשת לשימושית יותר לכולם. ב-2016, Microsoft קנתה ב-26B$. למה? כי LinkedIn Moat = כל קורות חיים של כל עובד מקצועי בעולם. לבנות מחדש = 10 שנים. Moat → Pricing Power → Margin → Value.',
           microTask: 'כתוב: "ה-Moat שלי: ___ (סוג). עוצמה: ___/10. כיצד ה-Moat שלי מגן עלי: ___. מה יכול לשחוק את ה-Moat ב-5 שנים: ___."',
+          fieldActionEn: [
+            'Learn "moat": what protects you from competitors taking your share?',
+            'Five types of moat: brand, switching costs, network effects, cost advantage, intangible assets.',
+            'What is the moat of your business? Rate its strength from 1 to 10.',
+            'Write: "The moat that is hardest to copy is ___. How I strengthen it: ___."',
+          ],
+          realExampleEn: 'LinkedIn\'s main moat is the network effect: each new member makes the platform more useful to everyone else. When Microsoft acquired LinkedIn in 2016 for about $26 billion, much of the value was in the professional network and the data it held, which would be very hard to rebuild.',
+          microTaskEn: 'Write: "My moat: ___ (type). Strength: ___/10. How my moat protects me: ___. What could erode it in five years: ___."',
         },
         {
           fieldAction: [
@@ -1823,6 +1998,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Volvo Positioning: Safety. אוטו תמיד. כל קמפיין, כל feature, כל מוצר — Safety. כשמחפשים המכונית הבטוחה ביותר — 93% מאמריקאים חושבים Volvo. זה Positioning. Tesla: Performance Electric. Porsche: Driving Experience. Toyota: Reliability. כשאתה מחפש ___ — אתה חושב על X. מי שמנסה הכל — לא אחד.',
           microTask: 'כתוב: "ה-Positioning שלי: ב-___ (נישה) עם ___ (סיטואציה) — אני הבחירה #1 כי ___. המילה שאני רוצה שאנשים יאגדו אותי עמה: ___."',
+          fieldActionEn: [
+            'Learn "positioning": in a crowded market, what makes you the clear choice for a specific audience?',
+            'Write: "The customer for whom I am the clear choice is: ___."',
+            'Ask: "What am I best at that competitors cannot copy within a year?"',
+            'Define: "For [specific niche] in [specific situation], I am the #1 choice because ___."',
+          ],
+          realExampleEn: 'Volvo has long been associated with safety, and that association guides its messaging and product decisions. Tesla is associated with electric performance, Porsche with the driving experience, and Toyota with reliability. When you think of one of these brands, you think of one word. Trying to be everything to everyone weakens the position.',
+          microTaskEn: 'Write: "My positioning: for ___ (niche) in ___ (situation), I am the choice because ___. The word I want people to associate with me: ___."',
         },
         {
           fieldAction: [
@@ -1833,6 +2016,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Netflix SWOT ב-2010 (רגע לפני Streaming): S=brand + לקוח base. W=DVD overhead. O=broadband penetration עולה. T=studios יכולים לבנות competing platform. הם הריצו על O (Streaming) לפני שה-T הפך למציאות. 2024: 300B$ שווי. Blockbuster ב-2010 לא עשה SWOT — או שעשה ולא פעל לפיו.',
           microTask: 'כתוב: "SWOT שלי: S=___. W=___. O=___. T=___. הפעולה שנגזרת מהניתוח: ___. עד מתי: ___."',
+          fieldActionEn: [
+            'Build a 10-minute SWOT. Not as an academic exercise, but as a business tool.',
+            'S: what are your strengths that competitors envy? W: what weaknesses do people avoid talking about?',
+            'O: what trend or change in the market can you ride? T: what could destroy you within 18 months?',
+            'Choose: "The biggest opportunity I need to pursue now: ___."',
+          ],
+          realExampleEn: 'Netflix moved into streaming while it was still an early and uncertain market. It used the trend of growing broadband access as an opportunity and did not wait for the threat of studio competition to become certain. The lesson: a SWOT is only useful if it leads to action.',
+          microTaskEn: 'Write: "My SWOT: S=___. W=___. O=___. T=___. The action that follows from the analysis: ___. By when: ___."',
         },
         {
           fieldAction: [
@@ -1843,6 +2034,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Amazon 3 Horizons: H1 = eCommerce (מכניס כסף היום). H2 = AWS (1997: ניסוי, 2006: השקה, 2024: 107B$/שנה). H3 = Alexa/Space. B-2012 AWS היה H2 — היום הוא H1 הגדול ביותר ב-margin. H3 של ב-2010 (voice AI) הוא H2 של 2024. תמיד להסתכל 3 Horizons.',
           microTask: 'כתוב: "H1 שלי (כסף היום): ___. H2 שלי (1–3 שנה): ___. H3 שלי (חלום 10 שנה): ___. מה אחוז מהזמן אני משקיע בכל Horizon: H1___%, H2___%, H3___%."',
+          fieldActionEn: [
+            'Define the "3 horizons": what does your business do now, next, and in the future?',
+            'Horizon 1: core. What makes money today? Protect and improve it.',
+            'Horizon 2: emerging. What will make money in the next one to three years?',
+            'Horizon 3: vision. What might the business look like in ten years?',
+          ],
+          realExampleEn: 'Amazon launched Amazon Web Services in 2006 as a new business line that began as an internal service. It grew into one of Amazon\'s largest profit contributors. Many people at the time saw the online store as the core and cloud computing as a side project. Looking at horizons together helps you invest in the next big thing before it looks obvious.',
+          microTaskEn: 'Write: "My Horizon 1 (money today): ___. Horizon 2 (1–3 years): ___. Horizon 3 (10-year vision): ___. Percent of my time on each: H1 ___%, H2 ___%, H3 ___%."',
         },
         {
           fieldAction: [
@@ -1853,6 +2052,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Ben Horowitz (a16z) אמר: "הפשטות של הסבר האסטרטגיה שלך היא ה-proxy הכי טוב לבהירות המחשבה שלך." חברות שמייצרות Strategy on One Page ומדביקות אותו לקיר — השתפרו ב-performance ב-47% לעומת חברות עם עשרות slides. אם לא מתאים לדף — לא ברור מספיק.',
           microTask: 'כתוב: "Strategy on One Page שלי: מה אנחנו: ___. למי: ___. Moat: ___. KPIs: ___, ___. יעדים שנתיים: (1)___ (2)___ (3)___. בדקתי: האם ההחלטה האחרונה שלי מתיישבת עם זה? ___."',
+          fieldActionEn: [
+            'Write "strategy on one page": your whole business strategy on a single page.',
+            'Include: what we do (positioning), for whom (customer), our moat, the KPIs that show success, and the three annual goals.',
+            'Print it or save it somewhere visible.',
+            'Check: "Does every decision I make fit this strategy?"',
+          ],
+          realExampleEn: 'Ben Horowitz has argued that the ability to explain your strategy simply is a good sign of clear thinking. A strategy that cannot fit on one page is often not yet clear enough to guide daily decisions.',
+          microTaskEn: 'Write: "My strategy on one page. What we do: ___. For whom: ___. Moat: ___. KPIs: ___, ___. Annual goals: (1)___ (2)___ (3)___. Does my last decision fit it? ___."',
         },
       ],
     },
@@ -1860,6 +2067,7 @@ export const LESSON_CONTENT = {
     // Module 5 · Days 26–30 · לחשוב גדול ולפעול
     {
       bottomLine: 'חשיבה עסקית היא לא תואר — היא כישור. ותרגילה. המנכ"לים הטובים ביותר בעולם לומדים יותר ממנהל עסקים בינוני. הם לומדים מכל פגישה, כל כישלון, כל ספר. אתה לא "נולד" עסקן — אתה בונה את זה.',
+      bottomLineEn: 'Business thinking is not a degree. It is a skill, and it is practiced. The best business leaders keep learning from every meeting, every failure, and every book. You are not born a business thinker. You build it.',
       days: [
         {
           fieldAction: [
@@ -1870,6 +2078,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Jeff Bezos: "אני מתאמן לקבל לפחות 2–3 החלטות גדולות טובות ביום. זה הכל." הוא מנהל Decision Journal מ-1997 ו"ישיבות שלאחר הפוסטמורטם" על החלטות שגויות. תוצאה: Amazon Web Services, Prime, Echo — כולם נולדו מ"החלטה גדולה" שצוות חשב שהיא שגויה. Bezos מנה אותה בכל פעם.',
           microTask: 'כתוב: "3 ההחלטות הגדולות שקיבלתי החודש: ___, ___, ___. ה-bias שגרם לאחת מהן להיות שגויה: ___. כיצד אני מגן בפעם הבאה: ___."',
+          fieldActionEn: [
+            'Write a "decision journal" for next month: for each big decision, write what it is, why you made it, and what you expected.',
+            'After 30 days, go back and check: how many decisions were right? What did you miss?',
+            'Ask: "What is the biggest bias that makes me wrong in decisions?"',
+            'Write: "The cognitive bias that affects me most: ___. How I guard against it: ___."',
+          ],
+          realExampleEn: 'Jeff Bezos has written about making decisions quickly and accepting that many will be imperfect. He distinguishes between "two-way doors", decisions that can be reversed and should be made quickly, and "one-way doors", decisions that need careful thought. Keeping a record of decisions helps you learn which kind you are facing.',
+          microTaskEn: 'Write: "The three big decisions I made this month: ___, ___, ___. The bias that made one of them wrong: ___. How I will guard against it next time: ___."',
         },
         {
           fieldAction: [
@@ -1880,6 +2096,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Warren Buffett ב-21 כתב לבנג\'מין גרהם (מחבר "The Intelligent Investor") ובקש לעבוד חינם. גרהם אמר כן. 2 שנים של מנטורינג בלתי-פורמלי = ביסוס הפילוסופיה שיצרה 100B$ נכסים. "הדרך הטובה ביותר ללמוד: מישהו שכבר עשה את הדרך."',
           microTask: 'כתוב: "3 מנטורים פוטנציאליים: ___, ___, ___. תחום שכל אחד מלמד: ___, ___, ___. בקשה ששלחתי: ל-___ ב-___. ציפייה: ___."',
+          fieldActionEn: [
+            'Identify your "mentor network": three people who could mentor you in different areas.',
+            'For each mentor: what do they bring that you want to learn? How would you reach them?',
+            'Write a mentoring request: "Hi [name], I am [who] and I am working on [what]. I would value guidance on ___. Would you be open to a 30-minute call?"',
+            'Send one of these requests today.',
+          ],
+          realExampleEn: 'As a young man, Warren Buffett sought to learn from Benjamin Graham, the author of The Intelligent Investor. He later worked for Graham. Learning directly from someone who had already built the path is one of the most efficient ways to grow.',
+          microTaskEn: 'Write: "Three potential mentors: ___, ___, ___. The area each one teaches: ___, ___, ___. The request I sent to ___ on ___. What I expect: ___."',
         },
         {
           fieldAction: [
@@ -1890,6 +2114,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Bill Gates קורא 50 ספרים בשנה ומנהל "Think Week" — שבוע בשנה שבו הוא מתבודד ורק קורא. ב-Think Week ב-1995 הוא כתב "The Internet Tidal Wave" — memo שהפנה את Microsoft לאינטרנט. 2 שנות Think Week = IE, Hotmail, .NET. השקעה בלמידה = leverage.',
           microTask: 'כתוב: "3 ספרים שאני מתחייב לקרוא השנה: ___, ___, ___. Podcast שאשמע: ___. זמן שבועי שאתחייב: ___ דקות/שבוע. ספר שאני מתחיל היום: ___."',
+          fieldActionEn: [
+            'Build a business learning curriculum for next year: books, podcasts, people to follow.',
+            'Books: choose three. (For example: Zero to One, The Hard Thing About Hard Things, Good to Great.)',
+            'Podcasts: consider How I Built This (Guy Raz) or Masters of Scale (Reid Hoffman).',
+            'Weekly time: ___ minutes of reading. ___ minutes of podcasts.',
+          ],
+          realExampleEn: 'Bill Gates has described regular "Think Weeks", when he retreats to read and reflect. During one of them in 1995 he wrote a memo called "The Internet Tidal Wave", which pushed Microsoft to focus strongly on the Internet. Dedicated time for learning is leverage.',
+          microTaskEn: 'Write: "Three books I commit to reading this year: ___, ___, ___. The podcast I will listen to: ___. My weekly time commitment: ___ minutes. The book I start today: ___."',
         },
         {
           fieldAction: [
@@ -1900,6 +2132,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Elon Musk Reverse Engineering: (1) PayPal → self-fund next venture. (2) SpaceX: hire aerospace engineers + buy Russia rocket. (3) Tesla: direct sales (no dealers). (4) Gigafactory: vertical integration. (5) Twitter: buy distressed asset + cut 80% staff fast. כל החלטה Counter-Intuitive. כולן הגיוניות ב-Hindsight. הניתוח האחורי מלמד שחשיבה First Principles הוביל כל אחת.',
           microTask: 'כתוב: "המצליח שפירקתי: ___. 5 ההחלטות הקריטיות שלו: ___, ___, ___, ___, ___. מה אני שוכפל: ___. ה-counter-intuitive שאני מוכן לנסות: ___."',
+          fieldActionEn: [
+            'Do a "reverse engineering of success": choose a very successful business or person. Break down how they got there.',
+            'Ask: "What are the five critical decisions that created their success?"',
+            'Ask: "What is the most counter-intuitive decision they made?"',
+            'Write: "What I can apply in my business from this analysis: ___."',
+          ],
+          realExampleEn: 'Elon Musk\'s career includes several decisions that looked unusual at the time: selling PayPal, funding new ventures with the proceeds, and building direct-to-customer car sales at Tesla rather than using dealers. Each seemed counter-intuitive when it was made. Looking back, the common thread is reasoning from first principles rather than industry convention.',
+          microTaskEn: 'Write: "The successful person I analyzed: ___. Their five critical decisions: ___, ___, ___, ___, ___. What I will copy: ___. The counter-intuitive move I am willing to try: ___."',
         },
         {
           fieldAction: [
@@ -1910,6 +2150,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Jeff Bezos כתב "Day 1 Manifesto" שהוא שולח מדי שנה למשקיעים מאז 1997. עיקרון מרכזי: "זה תמיד Day 1 — כל יום הוא ראשון בבית. Day 2 = stasis = irrelevance = death." הוא מנהל 1.5T$ עם Manifesto של עמוד אחד. Amazon כולה בנויה על ה-Manifesto הזה. עיקרון אחד = תרבות ארגונית = פעולות מיליוני עובדים.',
           microTask: 'כתוב: "Business Manifesto שלי — 5 עקרונות: (1)___ (2)___ (3)___ (4)___ (5)___. מה הרגשתי בסיום 30 הימים: ___. ה-insight הגדול ביותר שלקחתי: ___."',
+          fieldActionEn: [
+            'Write your "business manifesto": one page, five principles that define your business thinking.',
+            'Include: what you believe about markets, customers, teams, money, and strategy.',
+            'Read it aloud. Save it. Share it with a partner or friend in business.',
+            'Ask: "Do the businesses I am working on reflect these principles?"',
+          ],
+          realExampleEn: 'Jeff Bezos has written a yearly letter to shareholders that repeatedly returns to the idea of "Day 1", the sense that a company should stay as energetic as a startup. He has described "Day 2" as stasis, which leads to irrelevance and decline. A single clear principle can shape the culture of a large organization.',
+          microTaskEn: 'Write: "My business manifesto, five principles: (1)___ (2)___ (3)___ (4)___ (5)___. What I felt at the end of these 30 days: ___. The biggest insight I took: ___."',
         },
       ],
     },
@@ -3633,4 +3881,22 @@ export function getDayContent(courseId, moduleIndex, dayInModule) {
     bottomLine:  mod.bottomLine,
     ...(mod.days[dayInModule] || {}),
   }
+}
+
+// ── English readiness ─────────────────────────────────────────────────
+// A course is shown in English only when every module and day has its En fields.
+// Partial courses stay hidden in English so users never see a half-translated course.
+export function hasEnglishLesson(courseId) {
+  const modules = LESSON_CONTENT[courseId]
+  if (!Array.isArray(modules) || modules.length === 0) return false
+  return modules.every(mod =>
+    typeof mod.bottomLineEn === 'string' && mod.bottomLineEn.length > 0 &&
+    Array.isArray(mod.days) && mod.days.length > 0 &&
+    mod.days.every(day =>
+      Array.isArray(day.fieldAction) && Array.isArray(day.fieldActionEn) &&
+      day.fieldActionEn.length === day.fieldAction.length &&
+      typeof day.realExampleEn === 'string' && day.realExampleEn.length > 0 &&
+      typeof day.microTaskEn === 'string' && day.microTaskEn.length > 0
+    )
+  )
 }
