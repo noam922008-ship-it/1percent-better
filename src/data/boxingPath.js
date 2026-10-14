@@ -106,7 +106,7 @@ const L1_W1 = {
         'Breathe deeply and evenly',
       ],
       durationSeconds: 45,
-      coachingCuesHe: ['נשם עמוק ואחיד'],
+      coachingCuesHe: ['נשום עמוק ואחיד'],
     },
     {
       id: 'L1-W1-R6',
@@ -136,7 +136,7 @@ const L1_W1 = {
         'Cool-down — not effort',
       ],
       durationSeconds: 60,
-      coachingCuesHe: ['נשים לב לנשימה', 'שחרור — לא מאמץ'],
+      coachingCuesHe: ['שים לב לנשימה', 'שחרור — לא מאמץ'],
     },
   ],
 }
@@ -159,6 +159,13 @@ const L1_W2 = {
     'שמור על יד ימין על הלחי הימנית לאורך כל הג׳אב.',
     'החזר את היד השמאלית מיידית לגארד — יד בחוץ = פנים חשופות.',
   ],
+  descriptionEn: 'Learn the first and most important punch in boxing — the straight jab, including extending the hand and returning it quickly.',
+  goalEn: 'Goal: throw a clean jab with a shoulder turn and return the hand to guard immediately.',
+  safetyNotesEn: [
+    'Don\'t lock your elbow fully — stop the jab slightly before full extension.',
+    'Keep your right hand on your right cheek throughout the jab.',
+    'Return your left hand to guard right away — a hand out means an exposed face.',
+  ],
   rounds: [
     {
       id: 'L1-W2-R1',
@@ -166,6 +173,12 @@ const L1_W2 = {
       titleHe: 'חימום',
       titleEn: 'Warm-up',
       instructionHe: 'בצע 60 שניות ריצה קלה במקום, ואחריה 60 שניות סיבובי מרפקים — הרם את הידיים לגובה הכתפיים וסובב את המרפקים 10 פעמים קדימה ו-10 פעמים אחורה.',
+      instructionEn:
+        'Do 60 seconds of light jogging in place, then 60 seconds of elbow circles — raise your hands to shoulder height and rotate your elbows 10 times forward and 10 times back.',
+      coachingCuesEn: [
+        'Warm up the joints before punches',
+        'Breathe at a steady rhythm',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['חמם את הפרקים לפני מכות', 'נשם בקצב'],
     },
@@ -174,7 +187,13 @@ const L1_W2 = {
       type: 'technique',
       titleHe: 'טכניקה: ג׳אב',
       titleEn: 'Technique: jab',
-      instructionHe: 'עמוד בעמידת מוצא. שלח את האגרוף השמאלי ישר קדימה תוך כדי סיבוב של הכתף השמאלית פנימה. בנקודת הסיום, ציר כף היד כלפי מטה. מיד אחרי שהגעת לשיא ההישרה — משוך את היד בחזרה לאותו מסלול. הידית הימנית נשארת על הלחי כל הזמן.',
+      instructionHe: 'עמוד בעמידת מוצא. שלח את האגרוף השמאלי ישר קדימה תוך כדי סיבוב של הכתף השמאלית פנימה. בנקודת הסיום, ציר כף היד כלפי מטה. מיד אחרי שהגעת לשיא ההישרה — משוך את היד בחזרה לאותו מסלול. היד הימנית נשארת על הלחי כל הזמן.',
+      instructionEn:
+        'Stand in the fighting stance. Send the left fist straight forward while turning the left shoulder inward. At the end point, rotate the palm downward. Right after reaching full extension, pull the hand back along the same path. The right hand stays on the cheek the whole time.',
+      coachingCuesEn: [
+        'The shoulder turns — not just the hand',
+        'Pull back fast, the way you threw it',
+      ],
       durationSeconds: 90,
       coachingCuesHe: ['כתף מסתובבת — לא רק היד', 'משוך מהר כמו שמרחת'],
     },
@@ -184,6 +203,12 @@ const L1_W2 = {
       titleHe: 'ג׳אב איטי — תרגול',
       titleEn: 'Slow jab — drill',
       instructionHe: 'בצע ג׳אב במהירות אטית מאוד — 3 שניות לכיוון, 3 שניות חזרה. מיקוד: ודא שהכתף מסתובבת, כף היד מסתובבת כלפי מטה, והיד הימנית לא זזה מהלחי. בצע 5 ג׳אבים ואחריהם 10 שניות עצירה לבדיקה.',
+      instructionEn:
+        'Throw the jab at a very slow speed — 3 seconds out, 3 seconds back. Focus: make sure the shoulder turns, the palm rotates downward, and the right hand doesn\'t move from the cheek. Throw 5 jabs, then stop for 10 seconds to check.',
+      coachingCuesEn: [
+        'Slow and precise — not fast and sloppy',
+        'Right hand on the cheek',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['איטי ומדויק — לא מהיר ומבולגן', 'ימין על הלחי'],
     },
@@ -193,6 +218,12 @@ const L1_W2 = {
       titleHe: 'סיבוב 1 — ג׳אב בקצב',
       titleEn: 'Round 1 — jab on a rhythm',
       instructionHe: 'בצע ג׳אב אחד בכל 2 שניות — קצב איטי ואחיד. ספור בקול: "אחד" בכל מכה. התמקד בחזרת היד המהירה לגארד. לא משנה המהירות — חשוב שהיד חוזרת לפני שהיד הבאה יוצאת.',
+      instructionEn:
+        'Throw one jab every 2 seconds — a slow, steady rhythm. Count out loud: "one" on every punch. Focus on the fast return of the hand to guard. The pace doesn\'t matter — what matters is that the hand returns before the next one goes out.',
+      coachingCuesEn: [
+        'Steady rhythm, not speed',
+        'Hand returns to guard — always',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['קצב קבוע, לא מהירות', 'יד חוזרת לגארד — תמיד'],
     },
@@ -202,6 +233,11 @@ const L1_W2 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נוח ונשום. לגום מים. נענע את האגרוף השמאלי בעדינות לשחרור המפרק.',
+      instructionEn:
+        'Rest and breathe. Sip some water. Gently shake out the left fist to release the joint.',
+      coachingCuesEn: [
+        'Release the muscle — don\'t keep it tense',
+      ],
       durationSeconds: 45,
       coachingCuesHe: ['שחרר את השריר — לא מתוח'],
     },
@@ -211,6 +247,12 @@ const L1_W2 = {
       titleHe: 'סיבוב 2 — ג׳אב ×2',
       titleEn: 'Round 2 — jab ×2',
       instructionHe: 'שלח שני ג׳אבים רצופים, ואחריהם הפסקה של 3 שניות. חזור על הצמד לאורך כל הסיבוב. המכה השנייה קצת יותר מהירה מהראשונה — זה הקצב הטבעי של הג׳אב הכפול.',
+      instructionEn:
+        'Throw two jabs in a row, then pause for 3 seconds. Repeat the pair throughout the round. The second punch is a little faster than the first — that is the natural rhythm of the double jab.',
+      coachingCuesEn: [
+        'Two jabs — then back to guard',
+        'Shoulder turns on every punch',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['שני ג׳אבים — ואז חזרה להגנה', 'כתף מסתובבת בכל מכה'],
     },
@@ -220,6 +262,11 @@ const L1_W2 = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'שב אם יש כסא, לגום מים, ובדוק שהמרפק השמאלי לא כואב.',
+      instructionEn:
+        'Sit down if there\'s a chair, sip some water, and check that your left elbow doesn\'t hurt.',
+      coachingCuesEn: [
+        'If the elbow hurts — rest longer',
+      ],
       durationSeconds: 45,
       coachingCuesHe: ['אם כואב מרפק — מנוחה ארוכה יותר'],
     },
@@ -229,6 +276,12 @@ const L1_W2 = {
       titleHe: 'סיבוב 3 — ג׳אב בקצב חופשי',
       titleEn: 'Round 3 — jab at your own pace',
       instructionHe: 'בחר קצב נוח משלך ושלח ג׳אבים לאורך כל הסיבוב. כל 20 שניות תן לעצמך 5 שניות עצירה לבדיקת הגארד. הסיבוב הזה הוא על ביצוע — לא על מהירות.',
+      instructionEn:
+        'Choose a comfortable pace of your own and throw jabs throughout the round. Every 20 seconds, give yourself a 5-second pause to check your guard. This round is about execution — not speed.',
+      coachingCuesEn: [
+        'Focus on technique — not power',
+        'Breathe in rhythm with the punches',
+      ],
       durationSeconds: 120,
       coachingCuesHe: ['מיקוד בטכניקה — לא בכוח', 'נשום בקצב המכות'],
     },
@@ -238,6 +291,12 @@ const L1_W2 = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'מתח את יד שמאל ישר קדימה ומשוך את כף היד כלפיך עם היד הימנית — החזק 20 שניות. החלף ועשה את אותו הדבר ביד ימין. לאחר מכן בצע 10 סיבובי כתפיים לאחור.',
+      instructionEn:
+        'Stretch your left arm straight forward and pull the palm toward you with your right hand — hold for 20 seconds. Switch and do the same with the right arm. Then do 10 backward shoulder circles.',
+      coachingCuesEn: [
+        'Gentle stretch — not painful',
+        'Breathe during the stretch',
+      ],
       durationSeconds: 60,
       coachingCuesHe: ['מתח עדין, לא כואב', 'נשום בזמן המתיחה'],
     },
