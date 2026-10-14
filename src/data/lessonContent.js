@@ -10,6 +10,7 @@ export const LESSON_CONTENT = {
     // Module 0 · Days 1–5 · מבנה השוק
     {
       bottomLine: 'שוק ההון הוא מנגנון שמחבר בין אנשים שצריכים כסף לאנשים שרוצים לגדול את כספם. כשאתה מבין מי משחק, כמה כסף זז ולמה — אתה כבר לא ניגש בעיוורון.',
+      bottomLineEn: 'A stock market connects people who need money with people who want their money to grow. Once you understand who is playing, how much money moves, and why, you no longer approach it blindly.',
       days: [
         {
           // Day 1 · מבוא
@@ -21,6 +22,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'וורן באפט קנה מניות קוקה-קולה ב-1988 כי הוא הבין שהוא קונה "עסק" — מותג גלובלי עם רווחים יציבים — לא סתם פיסת נייר. הוא החזיק 36+ שנה ועשה עליהן מאות אחוזים. הדרך שהוא חשב: "כמה שווה העסק הזה בעוד 10 שנים?"',
           microTask: 'כתוב בשדה הרפלקציה: "קניתי/לא קניתי מניה X בעבר כי ___. עכשיו אני מבין שמניה היא ___ בחברה, ולכן ההחלטה הנכונה הייתה ___."',
+          fieldActionEn: [
+            'Open a blank page and write: "A share is partial ownership of a company. A bond is a loan you give to a company or government."',
+            'Look up a company you know (for example Apple, Tesla or a local bank) on Google Finance and check its current price.',
+            'Note two numbers: the share price and the market cap (total market value). Write them down.',
+            'Ask yourself: "If I buy one share, what percentage of the company do I own?" (Market cap ÷ price = shares outstanding.)',
+          ],
+          realExampleEn: 'Warren Buffett bought Coca-Cola shares in 1988 because he saw he was buying a business: a global brand with steady earnings, not just a piece of paper. He held them for decades. The question he asked was: "What will this business be worth in ten years?"',
+          microTaskEn: 'Write: "I did / did not buy a stock in the past because ___. Now I understand that a share is ___ in a company, so the right decision would have been ___."',
         },
         {
           // Day 2 · רעיון מרכזי
@@ -32,6 +41,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ג\'ון בוגל, מייסד Vanguard, הוכיח שהשקעה פסיבית ב-S&P 500 ETF מנצחת 90% ממנהלי ההשקעות המקצועיים לאורך זמן. הסיבה: עמלות נמוכות + פיזור + אין ניסיון לנחש את השוק. ה-ETF הראשון שלו הושק ב-1976, ועד 2024 ניהל 7+ טריליון דולר.',
           microTask: 'כתוב: "אני מסווג את עצמי כ___ (סולידי/מאוזן/אגרסיבי) כי ___. לכן הנכס שמתאים לי יותר הוא ___ כי ___."',
+          fieldActionEn: [
+            'Learn the four basic asset types: stocks (ownership), bonds (debt), ETFs (baskets of assets), and derivatives (contracts on a future price).',
+            'Write: "An ETF is a fund that tracks an index. An S&P 500 ETF holds 500 large US companies in a single trade."',
+            'Compare: a single stock means higher risk and higher potential return. An ETF spreads the risk and gives roughly the market\'s average return.',
+            'Write down who each one suits: who needs an ETF, and who might want individual stocks?',
+          ],
+          realExampleEn: 'John Bogle, founder of Vanguard, argued for decades that low-cost index funds tend to beat most actively managed funds over long periods. He launched the first index fund for individual investors in 1976. His core ideas were low fees, broad diversification, and no attempt to guess the market.',
+          microTaskEn: 'Write: "I classify myself as ___ (conservative / balanced / aggressive) because ___. So the asset that suits me better is ___ because ___."',
         },
         {
           // Day 3 · דוגמה אמיתית
@@ -43,6 +60,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ב-2022 הפדרל ריזרב העלה ריבית מ-0.25% ל-4.5% תוך שנה. תוצאה: S&P 500 צנח 20%, אגרות חוב ל-10 שנים ירדו 15%. משקיע שהיה בידע זה מראש יכל להגדיל מזומן, לקנות שורט על אגרות, ולחכות לתחתית. משקיע שלא ידע — מכר בפאניקה ביוני 2022 בדיוק בתחתית.',
           microTask: 'כתוב: "הדבר שהפתיע אותי היום בנוגע לשוק ההון הוא ___. השחקן שלא ידעתי שמשפיע עליו הוא ___."',
+          fieldActionEn: [
+            'Open the FTSE 100 (UK) and the S&P 500 (US) on Google Finance.',
+            'Compare their performance over the last year. Which rose more? What might be the reason?',
+            'Identify three main types of market players (hedge funds, central banks, retail investors).',
+            'Write: "When a central bank raises interest rates, what happens to bond prices? Why?"',
+          ],
+          realExampleEn: 'Between 1979 and 1981, under Paul Volcker, the US Federal Reserve raised interest rates sharply to fight inflation. Bond prices fell and the stock market went through years of volatility. Investors who understood how rates affect bond prices were better prepared for it.',
+          microTaskEn: 'Write: "What surprised me today about the capital markets is ___. A player I did not know affects the market is ___."',
         },
         {
           // Day 4 · יישום
@@ -54,6 +79,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'נניח שב-2023 בחרת בין נובה (NVMI, ישראלית, סמיקונדקטור) ל-Coca-Cola (KO, אמריקאית, מזון). נובה עלתה ~120%, קוקה-קולה ~6%. ההבדל: נובה נהנית מבום הסמיקונדקטורים והאי-אי. לקוח שהבין את הטרנד לפני שהוא הפך לוויראלי — עשה 20 פעמים יותר.',
           microTask: 'כתוב: "החברה שבחרתי היא ___ כי ___. לפי חישוב ההשקעה שלי, 1,000 ₪ לפני שנה היו שווים ___ היום."',
+          fieldActionEn: [
+            'Choose one company from a local stock index and one well-known US company.',
+            'For each one, write the price, the market cap, and the sector. (Google Finance → company name)',
+            'Calculate: if you had invested $1,000 in each a year ago, how much would it be worth today?',
+            'Write two lines on each company: "I think it is ___ because ___." That is your first real analysis.',
+          ],
+          realExampleEn: 'During the dot-com boom of 1999 and 2000, many investors bought internet companies because of a story about the future, not because they understood how those companies made money. When the bubble burst, many of those stocks lost most of their value. Investors who had asked how each business earned its revenue were in a far better position.',
+          microTaskEn: 'Write: "The company I chose is ___ because ___. By my calculation, $1,000 invested a year ago would be worth ___ today."',
         },
         {
           // Day 5 · סינתזה
@@ -65,6 +98,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'פיטר לינץ\' ניהל קרן ב-Fidelity ועשה 29% בשנה ב-13 שנה. סודו: הוא השקיע בחברות שהוא מבין מהחיים היומיומיים. "קנה מה שאתה מכיר" — הוא ראה שדאנקין\' דונאטס תמיד עמוסה ב-7 בבוקר וקנה את המניה. זה ניתוח יסודי בסיסי שכולם יכולים לעשות.',
           microTask: 'כתוב: "לאחר השבוע הראשון, אני מגדיר את עצמי כ___ כי ___. הדבר הכי חשוב שלמדתי הוא ___."',
+          fieldActionEn: [
+            'Review the last four days: stocks, bonds, ETFs, derivatives. Write one sentence on each asset.',
+            'Answer: "What is the difference between investing and trading?" (Investing = long term, trading = short term.)',
+            'Define for yourself: are you mainly an investor or a trader? Why? What suits your personality?',
+            'Write one sentence that sums up what you took from the first week.',
+          ],
+          realExampleEn: 'Peter Lynch ran the Fidelity Magellan Fund and earned strong returns for over a decade. A central part of his approach was to invest in companies he understood from everyday life. "Buy what you know" was his rule, and it started with basic research anyone can do.',
+          microTaskEn: 'Write: "After the first week, I see myself as ___ because ___. The most important thing I learned is ___."',
         },
       ],
     },
@@ -72,6 +113,7 @@ export const LESSON_CONTENT = {
     // Module 1 · Days 6–10 · קריאת גרפי נרות
     {
       bottomLine: 'גרף נרות הוא שפה — כל נר מספר מה עשו הקונים והמוכרים ב-X זמן. מי שקורא אותו נכון רואה את כוונות השוק לפני שהן מתממשות.',
+      bottomLineEn: 'A candlestick chart is a language. Each candle tells what buyers and sellers did over a given period. Those who read it correctly see the market\'s intentions before they play out.',
       days: [
         {
           // Day 1 · מבוא
@@ -83,6 +125,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ב-13 מרץ 2020 (שיא מפולת קורונה) נסגר S&P 500 עם נר ירוק גדול לאחר 4 ימי נסיקה — זהו "Bullish Engulfing" קלאסי לאחר ירידה חדה. משקיעים שזיהו זאת קנו ב-2,585. כ-3 שנים לאחר מכן המדד עמד על 4,700+.',
           microTask: 'כתוב: "פתחתי TradingView וראיתי את המניה ___. זיהיתי ___ נרות ירוקים ו-___ אדומים ב-10 האחרונים. המגמה נראית ___ כי ___."',
+          fieldActionEn: [
+            'Draw on a page: a green (bullish) candle opens at the bottom and closes at the top. A red (bearish) candle is the reverse.',
+            'Each candle has a body (distance between open and close) and wicks, or shadows (the high and low of the period).',
+            'Open TradingView.com, choose a stock or index, select candlestick view, and look at it for 30 seconds.',
+            'Count the green candles versus the red candles in the last 10. What does that tell you?',
+          ],
+          realExampleEn: 'Candlestick charts were developed by Japanese rice traders in the 18th century, and they only became popular in the West much later. The idea is simple: each candle compresses a whole period of trading into one shape. The shape shows who won that period, buyers or sellers, and by how much.',
+          microTaskEn: 'Write: "I opened TradingView and looked at ___. I counted ___ green candles and ___ red ones in the last 10. The trend looks ___ because ___."',
         },
         {
           // Day 2 · רעיון מרכזי
@@ -94,6 +144,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ביוני 2023 מניית NVDA הציגה Bullish Engulfing בדיוק על קו תמיכה $400. Volume היה פי 3 מהממוצע — אות אישור חזק. מניה עלתה מ-$400 ל-$500 ב-6 שבועות. טריידרים שזיהו את שלושת האישורים (תבנית + תמיכה + volume) נכנסו בביטחון.',
           microTask: 'כתוב: "מצאתי תבנית ___ בגרף של ___ בתאריך ___ אחרי ___. האות שאישר אותה היה ___."',
+          fieldActionEn: [
+            'Learn three essential patterns: Doji (open equals close, a sign of indecision), Hammer (a long lower wick, buyers pushed back), and Engulfing (a candle swallows the previous one, a possible reversal).',
+            'Go to TradingView and search for each pattern on a real chart for 5 minutes. Where did you see them?',
+            'Write: "Doji = ___. Hammer = ___. Engulfing = ___."',
+            'Ask: "Why is one pattern alone not enough for a trade?" (Answer: you need confirmation from volume, support levels, and the overall trend.)',
+          ],
+          realExampleEn: 'A pattern is a hint, not a guarantee. During the 2008 financial crisis, the market produced several sharp rallies with bullish candle patterns inside a long downtrend. Traders who acted on the pattern alone often lost money when the downtrend resumed.',
+          microTaskEn: 'Write: "I found a ___ pattern on the chart of ___ on ___ after ___. The signal that confirmed it was ___."',
         },
         {
           // Day 3 · דוגמה אמיתית
@@ -105,6 +163,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ב-נובמבר 2021 Bitcoin נסחר ב-$69,000 עם Doji שבועי מאסיבי בשיא — גוף קטן, פתילים ארוכים. Volume פחת. 3 אותות: (1) שיא היסטורי, (2) Doji = חוסר וודאות, (3) volume יורד. תוך 14 חודש BTC ירד ל-$16,000. אלה שזיהו את האות מכרו. אלה שלא — נכנסו ב-$69K.',
           microTask: 'כתוב: "בגרף של ___ זיהיתי ___ בתאריך בערך ___. המחיר לאחר מכן ___. מה שלימד אותי זה על גרפים ___."',
+          fieldActionEn: [
+            'Open a long-term chart of the S&P 500 index on TradingView, using the weekly timeframe.',
+            'Look for: where did a Doji appear before a big fall? (Often near market tops, such as 2000 or 2007.)',
+            'Look for: where did a Hammer appear before a rise? (Often near market lows, such as 1990 or 2009.)',
+            'Write the dates and the outcomes: "On ___ a ___ appeared, and afterwards the price ___."',
+          ],
+          realExampleEn: 'In the months before the 2008 crisis, the S&P 500 made several rallies and then fell back. Analysts who looked for signs of indecision and weakening volume near the 2007 highs had an early warning, though no single candle guaranteed what came next. Patterns are most useful when you test them across many past cases.',
+          microTaskEn: 'Write: "On the chart of ___ I found ___ around ___. The price afterwards ___. What this taught me about charts is ___."',
         },
         {
           // Day 4 · יישום
@@ -116,6 +182,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'גישת "Price Action Trading" — מסחר לפי גרף בלבד ללא אינדיקטורים — משמשת טריידרים כמו Al Brooks שכתב 3 כרכים על הנושא. הוא טוען שגרף נרות הוא כל מה שצריך. יתרון: פחות "רעש", יותר ניקיון. חיסרון: צריך ניסיון לקרוא נרות בצורה נכונה.',
           microTask: 'כתוב: "בגרף של ___ הגעתי להחלטה ___ כי ___. אם הייתי מחכה עוד ___ נרות לאישור, הייתי בטוח יותר כי ___."',
+          fieldActionEn: [
+            'Choose an asset you are interested in. Open a daily chart on TradingView.',
+            'Mark candles in three colors: green for a strong bullish candle, red for a strong bearish one, yellow for a Doji or indecision.',
+            'Write: "In the last 20 candles, the overall trend is ___ because ___."',
+            'Decide, based on the chart alone (no news): would you buy, sell, or wait? Explain why.',
+          ],
+          realExampleEn: 'Price action trading, which means trading from the chart alone without indicators, is used by traders such as Al Brooks, who wrote several books on the subject. He argues that the candle chart contains what you need. The advantage is less noise. The disadvantage is that it takes experience to read candles correctly.',
+          microTaskEn: 'Write: "On the chart of ___ I decided ___ because ___. If I had waited for ___ more candles for confirmation, I would have been more confident because ___."',
         },
         {
           // Day 5 · סינתזה
@@ -127,6 +201,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ג\'ס ליברמור, אחד הסוחרים הגדולים בהיסטוריה (1877-1940), עשה מיליונים ממפולת 1929 כי הוא ראה בגרפים (שנקראו אז "tape") שהשוק מתרחב על ריקנות — volume יורד בזמן עלייה. הוא שורט את כל השוק ועשה $100M. הכלי שלו היה קריאת גרפים. הטעות שלו — ניהול כסף. הוא פשט רגל שלוש פעמים.',
           microTask: 'כתוב: "שלושת הכללים שלי לגרפי נרות: (1) ___, (2) ___, (3) ___. הדבר שעוד לא בטוח לי בנוגע לגרפים הוא ___."',
+          fieldActionEn: [
+            'Answer three questions: (1) What is the difference between a Doji and a Hammer? (2) When is an Engulfing candle a real signal? (3) Why does volume matter for confirmation?',
+            'Write your own "candle trading rules": three rules you will not break when reading a chart.',
+            'Review: did the chart of the asset you chose on Day 4 do what you expected? Why or why not?',
+            'What is left to practice? (Quick recognition, understanding context, combining patterns with volume?)',
+          ],
+          realExampleEn: 'Jesse Livermore, one of the most famous traders in history (1877–1940), profited from the 1929 crash by watching price action closely. He sold short as the market fell and made a large fortune. But he went bankrupt more than once. His costly mistakes were in money management, not in chart reading.',
+          microTaskEn: 'Write: "My three candle rules: (1) ___, (2) ___, (3) ___. The part of chart reading I am still unsure about is ___."',
         },
       ],
     },
@@ -134,6 +216,7 @@ export const LESSON_CONTENT = {
     // Module 2 · Days 11–15 · ניתוח דוחות כספיים
     {
       bottomLine: 'מספרים בדו"ח כספי הם שפה — אם אתה לא קורא אותה, אתה מהמר עיוור. לדעת להבדיל בין חברה זולה לחברה זולה-ועלולה-לקרוס — זה ההבדל בין מרוויח למפסיד.',
+      bottomLineEn: 'The numbers in a financial report are a language. If you don\'t read it, you are gambling blind. Knowing how to tell a cheap company from a cheap company that is about to collapse is the difference between profit and loss.',
       days: [
         {
           // Day 1 · מבוא
@@ -145,6 +228,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ב-2023 Apple הכניסה $383B הכנסות עם רווח נקי של $97B — Net Margin של 25%. לשם השוואה, Walmart עם $648B הכנסות הרוויחה רק $16B — Net Margin של 2.4%. זה מסביר למה מניית Apple שווה פי 30 ממניית Walmart למרות שהכנסות Walmart גדולות יותר. הרווחיות חשובה יותר מהגודל.',
           microTask: 'כתוב: "חישבתי את Net Margin של ___ — הוא ___%. בהשוואה לממוצע ענפי של ___%, החברה ___. מה שזה מלמד אותי ___."',
+          fieldActionEn: [
+            'Open Google Finance, search for a company you know (for example Apple, AAPL), and go to its Financials section.',
+            'Find: revenue, net income, and EPS (earnings per share).',
+            'Calculate the net margin: net income ÷ revenue × 100.',
+            'Write: "The company\'s net margin is ___%. That means that for every $100 it brings in, it keeps $___."',
+          ],
+          realExampleEn: 'Walmart has enormous revenue but a thin net margin, typically a few percent, which is normal for a large retailer. Many software businesses keep 20% or more of their revenue as profit. Revenue size alone does not tell you how much a business keeps.',
+          microTaskEn: 'Write: "I calculated the net margin of ___. It is ___%. Compared with the industry average of ___%, the company ___. What this teaches me is ___."',
         },
         {
           // Day 2 · רעיון מרכזי
@@ -156,6 +247,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ב-2000 (בועת dot-com), Amazon נסחרה בP/E של מעל 1,000. אנליסטים אמרו "לא רלוונטי, זה עתיד." המניה צנחה 94% ב-2001. אבל מי שקנה ב-$5 ב-2001 (לאחר הצניחה, P/E סביר) ועד 2024 — מניה שווה $190. הלקח: P/E אינסופי = בועה. P/E נמוך לאחר מפולת ועסק חזק = הזדמנות.',
           microTask: 'כתוב: "בדקתי P/E של ___. הוא עומד על ___. לדעתי זה ___ (יקר/זול/הוגן) כי ___. מה יצדיק שינוי בדעתי ___."',
+          fieldActionEn: [
+            'Learn the P/E ratio: share price ÷ EPS = how many years of earnings you pay for one share.',
+            'Rule of thumb: a P/E above 30 means the market expects high growth. A P/E below 15 means the market expects low growth or sees risk.',
+            'Find the P/E of three companies you know on Google Finance. Write them down.',
+            'Ask: "What is the risk of a company with a P/E of 50? What is the upside?" (If the expected growth does not come, the price can fall sharply.)',
+          ],
+          realExampleEn: 'In 1999 and 2000, during the dot-com bubble, many internet companies, including Amazon, traded at very high P/E ratios. When growth expectations collapsed, prices fell sharply. Amazon\'s shares dropped by more than 90% from their peak by late 2001. Investors who understood the risk of a very high P/E were less exposed.',
+          microTaskEn: 'Write: "I checked the P/E of ___. It is ___. In my view it is ___ (expensive / cheap / fair) because ___. What would change my mind is ___."',
         },
         {
           // Day 3 · דוגמה אמיתית
@@ -167,6 +266,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ב-2021 Netflix נסחרה ב-EV/EBITDA של ~70. ב-2022 כשהצמיחה ב-subscribers האטה, השוק "גרד" את המכפיל ל-~20. התוצאה: מניה ירדה מ-$700 ל-$165. EBITDA עצמה לא השתנתה דרמטית — אבל ציפיות הצמיחה השתנו. זה מלמד: תמיד שאל "מה כבר מתומחר בתוך המחיר?"',
           microTask: 'כתוב: "החברה שבחרתי ___ — ה-EBITDA שלה הוא ___, ה-EV/EBITDA הוא ___. הציפייה הטמונה בתמחור הזה היא ___."',
+          fieldActionEn: [
+            'EBITDA means earnings before interest, taxes, depreciation, and amortization. It shows operating profitability without the effect of financing and accounting choices.',
+            'Find the EBITDA of a company you know on Macrotrends.net or in its annual report.',
+            'Calculate EV/EBITDA: (market cap + debt − cash) ÷ EBITDA. It is a more complete multiple than the P/E.',
+            'Write: "The EV/EBITDA of ___ is ___. The industry average is ___. So the company ___."',
+          ],
+          realExampleEn: 'In 2001, Enron looked strong on many measures. Its reported earnings were impressive, but much of its debt sat in off-balance-sheet entities that did not appear clearly in the headline figures. When the truth came out, the company collapsed. The lesson: always check the debt and what the numbers leave out.',
+          microTaskEn: 'Write: "The company I chose is ___. Its EBITDA is ___, and its EV/EBITDA is ___. The expectation built into that valuation is ___."',
         },
         {
           // Day 4 · יישום
@@ -178,6 +285,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'בנצ\'מרק ב-2023: Google (Alphabet) — Net Margin 24%, P/E 26, חוב נמוך, מזומן $118B. Microsoft — Net Margin 34%, P/E 36, חוב בינוני, AI momentum. כל אנליסט שבחר בין השתיים הגיע לתשובה שונה לפי המשקל שנתן לכל פרמטר. ניתוח כמותי + שיפוט איכותי = השקעה מושכלת.',
           microTask: 'כתוב: "השוויתי ___ ל-___. בחרתי ___ כי ___. המספר שהכי שכנע אותי היה ___ כי ___."',
+          fieldActionEn: [
+            'Choose two companies in the same industry (for example two large banks, or two large tech companies).',
+            'For each one, write down revenue, net income, P/E, and debt.',
+            'Write: "If I could invest in only one of them, I would choose ___ because ___."',
+            'Which single number convinced you most? (Margin? P/E? Debt?)',
+          ],
+          realExampleEn: 'Before the 2008 crisis, some large banks ran with far less capital and far more borrowed money than others. Anyone who read the balance sheets carefully could see which institutions were more fragile. Quantitative analysis plus judgment about quality is what separates an informed decision from a guess.',
+          microTaskEn: 'Write: "I compared ___ with ___. I chose ___ because ___. The number that convinced me most was ___ because ___."',
         },
         {
           // Day 5 · סינתזה
@@ -189,6 +304,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'מקדוננלד\'ס — דוגמה לחברה שנראית "גרועה בנייר" ומצוינת להשקעה: Net Margin ~33%, P/E 22, אבל חוב ענק. הסיבה: הם מממנים ריכוש נדל"ן בחוב זול. הם לא רק מוכרים המבורגרים — הם חברת נדל"ן. ניתוח שטחי היה פוסל אותם. ניתוח עמוק מגלה שהמודל עסקי עצמו כובל את החוב.',
           microTask: 'כתוב: "שלושת הדגלים האדומים שלי בדו"ח כספי: (1) ___, (2) ___, (3) ___. הדו"ח הכי מעניין שקראתי השבוע היה ___ כי ___."',
+          fieldActionEn: [
+            'Answer: what is the difference between the P/E and EV/EBITDA? When is each one more useful?',
+            'Write: "A company with a high net margin, a low P/E, plenty of cash, and low debt is ___."',
+            'Define three red flags in a financial report that would make you avoid investing in a company.',
+            'Write: "The report I learned to read best this week was ___ because ___."',
+          ],
+          realExampleEn: 'McDonald\'s is an example of a business that looks weak on the surface yet can be a strong investment. It owns much of the real estate its restaurants sit on and finances it with cheap debt. A surface reading might reject it. A deeper reading shows the business model supports the debt.',
+          microTaskEn: 'Write: "My three red flags in a financial report: (1) ___, (2) ___, (3) ___. The report I found most interesting this week was ___ because ___."',
         },
       ],
     },
@@ -196,6 +319,7 @@ export const LESSON_CONTENT = {
     // Module 3 · Days 16–20 · ניהול סיכונים — ה-1% Rule
     {
       bottomLine: 'אתה לא יכול לשלוט על כיוון השוק — אבל אתה יכול לשלוט על כמה אתה מסכן. הסוחרים שנשארים בשוק לטווח ארוך הם לא אלה שניחשו נכון — אלה שלא איבדו הכל כשהם טעו.',
+      bottomLineEn: 'You cannot control the direction of the market, but you can control how much you risk. Traders who stay in the market long term are not the ones who guessed right. They are the ones who did not lose everything when they were wrong.',
       days: [
         {
           // Day 1 · מבוא
@@ -207,6 +331,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ניק ליסון (1995) הפיל בנק ברינגס — 233 שנה — בגלל עסקה אחת. הוא לא היה מגביל סיכון. סוחרים כמו פול טיודור ג\'ונס (PTJ) גדלו 30 שנה כי הם עוצרים בdrawdown של 2-3% בחודש וחוזרים. PTJ אמר: "הכלל הראשון: לא להפסיד. הכלל השני: לא לשכוח את הכלל הראשון."',
           microTask: 'כתוב: "גודל התיק שלי הוא ___₪. לפי 1% Rule, הסיכון המקסימלי שלי לעסקה הוא ___₪. כך אוכל לטעות ___ פעם ברצף ועדיין נשאר עם ___% מהתיק."',
+          fieldActionEn: [
+            'Write: "The 1% rule means never risking more than 1% of your total portfolio on a single trade."',
+            'Calculate: if your portfolio is $10,000, what is 1%? (= $100 maximum loss per trade)',
+            'Calculate: how many losing trades in a row can you take before losing 10% of your portfolio? (= 10 trades.)',
+            'Write: "This means I can be wrong ___ times in a row before I am in a drawdown of ___."',
+          ],
+          realExampleEn: 'In 1995, a single trader, Nick Leeson, brought down Barings Bank, which had stood for 233 years. He did not limit his risk. Paul Tudor Jones, by contrast, built a long career by cutting losses early. The idea often attributed to Warren Buffett sums it up: "Rule number one: never lose money. Rule number two: never forget rule number one."',
+          microTaskEn: 'Write: "My portfolio is $___. Under the 1% rule, my maximum risk per trade is $___. That lets me be wrong ___ times in a row and still keep ___% of my portfolio."',
         },
         {
           // Day 2 · רעיון מרכזי
@@ -218,6 +350,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'סוחרת שיש לה 50,000 ₪ בתיק. 1% = 500 ₪ סיכון לעסקה. היא רוצה לקנות מניה ב-200 ₪ עם Stop ב-190 ₪ (סיכון 10 ₪ למניה). Position Size = 500 ÷ 10 = 50 מניות. השקעה = 10,000 ₪. אבל הסיכון בפועל = 500 ₪ = 1%. גם אם מניה תרד 50% — תפסיד רק 500 ₪ כי ה-Stop יפסיק אותה ב-190.',
           microTask: 'כתוב: "חישבתי Position Size: תיק ___ ₪ × 1% = ___ ₪ סיכון. עסקה על ___ ₪ עם Stop ב-___ ₪ = ___ ₪ סיכון למניה. אסחר ___ יחידות."',
+          fieldActionEn: [
+            'A stop-loss is a price at which a trade closes automatically to limit the loss.',
+            'Rule: "Set the stop-loss before entering, not after. The stop is set by the trade plan, not the other way around."',
+            'Calculate: you buy a stock at $100 and place the stop at $97. Your risk is $3 per share. If your maximum risk is $100, how many shares can you buy? (= $100 ÷ $3 = 33 shares.)',
+            'Write: "Position size = allowed risk ÷ (entry price − stop-loss price)."',
+          ],
+          realExampleEn: 'Suppose you have $50,000 in your account. 1% is $500 of risk per trade. You want to buy a stock at $200 with a stop at $190, which is a $10 risk per share. Position size = $500 ÷ $10 = 50 shares. The position is worth $10,000, but your actual risk is $500, or 1%. Even if the stock falls 50%, the stop limits your loss.',
+          microTaskEn: 'Write: "I calculated position size: portfolio $___ × 1% = $___ of risk. A trade at $___ with a stop at $___ means $___ of risk per share. I will trade ___ shares."',
         },
         {
           // Day 3 · דוגמה אמיתית
@@ -229,6 +369,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'גישת "Expectancy": אם R/R = 2:1 ו-Win Rate = 40%, ה-Expectancy = (0.4×2) - (0.6×1) = 0.8 - 0.6 = +0.2 לעסקה. אתה מרוויח בממוצע 20 ₪ על כל 100 ₪ בסיכון, גם בהצלחה של 40%. רוב המתחילים מחפשים Win Rate גבוה — הסוחרים המקצועיים מחפשים Expectancy חיובי.',
           microTask: 'כתוב: "חישבתי Expectancy: Win Rate שלי ___ × Reward ___ - Loss Rate ___ × Risk ___ = ___. המשמעות היא שעל כל עסקה אצפה להרוויח/להפסיד ___."',
+          fieldActionEn: [
+            'Risk/reward ratio: what is the potential profit compared with the possible loss?',
+            'Rule: the potential profit should be at least twice the risk. Risk/reward of at least 2:1.',
+            'Calculate: entry at $100, stop at $97 (risk $3), target at $106 (profit $6). Risk/reward = 6 ÷ 3 = 2:1. ✓',
+            'Calculate: if you are right 50% of the time with a 2:1 ratio, do you make money? (Yes: 1 × $6 − 1 × $3 = +$3.)',
+          ],
+          realExampleEn: 'Expectancy measures the average result per trade. If your risk/reward is 2:1 and your win rate is 40%, the expectancy is (0.4 × 2) − (0.6 × 1) = +0.2 per trade. On average you make 20 cents for every dollar risked, even with only 40% winners. Many beginners chase a high win rate. Professionals look for positive expectancy.',
+          microTaskEn: 'Write: "I calculated expectancy: my win rate ___ × my reward ___ − my loss rate ___ × my risk ___ = ___. This means on average I expect to ___ per trade."',
         },
         {
           // Day 4 · יישום
@@ -240,6 +388,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'טריידר מקצועי מחכה לעסקה. לא כל עסקה טובה. הוא בוחן 20 הזדמנויות ולוקח 3. מתחיל מרגיש שהוא "מפסיד הזדמנויות". מקצועי יודע שהמתנה לעסקה עם R/R ≥ 2:1 היא הכסף האמיתי. כמו שחמטאי שמחכה לטעות של היריב — לא זזים כי שעמום, זזים כי ה-setup מוכן.',
           microTask: 'כתוב: "העסקה ההיפותטית שלי: נכס ___, כניסה ___, Stop ___, יעד ___, Size ___ יחידות, R/R ___:1. העסקה ___ (ראויה/לא ראויה) כי ___."',
+          fieldActionEn: [
+            'Choose a hypothetical trade on an asset you follow.',
+            'Set the entry point, stop-loss, target, position size (using the 1% rule), and risk/reward ratio.',
+            'Write all the numbers down. Check: is the risk/reward at least 2:1? If not, the trade is not worth taking.',
+            'Ask: "What would have to happen for my stop to be hit? How likely is that?"',
+          ],
+          realExampleEn: 'A professional trader waits for a trade. Not every opportunity is good. He may look at 20 setups and take 3. A beginner often feels he is missing out. The professional knows that waiting for a setup with a risk/reward of at least 2:1 is where the real money is made. Like a chess player waiting for an opponent\'s mistake, he stays still until the setup is ready.',
+          microTaskEn: 'Write: "My hypothetical trade: asset ___, entry ___, stop ___, target ___, size ___ shares, risk/reward ___:1. The trade is ___ (worth taking / not worth taking) because ___."',
         },
         {
           // Day 5 · סינתזה
@@ -251,6 +407,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ריי דאליו, מייסד Bridgewater (קרן הגידור הגדולה בעולם), ניהל קרן בנויה על "ניהול סיכון מעל הכל." הוא אמר: "הטעות הגדולה ביותר שמשקיעים עושים היא לחשוב שמה שהיה בעבר ימשיך להיות." כל עסקה אצלו מחושבת ל-Worst Case Scenario — לא לאפשרות ה-best.',
           microTask: 'כתוב: "4 כללי ניהול הסיכון שלי: (1) ___, (2) ___, (3) ___, (4) ___. ניהול סיכון הוא לא פחדנות — הוא ___ כי ___."',
+          fieldActionEn: [
+            'Write your risk management rules: four rules you will not break.',
+            'Answer: "What drawdown can you absorb before you stop and analyze?" (A common suggestion is 10%.)',
+            'Define: what will you do if you lose three trades in a row? (For example: take a one-day break and review each trade.)',
+            'Write: "Risk management is not cowardice. It is ___."',
+          ],
+          realExampleEn: 'Ray Dalio, founder of Bridgewater, one of the largest hedge funds in the world, built his firm around managing risk. He tested portfolios against bad scenarios, not only against the best case. His view was that a mistake many investors make is to assume the past will simply repeat itself.',
+          microTaskEn: 'Write: "My four risk management rules: (1) ___, (2) ___, (3) ___, (4) ___. Risk management is not cowardice. It is ___ because ___."',
         },
       ],
     },
@@ -258,6 +422,7 @@ export const LESSON_CONTENT = {
     // Module 4 · Days 21–25 · פסיכולוגיית מסחר
     {
       bottomLine: 'השוק לא מנצח אותך — הראש שלך מנצח אותך. FOMO, Revenge Trading ו-Overconfidence הורגים תיקים שכל ניתוח טכני שמר. שלוט בעצמך — וכבר ניצחת 80% מהסוחרים.',
+      bottomLineEn: 'The market does not beat you. Your mind does. FOMO, revenge trading and overconfidence destroy accounts that any technical analysis would have saved. Control yourself, and you are already ahead of most traders.',
       days: [
         {
           // Day 1 · מבוא
@@ -269,6 +434,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'קיץ 2021: Dogecoin עלה מ-0.005$ ל-0.73$ תוך 4 חודשים. אנשים ראו חברים מרוויחים וקנו ב-0.70$. כעבור שנה Dogecoin ירד ל-0.06$ — הפסד של 91%. FOMO גרם להם להיכנס בדיוק כשהסוחרים המקצועיים מכרו. "ריטייל קונה כשעיתון כותב עליו" — זה FOMO קלאסי.',
           microTask: 'כתוב: "אירוע FOMO אחד שחוויתי: ___. ההחלטה שקיבלתי מתוך FOMO הייתה ___. התוצאה הייתה ___. מה הייתי עושה אחרת עם הידע של היום ___."',
+          fieldActionEn: [
+            'Write a definition: "FOMO (fear of missing out) means buying out of fear of missing a rise, not out of a plan."',
+            'Remember one time you felt FOMO, in the market, in life, or in a business decision. What did you do? What was the result?',
+            'Rule: "FOMO is a sign that the trade has already moved. If you chase a train that is already leaving, you are boarding at the wrong station."',
+            'Write: "Next time I feel FOMO, I will stop and ask ___ before I enter a trade."',
+          ],
+          realExampleEn: 'In late 1999 and early 2000, many investors who had stayed out of the tech rally rushed into internet stocks near the peak, fearing they would miss out. The Nasdaq Composite fell roughly 78% from its March 2000 peak to its October 2002 low. Many who bought at the top lost most of their money.',
+          microTaskEn: 'Write: "One FOMO moment I experienced: ___. The decision I made out of FOMO was ___. The result was ___. With what I know today, I would do ___ differently."',
         },
         {
           // Day 2 · רעיון מרכזי
@@ -280,6 +453,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ניק ליסון (שפגשנו ב-Module 3): הפסד ראשון קטן ב-1992 → ניסה להסתיר ולפצות → עסקאות גדולות יותר → הפסד $1.4B → קריסת בנק. זה Revenge Trading בסקייל. באופן אישי: כל טריידר שאחרי יום רע כפיל/שילש גודל עסקה — עושה Revenge Trading. "כשאתה כועס, אתה לא מנתח — אתה מגיב."',
           microTask: 'כתוב: "הטריגר שלי ל-Revenge Trading הוא ___. הפעם הבאה שאני חש את הדחף הזה, אני אעשה ___ לפני שאכנס לעסקה הבאה."',
+          fieldActionEn: [
+            'Revenge trading is trading out of anger or a wish to win back a loss, often with a larger position size.',
+            'Write the cycle: "Loss → pain → urge to make it back → bigger trade → bigger loss → spiral."',
+            'Identify your personal trigger. (A certain kind of loss, someone else\'s ridicule, a feeling of failure?)',
+            'Write: "My solution to revenge trading is: after a loss bigger than ___, I ___ (stop for the day / step away / analyze) before the next trade."',
+          ],
+          realExampleEn: 'Nick Leeson hid his trading losses in a special error account and kept increasing his bets, trying to win the money back. Each larger bet made the hole deeper, until Barings Bank collapsed in 1995. That is revenge trading at scale. As a trader, if you double your position after a bad day, you are reacting, not analyzing.',
+          microTaskEn: 'Write: "My trigger for revenge trading is ___. The next time I feel that urge, I will ___ before entering another trade."',
         },
         {
           // Day 3 · דוגמה אמיתית
@@ -291,6 +472,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Long Term Capital Management (LTCM) — קרן עם 2 זוכי פרס נובל. ב-1994-1997 הרוויחו 40%+ בשנה. Overconfidence → מינוף של 25:1 → משבר אסיאתי 1997 → הפסד $4.6B → קריסה שכמעט גררה את וול סטריט. "המוח החכם ביותר יכול לייצר החלטה הרסנית כשהוא בטוח מדי."',
           microTask: 'כתוב: "הכי קרוב שהייתי ל-Overconfidence היה ___. הסימן שהייתי אמור לראות הוא ___. מה שימנע ממני את זה בעתיד ___."',
+          fieldActionEn: [
+            'Overconfidence is when good short-term results convince a trader that he has figured out the market.',
+            'Symptoms: position size grows without reason, stop-losses get removed, and no analysis is done before entering.',
+            'Write: "After ___ winning trades in a row, I need to stop and ask: did I succeed because my skill improved, or because the market went my way?"',
+            'Define a check: "After three wins in a row, I will ___ (reduce size / take a break / review)."',
+          ],
+          realExampleEn: 'Long-Term Capital Management was a hedge fund that included two Nobel Prize winners among its partners. For several years it earned strong returns. Confidence turned into very high leverage. When the Russian debt default in 1998 shocked the markets, the fund lost billions and nearly brought down the wider financial system. Even brilliant minds can make destructive decisions when they feel too sure.',
+          microTaskEn: 'Write: "The closest I came to overconfidence was ___. The warning sign I should have noticed was ___. What will stop me from doing it again is ___."',
         },
         {
           // Day 4 · יישום
@@ -302,6 +491,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ברט סטינברגר, מחבר "The Daily Trading Coach", עבד עם מאות טריידרים פרופסיונלים. הממצא: הטריידרים הטובים ביותר לא הם הכי חכמים — הם הכי מודעים לעצמם. הם יודעים מתי הם ב-"תגובה" לעומת ב-"ניתוח". יומן מסחר הוא הכלי המרכזי לפתח מודעות זו.',
           microTask: 'כתוב: "רשמתי ___ עסקאות ביומן המסחר שלי. הממצא הכי מפתיע מהניתוח שלהם היה ___. הרגש שהכי הרבה השפיע על ההחלטות שלי הוא ___."',
+          fieldActionEn: [
+            'Open a notebook, on paper or digital. This is your trading journal.',
+            'For each trade (even a hypothetical one), record: date, asset, entry, exit, profit or loss, "the reason for the trade," and "the emotion during the trade."',
+            'Add: "Did I have a plan before entering? Yes / no. What happened?"',
+            'Write three trades from the past, real or hypothetical, in this journal with all the fields.',
+          ],
+          realExampleEn: 'Brett Steenbarger, a trading psychologist, worked with many professional traders. He argues that the most effective traders are not necessarily the smartest, but the most self-aware. They know when they are reacting and when they are analyzing. A trading journal is a central tool for building that awareness.',
+          microTaskEn: 'Write: "I recorded ___ trades in my trading journal. The most surprising finding was ___. The emotion that influenced my decisions the most is ___."',
         },
         {
           // Day 5 · סינתזה
@@ -313,6 +510,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'מארק דגלס, מחבר "Trading in the Zone" — הספר הנמכר ביותר על פסיכולוגיית מסחר — טוען שהשוק הוא "מחולל הסתברויות". כל עסקה היא independent event. הבעיה שהמוח שלנו לא עוצב לחשוב כך — הוא מחפש patterns ורוצה לנצח "כדי להוכיח". Detachment = "לא אכפת לי אם עסקה זו מוצלחת — אכפת לי שאני מבצע את התכנית."',
           microTask: 'כתוב: "3 כללי הפסיכולוגיה שלי: (1) ___, (2) ___, (3) ___. הדבר שהכי קשה לי לשלוט בו הוא ___ כי ___."',
+          fieldActionEn: [
+            'Answer in three short definitions: what is the difference between FOMO, revenge trading, and overconfidence?',
+            'Write your "psychology rules": three rules that protect you from yourself.',
+            'Write: "How will I know I am trading emotionally and not rationally?"',
+            'Commit: "After each trading day, I will add to my journal: ___."',
+          ],
+          realExampleEn: 'Mark Douglas, author of Trading in the Zone, a well-known book on trading psychology, argues that the market is a generator of probabilities, and each trade is an independent event. Our minds are not built to think that way. They look for patterns and want to be right. Detachment means: you care about executing your plan well, not about whether a single trade wins.',
+          microTaskEn: 'Write: "My three psychology rules: (1) ___, (2) ___, (3) ___. The hardest thing for me to control is ___ because ___."',
         },
       ],
     },
@@ -320,6 +525,7 @@ export const LESSON_CONTENT = {
     // Module 5 · Days 26–30 · בניית מערכת מסחר
     {
       bottomLine: 'סוחר ללא מערכת הוא מהמר. מערכת מסחר טובה הופכת החלטות רגשיות להחלטות מוגדרות-מראש — ומשאירה רק ניהול ביצוע. בנה אחת. בדוק אותה. שגר אותה.',
+      bottomLineEn: 'A trader without a system is a gambler. A good trading system turns emotional decisions into pre-defined ones and leaves only execution. Build one. Test it. Run it.',
       days: [
         {
           // Day 1 · מבוא
@@ -331,6 +537,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ריצ\'רד דניס ב-1983 לימד 13 אנשים ללא ניסיון מסחר את "Turtle Trading System" — מערכת ברורה עם כניסה בפריצת 20 יום, Stop מוגדר, Size מחושב. ב-4 שנים 13 "צבים" הרוויחו $175M. הוכחה: מערכת מוגדרת + משמעת עדיפה על "אינטואיציה".',
           microTask: 'כתוב: "הנכס שבחרתי למסחר הוא ___ כי ___. Timeframe שבו אסחר ___. אני מגדיר את עצמי כ___ (swing trader/day trader/position trader)."',
+          fieldActionEn: [
+            'Write: "A trading system is a set of rules, defined in advance, for entry, exit, and risk management."',
+            'Define the four components: (1) entry conditions, (2) stop-loss, (3) profit target, (4) position size.',
+            'Choose one asset to focus on (a specific stock, index, or currency). This will be your practice ground.',
+            'Write: "I will trade ___ because ___ (I know it well, it has high volume, it is liquid)."',
+          ],
+          realExampleEn: 'In 1983, Richard Dennis and William Eckhardt trained a group of novices, known as the Turtles, in a clear, rules-based trend-following system. The entry, stop, and position sizing rules were all written down. The experiment is often cited as evidence that clear rules and discipline can matter more than natural talent.',
+          microTaskEn: 'Write: "The asset I chose to trade is ___ because ___. My time frame will be ___. I define myself as a ___ (swing trader / day trader / position trader)."',
         },
         {
           // Day 2 · רעיון מרכזי
@@ -342,6 +556,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Moving Average Crossover (MA50 × MA200 = "Golden Cross"): כש-MA50 חוצה מעל MA200 — זה אות long קלאסי. ב-S&P 500 מאז 1950, Golden Cross הניב תשואות ממוצעות של 14% ב-12 חודשים לאחריו (מול 7% ממוצע). לא מושלם — אבל מדיד, ניתן לבדיקה, חסר רגש. זה מה שמערכת טובה עושה.',
           microTask: 'כתוב: "3 תנאי הכניסה שלי: (1) ___, (2) ___, (3) ___. אם אחד לא מתקיים — אני ___ כי ___."',
+          fieldActionEn: [
+            'Define your entry conditions. They must be measurable, not \'when it looks good to me\'.',
+            'Simple example: "I enter long when (1) the price is above its 50-day moving average, (2) RSI is below 40, (3) a bullish engulfing candle appears, and (4) volume is above its 10-day average."',
+            'Write down your three entry conditions.',
+            'Ask: "If one of the conditions is not met, do I enter? No. Why?"',
+          ],
+          realExampleEn: 'A moving-average crossover is a simple, measurable rule: for example, buy when the 50-day average crosses above the 200-day average. Such a rule is not perfect, but it can be tested, it has no emotion, and it is consistent. That is what a good system does.',
+          microTaskEn: 'Write: "My three entry conditions: (1) ___, (2) ___, (3) ___. If one of them is not met, I ___ because ___."',
         },
         {
           // Day 3 · דוגמה אמיתית
@@ -353,6 +575,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'RSI Strategy Backtest (מניות S&P 500, 2010-2020): כניסה כש-RSI < 30, יציאה כש-RSI > 70. Win Rate = 68%. Avg Win = 8.2%. Avg Loss = 3.1%. Expectancy = (0.68×8.2) - (0.32×3.1) = 5.58-0.99 = +4.59% לעסקה. לא כל עסקה מוצלחת — אבל Expectancy חיובי = מערכת עובדת לאורך זמן.',
           microTask: 'כתוב: "ביצעתי backtest על ___ עסקאות היפותטיות. Win Rate = ___%, Expectancy = ___. המסקנה: המערכת שלי ___ (עובדת/דורשת שינוי) כי ___."',
+          fieldActionEn: [
+            'A backtest means testing your system on past data.',
+            'Go to the chart of the asset you chose, on the weekly timeframe, one to two years back.',
+            'Check: how many times did your entry conditions occur? How many trades were winners? How many were losers?',
+            'Calculate the win rate, the average win, the average loss, and the expectancy. (Expectancy = win rate × average win − loss rate × average loss.)',
+          ],
+          realExampleEn: 'Imagine a backtest of 100 hypothetical trades. 60 are winners averaging +8%, and 40 are losers averaging −4%. Expectancy = (0.6 × 8) − (0.4 × 4) = 4.8 − 1.6 = +3.2% per trade. Not every trade wins, but a positive expectancy over many trades is what makes a system work.',
+          microTaskEn: 'Write: "I backtested ___ hypothetical trades. My win rate is ___% and my expectancy is ___. My conclusion: my system ___ (works / needs changes) because ___."',
         },
         {
           // Day 4 · יישום
@@ -364,6 +594,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Mark Minervini, 4× US Investing Champion, שיתף את ה-SEPA Strategy שלו: Specific Entry Point Analysis. 8 קריטריונים מדידים (מגמה, volume, יחסיות, תנופה). הוא לא נכנס לעסקה אם חסר קריטריון אחד — גם אם "הגרף נראה מצוין." המשמעת הזו הניבה לו תשואות של 220%+ בשנה אחת.',
           microTask: 'כתוב: "מערכת המסחר שלי בשורה אחת: אכנס ל-___ כש-___ ו-___ ו-___, עם Stop ב-___, יעד ___, Size ___. אבחן אחרי ___ עסקאות."',
+          fieldActionEn: [
+            'List every element of your system in a table: asset, time frame, three entry conditions, stop-loss (how is it calculated?), target (R/R), and position size (1% rule).',
+            'Add: "Exit conditions for profit: a fixed target? A trailing stop? A break of support?"',
+            'Add: "What would make me change the system?" (Data only, not emotion or news.)',
+            'Set: "I will review the system\'s results after ___ trades or ___ months."',
+          ],
+          realExampleEn: 'Mark Minervini, a multiple-time US Investing Championship winner, described his SEPA method as a checklist of measurable conditions. He did not enter a trade if one criterion was missing, even when the chart looked attractive. The value of the method is the discipline it creates, not any single signal.',
+          microTaskEn: 'Write: "My trading system in one line: I enter ___ when ___ and ___ and ___, with a stop at ___, a target of ___, and a size of ___. I will review after ___ trades."',
         },
         {
           // Day 5 · סינתזה — יום 30
@@ -375,6 +613,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ג\'ים סימונס, מייסד Medallion Fund (קרן הגידור הטובה בהיסטוריה — 66% תשואה שנתית ב-30 שנה), לא ניחש. הוא בנה מערכת. הוא גייס מתמטיקאים, לא מנהלי כסף. הוא בחן נתונים. הוא אוטמט. המסר: המוח האנושי הוא חיסרון במסחר. מערכת מוגדרת ועקבית — זה הנשק.',
           microTask: 'כתוב: "סיימתי 30 יום של מסחר בשוק ההון. הדבר הכי חשוב שלמדתי: ___. ה-Gap הגדול ביותר שלי: ___. הצעד הבא שלי ב-30 הימים הבאים: ___."',
+          fieldActionEn: [
+            'Write your "trading manifesto": one page with your asset, your system, your risk management rules, and your psychology rules.',
+            'Answer: what is the most important thing you learned in these 30 days about the capital markets?',
+            'Answer: what is the biggest gap that still remains in your knowledge or skills?',
+            'Set the next step: "In the next 30 days I will ___ to close that gap."',
+          ],
+          realExampleEn: 'Jim Simons, founder of Renaissance Technologies, built the Medallion Fund, which is often cited as one of the most successful hedge funds in history. He did not rely on guesses. He hired mathematicians and scientists rather than traditional money managers, tested data rigorously, and automated his models. The message: human intuition has weaknesses in trading. A clear, consistent system is the tool.',
+          microTaskEn: 'Write: "I finished 30 days of studying the capital markets. The most important thing I learned: ___. My biggest remaining gap: ___. My next step over the coming 30 days: ___."',
         },
       ],
     },
