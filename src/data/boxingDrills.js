@@ -1554,6 +1554,9 @@ const COMBO_ROUNDS = {
       titleEn: 'Technique: 1-2 (jab-cross)',
       instructionHe:
         'ג׳אב יוצא ראשון (1), הקרוס יוצא בדיוק כשהג׳אב חוזר (2) — לא ביחד. הג׳אב מכין, הקרוס מסיים. לאחר ה-2 — שתי ידיים חוזרות לגארד בו-זמנית. בדוק: האם ה-2 נפלט עם פיבוט? האם הגארד נסגר אחרי הקומבינציה?',
+      instructionEn:
+        'The jab goes out first (1), and the cross goes out exactly as the jab comes back (2) — not together. The jab sets up, the cross finishes. After the 2 — both hands return to guard at the same time. Check: does the 2 come out with a pivot? Does the guard close after the combination?',
+      coachingCuesEn: [],
       durationSeconds: 40,
       coachingCuesHe: [],
     },
@@ -1564,6 +1567,14 @@ const COMBO_ROUNDS = {
       titleEn: '1-2 on a rhythm',
       instructionHe:
         'ג׳אב-קרוס כל שתי שניות. ספור: 1…2…1-2. חזור. 45 שניות נוח ומדויק, 55 שניות — קצב גבוה יותר. שמור על חזרה לגארד אחרי כל 1-2.',
+      instructionEn:
+        'A jab-cross every two seconds. Count: 1…2…1-2. Repeat. 45 seconds comfortable and precise, 55 seconds — a higher pace. Keep returning to guard after every 1-2.',
+      coachingCuesEn: [
+        '1 and 2 not together',
+        'Guard closes right after the 2',
+        'Pivot on the 2',
+        'Exhale with every pair',
+      ],
       durationSeconds: 100,
       coachingCuesHe: [
         '1 ו-2 לא ביחד',
@@ -1578,6 +1589,9 @@ const COMBO_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'נער ידיים. פתח אגרופים. נשום.',
+      instructionEn:
+        'Shake out your hands. Open your fists. Breathe.',
+      coachingCuesEn: [],
       durationSeconds: 40,
       coachingCuesHe: [],
     },
@@ -1591,6 +1605,9 @@ const COMBO_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10 לכל כיוון. תנועת ידיים בינוניות × 15 שניות.',
+      instructionEn:
+        'Light jog for 30 seconds. Shoulder circles × 10 in each direction. Arm movements at a medium pace × 15 seconds.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1601,6 +1618,9 @@ const COMBO_ROUNDS = {
       titleEn: 'Technique: 1-2-3 (jab-cross-left hook)',
       instructionHe:
         'לאחר 1-2: הוק שמאל (3) מגיע כשהקרוס חוזר. הוק — מרפק בגובה כתף, גוף מסתובב. לאחר 3 — שתי ידיים לגארד. שלב 1 ו-2 מהירים, שלב 3 — כוח מלא עם סיבוב.',
+      instructionEn:
+        'After the 1-2: the left hook (3) arrives as the cross comes back. Hook — elbow at shoulder height, body turns. After the 3 — both hands return to guard. Punches 1 and 2 fast, punch 3 — full power with a turn.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1611,6 +1631,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 1 — 1-2',
       instructionHe:
         '1-2 בלבד, 90 שניות. 45 שניות נוח, 45 שניות — מהיר ועצמתי.',
+      instructionEn:
+        '1-2 only, 90 seconds. 45 seconds comfortable, 45 seconds — fast and powerful.',
+      coachingCuesEn: [
+        '1 sets up, 2 finishes',
+        'Guard closes after the 2',
+        'Pivot on the 2',
+        'Exhale with every pair',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         '1 מכין, 2 מסיים',
@@ -1626,6 +1654,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 2 — 1-2-3',
       instructionHe:
         '1-2-3. 45 שניות בקצב נוח, 45 שניות — מהיר. הוק (3) מגיע עם כוח ועם סיבוב גוף מלא.',
+      instructionEn:
+        '1-2-3. 45 seconds at a comfortable pace, 45 seconds — fast. The hook (3) comes with power and a full body turn.',
+      coachingCuesEn: [
+        '3 — elbow at shoulder height',
+        'Body turns on the 3',
+        'Back to guard after the 3',
+        'Exhale at the end of every sequence',
+      ],
       durationSeconds: 60,
       coachingCuesHe: [
         '3 — מרפק בגובה כתף',
@@ -1640,6 +1676,9 @@ const COMBO_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'נער ידיים. מתח אמות. נשום עמוק.',
+      instructionEn:
+        'Shake out your hands. Stretch your forearms. Breathe deeply.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -1653,6 +1692,9 @@ const COMBO_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10. פתיחת אגרופים × 15. תנועת ידיים ומרפקים 15 שניות.',
+      instructionEn:
+        'Light jog for 30 seconds. Shoulder circles × 10. Open and close your fists × 15. Arm and elbow movement for 15 seconds.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1663,6 +1705,9 @@ const COMBO_ROUNDS = {
       titleEn: 'Technique: 1-2-3-2 (jab-cross-hook-cross)',
       instructionHe:
         'הקומבינציה הקלאסית. 1: ג׳אב — מכין. 2: קרוס — מסיים. 3: הוק שמאל — פותח. 2: קרוס שני — חוזר ומסיים. הסיום תמיד ביד האחורית. תרגל לאט: 1…2…3…2. לאחר ה-2 האחרון — גארד מלא.',
+      instructionEn:
+        'The classic combination. 1: jab — sets up. 2: cross — finishes. 3: left hook — opens. 2: second cross — returns and finishes. The finish is always with the rear hand. Practice slowly: 1…2…3…2. After the last 2 — full guard.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1673,6 +1718,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 1 — 1-2',
       instructionHe:
         '1-2 בלבד. 60 שניות נוח, 60 שניות — מהיר. כל פעם — גארד נסגר.',
+      instructionEn:
+        '1-2 only. 60 seconds comfortable, 60 seconds — fast. Every time — the guard closes.',
+      coachingCuesEn: [
+        '1 sets up, 2 finishes',
+        'Guard closes right away',
+        'Pivot on the 2',
+        'Exhale with every pair',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         '1 מכין, 2 מסיים',
@@ -1687,6 +1740,9 @@ const COMBO_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
+      instructionEn:
+        'Breathe. Relax.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -1697,6 +1753,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 2 — 1-2-3',
       instructionHe:
         '1-2-3. 60 שניות נוח, 60 שניות — עצמתי. הוק עם כוח מלא.',
+      instructionEn:
+        '1-2-3. 60 seconds comfortable, 60 seconds — powerful. The hook with full power.',
+      coachingCuesEn: [
+        'Elbow at shoulder height on the 3',
+        'Body turns on the 3',
+        'Guard after the 3',
+        'Each punch finishes before the next',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'מרפק בגובה כתף ב-3',
@@ -1711,6 +1775,9 @@ const COMBO_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הכן לרביעייה.',
+      instructionEn:
+        'Breathe. Get ready for the four-punch combination.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -1721,6 +1788,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 3 — 1-2-3-2',
       instructionHe:
         '1-2-3-2. 60 שניות נוח ומדויק, 60 שניות — קצב מהיר. שמור שהגארד נסגר אחרי ה-2 האחרון.',
+      instructionEn:
+        '1-2-3-2. 60 seconds comfortable and precise, 60 seconds — fast pace. Make sure the guard closes after the last 2.',
+      coachingCuesEn: [
+        '1-2-3-2 — not 1234',
+        'Full power on the last 2',
+        'Guard closes at the end',
+        'Exhale at the end of every sequence',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         '1-2-3-2 — לא 1234',
@@ -1735,6 +1810,9 @@ const COMBO_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'נער ידיים. מתח אמות × 10 שניות. גלגל כתפיים. נשום.',
+      instructionEn:
+        'Shake out your hands. Stretch your forearms × 10 seconds. Roll your shoulders. Breathe.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1748,6 +1826,9 @@ const COMBO_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי כתפיים × 15. פתיחת אגרופים × 20. מתיחת אמות × 10 שניות לכל יד.',
+      instructionEn:
+        'Light jog for 45 seconds. Shoulder circles × 15. Open your fists × 20. Forearm stretch × 10 seconds per hand.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -1758,6 +1839,9 @@ const COMBO_ROUNDS = {
       titleEn: 'Technique: combination + exit',
       instructionHe:
         'אחרי כל קומבינציה — יש לצאת. 1-2 → צעד לצד שמאל. 1-2-3 → ציר ימינה. 1-2-3-2 → שני צעדים אחורה. לעולם לא לעמוד במקום אחרי קומבינציה — יציאה היא חלק מהמכה.',
+      instructionEn:
+        'After every combination — exit. 1-2 → step left. 1-2-3 → pivot right. 1-2-3-2 → two steps back. Never stand still after a combination — the exit is part of the punch.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -1768,6 +1852,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 1 — 1-2 + exit',
       instructionHe:
         '1-2 → יציאה לצד. 60 שניות נוח, 60 שניות — מהיר.',
+      instructionEn:
+        '1-2 → exit to the side. 60 seconds comfortable, 60 seconds — fast.',
+      coachingCuesEn: [
+        'The exit is part of the punch',
+        'Don\'t stay on the line',
+        'Guard on entry and exit',
+        'Exhale with 1-2',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'יציאה היא חלק מהמכה',
@@ -1782,6 +1874,9 @@ const COMBO_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
+      instructionEn:
+        'Breathe. Relax.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -1792,6 +1887,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 2 — 1-2-3 + exit',
       instructionHe:
         '1-2-3 → ציר ויציאה. 60 שניות נוח, 60 שניות — עצמתי.',
+      instructionEn:
+        '1-2-3 → pivot and exit. 60 seconds comfortable, 60 seconds — powerful.',
+      coachingCuesEn: [
+        'Hook with power',
+        'Immediate pivot after the 3',
+        'Guard on the exit',
+        'Eyes forward',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'הוק עם כוח',
@@ -1806,6 +1909,9 @@ const COMBO_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
+      instructionEn:
+        'Breathe. Relax.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -1816,6 +1922,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 3 — 1-2-3-2 + exit',
       instructionHe:
         '1-2-3-2 → שני צעדים אחורה. 60 שניות נוח, 60 שניות — מהיר.',
+      instructionEn:
+        '1-2-3-2 → two steps back. 60 seconds comfortable, 60 seconds — fast.',
+      coachingCuesEn: [
+        'Full power on the last 2',
+        'Immediate exit after it',
+        'Guard at every step',
+        'Exhale at the end of the sequence',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'ה-2 האחרון — כוח מלא',
@@ -1830,6 +1944,9 @@ const COMBO_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון.',
+      instructionEn:
+        'Breathe. Last round.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -1840,6 +1957,14 @@ const COMBO_ROUNDS = {
       titleEn: 'Round 4 — free combinations + exit',
       instructionHe:
         'בחר את הקומבינציה בעצמך: 1-2, 1-2-3, או 1-2-3-2. אחרי כל אחת — יציאה. שנה קומבינציה כל 20 שניות. הפגן כל מה שתרגלת.',
+      instructionEn:
+        'Choose the combination yourself: 1-2, 1-2-3, or 1-2-3-2. After each — exit. Change the combination every 20 seconds. Show everything you practiced.',
+      coachingCuesEn: [
+        'Choose a combination and keep it for 20 seconds',
+        'Exit after every sequence',
+        'Guard always',
+        'Power and precision — not one without the other',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'בחר קומבינציה ושמור עליה 20 שניות',
@@ -1855,6 +1980,9 @@ const COMBO_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'נער ידיים. מתח אמות × 15 שניות לכל יד. גלגל כתפיים. נשום עמוק ושחרר.',
+      instructionEn:
+        'Shake out your hands. Stretch each forearm × 15 seconds. Roll your shoulders. Breathe deeply and release.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
