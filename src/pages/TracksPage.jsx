@@ -4,7 +4,8 @@ import { useAuth } from '../context/AuthContext'
 import { useUserPrefs } from '../context/UserContext'
 import { saveProfile } from '../services/focusTriggerService'
 import { CHALLENGES, CHALLENGE_WEEKS, LESSON_TYPES, getDayTask, getLessonType, getModuleIndex } from '../data/challenges'
-import { getDayContent } from '../data/lessonContent'
+import { getDayContent, hasEnglishLesson } from '../data/lessonContent'
+import { useLang } from '../context/LangContext'
 import BenchmarkTracker from '../components/BenchmarkTracker'
 import { getEvolution, isEvolved, UNLOCK_AT } from '../data/trackEvolution'
 import { getTrackDay } from '../utils/trackDay'
@@ -544,6 +545,9 @@ const PILLARS = [
 // ── TracksPage ─────────────────────────────────────────────────────
 
 export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
+  const { lang } = useLang()
+  // In English, only courses with full English content are shown
+  const showCourse = ch => lang !== 'en' || hasEnglishLesson(ch.id)
   const { user, isGuest }                      = useAuth()
   const { prefs }                              = useUserPrefs()
   const [selected,           setSelected]           = useState(null)
@@ -644,7 +648,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
   // ── View: Pillar drill-down ───────────────────────────────────────
   if (activePillar) {
     const pillar  = PILLARS.find(p => p.id === activePillar)
-    const allPillarCourses = CHALLENGES.filter(ch => pillar.courseIds.includes(ch.id))
+    const allPillarCourses = CHALLENGES.filter(ch => pillar.courseIds.includes(ch.id) && showCourse(ch))
     const courses = recommendedIds.length > 0
       ? allPillarCourses.filter(ch => recommendedIds.includes(ch.id)).length > 0
         ? allPillarCourses.filter(ch => recommendedIds.includes(ch.id))
@@ -736,7 +740,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
 
   // Deep tracks hidden → routine cards show generic steps, no "פתח מסלול"
   const topTrackId     = FEATURES.deepTracks ? recommendedIds[0] : null
-  const topTrack       = topTrackId ? CHALLENGES.find(ch => ch.id === topTrackId) : null
+  const topTrack       = topTrackId ? CHALLENGES.find(ch => ch.id === topTrackId && showCourse(ch)) : null
   const topProgress    = topTrack ? getProgress(topTrack.id) : null
   const nextDay        = (topProgress?.daysCompleted || 0) + 1
   const todayTask      = topTrack
@@ -936,7 +940,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
         <div style={{ animation: 'fadeIn 0.22s ease' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem', marginBottom: '0.75rem' }}>
             {PILLARS.map(p => {
-              const pillarCourses = CHALLENGES.filter(ch => p.courseIds.includes(ch.id))
+              const pillarCourses = CHALLENGES.filter(ch => p.courseIds.includes(ch.id) && showCourse(ch))
               const totalDays     = pillarCourses.reduce((s, ch) => s + (getProgress(ch.id)?.daysCompleted || 0), 0)
               const totalPossible = pillarCourses.reduce((s, ch) => s + ch.days, 0)
               const pct           = totalPossible > 0 ? Math.round((totalDays / totalPossible) * 100) : 0
