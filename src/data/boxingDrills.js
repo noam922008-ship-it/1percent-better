@@ -2000,6 +2000,14 @@ const FREE_ROUNDS = {
       titleEn: 'Free training',
       instructionHe:
         'אין הוראות — תתאמן בדרכך. כל טכניקה, כל קצב, כל שילוב. הקשב לגוף שלך.',
+      instructionEn:
+        'No instructions — train your way. Every technique, every pace, every combination. Listen to your body.',
+      coachingCuesEn: [
+        'Hands up — always',
+        'Breathe with the pace',
+        'Move — don\'t stand in place',
+        'Guard closes after every punch',
+      ],
       durationSeconds: 180,
       coachingCuesHe: [
         'ידיים למעלה — תמיד',
@@ -2018,6 +2026,9 @@ const FREE_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10. תנועת ידיים × 15 שניות. הכנה לאימון.',
+      instructionEn:
+        'Light jog for 30 seconds. Shoulder circles × 10. Arm movement × 15 seconds. Getting ready to train.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2028,6 +2039,14 @@ const FREE_ROUNDS = {
       titleEn: 'Free training',
       instructionHe:
         'שלוש דקות אימון חופשי. כל טכניקה שאתה רוצה. שנה קצב, שנה טכניקות, חקור.',
+      instructionEn:
+        'Three minutes of free training. Any technique you want. Change the pace, change the techniques, explore.',
+      coachingCuesEn: [
+        'Guard — hands by the cheeks',
+        'Breathe — don\'t hold your breath',
+        'Move — don\'t stand still',
+        'Back to guard after every punch',
+      ],
       durationSeconds: 180,
       coachingCuesHe: [
         'גארד — ידיים ליד הלחיים',
@@ -2042,6 +2061,9 @@ const FREE_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'הליכה קלה. נשום עמוק. מתח ידיים וכתפיים.',
+      instructionEn:
+        'Walk lightly. Breathe deeply. Stretch your hands and shoulders.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2055,6 +2077,9 @@ const FREE_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי כתפיים × 10. פתיחת אגרופים × 15. מתיחת אמות קצרה.',
+      instructionEn:
+        'Light jog for 30 seconds. Shoulder circles × 10. Open your fists × 15. A short forearm stretch.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2064,6 +2089,14 @@ const FREE_ROUNDS = {
       titleHe: 'סיבוב 1 — אימון חופשי',
       titleEn: 'Round 1 — free training',
       instructionHe: 'אין הוראות. תתאמן בדרכך. שנה קצב וטכניקות.',
+      instructionEn:
+        'No instructions. Train your way. Change the pace and the techniques.',
+      coachingCuesEn: [
+        'Guard up',
+        'Breathe with the pace',
+        'Move',
+        'Back to guard',
+      ],
       durationSeconds: 140,
       coachingCuesHe: [
         'גארד למעלה',
@@ -2078,6 +2111,9 @@ const FREE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הכן לסיבוב הבא.',
+      instructionEn:
+        'Breathe. Get ready for the next round.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -2087,6 +2123,14 @@ const FREE_ROUNDS = {
       titleHe: 'סיבוב 2 — אימון חופשי',
       titleEn: 'Round 2 — free training',
       instructionHe: 'המשך. נסה טכניקות שעוד לא ניסית.',
+      instructionEn:
+        'Continue. Try techniques you haven\'t tried yet.',
+      coachingCuesEn: [
+        'Guard up',
+        'Breathe',
+        'Move',
+        'Stay low',
+      ],
       durationSeconds: 140,
       coachingCuesHe: [
         'גארד למעלה',
@@ -2101,6 +2145,9 @@ const FREE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. נשיפה ארוכה.',
+      instructionEn:
+        'Breathe. A long exhale.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -2110,6 +2157,14 @@ const FREE_ROUNDS = {
       titleHe: 'סיבוב 3 — אימון חופשי',
       titleEn: 'Round 3 — free training',
       instructionHe: 'סיבוב אחרון. תן הכל. שנה קצב.',
+      instructionEn:
+        'Last round. Give everything. Change the pace.',
+      coachingCuesEn: [
+        'Guard',
+        'Breathe',
+        'Move',
+        'Back to guard',
+      ],
       durationSeconds: 140,
       coachingCuesHe: [
         'גארד',
@@ -2124,6 +2179,9 @@ const FREE_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'הליכה קלה. נשום. מתח ידיים וכתפיים.',
+      instructionEn:
+        'Walk lightly. Breathe. Stretch your hands and shoulders.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -2137,6 +2195,9 @@ const FREE_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי כתפיים × 15. פתיחת אגרופים × 20. מתיחת אמות. שייק-אאוט.',
+      instructionEn:
+        'Light jog for 45 seconds. Shoulder circles × 15. Open your fists × 20. Forearm stretch. Shake-out.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -2146,6 +2207,14 @@ const FREE_ROUNDS = {
       titleHe: 'סיבוב 1 — אימון חופשי',
       titleEn: 'Round 1 — free training',
       instructionHe: 'קצב נוח. חמם אותך. בחר טכניקה ועבוד עליה.',
+      instructionEn:
+        'Comfortable pace. Warm yourself up. Choose a technique and work on it.',
+      coachingCuesEn: [
+        'Guard up',
+        'Breathe',
+        'Move',
+        'Back to guard',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גארד למעלה',
@@ -2160,6 +2229,9 @@ const FREE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום.',
+      instructionEn:
+        'Breathe.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -2169,6 +2241,14 @@ const FREE_ROUNDS = {
       titleHe: 'סיבוב 2 — אימון חופשי',
       titleEn: 'Round 2 — free training',
       instructionHe: 'הגבר. קצב מעט גבוה יותר. שנה טכניקה.',
+      instructionEn:
+        'Push it. A slightly higher pace. Change the technique.',
+      coachingCuesEn: [
+        'Guard',
+        'Breathe with the pace',
+        'Move',
+        'Stay low',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גארד',
@@ -2183,6 +2263,9 @@ const FREE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה כתפיים.',
+      instructionEn:
+        'Breathe. Relax your shoulders.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -2192,6 +2275,14 @@ const FREE_ROUNDS = {
       titleHe: 'סיבוב 3 — אימון חופשי',
       titleEn: 'Round 3 — free training',
       instructionHe: 'עבוד על חולשה שלך. מה אתה צריך לשפר?',
+      instructionEn:
+        'Work on your weakness. What do you need to improve?',
+      coachingCuesEn: [
+        'Guard',
+        'Breathe',
+        'Move',
+        'Back to guard',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גארד',
@@ -2206,6 +2297,9 @@ const FREE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. שני סיבובים נותרו.',
+      instructionEn:
+        'Breathe. Two rounds left.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -2215,6 +2309,14 @@ const FREE_ROUNDS = {
       titleHe: 'סיבוב 4 — אימון חופשי',
       titleEn: 'Round 4 — free training',
       instructionHe: 'קצב גבוה. שנה בין קומבינציות לתנועה לגרד.',
+      instructionEn:
+        'High pace. Switch between combinations and footwork.',
+      coachingCuesEn: [
+        'Guard up',
+        'Breathe',
+        'Don\'t stop',
+        'Back to guard',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גארד למעלה',
@@ -2229,6 +2331,9 @@ const FREE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון.',
+      instructionEn:
+        'Breathe. Last round.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -2238,6 +2343,14 @@ const FREE_ROUNDS = {
       titleHe: 'סיבוב 5 — אימון חופשי',
       titleEn: 'Round 5 — free training',
       instructionHe: 'סיבוב אחרון — תן הכל. כל טכניקה שאתה רוצה.',
+      instructionEn:
+        'Last round — give everything. Any technique you want.',
+      coachingCuesEn: [
+        'Guard',
+        'Breathe',
+        'Move',
+        'Back to guard',
+      ],
       durationSeconds: 60,
       coachingCuesHe: [
         'גארד',
@@ -2253,6 +2366,9 @@ const FREE_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'הליכה קלה. מתח ידיים וכתפיים. גלגל כתפיים. נשום עמוק. עבודה טובה.',
+      instructionEn:
+        'Walk lightly. Stretch your hands and shoulders. Roll your shoulders. Breathe deeply. Good work.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
