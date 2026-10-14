@@ -1106,7 +1106,10 @@ const DEFENSE_ROUNDS = {
       titleHe: 'טכניקה: גארד וסנטר מורד',
       titleEn: 'Technique: guard and chin down',
       instructionHe:
-        'גארד בסיסי: ידיים ליד הלחיים, מרפקים מכסים את הצלעות, אגרופים מופנים קדימה. סנטר מורד: לשמור את הסנטר מאחורי כתף קדמית — לא לחשוף אותו. בדוק: אם מישהו יזרוק ג׳אב ישר, האם הכתף שלך מגנה? התרגל בתנועת ראש קטנה לצד ימין ושמאל תוך שמירת גארד.',
+        'גארד בסיסי: ידיים ליד הלחיים, מרפקים מכסים את הצלעות, אגרופים מופנים קדימה. סנטר מורד: לשמור את הסנטר מאחורי כתף קדמית — לא לחשוף אותו. בדוק: אם מישהו יזרוק ג׳אב ישר, האם הכתף שלך מגנה? תרגל תנועת ראש קטנה לצד ימין ושמאל תוך שמירת גארד.',
+      instructionEn:
+        'Basic guard: hands by the cheeks, elbows covering the ribs, fists pointing forward. Chin down: keep the chin behind the front shoulder — don\'t expose it. Check: if someone throws a straight jab, does your shoulder protect you? Practice small head movements to the right and left while keeping your guard.',
+      coachingCuesEn: [],
       durationSeconds: 40,
       coachingCuesHe: [],
     },
@@ -1117,6 +1120,14 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Round 1 — head movement + guard',
       instructionHe:
         'תנועה איטית: ראש לצד ימין → חזרה → ראש לצד שמאל → חזרה. בכל תנועה — הגארד נשאר סגור, הסנטר מורד. אל תניע רק את הצוואר — הפלג העליון מסתובב מעט. אחרי 45 שניות — תוסיף קצב: תנועת ראש מהירה יותר, כמו שאתה מתחמק ממכות.',
+      instructionEn:
+        'Slow movement: head to the right → back → head to the left → back. On every move, the guard stays closed and the chin stays down. Don\'t move only your neck — the upper body turns slightly. After 45 seconds, add pace: faster head movement, as if you\'re slipping punches.',
+      coachingCuesEn: [
+        'Guard doesn\'t drop with head movement',
+        'Chin down — always',
+        'Elbows in',
+        'Breathe — don\'t hold it',
+      ],
       durationSeconds: 100,
       coachingCuesHe: [
         'גארד לא יורד בתנועת ראש',
@@ -1130,7 +1141,10 @@ const DEFENSE_ROUNDS = {
       type: 'cooldown',
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
-      instructionHe: 'מתח את צוואר בעדינות לכל כיוון. גלגל כתפיים. נשום.',
+      instructionHe: 'מתח את הצוואר בעדינות לכל כיוון. גלגל כתפיים. נשום.',
+      instructionEn:
+        'Gently stretch your neck in every direction. Roll your shoulders. Breathe.',
+      coachingCuesEn: [],
       durationSeconds: 40,
       coachingCuesHe: [],
     },
@@ -1144,6 +1158,9 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות. סיבובי ראש עדינים לכל כיוון × 5. הרמת כתפיים × 10. שייק-אאוט קצר.',
+      instructionEn:
+        'Light jog for 30 seconds. Gentle head circles in each direction × 5. Shoulder shrugs × 10. A short shake-out.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1154,6 +1171,9 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Technique: slip',
       instructionHe:
         'סליפ: תנועת גוף לצד כדי לחמוק ממכה ישרה. סליפ ימינה: הסט את הגוף מעל הרגל הימנית, ראש עובר מעבר לקו הישר. סליפ שמאלה: הסט מעל הרגל השמאלית. התנועה מגיעה מהירכיים — לא רק מהצוואר. גארד נשאר מורם בכל סליפ. תרגל: סליפ ימינה ← → סליפ שמאלה.',
+      instructionEn:
+        'Slip: moving your body to the side to avoid a straight punch. Slip right: shift your body over your right leg, your head moves off the straight line. Slip left: shift over your left leg. The movement comes from the hips — not just the neck. The guard stays up on every slip. Practice: slip right ↔ slip left.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1163,7 +1183,15 @@ const DEFENSE_ROUNDS = {
       titleHe: 'סיבוב 1 — תנועת ראש וסליפים',
       titleEn: 'Round 1 — head movement and slips',
       instructionHe:
-        'סליפ קטן לצד ימין, חזרה, סליפ לצד שמאל, חזרה. קצב: כל שנייה. דמיין ג׳אב מגיע לפנים — אתה מחמיק ממנו בכל פעם. גארד לא יורד — ידיים עולות כשהגוף יורד מעט.',
+        'סליפ קטן לצד ימין, חזרה, סליפ לצד שמאל, חזרה. קצב: כל שנייה. דמיין ג׳אב מגיע לפנים — אתה חומק ממנו בכל פעם. גארד לא יורד — ידיים עולות כשהגוף יורד מעט.',
+      instructionEn:
+        'A small slip to the right, back, a slip to the left, back. Pace: every second. Imagine a jab coming at your face — you slip it every time. The guard doesn\'t drop — hands come up as the body drops slightly.',
+      coachingCuesEn: [
+        'Move from the hips — not just the neck',
+        'Guard rises with the slip',
+        'Don\'t move too far — a small movement wins',
+        'Back to center after every slip',
+      ],
       durationSeconds: 90,
       coachingCuesHe: [
         'תנועה מהירכיים — לא צוואר בלבד',
@@ -1179,6 +1207,14 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Round 2 — guard and resetting your stance',
       instructionHe:
         'דמיין שקיבלת מכה לגארד — נסוג צעד אחורה, שקם את הגארד, חזור קדימה. חזור. הנסיגה חייבת להיות מבוקרת — לא נפילה לאחור, צעד שלם ומכוון. לאחר השחזור — עמוד יציב לפני שאתה מתקדם שוב.',
+      instructionEn:
+        'Imagine you took a punch on the guard — step back, reset your guard, come forward again. Repeat. The retreat must be controlled — not falling back, but a full, deliberate step. After resetting — stand stable before you move forward again.',
+      coachingCuesEn: [
+        'Controlled retreat — not a mess',
+        'Full guard while stepping back',
+        'Come forward only once you\'re stable',
+        'Head not bowed — eyes up',
+      ],
       durationSeconds: 60,
       coachingCuesHe: [
         'נסיגה מבוקרת — לא בלגן',
@@ -1193,6 +1229,9 @@ const DEFENSE_ROUNDS = {
       titleHe: 'שחרור',
       titleEn: 'Cool-down',
       instructionHe: 'מתח צוואר ושכמות. נשום עמוק. הרפה.',
+      instructionEn:
+        'Stretch your neck and shoulder blades. Breathe deeply. Relax.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -1206,6 +1245,9 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 30 שניות, סיבובי ראש × 5 לכל כיוון, הרמת כתפיים × 10, מתיחת צוואר × 10 שניות לכל צד.',
+      instructionEn:
+        'Light jog for 30 seconds, head circles × 5 in each direction, shoulder shrugs × 10, neck stretch × 10 seconds per side.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1216,6 +1258,9 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Technique: slip and duck',
       instructionHe:
         'סליפ: תנועה לצד לחמוק ממכה ישרה. דאק: כיפוף ברכיים כלפי מטה לחמוק ממכת הוק. בדאק — הגב נשאר ישר, הברכיים יורדות, לא להרכין ראש. לאחר הדאק — עלייה מהירה עם גארד מורם. תרגל: סליפ ימינה → דאק → עלייה → סליפ שמאלה → דאק → עלייה.',
+      instructionEn:
+        'Slip: moving to the side to avoid a straight punch. Duck: bending the knees downward to avoid a hook. In the duck, the back stays straight and the knees go down — don\'t bow your head. After the duck — come up fast with your guard up. Practice: slip right → duck → up → slip left → duck → up.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1226,11 +1271,19 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Round 1 — slips',
       instructionHe:
         'סליפ ימינה ← → סליפ שמאלה, קצב נוח. כל שנייה ורבע. גארד מורם לאורך כל הסיבוב. 60 שניות נוח, 60 שניות — הגבר קצב.',
+      instructionEn:
+        'Slip right ↔ slip left, at a comfortable pace. One every second and a quarter. Guard up the whole round. 60 seconds comfortable, 60 seconds — raise the pace.',
+      coachingCuesEn: [
+        'Guard doesn\'t drop',
+        'Move from the hips',
+        'Don\'t move more than needed',
+        'Back to center',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גארד לא יורד',
         'תנועה מהירכיים',
-        'אל תחמיק יותר מהנדרש',
+        'אל תזוז יותר מהנדרש',
         'חזור למרכז',
       ],
     },
@@ -1240,6 +1293,9 @@ const DEFENSE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה כתפיים וצוואר.',
+      instructionEn:
+        'Breathe. Relax your shoulders and neck.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -1250,6 +1306,14 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Round 2 — duck and come up',
       instructionHe:
         'כפוף ברכיים לדאק, עלה עם גארד. 3 שניות מחזור. בדאק — גב ישר, לא להרכין. בעלייה — גארד מורם לפני שהגוף עולה. 60 שניות נוח, 60 שניות — דאק מהיר ועלייה פורצת.',
+      instructionEn:
+        'Bend your knees into a duck, come up with your guard. A 3-second cycle. In the duck — back straight, don\'t bow. On the way up — guard up before the body rises. 60 seconds comfortable, 60 seconds — a fast duck and an explosive rise.',
+      coachingCuesEn: [
+        'Straight back in the duck',
+        'Guard rises before the body',
+        'Knees — not the back',
+        'Come up fast',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גב ישר בדאק',
@@ -1264,6 +1328,9 @@ const DEFENSE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. מתיחת צוואר קצרה.',
+      instructionEn:
+        'Breathe. A short neck stretch.',
+      coachingCuesEn: [],
       durationSeconds: 30,
       coachingCuesHe: [],
     },
@@ -1274,6 +1341,14 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Round 3 — slip + duck together',
       instructionHe:
         'סליפ ימינה → דאק → עלייה → סליפ שמאלה → דאק → עלייה. רצף. קצב נוח ומבוקר. כל תנועה שלמה לפני הבאה. לאחר 60 שניות — הגבר.',
+      instructionEn:
+        'Slip right → duck → up → slip left → duck → up. One sequence. Comfortable, controlled pace. Each movement complete before the next. After 60 seconds — raise the pace.',
+      coachingCuesEn: [
+        'Complete each movement before the next',
+        'Guard at every step',
+        'Eyes forward',
+        'Breathe — don\'t stop',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'שלם כל תנועה לפני הבאה',
@@ -1289,6 +1364,9 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'הליכה קלה. מתח צוואר × 15 שניות לכל צד. גלגל כתפיים. נשום עמוק.',
+      instructionEn:
+        'Walk lightly. Stretch your neck × 15 seconds per side. Roll your shoulders. Breathe deeply.',
+      coachingCuesEn: [],
       durationSeconds: 60,
       coachingCuesHe: [],
     },
@@ -1302,6 +1380,9 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Warm-up',
       instructionHe:
         'ריצה קלה 45 שניות. סיבובי ראש × 8 לכל כיוון. הרמת כתפיים × 15. מתיחת צוואר × 15 שניות לכל צד. שייק-אאוט כללי.',
+      instructionEn:
+        'Light jog for 45 seconds. Head circles × 8 in each direction. Shoulder shrugs × 15. Neck stretch × 15 seconds per side. A full-body shake-out.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -1312,6 +1393,9 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Technique: parry',
       instructionHe:
         'פארי: הסטה קטנה של מכה נכנסת עם כף יד פתוחה מבחוץ. לג׳אב ימני — הסט עם כף יד שמאל מבחוץ שמאלה. לג׳אב שמאלי — הסט עם כף יד ימין. התנועה קטנה ומדויקת — לא לתפוס, להסיט. רק אחרי ההסטה — תגובה עם מכה. תרגל: פארי ימין → פארי שמאל לסירוגין.',
+      instructionEn:
+        'Parry: a small deflection of an incoming punch with an open palm from the outside. For a right jab — deflect with your left palm from the outside, to the left. For a left jab — deflect with your right palm. The movement is small and precise — don\'t grab, deflect. Only after the deflection — answer with a punch. Practice: right parry → left parry, alternating.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
@@ -1322,6 +1406,14 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Round 1 — slips',
       instructionHe:
         'סליפ ימינה ← → שמאלה, קצב נוח. 60 שניות בינוני, 60 שניות — מהיר.',
+      instructionEn:
+        'Slip right ↔ left, at a comfortable pace. 60 seconds medium, 60 seconds — fast.',
+      coachingCuesEn: [
+        'Guard up, always',
+        'Move from the hips',
+        'Back to center',
+        'Elbows in',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גארד מורם תמיד',
@@ -1336,6 +1428,9 @@ const DEFENSE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. הרפה.',
+      instructionEn:
+        'Breathe. Relax.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -1345,7 +1440,15 @@ const DEFENSE_ROUNDS = {
       titleHe: 'סיבוב 2 — דאק ועלייה',
       titleEn: 'Round 2 — duck and come up',
       instructionHe:
-        'דאק מהיר ועלייה פורצת. 60 שניות נוח, 60 שניות — מהיר ומנצח.',
+        'דאק מהיר ועלייה פורצת. 60 שניות נוח, 60 שניות — מהיר וחד.',
+      instructionEn:
+        'A fast duck and an explosive rise. 60 seconds comfortable, 60 seconds — fast and sharp.',
+      coachingCuesEn: [
+        'Straight back in the duck',
+        'Guard rises before the body',
+        'Come up fast',
+        'Breathe',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גב ישר בדאק',
@@ -1360,6 +1463,9 @@ const DEFENSE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. מתיחת צוואר קצרה.',
+      instructionEn:
+        'Breathe. A short neck stretch.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -1370,6 +1476,14 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Round 3 — parry',
       instructionHe:
         'פארי ימין ← → שמאל לסירוגין. תנועה קטנה ומדויקת. 60 שניות נוח, 60 שניות — מהיר.',
+      instructionEn:
+        'Right parry ↔ left parry, alternating. A small, precise movement. 60 seconds comfortable, 60 seconds — fast.',
+      coachingCuesEn: [
+        'Small movement — don\'t grab',
+        'Guard with the hand that isn\'t parrying',
+        'After the parry — full guard',
+        'Eyes forward',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'תנועה קטנה — לא לתפוס',
@@ -1384,6 +1498,9 @@ const DEFENSE_ROUNDS = {
       titleHe: 'מנוחה',
       titleEn: 'Rest',
       instructionHe: 'נשום. סיבוב אחרון.',
+      instructionEn:
+        'Breathe. Last round.',
+      coachingCuesEn: [],
       durationSeconds: 45,
       coachingCuesHe: [],
     },
@@ -1394,6 +1511,14 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Round 4 — combined defense',
       instructionHe:
         'סליפ → דאק → עלייה → פארי. רצף מלא. קצב מבוקר. כל תנועת הגנה שלמה לפני הבאה. לאחר 60 שניות — הגבר קצב.',
+      instructionEn:
+        'Slip → duck → up → parry. Full sequence. Controlled pace. Each defensive movement complete before the next. After 60 seconds — raise the pace.',
+      coachingCuesEn: [
+        'Guard at every step',
+        'Every movement complete',
+        'Eyes forward',
+        'Breathe through the whole round',
+      ],
       durationSeconds: 120,
       coachingCuesHe: [
         'גארד בכל שלב',
@@ -1409,6 +1534,9 @@ const DEFENSE_ROUNDS = {
       titleEn: 'Cool-down',
       instructionHe:
         'הליכה קלה. מתח צוואר × 20 שניות לכל צד. גלגול כתפיים. נשום עמוק ושחרר. עבודה טובה.',
+      instructionEn:
+        'Walk lightly. Stretch your neck × 20 seconds per side. Roll your shoulders. Breathe deeply and release. Good work.',
+      coachingCuesEn: [],
       durationSeconds: 90,
       coachingCuesHe: [],
     },
