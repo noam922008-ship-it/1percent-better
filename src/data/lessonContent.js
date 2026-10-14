@@ -633,6 +633,7 @@ export const LESSON_CONTENT = {
     // Module 0 · Days 1–5 · זהות לפני הרגלים
     {
       bottomLine: 'אנשים שמשנים התנהגות לטווח ארוך לא מסתמכים על מוטיבציה — הם בונים זהות. "אני לא מעשן" חזק ב-100× מ"אני מנסה להפסיק לעשן". ההחלטות שלך הן הצבעות על מי אתה.',
+      bottomLineEn: 'People who change their behavior over the long term do not rely on motivation. They build an identity. "I am not a smoker" is far stronger than "I am trying to quit smoking." Each decision you make is a vote for who you are.',
       days: [
         {
           fieldAction: [
@@ -643,6 +644,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'James Clear (מחבר Atomic Habits) חקר רוכבי אופניים בריטים שזכו ב-Tour de France ב-2012 לאחר 110 שנות כישלון. השינוי: המאמן David Brailsford ביקש מהם "לחשוב כמו אלוף" — לישון על כרית שמביאים מהבית, לנגב אופניים עם אלכוהול, להתחיל בשינויים של 1%. 4 שנים אחר כך — 5 מדליות זהב אולימפיות. הזהות הכתיבה את ההתנהגות.',
           microTask: 'כתוב: "הזהות שאני בוחר לבנות היא ___. ראיה ראשונה לכך שאני כבר מתחיל להיות זה: ___."',
+          fieldActionEn: [
+            'Write: "A person with strong self-discipline is someone who behaves like this: ___."',
+            'List 3 habits you want to build. Next to each one write: "A person who does X is called a ___."',
+            'Choose one identity (for example "athlete", "entrepreneur", "writer"). Write it on a card and keep it in your wallet.',
+            'Today, whenever you face a small decision, ask yourself: "What would a [the identity you chose] do right now?"',
+          ],
+          realExampleEn: 'In 2012, Team Sky, coached by Dave Brailsford, won the Tour de France with Bradley Wiggins. Brailsford\'s approach was the "aggregation of marginal gains": improve many small things by a little, from the riders\' sleep and equipment to how they cleaned their hands. The identity of a professional was built into daily routines, not left to motivation.',
+          microTaskEn: 'Write: "The identity I choose to build is ___. My first piece of evidence that I am already becoming it: ___."',
         },
         {
           fieldAction: [
@@ -653,6 +662,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Charles Duhigg חקר עובדי Intel שניסו להפסיק לאכול עוגיות בצהריים. אלו שניסו "כוח רצון" נכשלו. אלו שזיהו שהעוגייה היא לא בשביל הסוכר אלא בשביל שיחה חברתית — הלכו לדבר עם עמית במקום. תוצאה: 3 חודשים אחר כך כולם הפסיקו את ההרגל.',
           microTask: 'כתוב: "ההרגל שאני רוצה לשנות הוא ___. הפרס האמיתי שהוא נותן לי הוא ___. תחליף שייתן לי את אותו פרס: ___."',
+          fieldActionEn: [
+            'List 3 moments from the past week when you acted on autopilot, not from a conscious choice.',
+            'Next to each moment write: "The trigger was ___. The routine was ___. The reward was ___." (This is the habit loop.)',
+            'Identify: is the reward from the bad habit emotional, social, or physical?',
+            'Write a replacement: "Instead of ___, I can get the same reward through ___."',
+          ],
+          realExampleEn: 'Charles Duhigg, in The Power of Habit, describes habits as a loop of cue, routine, and reward. Many people try to stop a habit by willpower alone. Duhigg\'s point is that the reward usually matters more than the routine, so the most effective change is often to keep the same cue and reward but change the routine.',
+          microTaskEn: 'Write: "The habit I want to change is ___. The real reward it gives me is ___. A replacement that gives me the same reward: ___."',
         },
         {
           fieldAction: [
@@ -663,6 +680,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'טרנטינו כתב כל יום 1 עמוד בכתב יד — לא יותר. הוא לא ניסה לכתוב סרט, הוא ניסה להיות "סופר שכותב כל יום". ב-10 שנים של הצבעות קטנות הוא הפך ל-10 פרקים של 2 שעות כל אחד. "Reservoir Dogs", "Pulp Fiction" — כולם התחילו מ-1 עמוד ביום.',
           microTask: 'כתוב: "3 ה\'הצבעות\' שעשיתי היום: (1)___ (2)___ (3)___. אחרי שעשיתי אותן הרגשתי ___."',
+          fieldActionEn: [
+            'Define one "small vote" you can cast today for your chosen identity.',
+            'A vote is a small action that confirms you are "X" (for example, 5 push-ups = "I am an athlete").',
+            'Write the action, do it, and then write: "I voted for my identity."',
+            'Repeat this three times today: three small votes for the same identity.',
+          ],
+          realExampleEn: 'Many writers build their craft through small, consistent sessions rather than waiting for inspiration. Anthony Trollope, the 19th-century novelist, famously wrote for a set number of words every day, even while working a full-time job at the Post Office. His output was large because his habit was small and steady.',
+          microTaskEn: 'Write: "My three small votes today: (1) ___ (2) ___ (3) ___. After doing them I felt ___."',
         },
         {
           fieldAction: [
@@ -673,6 +698,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Jerry Seinfeld כתב בדיחות כל יום ותלה X אדום בלוח שנה. הכלל שלו: "אל תשבור את השרשרת." פעם אחת שאלו אותו מה קורה בימים שאין לו כוח — הוא ענה: "אז אני כותב בדיחה אחת גרועה. עדיין X אדום." הוא מעולם לא שבר שרשרת של יותר מ-5 ימים ב-20 שנה.',
           microTask: 'כתוב: "הגרסה המינימלית שלי ל-___ [ההרגל שלי] היא ___. גם בימי שלישי הכי רעים, אני אעשה לפחות ___."',
+          fieldActionEn: [
+            'Check: how many days in a row did you take a small action toward your identity? (Even one day counts!)',
+            'Write: "My streak is ___ days. If I break it, my rule is ___."',
+            'Define the "minimum version": what is the smallest action that still counts as a vote?',
+            'Set: "Even on my hardest days, I will do ___ (the minimum version) so I do not break the streak."',
+          ],
+          realExampleEn: 'Jerry Seinfeld has described a habit of writing jokes every day and marking each day with a red X on a calendar. His rule was "don\'t break the chain." When asked what he does on days he has no energy, the idea is the same: write something small and keep the chain going.',
+          microTaskEn: 'Write: "My minimum version for ___ [my habit] is ___. Even on my worst days, I will do at least ___."',
         },
         {
           fieldAction: [
@@ -683,6 +716,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'BJ Fogg מ-Stanford חקר 1,200 אנשים שניסו לבנות הרגל ריצה. אלו שהצליחו לא היו בעלי "כוח רצון חזק יותר" — הם שמו את נעלי הספורט ליד המיטה בלילה. פעולה אחת קטנה הורידה את החיכוך מ-"צריך להחליט" ל-"נגיש". שיעור הצלחה: 65% גבוה יותר.',
           microTask: 'כתוב: "שינוי סביבתי אחד שאני עושה עכשיו כדי להוריד חיכוך: ___. שינוי שני: ___. ציפייה ממני לשבוע הבא: ___."',
+          fieldActionEn: [
+            'Review the last four days: how many times did you act in line with your chosen identity?',
+            'Write: "The friction points that got in my way: ___, ___." (For example: the phone distracted me, I did not prepare in advance.)',
+            'For each friction point, write a solution: "To reduce this friction, I will ___."',
+            'Prepare your environment: remove from your desk everything that gets in the way of the desired action, and place close whatever helps.',
+          ],
+          realExampleEn: 'BJ Fogg, a behavior scientist at Stanford, teaches that behavior change depends on making the desired action easy. In his "Tiny Habits" approach, a simple example is placing your running shoes next to the bed. Reducing friction matters more than relying on a strong will.',
+          microTaskEn: 'Write: "One environment change I am making now to reduce friction: ___. A second change: ___. What I expect from myself next week: ___."',
         },
       ],
     },
@@ -690,6 +731,7 @@ export const LESSON_CONTENT = {
     // Module 1 · Days 6–10 · ניהול אנרגיה
     {
       bottomLine: 'כוח רצון הוא משאב מתדלדל — לא מידה אופי. אתה לא "עצלן"; אתה מנוצל. ניהול משמעת אמיתי = ניהול אנרגיה: לדעת מתי אתה חד, מתי לנוח, ומתי לא לקבל החלטות.',
+      bottomLineEn: 'Willpower is a resource that runs down. It is not a character trait. You are not "lazy"; you are depleted. Real self-discipline is energy management: knowing when you are sharp, when to rest, and when not to make decisions.',
       days: [
         {
           fieldAction: [
@@ -700,6 +742,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'אובמה בהיותו נשיא אמר שהוא לא מקבל החלטות על מה ללבוש — רק חליפות כחולות/אפורות. הסיבה: "אני מנסה להפחית החלטות. אני צריך לשמור את האנרגיה המנטלית שלי לדברים החשובים באמת." זה נקרא Decision Fatigue — כל החלטה מנצלת אנרגיה מנטלית.',
           microTask: 'כתוב: "שעות הפיק שלי: ___. משימה אחת קריטית שאני מעביר לשעות האלה: ___. החלטה אחת שאני אוטומטיז (לא מחליט כל יום): ___."',
+          fieldActionEn: [
+            'Track your energy today: every 2 hours (morning, noon, afternoon, evening), rate it from 1 to 10.',
+            'At the end of the day, identify: when did you reach 8 or higher? When did you drop below 5?',
+            'Write: "My sharpest hours are between ___ and ___. In those hours I will do ___."',
+            'Schedule one hard task right away for your peak hours. Make it a deliberate choice, not a default.',
+          ],
+          realExampleEn: 'Barack Obama has said that he wears only grey or blue suits so that he has fewer decisions to make each day. The idea is called decision fatigue: each decision draws on mental energy, so reducing trivial choices protects energy for the ones that matter.',
+          microTaskEn: 'Write: "My peak hours: ___. One critical task I move to those hours: ___. One decision I will automate so I do not make it every day: ___."',
         },
         {
           fieldAction: [
@@ -710,6 +760,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ה-NBA חקר שחקני כדורסל: 2 שעות שינה נוספות העלו דיוק זריקות ב-9%, קצב תגובה ב-0.08 שניות, ורמת האנרגיה בין 60–80 דקות אחרונות של המשחק. LeBron James ישן 10–12 שעות ביום ואמר: "שינה היא הדבר החשוב ביותר שאני עושה לשיקום."',
           microTask: 'כתוב: "שעת הכיבוי שלי היא ___. מה אני עושה 30 הדקות לפני שינה: ___. יעד שינה שלי: ___ שעות. שינה טובה גורמת לי ל-___."',
+          fieldActionEn: [
+            'Track your sleep over the last three nights. How many hours? Rate its quality from 1 to 10.',
+            'Research "sleep debt": if you sleep 6 hours instead of 8, the debt builds up. It cannot be fully repaid by sleeping in on the weekend.',
+            'Identify one habit you do after 9 pm that hurts your sleep (screens, coffee, eating, intense exercise).',
+            'Set a "screen-off time," 30 minutes before bed. Write what you will do instead (reading, meditation, a list for tomorrow).',
+          ],
+          realExampleEn: 'Sleep researchers such as Cheri Mah, working with Stanford basketball players, found that extended sleep was linked to improved sprint times and shooting accuracy. The lesson for everyone: sleep is performance work, not a luxury.',
+          microTaskEn: 'Write: "My screen-off time is ___. What I do in the 30 minutes before sleep: ___. My sleep goal: ___ hours. Good sleep makes me ___."',
         },
         {
           fieldAction: [
@@ -720,6 +778,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Peretz Lavie חקר ביצועים קוגניטיביים ב-Technion: הריכוז הגבוה ביותר הגיע ב-90 דקות הראשונות, ואז צנח חדות. אחרי 20 דקות מנוחה — עלה לכמעט אותה רמה. אחרי 3 מחזורים ביצועי "עבד ומנוח" עלו ב-25% על "עבד ברציפות".',
           microTask: 'כתוב: "ניסיתי את ה-90+20 היום: כן/לא. אם כן — ההבדל ברמת הריכוז היה ___. אם לא — המכשול היה ___. מחר אני אנסה ___."',
+          fieldActionEn: [
+            'Plan an "ultradian break": a rest of 10–20 minutes after every 90 minutes of work.',
+            'Define what a rest means for you: a short walk, closing your eyes, music. Not scrolling on your phone.',
+            'Today, do three cycles of 90 minutes of work plus 20 minutes of rest. Record your focus level in each cycle.',
+            'Compare: did you work more effectively than in a nonstop marathon?',
+          ],
+          realExampleEn: 'Research by Peretz Lavie, who studies the body\'s ultradian rhythms (cycles of roughly 90 minutes), suggests that alertness rises and falls in such cycles. Working in focused blocks and then resting fits the way attention naturally operates.',
+          microTaskEn: 'Write: "I tried the 90+20 method today: yes / no. If yes, the difference in my focus was ___. If no, the obstacle was ___. Tomorrow I will try ___."',
         },
         {
           fieldAction: [
@@ -730,6 +796,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Tony Schwartz, מחבר "The Power of Full Engagement", עבד עם טוב דה ז\'ורה, מגיש ATP. הם גילו שהפסקות של 15 שניות בין נקודות שבהן שחקנים מנמיכים את הראש, נושמים, ומדמיינים — הורידו דופק ב-15 BPM בין נקודות. זה אפשר שיחזור מהיר יותר ל"זון". אותו עיקרון עובד בעסקים.',
           microTask: 'כתוב: "3 גנבי האנרגיה שלי: ___, ___, ___. הגנב הכי גדול גוזל ___ שעות/שבוע. אני בוחר לצמצם אותו ב-___ שעות ע"י ___."',
+          fieldActionEn: [
+            'Identify 3 "energy drains" in your life: things that leave you feeling empty after you do them.',
+            'Next to each one: how many hours a week does it take? Do you choose it freely, or out of habit?',
+            'Identify 3 "energy boosters": things after which you feel better (not during, after).',
+            'Build a rule: "Before/after each ___ [energy drain], I ___ [energy booster] to recover."',
+          ],
+          realExampleEn: 'Tony Schwartz, author of The Power of Full Engagement, argues that recovery is part of performance, not the opposite of it. Short breaks, sleep, and reconnecting with what gives you meaning restore the energy that sustained effort uses up.',
+          microTaskEn: 'Write: "My three energy drains: ___, ___, ___. The biggest drain takes ___ hours a week. I choose to cut it by ___ hours by ___."',
         },
         {
           fieldAction: [
@@ -740,6 +814,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'הסופרת Toni Morrison, זוכת פרס נובל, כתבה רק בשעות 5–7 בבוקר לפני שהילדים קמו. היא אמרה: "בשעות אלה המוח שלי נקי, ולפני שהעולם דורש ממני — אני דורשת מעצמי." היא כתבה 11 רומנים שינו עולם בדיוק כך.',
           microTask: 'כתוב: "לוח השנה האנרגטי שלי מחר: 06:00–___ (פיק) → ___. ___–___ (בינוני) → ___. ___–___ (נמוך) → ___."',
+          fieldActionEn: [
+            'Build an "energy calendar" for next week: what you do and when, based on your energy.',
+            'Peak hours → the hardest tasks (writing, learning, big decisions).',
+            'Medium energy → meetings, emails, routine tasks.',
+            'Low energy → intentional rest, automatic tasks, planning tomorrow.',
+          ],
+          realExampleEn: 'Haruki Murakami, the novelist, has described waking very early and writing in the morning, then going to bed early. He has said that the early hours suit the kind of focus his fiction needs, and he has kept to that schedule for decades.',
+          microTaskEn: 'Write: "My energy calendar for tomorrow: 06:00–___ (peak) → ___. ___–___ (medium) → ___. ___–___ (low) → ___."',
         },
       ],
     },
@@ -747,6 +829,7 @@ export const LESSON_CONTENT = {
     // Module 2 · Days 11–15 · מיקוד עמוק
     {
       bottomLine: 'הסחת הדעת היא ענף תעשייתי שמוציא 10,000+ מהנדסים שמעצבים את הטלפון שלך להיות מכור. לנצח את ההסחה לא צריך כוח רצון — צריך מערכת.',
+      bottomLineEn: 'Distraction is a whole industry, with many engineers designing products to hold your attention. You do not beat distraction with willpower alone. You beat it with a system.',
       days: [
         {
           fieldAction: [
@@ -757,6 +840,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Cal Newport (מחבר "Deep Work") עבד 20+ שנה ללא מדיה חברתית ופרסם 4 ספרים, קיבל קביעות ב-Georgetown, ומנהל podcast עם מיליוני מאזינים. שיטתו: 4 שעות "deep work" בבוקר, פגישות רק אחה"צ, לא עונה לאימייל מיד. "אדם ב-4 שעות deep work עושה יותר מאדם ב-8 שעות shallow work."',
           microTask: 'כתוב: "מספר ה-V בסבב 1: ___. מספר ה-V בסבב 2: ___. הגורם להסחה שהכי קשה לנטרל: ___. הפתרון הספציפי שלי לזה: ___."',
+          fieldActionEn: [
+            'Measure: set a timer for 25 minutes. Work on one task. Every time you get distracted, mark a V.',
+            'At the end of the 25 minutes: how many V\'s? What caused them? (A thought, the phone, a sound, hunger?)',
+            'Repeat, this time setting your phone to "Do Not Disturb" and closing all tabs except one.',
+            'Compare: how many V\'s in round 1 versus round 2?',
+          ],
+          realExampleEn: 'Cal Newport, in Deep Work, argues that the ability to focus without distraction is becoming rare and valuable. His approach includes scheduled blocks of uninterrupted work and deliberately limiting shallow tasks such as checking email constantly. The key idea: depth beats volume.',
+          microTaskEn: 'Write: "The number of V\'s in round 1: ___. In round 2: ___. The distraction hardest to block: ___. My specific solution for it: ___."',
         },
         {
           fieldAction: [
@@ -767,6 +858,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'David Allen (מחבר GTD) גילה שהמוח לא מסוגל "להחזיק" יותר מ-7 פריטים ב-RAM בלי חרדה. ברגע שאתה כותב משהו — המוח משחרר אותו. זה מה שנקרא "Capture" בשיטת GTD. אלף מנהלים שאימצו את השיטה דיווחו על ירידה של 30–40% ברמות הסטרס תוך חודש.',
           microTask: 'כתוב: "מה גיליתי על ה\'הסחות המזויפות\' שלי? ___ אחוז מהמחשבות לא היו דחופות. הנושא שהכי מסיח אותי בעבודה: ___."',
+          fieldActionEn: [
+            'Build a "Distraction List": a page outside the computer where you write every distracting thought.',
+            'When a thought appears during work (check email, remember something), write it on the page and carry on.',
+            'After two hours, go through the page. How many of those thoughts were truly urgent?',
+            'Identify: what percentage of distractions were "fake urgency"?',
+          ],
+          realExampleEn: 'David Allen, author of Getting Things Done, teaches that the mind is poor at holding many open loops without anxiety. Writing something down releases it from working memory. This is the "capture" step of his method.',
+          microTaskEn: 'Write: "What I discovered about my fake urgencies: ___% of my thoughts were not urgent. The topic that distracts me most at work is ___."',
         },
         {
           fieldAction: [
@@ -777,6 +876,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ניוטון, ריינולדס, ג\'וב — כולם עבדו ב"batch mode": כמה שבועות בלי פגישות ← ואז כמה שבועות רק פגישות. סטיב ג\'ובס חזר מהיפן ב-1980 לאחר מחקר Sony והנהיג "Product Focus Week" שבה כל עובד הקדיש 100% לדבר אחד בלבד. כך נולד ה-Macintosh.',
           microTask: 'כתוב: "לוח ה-Work Blocks שלי ל-3 ימים הבאים: יום 1 בוקר → ___. יום 2 בוקר → ___. יום 3 בוקר → ___."',
+          fieldActionEn: [
+            'Set up "work blocks" for the next three days: a morning block and an afternoon block.',
+            'For each block, write in advance what you will work on (not a general to-do list, but one specific task).',
+            'Before each block: take three deep breaths and write "I am starting ___ until ___."',
+            'After each block: write what you achieved.',
+          ],
+          realExampleEn: 'Many people who produce a lot of focused work organize their time in batches: several days without meetings, then days of meetings. The pattern is the same: concentrate effort on one thing at a time, instead of splitting attention across everything.',
+          microTaskEn: 'Write: "My work blocks for the next three days: day 1 morning → ___. Day 2 morning → ___. Day 3 morning → ___."',
         },
         {
           fieldAction: [
@@ -787,6 +894,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Benjamin Franklin קם כל בוקר ב-5:00 ושאל: "מה הטוב שאני אעשה היום?" הוא כתב, קרא, תכנן — לפני שהעולם הגיע אליו. אחד מהמייסדים של ארה"ב, ממציא הברק, דיפלומט — כל זה ב-84 שנה. הוא ייחס את ההישגים שלו לשעות הבוקר.',
           microTask: 'כתוב: "שעות ה-Monk Mode שלי יהיו ___–___. מה אעשה בהן: ___. מה לא אגע בו: ___. החשש שלי מזה: ___."',
+          fieldActionEn: [
+            'Try a "morning monk mode": the first two hours without email, WhatsApp, or news.',
+            'Morning without input = mental preparation. Write what you will do in those two hours instead.',
+            'Write: "My first habit of the morning is ___." (Now.) Then: "The habit I want is ___."',
+            'Set a start: what is one action that will change tomorrow morning?',
+          ],
+          realExampleEn: 'Benjamin Franklin described a daily routine in his autobiography that began early in the morning with questions about the day ahead: what good he would do, and how he would use his time. He wrote, read, and planned before the day\'s demands arrived.',
+          microTaskEn: 'Write: "My monk mode hours will be ___–___. What I will do in them: ___. What I will not touch: ___. My concern about it: ___."',
         },
         {
           fieldAction: [
@@ -797,6 +912,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Tristan Harris (לשעבר עיצוב אתיקה ב-Google) אמר: "כל פעם שאתה פותח Instagram — 1,000 מהנדסים עבדו כדי שתישאר כמה שיותר." בעדות לסנאט האמריקאי ב-2021 הוא הצהיר שהמדיה החברתית מתוכננת כ"מכונת הסחה" עם מנגנוני gambling. ניתוק מכוון הוא לא עצלנות — הוא מרד.',
           microTask: 'כתוב: "כמה התראות כיביתי: ___. מספר פעמים שבדקתי טלפון לפני שינוי: ___. לאחר שינוי: ___. ההרגשה שלי בלי ההתראות: ___."',
+          fieldActionEn: [
+            'Do a "digital audit": count how many apps you have with notifications turned on.',
+            'Check: how many times did you look at your phone today? (Settings → Screen Time / Digital Wellbeing)',
+            'Turn off all notifications that are not phone calls or SMS messages from family. Turn off the rest.',
+            'Set a deliberate "phone check": only three times a day (for example 9:00, 13:00, 18:00).',
+          ],
+          realExampleEn: 'Tristan Harris, a former design ethicist at Google, has testified before the US Congress about how digital products are designed to capture attention. Deliberately disconnecting is not laziness. It is a response to a system built to keep you looking.',
+          microTaskEn: 'Write: "The number of notifications I turned off: ___. Times I checked my phone before the change: ___. After the change: ___. How I feel without the notifications: ___."',
         },
       ],
     },
@@ -804,6 +927,7 @@ export const LESSON_CONTENT = {
     // Module 3 · Days 16–20 · התמודדות עם כישלון
     {
       bottomLine: 'כישלון אחד לא קובע שום דבר. כישלון שגורם לך לפרש את עצמך כ"בן-אדם שנכשל" — זה מה שהורס. לבנות חוסן משמעת זה ללמוד לנפול ולקום בפחות ממה שלקח בפעם הקודמת.',
+      bottomLineEn: 'One failure does not determine anything. What destroys people is a failure that makes them see themselves as "someone who fails." Building discipline resilience means learning to fall and get up faster than last time.',
       days: [
         {
           fieldAction: [
@@ -814,6 +938,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Carol Dweck (פרופסור Stanford, מחברת "Mindset") הראתה שסטודנטים עם Growth Mindset שנכשלו במבחן אמרו "עדיין לא". סטודנטים עם Fixed Mindset אמרו "אני לא מסוגל". 5 שנים אחר כך — קבוצת ה"עדיין לא" השיגה ציונים גבוהים ב-30% יותר בממוצע. המילה "עדיין" שינתה הכל.',
           microTask: 'כתוב: "הסיפור הישן שסיפרתי לעצמי אחרי כישלון: ___. הסיפור החדש: ___. המשפט שאני אגיד לעצמי בפעם הבאה שאשבור הרגל: ___."',
+          fieldActionEn: [
+            'List three times you tried a habit and failed. Next to each one: what did you tell yourself afterwards?',
+            'Identify: was the story you told a fact ("I lost a day") or an interpretation ("I have no discipline")?',
+            'Rewrite each story: "What happened was ___. A more accurate interpretation is ___."',
+            'Set a rule: "When I break a habit, I will tell myself: ___." (Write the specific sentence.)',
+          ],
+          realExampleEn: 'Carol Dweck, a Stanford psychologist and author of Mindset, describes people with a "growth mindset" who respond to failure with "not yet" rather than "I can\'t." The word "yet" changes how people approach difficulty and how long they persist.',
+          microTaskEn: 'Write: "The old story I told myself after a failure: ___. The new story: ___. The sentence I will say the next time I break a habit: ___."',
         },
         {
           fieldAction: [
@@ -824,6 +956,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Michael Phelps, 23 מדליות זהב אולימפיות, פספס 2 אימונים בחייו. אחרי כל אחד — חזר לאימון ביום שאחריו ואמר: "הכי חשוב לא לפספס פעמיים ברציפות." המאמן שלו Bob Bowman אמר: "הוא לא מושלם. הוא פשוט לא מרשה לעצמו לפפסס פעמיים."',
           microTask: 'כתוב: "הכלל שלי: Never Miss Twice. תכנית B שלי לשני המצבים הנפוצים שגורמים לי לפספס: (1) אם ___ → אז ___. (2) אם ___ → אז ___."',
+          fieldActionEn: [
+            'Write: "My rule after breaking a habit is: Never miss twice."',
+            'Explain to yourself: "I missed a day? Fine. I missed two days? That is a problem. But it is not the end."',
+            'Identify: what caused your last few habit breaks? (Tiredness, an outside event, lack of preparation, not feeling like it?)',
+            'For each cause, write a plan B: "If ___ happens, then I will ___."',
+          ],
+          realExampleEn: 'James Clear popularized the rule "never miss twice." The idea is that missing once is an accident, but missing twice starts a new pattern. Michael Phelps, the Olympic swimmer, has spoken about returning quickly after setbacks rather than letting one bad day become a bad week.',
+          microTaskEn: 'Write: "My rule: Never miss twice. My plan B for the two most common reasons I miss: (1) If ___, then ___. (2) If ___, then ___."',
         },
         {
           fieldAction: [
@@ -834,6 +974,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'ריצ\'ארד פיינמן, פיזיקאי ונובליסט, נכשל 3 פעמים בניסויים לפני שגילה שיטת פיינמן לפיזיקה קוונטית. אחרי כל כישלון הוא כתב ביומן: "מה למדתי מזה?" ולא "למה נכשלתי?" 40 שנה של יומנים הפכו לספר. הוא אמר: "ההבדל בין מדען טוב לגדול: הגדול לומד גם מכישלונות."',
           microTask: 'כתוב: "הגורם שהכי מסייע לי להצליח בהרגלים: ___. כיצד אני מכניס אותו להרגל הנוכחי: ___."',
+          fieldActionEn: [
+            'Open a journal. List 10 times you managed to keep a habit for more than 3 days.',
+            'Next to each one: what made it possible? (Environment? Motivation? Accountability?)',
+            'Identify: what is the common factor in three or more of your successes?',
+            'Write: "I succeed when I have ___. I will make sure I have it for my current habit."',
+          ],
+          realExampleEn: 'Richard Feynman, the physicist, kept notebooks throughout his career. He is known for the principle "the first principle is that you must not fool yourself, and you are the easiest person to fool." Reviewing what actually worked, honestly, is how you avoid repeating the same mistakes.',
+          microTaskEn: 'Write: "The factor that helps me succeed most with habits: ___. How I will bring it into my current habit: ___."',
         },
         {
           fieldAction: [
@@ -844,6 +992,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Alcoholics Anonymous מיישם Accountability Partners מאז 1935. מחקר של Harvard Health מצא שאנשים עם "sponsor" (שותף אחריות) שיש להם לדווח לו: שיעור ההצלחה שלהם גבוה ב-50% מאנשים ש"עושים לבד". האחריות החברתית מפעילה אזורי מוח שכוח רצון לא מגיע אליהם.',
           microTask: 'כתוב: "ה-Accountability Partner שלי הוא ___. הדיווח הראשון שלי לו יהיה ב-___. מה אני מבקש ממנו: ___."',
+          fieldActionEn: [
+            'Set a "red line": a point below which you seek help or change your approach (not "blame yourself").',
+            'Write: "If I miss ___ days in a row, I will ___." (For example: talk to a friend, go back to analysis, lower the bar.)',
+            'Set an "accountability partner": one person you report to about the habit once a week.',
+            'Send a message to that person today: "I am working on ___. Could we talk every Saturday?"',
+          ],
+          realExampleEn: 'Alcoholics Anonymous has used sponsors and peer accountability since the 1930s. Peer support is central to the program because people who report to someone else tend to follow through more consistently than people working alone. Social accountability works where willpower alone may not.',
+          microTaskEn: 'Write: "My accountability partner is ___. My first report to them will be on ___. What I am asking from them: ___."',
         },
         {
           fieldAction: [
@@ -854,6 +1010,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'The Kaizen Method — שיטה יפנית שאומרת: "שיפור של 1% ביום = 37× טוב יותר תוך שנה." Toyota אימצה את השיטה ב-1950 אחרי ביקור של W. Edwards Deming. 30 שנה אחר כך — Toyota הפכה ליצרנית הרכב הגדולה בעולם מעמדת כמעט פשיטת רגל. הסוד: שיפור קטן כל יום, ולא שלמות.',
           microTask: 'כתוב: "הדבר שהשתפר אצלי בשבועיים האחרונים: ___. שלושה לקחים: (1)___ (2)___ (3)___. מה אני עושה שונה בשבועיים הבאים: ___."',
+          fieldActionEn: [
+            'Review two weeks of work: how many days did you succeed? How many did you slip? What is the average?',
+            'Write your "three biggest lessons" so far.',
+            'Identify what improved, even slightly. (Not full improvement, just some.)',
+            'Celebrate: write one specific achievement. Send it to your accountability partner.',
+          ],
+          realExampleEn: 'Toyota\'s production system drew heavily on ideas from W. Edwards Deming, who lectured to Japanese industry from 1950. Kaizen, the practice of continuous small improvement, became central to its culture. The principle: small, steady improvements every day, not perfection.',
+          microTaskEn: 'Write: "What improved for me in the last two weeks: ___. My three lessons: (1) ___ (2) ___ (3) ___. What I will do differently over the next two weeks: ___."',
         },
       ],
     },
@@ -861,6 +1025,7 @@ export const LESSON_CONTENT = {
     // Module 4 · Days 21–25 · מערכת לא מוטיבציה
     {
       bottomLine: 'מוטיבציה מגיעה ועוברת. מערכת — נשארת. המקצוענים לא "מחכים לרצות". הם בנו מבנים שמבצעים את הפעולה בלי שצריך להחליט עליה מחדש כל יום.',
+      bottomLineEn: 'Motivation comes and goes. A system stays. Professionals do not wait to feel like it. They build structures that carry out the action without requiring a fresh decision every day.',
       days: [
         {
           fieldAction: [
@@ -871,6 +1036,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Tim Ferriss ראיין 200+ מיליארדרים, אתלטים ואמנים לספרו. הדפוס האחיד: לכל אחד היו 2–3 "הרגלים שאי-אפשר לדלג עליהם". ריצה בבוקר, מדיטציה, קריאה. הם לא שאלו "רוצה?" — הם פשוט עשו. "ימים שבהם לא הצלחתי בכלום — הצלחתי עדיין כי עשיתי את 3 אלה."',
           microTask: 'כתוב: "הרגלי הגרעין שלי: (1)___ (2)___ (3)___. אם אעשה רק אותם — היום הוא ___. מה מגן עליהם: ___."',
+          fieldActionEn: [
+            'Write your "3 keystone habits": the habits that, if you do them, keep the rest of your day on track.',
+            'Example: "7.5 hours of sleep + 20 minutes of movement + a morning list of tasks."',
+            'Ask: "If I only did these three, could I still say I had a good day?"',
+            'If yes, these are your keystone habits. Protect them like a red line.',
+          ],
+          realExampleEn: 'Tim Ferriss, who has interviewed hundreds of high performers for his podcast and books, repeatedly hears about a small set of non-negotiable daily habits, such as exercise, reading, or meditation. Many of them say that on bad days, keeping those few habits still made the day count.',
+          microTaskEn: 'Write: "My keystone habits: (1) ___ (2) ___ (3) ___. If I only do these, my day is ___. What protects them: ___."',
         },
         {
           fieldAction: [
@@ -881,6 +1054,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'B.J. Fogg (Stanford) לימד 10,000 אנשים Habit Stacking. הניסוי המפורסם שלו: כשאנשים קישרו "לאחר שצחצחתי שיניים — אני עושה 2 שכיבות שמיכה" — 80% המשיכו 6 חודשים. כשניסו לבנות הרגל ריצה "כי הם רצו" — 20% המשיכו. ה-Stack מבטל את ההחלטה.',
           microTask: 'כתוב: "ה-Habit Stack שלי לבוקר: (1) אחרי שאני ___ → אני ___. (2) אחרי שאני ___ → אני ___. (3) אחרי שאני ___ → אני ___."',
+          fieldActionEn: [
+            'Design a "habit stack": a chain of habits connected to one another.',
+            'Template: "After I [existing habit], I will [new habit]."',
+            'Write three habit stacks for the morning and two for the evening.',
+            'Try them tomorrow and record: did they work? What needs to change?',
+          ],
+          realExampleEn: 'BJ Fogg, of Stanford, teaches habit anchoring: attach a new behavior to an existing routine. Instead of relying on a decision each time, the existing habit becomes the trigger. The decision is made once, when the stack is designed.',
+          microTaskEn: 'Write: "My morning habit stack: (1) After I ___, I will ___. (2) After I ___, I will ___. (3) After I ___, I will ___."',
         },
         {
           fieldAction: [
@@ -891,6 +1072,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'David Allen (GTD) ו-Ray Dalio (Bridgewater) שניהם מנהלים Weekly Review. Dalio: "כל שישי בשעה 16:00 — סוקר מה עבד, מה לא, ומה אשנה. ה-15 השנים הראשונות של Bridgewater היו קשות. הסיבה שלא ויתרתי: הסקירה השבועית הראתה לי שאני משתפר, גם כשלא הרגשתי כך."',
           microTask: 'כתוב: "Weekly Review שלי: מה עשיתי השבוע: ___. מה לא: ___. שינוי אחד לשבוע הבא: ___. יום ושעה קבועים: ___."',
+          fieldActionEn: [
+            'Set up a "Weekly Review": 20 minutes at the end of each week for reflection.',
+            'Template: what did I do? What did I not do? Why? What is one change for next week?',
+            'Set a fixed day and time (for example, Sunday at 20:00).',
+            'Do your first Weekly Review now, on last week.',
+          ],
+          realExampleEn: 'David Allen recommends a weekly review as the core of keeping systems under control. Ray Dalio has written about reviewing his own mistakes systematically, so that each one becomes a principle for the next decision. Regular review turns experience into learning.',
+          microTaskEn: 'Write: "My weekly review: what I did this week: ___. What I did not do: ___. One change for next week: ___. My fixed day and time: ___."',
         },
         {
           fieldAction: [
@@ -901,6 +1090,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Anne Thorndike (Massachusetts General Hospital) שינתה את פריסת הקפטריה בבית חולים: מים לפני שתיות אחרות, סלט בגובה עיניים, צ\'יפס בתחתית. ללא שום מאמץ מודע מהעובדים — מכירות מים עלו 25%, ג\'אנק פוד ירד 18%. הסביבה עיצבה את ההחלטה בלי שאף אחד "החליט".',
           microTask: 'כתוב: "שינוי פיזי שעשיתי בסביבה: ___. איך זה מוריד חיכוך ל-___: ___. שינוי שני שאני מתכנן: ___."',
+          fieldActionEn: [
+            'Create an "environment design checklist" for each habit.',
+            'For each habit: what should be easy to reach? What should be far away? What cue triggers it?',
+            'Make one physical change to your environment today (lay out your gym clothes at night, put a book on the table, move your phone to another room).',
+            'Record: "I changed ___ in my environment. I expect: ___."',
+          ],
+          realExampleEn: 'Researchers at Massachusetts General Hospital, led by Anne Thorndike, changed how a hospital cafeteria arranged its drinks: water was placed at eye level and sugary drinks were moved further away. Without staff being asked to change their choices, the sales mix shifted toward water. The environment shaped the decision without anyone deciding it.',
+          microTaskEn: 'Write: "The physical change I made in my environment: ___. How it reduces friction for ___: ___. The second change I am planning: ___."',
         },
         {
           fieldAction: [
@@ -911,6 +1108,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Hal Elrod, שנפצע קשה בתאונת דרכים ונאמר לו שלא יוכל ללכת שוב — בנה "SAVERS" Routine: Silence, Affirmations, Visualization, Exercise, Reading, Scribing. 6 חודשים אחר כך הוא לא רק הלך — הוא רץ מרתון. הוא מייחס זאת ל-30 ימים של אותה רוטינה בוקר, גם כשהכאב היה עצים.',
           microTask: 'כתוב: "המבנה של Morning Routine שלי: ___ דקות. כולל: ___. מה חשוב לי שיהיה בה: ___. בצעתי אותה: כן/לא. מה שיניתי: ___."',
+          fieldActionEn: [
+            'Build a "morning routine" of 20–45 minutes that activates your keystone habits.',
+            'Write: "Wake-up time: ___. First 5 minutes: ___. Next 10 minutes: ___. ..."',
+            'Do the routine tomorrow exactly as you wrote it.',
+            'Afterwards: write what you changed and why.',
+          ],
+          realExampleEn: 'Hal Elrod, author of The Miracle Morning, built a morning routine, called SAVERS (silence, affirmations, visualization, exercise, reading, scribing), after a serious accident. He describes the routine as a way to start each day deliberately rather than reactively.',
+          microTaskEn: 'Write: "My morning routine: ___ minutes. It includes: ___. What matters most to me in it: ___. Did I do it: yes / no. What I changed: ___."',
         },
       ],
     },
@@ -918,6 +1123,7 @@ export const LESSON_CONTENT = {
     // Module 5 · Days 26–30 · חיים של 1%
     {
       bottomLine: 'כוח העניין המצטבר הוא לא רק כלכלי — הוא אישי. כל ספר שקוראים, כל שיחה שמקשיבים לה, כל הרגל שמבצעים — מצטבר. לא תמיד ניתן לראות אותו ביום, אבל לאחר שנה? לאחר עשר? אתה לא מזהה את עצמך.',
+      bottomLineEn: 'Compound growth is not only financial. It is personal. Every book you read, every conversation you really listen to, every habit you keep builds on the last. You may not see it in a day. After a year? After ten? You will hardly recognize yourself.',
       days: [
         {
           fieldAction: [
@@ -928,6 +1134,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'בריטיש סייקלינג (2003–2012): דייב ברייסלפורד ניתח כל 1% שניתן לשפר — כרית שינה, אוכל, בגדי ספורט שמחממים טוב יותר, כביסה ייחודית להפחתת חיידקים. 9 שנים אחר כך: 59 מדליות עולם, 6 ניצחונות ב-Tour de France, 5 מדליות זהב אולימפיות מ-4. ה-"1 אחוז" הצטברו.',
           microTask: 'כתוב: "ה-1% הגדול ביותר שהשתפרתי בו מתחילת הקורס: ___. אם אמשיך עוד שנה — בתחום ___ אהיה ___."',
+          fieldActionEn: [
+            'Calculate: what was your "1% better" in each category: body, mind, relationships, work?',
+            'For each category: write what it was 30 days ago and what it is now.',
+            'Identify your "1% point": the biggest impact that came from a small action.',
+            'Ask: "If I keep this pace for another year, where will I be?"',
+          ],
+          realExampleEn: 'British Cycling, under Dave Brailsford, became known for looking at many small areas for improvement, including bedding, nutrition, and how riders washed their hands to avoid infections. Their sustained progress, which included Tour de France and Olympic success, was built from many small gains rather than one breakthrough.',
+          microTaskEn: 'Write: "The biggest 1% I improved since the start of this course: ___. If I keep going another year, in the area of ___ I will be ___."',
         },
         {
           fieldAction: [
@@ -938,6 +1152,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Jim Carrey, שחקן, כתב לעצמו צ\'ק על 10 מיליון דולר ב-1985 כשהיה שבור. כתב עליו: "עבור שירותי שחקן". תכנן לפדות אותו ב-1995. ב-1994 — שנה מוקדם — קיבל 10 מיליון דולר על "Dumb and Dumber". הוא אמר: "אתה מוכרח לסמן את הכוונה. לא המאגיה — הכוונה מכוונת את הפעולות שלך."',
           microTask: 'כתוב: "מכתב לעצמי לעוד שנה: עד [תאריך] אני ___. ה-3 הרגלים שבניתי: (1)___ (2)___ (3)___. אני גאה בעצמי על ___."',
+          fieldActionEn: [
+            'Write a letter to yourself one year from today: "Tell me what you achieved."',
+            'Add: "The three habits I built and kept doing: ___."',
+            'Save the letter in Google Drive or Notes, and set a reminder for 12 months from now.',
+            'Read it aloud now. Say out loud what you want to build.',
+          ],
+          realExampleEn: 'Jim Carrey, the actor, wrote himself a check for $10 million in 1985, when he was struggling, and dated it for a future date. In 1994, he was paid $10 million for Dumb and Dumber. Whether or not you believe in the mechanism, writing down a specific goal makes your next steps more concrete.',
+          microTaskEn: 'Write: "A letter to myself for one year from now: by [date] I will ___. The three habits I built: (1) ___ (2) ___ (3) ___. I am proud of myself for ___."',
         },
         {
           fieldAction: [
@@ -948,6 +1170,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Charles Duhigg גילה שלמיליוני אנשים "פעילות גופנית" הוא Keystone Habit: כשאנשים התחילו להתאמן, הם גם התחילו לאכול טוב יותר, לישון טוב יותר, ולצרוך פחות אלכוהול — בלי שתכננו זאת. הגוף שפוי → שאר ההחלטות מגיעות ממקום שפוי.',
           microTask: 'כתוב: "ה-Keystone Habit שלי: ___. ההשפעה שלו על שאר חיי: ___. הגרסה המינימלית שאף פעם לא אוותר עליה: ___."',
+          fieldActionEn: [
+            'Identify "the one habit that matters most": the one that, if you do it, makes everything else fall into place.',
+            'This is a keystone habit: an anchor habit that influences your other habits.',
+            'Write: "My keystone habit is ___. When I do it, I also ___."',
+            'Set: "This habit is not skipped. Even its minimum version: ___."',
+          ],
+          realExampleEn: 'Charles Duhigg, in The Power of Habit, describes keystone habits, such as regular exercise, that spread into other areas of life. People who start exercising often find they also eat more deliberately or sleep better without planning it. A healthy body makes other decisions easier.',
+          microTaskEn: 'Write: "My keystone habit: ___. Its effect on the rest of my life: ___. The minimum version I will never give up: ___."',
         },
         {
           fieldAction: [
@@ -958,6 +1188,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Tony Robbins עושה Life Audit עם מיליוני אנשים. הדפוס שהוא רואה: 80% מהאנשים שמרגישים "תקועים" הם בעצם חזקים ב-4–5 תחומים אבל נמוכים בתחום 1 שגורר אחריו את כל השאר. תחום הבריאות הגרוע גורם לאנרגיה נמוכה → ביצועי עבודה נמוכים → הכנסה נמוכה → מתח → יחסים רעועים. תקן אחד — מתקן שרשרת.',
           microTask: 'כתוב: "תוצאות Life Audit שלי: גוף ___, שכל ___, כסף ___, יחסים ___, עשייה ___, רוח ___. ה-2 הנמוכים: ___, ___. המיקוד ל-30 ימים הבאים: ___."',
+          fieldActionEn: [
+            'Do a "life audit": rate each area from 1 to 10: body, mind, money, relationships, work, spirit.',
+            'Identify: which 2 areas have the lowest score? Which 2 have the highest?',
+            'Ask: "Are the 2 lowest areas dragging the others down?"',
+            'Set: "Over the next 30 days I will focus on ___ (one of the 2 lowest) and add one habit."',
+          ],
+          realExampleEn: 'Many people who feel stuck are actually strong in several areas but weak in one that affects the rest. For example, poor health can lead to low energy, which leads to lower work performance, which creates stress and strains relationships. Fixing one area can improve the chain.',
+          microTaskEn: 'Write: "My life audit results: body ___, mind ___, money ___, relationships ___, work ___, spirit ___. My two lowest: ___, ___. My focus for the next 30 days: ___."',
         },
         {
           fieldAction: [
@@ -968,6 +1206,14 @@ export const LESSON_CONTENT = {
           ],
           realExample: 'Marcus Aurelius (קיסר רומא, 161–180 לספירה) כתב "מחשבות" — מניפסט עקרונות אישי שמעולם לא נועד לפרסום. 2,000 שנה אחר כך זה אחד מספרי היסוד של הפילוסופיה המערבית. גדולי עולם כמו Bill Clinton, Wen Jiabao, ו-Theodore Roosevelt ציינו אותו כהשפעה מרכזית. מניפסט אישי = מצפן פנימי.',
           microTask: 'כתוב: "מניפסט הרגלים שלי — 5 עקרונות: (1)___ (2)___ (3)___ (4)___ (5)___. מה הרגשתי בסיום 30 הימים: ___."',
+          fieldActionEn: [
+            'Write a "personal habits manifesto": one page with five principles that guide your daily habits.',
+            'Each principle should be personal, concrete, and reflect what you learned in these 30 days.',
+            'Read it aloud. Keep it somewhere visible (Lock Screen, Notes, a wall).',
+            'Share it with one person who cares about your success.',
+          ],
+          realExampleEn: 'Marcus Aurelius wrote his private reflections, known as Meditations, as personal notes that were never meant for publication. Almost two thousand years later, they are still widely read. A personal set of principles can serve as an internal compass long after it is written.',
+          microTaskEn: 'Write: "My habits manifesto, five principles: (1) ___ (2) ___ (3) ___ (4) ___ (5) ___. What I felt at the end of these 30 days: ___."',
         },
       ],
     },
