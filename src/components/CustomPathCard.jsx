@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { completePathDay } from '../services/pathBuilderService'
 import LessonView from './LessonView'
+import { useLang } from '../context/LangContext'
 
 const TODAY     = () => new Date().toISOString().slice(0, 10)
 const HABIT_KEY = date => `prime_checklist_${date}`
@@ -20,14 +21,14 @@ function weekColor(week) {
 }
 
 function missionType(task = '') {
-  if (/^זהה/.test(task))  return { badge: '🔍 גילוי', color: '#60a5fa' }
-  if (/^תרגל/.test(task)) return { badge: '💪 אימון', color: '#a78bfa' }
-  if (/^אתגר/.test(task)) return { badge: '⚡ אתגר', color: '#f59e0b' }
-  if (/^עמת/.test(task))  return { badge: '⚔️ עימות', color: '#f87171' }
-  if (/^בחן/.test(task))  return { badge: '🎯 בחינה', color: '#F5C518' }
-  if (/^שלב/.test(task))  return { badge: '🔗 שילוב', color: '#34d399' }
-  if (/^יישם/.test(task)) return { badge: '🚀 יישום', color: '#fb923c' }
-  return { badge: '⚡ משימה',  color: '#F5C518' }
+  if (/^זהה/.test(task))  return { badge: '🔍 גילוי', badgeEn: '🔍 Discovery', color: '#60a5fa' }
+  if (/^תרגל/.test(task)) return { badge: '💪 אימון', badgeEn: '💪 Practice', color: '#a78bfa' }
+  if (/^אתגר/.test(task)) return { badge: '⚡ אתגר', badgeEn: '⚡ Challenge', color: '#f59e0b' }
+  if (/^עמת/.test(task))  return { badge: '⚔️ עימות', badgeEn: '⚔️ Confront', color: '#f87171' }
+  if (/^בחן/.test(task))  return { badge: '🎯 בחינה', badgeEn: '🎯 Test', color: '#F5C518' }
+  if (/^שלב/.test(task))  return { badge: '🔗 שילוב', badgeEn: '🔗 Integrate', color: '#34d399' }
+  if (/^יישם/.test(task)) return { badge: '🚀 יישום', badgeEn: '🚀 Apply', color: '#fb923c' }
+  return { badge: '⚡ משימה', badgeEn: '⚡ Task', color: '#F5C518' }
 }
 
 function isEvening() {
@@ -36,6 +37,7 @@ function isEvening() {
 
 // ── Empty state ──────────────────────────────────────────────────────
 function EmptyState({ onRebuild }) {
+  const { lang } = useLang()
   return (
     <div style={{
       background: 'linear-gradient(160deg,rgba(245,197,24,0.09) 0%,rgba(245,197,24,0.03) 100%)',
@@ -44,14 +46,14 @@ function EmptyState({ onRebuild }) {
       animation: 'slide-up 0.3s ease both',
     }}>
       <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.55rem' }}>
-        ◈ מסלול אישי · PRIME
+        ◈ {lang === 'en' ? 'Personal path · PRIME' : 'מסלול אישי · PRIME'}
       </div>
       <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.05rem', lineHeight: 1.3, marginBottom: '1.1rem' }}>
-        תוכנית 30 יום מותאמת אישית
+        {lang === 'en' ? 'A personalised 30-day plan' : 'תוכנית 30 יום מותאמת אישית'}
       </div>
       <button onClick={onRebuild} className="btn-primary btn-tactile"
         style={{ width: '100%', padding: '1.1rem 1rem', borderRadius: 14, fontSize: '1rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.55rem' }}>
-        <span>🚀</span><span>בנה את המסלול שלי ←</span>
+        <span>🚀</span><span>{lang === 'en' ? 'Build my path ←' : 'בנה את המסלול שלי ←'}</span>
       </button>
     </div>
   )
@@ -143,6 +145,7 @@ function Divider({ label }) {
 
 // ── Main component ───────────────────────────────────────────────────
 export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebuild }) {
+  const { lang } = useLang()
   const [record,     setRecord]     = useState(pathRecord)
   const [checks,     setChecks]     = useState(loadChecks)
   const [toastMsg,   setToastMsg]   = useState(null)
@@ -220,7 +223,9 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
     saveChecks({})
     onPathUpdate?.(updatedRecord)
     setShowLesson(false)
-    showToast(isMilestone ? `🏆 MILESTONE! יום ${currentDay} הושלם!` : `🔥 +50 XP · יום ${currentDay} הושלם!`)
+    showToast(isMilestone
+      ? (lang === 'en' ? `🏆 MILESTONE! Day ${currentDay} done!` : `🏆 MILESTONE! יום ${currentDay} הושלם!`)
+      : (lang === 'en' ? `🔥 +50 XP · Day ${currentDay} done!` : `🔥 +50 XP · יום ${currentDay} הושלם!`))
   }
 
   async function handleCompleteDay() {
@@ -232,9 +237,11 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
       setChecks({})
       saveChecks({})
       onPathUpdate?.(updated)
-      showToast(isMilestone ? `🏆 MILESTONE COMPLETE! +100 XP` : `🔥 +50 XP · יום ${currentDay} הושלם!`)
+      showToast(isMilestone
+        ? '🏆 MILESTONE COMPLETE! +100 XP'
+        : (lang === 'en' ? `🔥 +50 XP · Day ${currentDay} done!` : `🔥 +50 XP · יום ${currentDay} הושלם!`))
     } catch {
-      showToast('שגיאה — נסה שוב')
+      showToast(lang === 'en' ? 'Error — try again' : 'שגיאה — נסה שוב')
     } finally {
       setCompleting(false)
     }
@@ -245,13 +252,13 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
     return (
       <div style={{ background: 'linear-gradient(145deg,rgba(16,185,129,0.12),rgba(16,185,129,0.04))', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 20, padding: '1.5rem', textAlign: 'center' }}>
         <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🏆</div>
-        <div style={{ color: '#34d399', fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.2rem' }}>30 יום. DONE. גדלת.</div>
+        <div style={{ color: '#34d399', fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.2rem' }}>{lang === 'en' ? '30 days. DONE. You grew.' : '30 יום. DONE. גדלת.'}</div>
         <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.78rem', marginBottom: '1rem' }}>{path.path_name}</div>
         <div style={{ color: '#F5C518', fontWeight: 900, fontSize: '1.2rem', marginBottom: '0.8rem' }}>{xpTotal.toLocaleString()} XP</div>
         {onRebuild && (
           <button onClick={onRebuild} className="btn-tactile"
             style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', borderRadius: 12, padding: '0.65rem 1.25rem', color: '#34d399', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer' }}>
-            🔄 מסלול חדש ←
+            🔄 {lang === 'en' ? 'New path ←' : 'מסלול חדש ←'}
           </button>
         )}
       </div>
@@ -273,7 +280,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ color: 'rgba(52,211,153,0.7)', fontSize: '0.52rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.15rem' }}>
-                  ✅ משימה הושלמה
+                  ✅ {lang === 'en' ? 'Task completed' : 'משימה הושלמה'}
                 </div>
                 <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '0.95rem' }}>{path.path_name}</div>
               </div>
@@ -294,22 +301,22 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           <div style={{ padding: '0.75rem 1.15rem', display: 'flex', gap: '0.6rem' }}>
             <div style={{ flex: 1, background: 'rgba(245,197,24,0.07)', border: '1px solid rgba(245,197,24,0.18)', borderRadius: 12, padding: '0.65rem 0.5rem', textAlign: 'center' }}>
               <div style={{ color: '#F5C518', fontSize: '1.15rem', fontWeight: 900, lineHeight: 1 }}>+50</div>
-              <div style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.46rem', fontWeight: 800, marginTop: '0.2rem', letterSpacing: '0.1em' }}>XP נצבר</div>
+              <div style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.46rem', fontWeight: 800, marginTop: '0.2rem', letterSpacing: '0.1em' }}>{lang === 'en' ? 'XP earned' : 'XP נצבר'}</div>
             </div>
             <div style={{ flex: 1, background: 'rgba(251,146,60,0.07)', border: '1px solid rgba(251,146,60,0.2)', borderRadius: 12, padding: '0.65rem 0.5rem', textAlign: 'center' }}>
               <div style={{ color: '#fb923c', fontSize: '1.15rem', fontWeight: 900, lineHeight: 1 }}>🔥 {streak}</div>
-              <div style={{ color: 'rgba(251,146,60,0.45)', fontSize: '0.46rem', fontWeight: 800, marginTop: '0.2rem', letterSpacing: '0.1em' }}>ימים ברצף</div>
+              <div style={{ color: 'rgba(251,146,60,0.45)', fontSize: '0.46rem', fontWeight: 800, marginTop: '0.2rem', letterSpacing: '0.1em' }}>{lang === 'en' ? 'day streak' : 'ימים ברצף'}</div>
             </div>
             <div style={{ flex: 1, background: 'rgba(16,185,129,0.07)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 12, padding: '0.65rem 0.5rem', textAlign: 'center' }}>
               <div style={{ color: '#34d399', fontSize: '1.15rem', fontWeight: 900, lineHeight: 1 }}>{completedDs.length}/30</div>
-              <div style={{ color: 'rgba(52,211,153,0.45)', fontSize: '0.46rem', fontWeight: 800, marginTop: '0.2rem', letterSpacing: '0.1em' }}>ימים הושלמו</div>
+              <div style={{ color: 'rgba(52,211,153,0.45)', fontSize: '0.46rem', fontWeight: 800, marginTop: '0.2rem', letterSpacing: '0.1em' }}>{lang === 'en' ? 'days done' : 'ימים הושלמו'}</div>
             </div>
           </div>
 
           {/* Progress bar */}
           <div style={{ padding: '0 1.15rem 0.85rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-              <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.53rem', fontWeight: 600 }}>התקדמות כללית</span>
+              <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.53rem', fontWeight: 600 }}>{lang === 'en' ? 'Overall progress' : 'התקדמות כללית'}</span>
               <span style={{ color: '#34d399', fontSize: '0.53rem', fontWeight: 800 }}>{pathPct}%</span>
             </div>
             <div style={{ height: 5, background: 'rgba(255,255,255,0.06)', borderRadius: 99, overflow: 'hidden' }}>
@@ -323,10 +330,10 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
               <div style={{ padding: '0.5rem 0.8rem', background: 'rgba(245,197,24,0.06)', borderBottom: '1px solid rgba(245,197,24,0.1)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                 <span style={{ color: '#F5C518', fontSize: '0.6rem' }}>🔓</span>
                 <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
-                  יום {currentDay + 1} נפתח
+                  {lang === 'en' ? `Day ${currentDay + 1} unlocked` : `יום ${currentDay + 1} נפתח`}
                 </span>
                 <span style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.52rem', marginRight: 'auto' }}>
-                  {missionType(tomorrowTask.task || '').badge}
+                  {lang === 'en' ? missionType(tomorrowTask.task || '').badgeEn : missionType(tomorrowTask.task || '').badge}
                 </span>
               </div>
               <div style={{ padding: '0.65rem 0.8rem' }}>
@@ -337,7 +344,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
             </div>
           ) : currentDay === 30 ? (
             <div style={{ margin: '0 1.15rem 1.15rem', padding: '0.85rem', background: 'rgba(245,197,24,0.07)', border: '1px solid rgba(245,197,24,0.2)', borderRadius: 14, textAlign: 'center' }}>
-              <div style={{ color: '#F5C518', fontWeight: 900, fontSize: '0.9rem' }}>🏆 30 יום הושלמו — אגדה.</div>
+              <div style={{ color: '#F5C518', fontWeight: 900, fontSize: '0.9rem' }}>🏆 {lang === 'en' ? '30 days done — legend.' : '30 יום הושלמו — אגדה.'}</div>
             </div>
           ) : null}
         </div>
@@ -371,7 +378,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div style={{ width: 7, height: 7, borderRadius: '50%', background: urgency ? '#ef4444' : '#22c55e', boxShadow: `0 0 6px ${urgency ? '#ef4444' : '#22c55e'}`, animation: 'pulse 2s infinite', flexShrink: 0 }} />
             <span style={{ color: urgency ? '#fca5a5' : 'rgba(241,245,249,0.45)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
-              {urgency ? '⚠ נסגר בחצות' : '⚡ משימה פעילה'}
+              {urgency ? (lang === 'en' ? '⚠ Closes at midnight' : '⚠ נסגר בחצות') : (lang === 'en' ? '⚡ Active task' : '⚡ משימה פעילה')}
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
@@ -386,7 +393,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
         {/* ── Phase + mission badges ── */}
         <div style={{ padding: '0.9rem 1.1rem 0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
           <span style={{ background: `${mission.color}16`, border: `1px solid ${mission.color}38`, borderRadius: 20, padding: '0.15rem 0.55rem', color: mission.color, fontSize: '0.56rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace" }}>
-            {mission.badge}
+            {lang === 'en' ? mission.badgeEn : mission.badge}
           </span>
           {phaseName && (
             <span style={{ background: `${phaseColor}10`, border: `1px solid ${phaseColor}28`, borderRadius: 20, padding: '0.15rem 0.55rem', color: `${phaseColor}cc`, fontSize: '0.53rem', fontWeight: 700, fontFamily: "'SF Mono','Fira Code',monospace" }}>
@@ -395,7 +402,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           )}
           {isMilestone && (
             <span style={{ background: 'rgba(245,197,24,0.12)', border: '1px solid rgba(245,197,24,0.38)', borderRadius: 20, padding: '0.15rem 0.55rem', color: '#F5C518', fontSize: '0.56rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace" }}>
-              🏆 אבן דרך
+              🏆 {lang === 'en' ? 'Milestone' : 'אבן דרך'}
             </span>
           )}
         </div>
@@ -403,14 +410,14 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
         {/* ── THE MISSION — hero block ── */}
         <div style={{ padding: '0.15rem 1.1rem 0.9rem' }}>
           <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.48rem', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>
-            ◈ משימת יום {currentDay}
+            ◈ {lang === 'en' ? `Task for day ${currentDay}` : `משימת יום ${currentDay}`}
           </div>
           <div style={{
             color: '#f1f5f9', fontWeight: 800, fontSize: '1.02rem', lineHeight: 1.6,
             borderRight: `3px solid ${phaseColor}`,
             paddingRight: '0.9rem',
           }}>
-            {todayTask?.task || 'בצע את משימת היום שלך'}
+            {todayTask?.task || (lang === 'en' ? 'Complete today’s task' : 'בצע את משימת היום שלך')}
           </div>
 
           {/* XP line */}
@@ -423,7 +430,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           </div>
         </div>
 
-        <Divider label="למה זה חשוב" />
+        <Divider label={lang === 'en' ? 'Why it matters' : 'למה זה חשוב'} />
 
         {/* ── WHY block — narrative bridge ── */}
         <div style={{ padding: '0.85rem 1.1rem 0.75rem' }}>
@@ -434,7 +441,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
               borderRadius: 12, padding: '0.7rem 0.85rem', marginBottom: '0.6rem',
             }}>
               <div style={{ color: `${phaseColor}99`, fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: 'monospace', marginBottom: '0.3rem' }}>
-                נושא השבוע
+                {lang === 'en' ? 'Theme of the week' : 'נושא השבוע'}
               </div>
               <div style={{ color: `${phaseColor}e6`, fontSize: '0.8rem', fontWeight: 700, lineHeight: 1.45 }}>
                 {weeklyTheme}
@@ -446,7 +453,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
               <span style={{ color: 'rgba(245,197,24,0.4)', fontSize: '0.72rem', marginTop: '0.05rem', flexShrink: 0 }}>↗</span>
               <div>
-                <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 600 }}>מוביל ל: </span>
+                <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 600 }}>{lang === 'en' ? 'Leads to: ' : 'מוביל ל: '}</span>
                 <span style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.68rem', lineHeight: 1.4, fontStyle: 'italic' }}>
                   "{vision}{vision.length >= 130 ? '...' : ''}"
                 </span>
@@ -458,7 +465,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start', marginTop: '0.35rem' }}>
               <span style={{ color: 'rgba(239,68,68,0.4)', fontSize: '0.72rem', marginTop: '0.05rem', flexShrink: 0 }}>⊘</span>
               <div>
-                <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 600 }}>הפער שנסגר: </span>
+                <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 600 }}>{lang === 'en' ? 'The gap we close: ' : 'הפער שנסגר: '}</span>
                 <span style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.68rem', lineHeight: 1.4 }}>
                   "{gap}{gap.length >= 110 ? '...' : ''}"
                 </span>
@@ -470,7 +477,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
         {/* ── Coach voice ── */}
         {coachNote && (
           <>
-            <Divider label="המאמן אומר" />
+            <Divider label={lang === 'en' ? 'Coach says' : 'המאמן אומר'} />
             <div style={{ padding: '0.75rem 1.1rem 0.7rem' }}>
               <div style={{
                 background: 'rgba(245,197,24,0.04)',
@@ -487,7 +494,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           </>
         )}
 
-        <Divider label="פרוטוקולים יומיים" />
+        <Divider label={lang === 'en' ? 'Daily protocols' : 'פרוטוקולים יומיים'} />
 
         {/* ── Daily protocols — expanded ── */}
         <div style={{ padding: '0.7rem 1rem 0.65rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
@@ -520,12 +527,12 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
             }}
           >
             {completing
-              ? <><span className="anim-spin" style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.2)', borderTopColor: '#fff', borderRadius: '50%' }} /><span>שומר...</span></>
+              ? <><span className="anim-spin" style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.2)', borderTopColor: '#fff', borderRadius: '50%' }} /><span>{lang === 'en' ? 'Saving...' : 'שומר...'}</span></>
               : allDone
-                ? <><span>🏆</span><span>משימה הושלמה — יום {currentDay}!</span></>
+                ? <><span>🏆</span><span>{lang === 'en' ? `Task complete — day ${currentDay}!` : `משימה הושלמה — יום ${currentDay}!`}</span></>
                 : urgency
-                  ? <><span>⚡</span><span>סגור את היום לפני חצות</span></>
-                  : <><span>🔥</span><span>בצע משימה — יום {currentDay}</span></>
+                  ? <><span>⚡</span><span>{lang === 'en' ? 'Close the day before midnight' : 'סגור את היום לפני חצות'}</span></>
+                  : <><span>🔥</span><span>{lang === 'en' ? `Do the task — day ${currentDay}` : `בצע משימה — יום ${currentDay}`}</span></>
             }
           </button>
 
@@ -534,18 +541,18 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', background: 'rgba(255,255,255,0.012)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 10 }}>
               <span style={{ color: 'rgba(241,245,249,0.16)', fontSize: '0.75rem', flexShrink: 0 }}>🔒</span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.6rem', fontWeight: 700, fontFamily: 'monospace' }}>יום {currentDay + 1} — </span>
+                <span style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.6rem', fontWeight: 700, fontFamily: 'monospace' }}>{lang === 'en' ? `Day ${currentDay + 1} — ` : `יום ${currentDay + 1} — `}</span>
                 <span style={{ color: 'rgba(241,245,249,0.14)', fontSize: '0.6rem', display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '72%', verticalAlign: 'bottom' }}>
                   {tomorrowTask.task.slice(0, 45)}...
                 </span>
               </div>
-              <span style={{ color: 'rgba(241,245,249,0.1)', fontSize: '0.56rem', fontWeight: 600, flexShrink: 0 }}>סיים היום ←</span>
+              <span style={{ color: 'rgba(241,245,249,0.1)', fontSize: '0.56rem', fontWeight: 600, flexShrink: 0 }}>{lang === 'en' ? 'Finish the day ←' : 'סיים היום ←'}</span>
             </div>
           )}
 
           <button onClick={() => setShowLesson(true)} className="btn-tactile"
             style={{ background: 'rgba(245,197,24,0.07)', border: '1px solid rgba(245,197,24,0.25)', borderRadius: 10, color: 'rgba(245,197,24,0.82)', fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', padding: '0.45rem 0.85rem', textAlign: 'center', width: '100%' }}>
-            📖 שיעור מעמיק ←
+            📖 {lang === 'en' ? 'Deep lesson ←' : 'שיעור מעמיק ←'}
           </button>
         </div>
       </div>
