@@ -61,7 +61,7 @@ input, textarea, button, select {
 /* RTL-specific overrides */
 [dir="rtl"] input,
 [dir="rtl"] textarea {
-  text-align: right;
+  text-align: start;
 }
 
 [dir="rtl"] input[type="time"] {

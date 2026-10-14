@@ -37,13 +37,13 @@
 }
 .ob-intro-glow--1 {
   width: 600px; height: 500px;
-  top: -100px; right: -100px;
+  top: -100px; inset-inline-start: -100px;
   background: radial-gradient(ellipse, rgba(124,58,237,0.2) 0%, transparent 70%);
   animation: ob-float1 18s ease-in-out infinite;
 }
 .ob-intro-glow--2 {
   width: 500px; height: 400px;
-  bottom: -80px; left: -80px;
+  bottom: -80px; inset-inline-end: -80px;
   background: radial-gradient(ellipse, rgba(99,102,241,0.15) 0%, transparent 70%);
   animation: ob-float2 22s ease-in-out infinite;
 }
@@ -232,7 +232,7 @@
   flex-direction: column;
   gap: 10px;
   margin-bottom: 32px;
-  text-align: right;
+  text-align: start;
 }
 .ob-gen-step {
   display: flex;
@@ -367,7 +367,7 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 .ob-msg--user {
-  margin-right: auto; /* RTL: push to right */
+  margin-inline-start: auto; /* RTL: push to right */
   flex-direction: row-reverse;
   align-self: flex-end;
 }
@@ -547,7 +547,7 @@
   border-radius: 99px;
   cursor: pointer;
   transition: background 0.15s;
-  text-align: right;
+  text-align: start;
 }
 .ob-suggest-chip:hover { background: rgba(124,58,237,0.2); }
 
@@ -615,7 +615,7 @@
   font-size: 14px;
   font-weight: 600;
   transition: border-color 0.18s, background 0.18s, transform 0.15s;
-  text-align: right;
+  text-align: start;
 }
 .ob-option-btn:hover {
   border-color: rgba(124,58,237,0.45);
@@ -624,7 +624,7 @@
 }
 .ob-option-icon { font-size: 18px; flex-shrink: 0; }
 .ob-option-label { white-space: nowrap; }
-.ob-option-desc { font-size: 11px; color: var(--ob-text3); margin-right: 4px; }
+.ob-option-desc { font-size: 11px; color: var(--ob-text3); margin-inline-start: 4px; }
 
 /* Style cards (bigger, with desc) */
 .ob-style-grid {
@@ -693,7 +693,7 @@
 .ob-multi-check {
   position: absolute;
   top: -6px;
-  right: -6px;
+  inset-inline-start: -6px;
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -758,7 +758,7 @@
   border-radius: 14px;
   overflow: hidden;
   margin-bottom: 24px;
-  text-align: right;
+  text-align: start;
   direction: rtl;
   box-shadow: 0 0 40px rgba(124,58,237,0.08);
 }
@@ -781,7 +781,7 @@
   color: rgba(255,255,255,0.3);
   font-family: 'SF Mono', 'Fira Code', monospace;
   letter-spacing: 0.3px;
-  margin-right: auto;
+  margin-inline-start: auto;
 }
 .ob-terminal-body {
   padding: 14px 16px;
@@ -812,7 +812,7 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--ob-purple2);
-  text-align: right;
+  text-align: start;
   direction: rtl;
 }
 .ob-tl.done .ob-tl-phase { color: #22c55e; }
@@ -825,7 +825,7 @@
   font-size: 12px;
   line-height: 1.4;
   direction: rtl;
-  text-align: right;
+  text-align: start;
 }
 .ob-tl.done .ob-tl-text { color: var(--ob-text2); }
 .ob-tl-wait { color: var(--ob-text3); }
@@ -891,13 +891,13 @@
 }
 .ob-cine-orb--1 {
   width: 640px; height: 520px;
-  top: -140px; right: -120px;
+  top: -140px; inset-inline-start: -120px;
   background: radial-gradient(ellipse, rgba(124,58,237,0.48) 0%, transparent 70%);
   animation: ob-cine-f1 9s ease-in-out infinite;
 }
 .ob-cine-orb--2 {
   width: 520px; height: 640px;
-  bottom: -130px; left: -100px;
+  bottom: -130px; inset-inline-end: -100px;
   background: radial-gradient(ellipse, rgba(99,102,241,0.4) 0%, transparent 70%);
   animation: ob-cine-f2 12s ease-in-out infinite;
 }
@@ -1084,7 +1084,7 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 .ob-cine-done-icon  { font-size: 14px; flex-shrink: 0; }
-.ob-cine-done-text  { flex: 1; text-align: right; }
+.ob-cine-done-text  { flex: 1; text-align: start; }
 .ob-cine-done-check { color: rgba(34,197,94,0.65); font-size: 11px; font-weight: 800; flex-shrink: 0; }
 
 /* ── Progress ── */
@@ -1112,7 +1112,7 @@
 .ob-cine-bar::after {
   content: '';
   position: absolute;
-  right: -1px; top: -2.5px;
+  inset-inline-start: -1px; top: -2.5px;
   width: 7px; height: 7px;
   background: #c4b5fd;
   border-radius: 50%;
@@ -1123,6 +1123,6 @@
   font-weight: 700;
   color: rgba(167,139,250,0.75);
   min-width: 34px;
-  text-align: left;
+  text-align: end;
   font-variant-numeric: tabular-nums;
 }
