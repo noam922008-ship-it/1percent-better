@@ -14,14 +14,14 @@ export const LEGAL_CONFIG = {
   minAge:        18,     // Gemini API terms (updated 2026-04-28): 18+, and not in apps likely used by under-18s
   deletionDays:  30,
   courtCity:     'ירושלים',
-  updated:       '11.10.2026',
+  updated:       '15.10.2026',
 }
 
 // English values that differ from the Hebrew ones; everything else comes from LEGAL_CONFIG.
 const LEGAL_CONFIG_EN = {
   operatorName: 'Noam Cohen',
   courtCity:    'Jerusalem',
-  updated:      'October 11, 2026',
+  updated:      'October 15, 2026',
 }
 
 // Analytics consent (FEATURES.consentBanner). Off = GA starts on landing and these aren't shown.
@@ -67,7 +67,7 @@ export const PRIVACY = {
           'חשבון: אימייל ושם. אם נכנסת עם Google — גם תמונת הפרופיל שלך מ-Google.',
           'מה שאתה כותב: "המשימות שלי", "הראש שלי" (היומן), הערות "מה למדתי", ההרגלים שלך, השעות שבחרת לתזכורות, ויעדים או חזון אם כתבת.',
           'התקדמות: XP, רצף, סימוני הרגלים, אימונים ושיעורים שהשלמת.',
-          'תמונות "הוכחת ביצוע" — רק אם בחרת להעלות.',
+          'תמונות "הוכחת ביצוע" שהעלית בעבר, אם העלית. היום אי אפשר יותר להעלות תמונות או סרטונים לאפליקציה.',
           'הגדרות: שפה, אזור זמן והעדפות.',
           'אם אישרת התראות: מזהה טכני של המכשיר לשליחת התראות.',
         ] },
@@ -93,13 +93,14 @@ export const PRIVACY = {
       paras: [
         'באימוני מצלמה, זיהוי התנועה וספירת החזרות קורים על המכשיר שלך. הווידאו לא נשלח ולא נשמר.',
         'רכיב זיהוי התנועה נטען מ-Google ומ-jsDelivr (שירותי קבצים), בלי לשלוח אליהם את התמונה.',
+        'האפליקציה עובדת רק עם מצלמה חיה. היא לא מבקשת להעלות תמונות או סרטוני אימון ולא שומרת אותם.',
       ],
     },
     {
       title: 'בינה מלאכותית (Google Gemini)',
       paras: [
         'כשפיצ׳ר השאלות ב"הראש שלי" יושק: רק אחרי שתאשר, הטקסט של הרשומה והתשובות שלך יישלחו ל-Google Gemini כדי לנסח שאלה. אפשר לכבות את זה בכל רגע ("שאלות AI: כבה"). בלי אישור — שום דבר לא נשלח.',
-        'גם ניתוח AI של תמונה או קליפ אימון, אם תבחר להשתמש בו, שולח את התמונה או הקליפ ל-Google Gemini. קליפ שהועלה לניתוח נמחק אחרי הניתוח.',
+        'ניתוח AI של תמונה או קליפ אימון כבוי. אם נפעיל אותו בעתיד, נעדכן את המדיניות הזאת לפני כן.',
         'אנחנו מפעילים את Gemini רק עם מפתח API בתשלום. לפי התנאים של Google לשירות בתשלום, Google לא משתמשת בתוכן שנשלח או בתשובות כדי לשפר או לאמן את המוצרים שלה. Google מעבדת את המידע לפי התנאים שלה.',
         'לפי תנאי Google, פיצ׳רים של AI מיועדים לגיל 18 ומעלה בלבד.',
       ],
@@ -248,7 +249,7 @@ export const PRIVACY_EN = {
           'Account: email and name. If you sign in with Google, also your Google profile picture.',
           'What you write: "My tasks", "On my mind" (the journal), "What I learned" notes, your habits, the reminder times you chose, and goals or a vision if you wrote them.',
           'Progress: XP, streak, habit check-ins, workouts and lessons you completed.',
-          '"Proof" photos, only if you chose to upload them.',
+          '"Proof" photos you uploaded in the past, if you did. Today you can no longer upload photos or videos to the app.',
           'Settings: language, time zone and preferences.',
           'If you allowed notifications: a technical ID of your device for sending notifications.',
         ] },
@@ -274,13 +275,14 @@ export const PRIVACY_EN = {
       paras: [
         "In camera workouts, motion detection and rep counting happen on your device. The video isn't sent and isn't saved.",
         'The motion-detection component is loaded from Google and jsDelivr (file services), without sending them the image.',
+        "The app works only with the live camera. It doesn't ask you to upload workout photos or videos and doesn't store them.",
       ],
     },
     {
       title: 'Artificial intelligence (Google Gemini)',
       paras: [
         'When the questions feature in "On my mind" launches: only after you approve, the text of the entry and your answers will be sent to Google Gemini to write a question. You can turn this off at any time ("AI questions: off"). Without approval, nothing is sent.',
-        'AI analysis of a workout photo or clip, if you choose to use it, also sends the photo or clip to Google Gemini. A clip uploaded for analysis is deleted after the analysis.',
+        'AI analysis of a workout photo or clip is off. If we turn it on in the future, we will update this policy before we do.',
         "We use Gemini only with a paid API key. Under Google's terms for the paid service, Google doesn't use the content sent or the responses to improve or train its products. Google processes the data under its own terms.",
         "Under Google's terms, AI features are for ages 18 and up only.",
       ],

@@ -403,20 +403,20 @@ function SetSummaryModal({ exercise, onDone, onClose, onAwardXP }) {
           </div>
         ) : (
           <>
-            {/* Hidden native file/camera input */}
-            <input
+            {/* Hidden native file/camera input — only for the AI form analysis (FEATURES.ai) */}
+            {FEATURES.ai && <input
               ref={fileInputRef}
               type="file"
               accept="video/*"
               capture="environment"
               onChange={handleVideoCapture}
               style={{ display: 'none' }}
-            />
+            />}
 
             {/* ── Form fields ── */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
               <label style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>{ss.repsLabel}</label>
-              {!videoBlobUrl && (
+              {FEATURES.ai && !videoBlobUrl && (
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   className="btn-tactile"

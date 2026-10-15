@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { saveProof } from '../services/proofService'
 import { logEnergy, ENERGY_TAGS } from '../services/energyLogService'
 import { useLang } from '../context/LangContext'
@@ -24,33 +24,18 @@ export default function ProofOfActionModal({
   onClose,
 }) {
   const { lang } = useLang()
+  // Text only: no photo upload (live camera only, no workout media is stored — see data/legal.js)
   const [note,      setNote]      = useState('')
-  const [photoFile, setPhotoFile] = useState(null)
-  const [preview,   setPreview]   = useState(null)
   const [uploading, setUploading] = useState(false)
-  const fileRef     = useRef()
   const placeholderItem = PLACEHOLDERS[Date.now() % PLACEHOLDERS.length]
   const placeholder = lang === 'en' ? placeholderItem.en : placeholderItem.he
-  const hasContent  = note.trim().length > 0 || !!photoFile
-
-  function pickPhoto(e) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setPhotoFile(file)
-    setPreview(URL.createObjectURL(file))
-  }
-
-  function clearPhoto() {
-    if (preview) URL.revokeObjectURL(preview)
-    setPhotoFile(null)
-    setPreview(null)
-  }
+  const hasContent  = note.trim().length > 0
 
   async function handleConfirm() {
     if (uploading) return
     setUploading(true)
     try {
-      await saveProof(uid, { taskId, taskTitle: title, type, text: note.trim(), imageFile: photoFile })
+      await saveProof(uid, { taskId, taskTitle: title, type, text: note.trim(), imageFile: null })
     } catch {}
     setUploading(false)
     onConfirm()
@@ -131,44 +116,6 @@ export default function ProofOfActionModal({
               marginBottom: '0.75rem', transition: 'border 0.15s',
             }}
           />
-
-          {/* Photo row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.15rem' }}>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              onChange={pickPhoto}
-              style={{ display: 'none' }}
-            />
-            {preview ? (
-              <div style={{ position: 'relative', flexShrink: 0 }}>
-                <img
-                  src={preview}
-                  alt="proof"
-                  style={{ width: 54, height: 54, borderRadius: 10, objectFit: 'cover', border: `1.5px solid ${accentColor}44`, display: 'block' }}
-                />
-                <button
-                  onClick={clearPhoto}
-                  style={{ position: 'absolute', top: -5, right: -5, width: 18, height: 18, borderRadius: '50%', background: '#ef4444', border: 'none', color: '#fff', fontSize: '0.55rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, lineHeight: 1 }}
-                >✕</button>
-              </div>
-            ) : (
-              <button
-                onClick={() => fileRef.current.click()}
-                className="btn-tactile"
-                style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.55rem 0.85rem', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(241,245,249,0.45)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
-              >
-                📸 <span>{lang === 'en' ? 'Add photo' : 'צרף תמונה'}</span>
-              </button>
-            )}
-            <span style={{ color: preview ? '#10b981' : 'rgba(241,245,249,0.22)', fontSize: '0.7rem', lineHeight: 1.4 }}>
-              {preview
-                ? (lang === 'en' ? 'Photo added ✓' : 'תמונה נוספה ✓')
-                : (lang === 'en' ? 'Optional — every proof counts' : 'אופציונלי — כל ראיה שווה ערך')}
-            </span>
-          </div>
 
           {/* CTAs */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
