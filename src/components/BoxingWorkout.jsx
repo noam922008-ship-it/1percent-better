@@ -444,7 +444,7 @@ export default function BoxingWorkout({ track, goal, onComplete, onClose }) {
   if (phase === 'loading') return (
     <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
       <div className="anim-spin" style={{ width: 36, height: 36, border: '3px solid rgba(245,197,24,0.2)', borderTopColor: '#F5C518', borderRadius: '50%', margin: '0 auto 1rem' }} />
-      <p style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.85rem' }}>טוען מצלמה ו-AI מאמן…</p>
+      <p style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.85rem' }}>טוען מצלמה…</p>
     </div>
   )
 

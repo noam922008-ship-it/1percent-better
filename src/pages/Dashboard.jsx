@@ -229,7 +229,7 @@ const WORKOUT_EXERCISES = [
   { id: 'run',      emoji: '🏃', nameEn: 'Running', descEn: 'Timer + GPS distance in real time', name: 'ריצה',           desc: 'טיימר + GPS מרחק בזמן אמת', trackId: 'cardio-run',       available: true  },
   { id: 'walk',     emoji: '🚶', nameEn: 'Walking', descEn: 'Pace + distance with GPS', name: 'הליכה',          desc: 'קצב + מרחק עם GPS',          trackId: 'cardio-walk',      available: true  },
   { id: 'boxing',   emoji: '🥊', nameEn: 'Boxing', descEn: 'Guided path · 7 levels', name: 'איגרוף',           desc: 'מסלול מודרך · 7 רמות',     trackId: 'boxing-muaythai',  available: true },
-  { id: 'muaythai', emoji: '🥋', nameEn: 'Muay Thai', descEn: 'AI technique coach in real time', name: 'מואי תאי',       desc: 'AI מאמן טכניקה בזמן אמת',  trackId: 'boxing-muaythai',  available: true },
+  { id: 'muaythai', emoji: '🥋', nameEn: 'Muay Thai', descEn: 'Rounds and combinations', name: 'מואי תאי',       desc: 'סיבובים וקומבינציות',  trackId: 'boxing-muaythai',  available: true },
 ]
 
 function WorkoutLibraryModal({ onSelect, onClose }) {

@@ -255,6 +255,19 @@ const he = {
       focus:       { name: 'סשן ריכוז',          desc: 'שלושים דקות בלי טלפון. הטיימר מתחיל כשאתה לוחץ התחל.' },
     },
   },
+  // Add-to-home-screen banner (components/AddToHomeScreen.jsx)
+  install: {
+    title:      'הוסף את PRIME למסך הבית',
+    iosTap:     'לחץ על',
+    share:      'שתף',
+    iosThen:    'ואז',
+    addToHome:  '«הוסף למסך הבית»',
+    iosWhy:     'כדי לפתוח אותה כמו אפליקציה ולקבל התראות.',
+    androidWhy: 'גישה מהירה ישירות מהמסך הראשי, בלי דפדפן.',
+    installNow: 'התקן עכשיו',
+    later:      'אחר כך',
+    gotIt:      'הבנתי',
+  },
   lesson: {
     // LESSON_TOPICS labels (data/dailyLessons.js), by topic id
     topics: { money: 'כסף ופיננסים', brain: 'מוח והרגלים', communication: 'תקשורת', creativity: 'יצירתיות', technology: 'טכנולוגיה ו-AI' },
@@ -363,7 +376,7 @@ const he = {
       'strength-squats':  { name: 'סקוואטים',          description: 'כוח פלג גוף תחתון',    unit: 'חזרות' },
       'strength-pullups': { name: 'מתח',               description: 'כוח גב ופלג גוף עליון', unit: 'חזרות' },
       'strength-dips':    { name: 'מקבילים',           description: 'כוח חזה וטריצפס',      unit: 'חזרות' },
-      'boxing-muaythai':  { name: 'בוקסינג / מואי תאי', description: 'AI מאמן טכניקה בזמן אמת — ניתוח מכות, גארד ושגיאות', unit: 'מכות' },
+      'boxing-muaythai':  { name: 'בוקסינג / מואי תאי', description: 'סיבובים, קומבינציות וטכניקה', unit: 'מכות' },
     },
     goalUnit: 'יעד: {n} {unit}',
     cardio: {

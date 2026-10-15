@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import LegalContent from '../components/LegalContent'
 import SocialLinks from '../components/SocialLinks'
+import AddToHomeScreen from '../components/AddToHomeScreen'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -258,6 +259,7 @@ export default function WelcomeScreen() {
         <div style={{ marginTop: '1rem' }}><SocialLinks /></div>
       </div>
       {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}
+      <AddToHomeScreen bottom={16} />
     </div>
   )
 }

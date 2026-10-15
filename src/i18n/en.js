@@ -253,6 +253,19 @@ const en = {
       focus:       { name: 'Focus session',              desc: 'Thirty minutes with no phone. The timer starts when you press Start.' },
     },
   },
+  // Add-to-home-screen banner (components/AddToHomeScreen.jsx)
+  install: {
+    title:      'Add PRIME to your Home Screen',
+    iosTap:     'Tap',
+    share:      'Share',
+    iosThen:    'then',
+    addToHome:  '"Add to Home Screen"',
+    iosWhy:     'to open it like an app and get notifications.',
+    androidWhy: 'Quick access from your home screen, no browser.',
+    installNow: 'Install now',
+    later:      'Later',
+    gotIt:      'Got it',
+  },
   lesson: {
     // LESSON_TOPICS labels (data/dailyLessons.js), by topic id
     topics: { money: 'Money & finance', brain: 'Brain & habits', communication: 'Communication', creativity: 'Creativity', technology: 'Tech & AI' },
@@ -359,7 +372,7 @@ const en = {
       'strength-squats':  { name: 'Squats',             description: 'Lower-body strength',       unit: 'reps' },
       'strength-pullups': { name: 'Pull-ups',           description: 'Back and upper-body strength', unit: 'reps' },
       'strength-dips':    { name: 'Dips',               description: 'Chest and triceps strength', unit: 'reps' },
-      'boxing-muaythai':  { name: 'Boxing / Muay Thai', description: 'Live AI technique coach — punches, guard and mistakes', unit: 'strikes' },
+      'boxing-muaythai':  { name: 'Boxing / Muay Thai', description: 'Rounds, combinations and technique', unit: 'strikes' },
     },
     goalUnit: 'Goal: {n} {unit}',
     cardio: {

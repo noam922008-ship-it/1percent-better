@@ -81,7 +81,7 @@ export const TRAINING_TRACKS = [
     name:         'בוקסינג / מואי תאי',
     emoji:        '🥊',
     category:     'strength',
-    description:  'AI מאמן טכניקה בזמן אמת — ניתוח מכות, גארד ושגיאות',
+    description:  'סיבובים, קומבינציות וטכניקה',
     startGoal:    30,
     increment:    10,
     unit:         'מכות',
