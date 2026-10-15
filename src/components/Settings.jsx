@@ -12,6 +12,7 @@ import { MAX_NICKNAME_LEN } from '../utils/publicName'
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
 import { getConsent, setConsent } from '../services/analytics'
+import { registerFcmToken } from '../services/fcmService'
 
 function Row({ label, desc, children }) {
   return (
@@ -127,7 +128,8 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
     if (!('Notification' in window)) return
     const perm = await Notification.requestPermission()
     setNotifPerm(perm)
-  }, [])
+    if (perm === 'granted' && user?.uid && !isGuest) registerFcmToken(user.uid)
+  }, [user, isGuest])
 
   const handleTestNotif = useCallback(() => {
     if (!('Notification' in window) || Notification.permission !== 'granted') return

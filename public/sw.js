@@ -1,4 +1,4 @@
-const CACHE = 'prime-v23'
+const CACHE = 'prime-v24'
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -22,6 +22,9 @@ self.addEventListener('activate', e => {
 self.addEventListener('push', e => {
   let payload = {}
   try { payload = e.data ? e.data.json() : {} } catch { payload = {} }
+  // Firebase Console / FCM "notification" messages nest title+body; Cloud Function sends flat data
+  if (payload.notification) payload = { ...(payload.data || {}), ...payload.notification }
+  else if (payload.data && !payload.title) payload = { ...payload.data }
 
   const title = payload.title || 'PRIME'
   e.waitUntil(

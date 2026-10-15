@@ -6,6 +6,7 @@ import { subscribeProfile, saveProfile, syncLeaderboard, syncCompletionStatus, s
 import { checkContractStatus, getRank, getScore } from '../services/disciplineScore'
 import { checkNotifications, checkNudges, saveNudgeResponse, snoozeNudge, markNudgeDone, __devQueueTestNudge } from '../services/notificationService'
 import { analyzeVideoForm } from '../services/coachService'
+import { registerFcmToken } from '../services/fcmService'
 import { CHALLENGES, getDayTask, getModuleIndex } from '../data/challenges'
 import { getDayContent } from '../data/lessonContent'
 import { MANTRAS } from '../data/mantras'
@@ -863,6 +864,17 @@ export default function Dashboard() {
       () => { setLoading(false) }  // network error: stop spinner, keep last profile
     )
     return unsub
+  }, [user, isGuest])
+
+  // Push: keep this device's FCM token in Firestore (refreshes after reinstall / token rotation)
+  useEffect(() => {
+    if (!user || isGuest) return
+    if (!('Notification' in window) || Notification.permission !== 'granted') return
+    registerFcmToken(user.uid)
+    if (!('serviceWorker' in navigator)) return
+    const onSwMessage = e => { if (e.data?.type === 'FCM_TOKEN_REFRESH') registerFcmToken(user.uid) }
+    navigator.serviceWorker.addEventListener('message', onSwMessage)
+    return () => navigator.serviceWorker.removeEventListener('message', onSwMessage)
   }, [user, isGuest])
 
   // users/{uid}.lang + tz — read by the Cloud Functions (push language, later local send time)
