@@ -12,7 +12,9 @@ const { GoogleAIFileManager }     = require('@google/generative-ai/server');
 const { getStorage }              = require('firebase-admin/storage');
 const {
   ACCOUNTABILITY_COPY, TEST_COPY, BROADCAST_COPY,
-  copyFor, todayIsraelDateKey, pickCopy, isCompletedToday,
+  MORNING_COPY, MIDDAY_COPY, WEEKLY_COPY,
+  copyFor, todayIsraelDateKey, pickCopy, pickFrom, collectTokens,
+  hasAccountabilityReminder, isCompletedToday,
 } = require('./notifyCopy');
 
 const geminiApiKey = defineSecret('GEMINI_API_KEY');
@@ -416,6 +418,9 @@ exports.dailyHabitNudge = onSchedule(
 
       if (isCompletedToday(d, today)) continue;
 
+      // PRO users with a blocked app already got the 18:00 accountabilityReminder
+      if (hasAccountabilityReminder(d)) continue;
+
       const copy = pickCopy(d.lang || 'he');
 
       for (const token of tokenSet) {
@@ -766,4 +771,135 @@ exports.sendTestNotification = onCall(
     console.log(`[sendTestNotification] uid=${uid} sent=${sent} failed=${failed}`);
     return { sent, failed, total: tokenSet.size };
   }
+);
+
+// ── Daily schedule: morning / midday / weekly ─────────────────────────────────
+// One shared sender for the three scheduled pushes below. Every message carries a
+// distinct `tag`, so a later push never replaces an earlier one on the device.
+// Times are Israel local time (IDT/IST handled by Cloud Scheduler). Fri/Sat are included.
+
+const PUSH_APP_URL = 'https://prime-app-84fe0.web.app/';
+
+async function pushCopyToUsers({ label, tag, shouldSend, buildCopy }) {
+  const db        = getFirestore();
+  const messaging = getMessaging();
+  const today     = todayIsraelDateKey();
+
+  console.log(`[${label}] running for date=${today}`);
+
+  const usersSnap = await db.collection('users').get();
+  if (usersSnap.empty) {
+    console.log(`[${label}] no users found`);
+    return;
+  }
+
+  const messages   = [];
+  const tokenToUid = new Map();
+
+  for (const doc of usersSnap.docs) {
+    const d      = doc.data();
+    const tokens = collectTokens(d);
+    if (!tokens.size) continue;
+    if (shouldSend && !shouldSend(d, today)) continue;
+
+    const copy = buildCopy(d.lang);
+
+    for (const token of tokens) {
+      tokenToUid.set(token, doc.id);
+      messages.push({
+        token,
+        webpush: {
+          headers: { Urgency: 'high' },
+          data: {
+            title: copy.title,
+            body:  copy.body,
+            url:   PUSH_APP_URL,
+            icon:  '/icon-192.png',
+            badge: '/icon-192.png',
+            tag,
+          },
+        },
+      });
+    }
+  }
+
+  if (!messages.length) {
+    console.log(`[${label}] ${today}: no eligible tokens — nothing sent`);
+    return;
+  }
+
+  let sent = 0, failed = 0;
+  const staleTokens = new Set();
+
+  for (let i = 0; i < messages.length; i += 500) {
+    const chunk  = messages.slice(i, i + 500);
+    const result = await messaging.sendEach(chunk);
+    result.responses.forEach((r, idx) => {
+      if (r.success) {
+        sent++;
+      } else {
+        failed++;
+        const code = r.error?.code || '';
+        if (
+          code === 'messaging/registration-token-not-registered' ||
+          code === 'messaging/invalid-registration-token'
+        ) {
+          staleTokens.add(chunk[idx].token);
+        }
+        console.warn(`[${label}] token error uid=${tokenToUid.get(chunk[idx].token)} code=${code}`);
+      }
+    });
+  }
+
+  await purgeStaleTokens(db, staleTokens, tokenToUid);
+  console.log(`[${label}] ${today}: sent=${sent} failed=${failed} stale_cleaned=${staleTokens.size} total_eligible=${messages.length}`);
+}
+
+// 08:00 every day — everyone with a token.
+exports.morningKickoff = onSchedule(
+  {
+    schedule:       '0 8 * * *',
+    timeZone:       'Asia/Jerusalem',
+    region:         'europe-west1',
+    memory:         '256MiB',
+    timeoutSeconds: 300,
+  },
+  () => pushCopyToUsers({
+    label:     'morningKickoff',
+    tag:       'morning-kickoff',
+    buildCopy: lang => pickFrom(MORNING_COPY, lang),
+  })
+);
+
+// 15:30 every day — only users who have not completed today.
+exports.middayNudge = onSchedule(
+  {
+    schedule:       '30 15 * * *',
+    timeZone:       'Asia/Jerusalem',
+    region:         'europe-west1',
+    memory:         '256MiB',
+    timeoutSeconds: 300,
+  },
+  () => pushCopyToUsers({
+    label:      'middayNudge',
+    tag:        'midday-nudge',
+    shouldSend: (d, today) => !isCompletedToday(d, today),
+    buildCopy:  lang => pickFrom(MIDDAY_COPY, lang),
+  })
+);
+
+// Sunday 10:00 — everyone with a token: write this week's goals.
+exports.weeklyGoals = onSchedule(
+  {
+    schedule:       '0 10 * * 0',
+    timeZone:       'Asia/Jerusalem',
+    region:         'europe-west1',
+    memory:         '256MiB',
+    timeoutSeconds: 300,
+  },
+  () => pushCopyToUsers({
+    label:     'weeklyGoals',
+    tag:       'weekly-goals',
+    buildCopy: lang => copyFor(WEEKLY_COPY, lang),
+  })
 );
