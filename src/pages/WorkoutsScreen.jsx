@@ -10,7 +10,7 @@ const WORKOUT_CATEGORIES = [
       { id: 'pushups',  trackId: 'strength-pushups' },
       { id: 'pullups',  trackId: 'strength-pullups' },
       { id: 'squats',   trackId: 'strength-squats'  },
-      { id: 'dips',     trackId: null               },
+      { id: 'dips',     trackId: 'strength-dips'    },
     ],
   },
   {
