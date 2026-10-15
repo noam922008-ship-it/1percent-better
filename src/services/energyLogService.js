@@ -1,9 +1,9 @@
 const KEY = 'prime_energy_log'
 
 export const ENERGY_TAGS = [
-  { id: 'electric', label: '⚡ אלקטרי', color: '#fbbf24' },
-  { id: 'focused',  label: '🎯 ממוקד',  color: '#818cf8' },
-  { id: 'drained',  label: '😮‍💨 מרוקן',  color: '#94a3b8' },
+  { id: 'electric', label: '⚡ אלקטרי', labelEn: '⚡ Electric', color: '#fbbf24' },
+  { id: 'focused',  label: '🎯 ממוקד',  labelEn: '🎯 Focused', color: '#818cf8' },
+  { id: 'drained',  label: '😮‍💨 מרוקן',  labelEn: '😮‍💨 Drained', color: '#94a3b8' },
 ]
 
 export function logEnergy(tag) {

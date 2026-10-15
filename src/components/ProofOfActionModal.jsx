@@ -1,14 +1,15 @@
 import { useState, useRef } from 'react'
 import { saveProof } from '../services/proofService'
 import { logEnergy, ENERGY_TAGS } from '../services/energyLogService'
+import { useLang } from '../context/LangContext'
 
 const PLACEHOLDERS = [
-  'נקרעתי אבל סגרתי פינה 🔥',
-  'לא רצה — עשיתי בכל מקרה.',
-  'בדיוק עכשיו. עשיתי.',
-  'יצא טוב מהמצופה.',
-  'קצר, ממוקד, סגור.',
-  'עייף אבל לא עצר.',
+  { he: 'נקרעתי אבל סגרתי פינה 🔥', en: 'Torn, but I closed the corner 🔥' },
+  { he: 'לא רצה — עשיתי בכל מקרה.', en: 'Didn’t want to — did it anyway.' },
+  { he: 'בדיוק עכשיו. עשיתי.', en: 'Right now. Done.' },
+  { he: 'יצא טוב מהמצופה.', en: 'Went better than expected.' },
+  { he: 'קצר, ממוקד, סגור.', en: 'Short, focused, closed.' },
+  { he: 'עייף אבל לא עצר.', en: 'Tired, but didn’t stop.' },
 ]
 
 export default function ProofOfActionModal({
@@ -22,12 +23,14 @@ export default function ProofOfActionModal({
   onConfirm,
   onClose,
 }) {
+  const { lang } = useLang()
   const [note,      setNote]      = useState('')
   const [photoFile, setPhotoFile] = useState(null)
   const [preview,   setPreview]   = useState(null)
   const [uploading, setUploading] = useState(false)
   const fileRef     = useRef()
-  const placeholder = PLACEHOLDERS[Date.now() % PLACEHOLDERS.length]
+  const placeholderItem = PLACEHOLDERS[Date.now() % PLACEHOLDERS.length]
+  const placeholder = lang === 'en' ? placeholderItem.en : placeholderItem.he
   const hasContent  = note.trim().length > 0 || !!photoFile
 
   function pickPhoto(e) {
@@ -90,7 +93,7 @@ export default function ProofOfActionModal({
             <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{emoji}</span>
             <div style={{ minWidth: 0 }}>
               <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.92rem', lineHeight: 1.2, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{title}</div>
-              <div style={{ color: accentColor, fontSize: '0.54rem', fontWeight: 800, letterSpacing: '0.11em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '0.1rem', opacity: 0.8 }}>הוכחת עשייה</div>
+              <div style={{ color: accentColor, fontSize: '0.54rem', fontWeight: 800, letterSpacing: '0.11em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '0.1rem', opacity: 0.8 }}>{lang === 'en' ? 'Proof of action' : 'הוכחת עשייה'}</div>
             </div>
           </div>
           <button
@@ -157,11 +160,13 @@ export default function ProofOfActionModal({
                 className="btn-tactile"
                 style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.55rem 0.85rem', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(241,245,249,0.45)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
               >
-                📸 <span>צרף תמונה</span>
+                📸 <span>{lang === 'en' ? 'Add photo' : 'צרף תמונה'}</span>
               </button>
             )}
             <span style={{ color: preview ? '#10b981' : 'rgba(241,245,249,0.22)', fontSize: '0.7rem', lineHeight: 1.4 }}>
-              {preview ? 'תמונה נוספה ✓' : 'אופציונלי — כל ראיה שוות ערך'}
+              {preview
+                ? (lang === 'en' ? 'Photo added ✓' : 'תמונה נוספה ✓')
+                : (lang === 'en' ? 'Optional — every proof counts' : 'אופציונלי — כל ראיה שווה ערך')}
             </span>
           </div>
 
@@ -183,10 +188,10 @@ export default function ProofOfActionModal({
               }}
             >
               {uploading
-                ? <><span className="anim-spin" style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.25)', borderTopColor: '#fff', borderRadius: '50%' }} /><span>שומר...</span></>
+                ? <><span className="anim-spin" style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.25)', borderTopColor: '#fff', borderRadius: '50%' }} /><span>{lang === 'en' ? 'Saving...' : 'שומר...'}</span></>
                 : hasContent
-                  ? '🔥 שמור הוכחה ✓'
-                  : '✅ בוצע'
+                  ? (lang === 'en' ? '🔥 Save proof ✓' : '🔥 שמור הוכחה ✓')
+                  : (lang === 'en' ? '✅ Done' : '✅ בוצע')
               }
             </button>
 
@@ -200,7 +205,7 @@ export default function ProofOfActionModal({
                     className="btn-tactile"
                     style={{ padding: '0.4rem 0.75rem', borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: 'rgba(232,232,232,0.5)', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer', whiteSpace: 'nowrap' }}
                   >
-                    {tag.label}
+                    {lang === 'en' ? tag.labelEn : tag.label}
                   </button>
                 ))}
               </div>
