@@ -78,6 +78,8 @@ import DailyLessonCard from '../components/DailyLessonCard'
 import MyTasks from '../components/MyTasks'
 import JournalCard from '../components/JournalCard'
 import Journal from '../components/Journal'
+import HasTimeScreen from '../components/HasTimeScreen'
+import { claim as claimHasTime, showHasTimeButton } from '../utils/hasTime'
 import LessonNotesPage from '../components/LessonNotesPage'
 
 // ── Constants ──────────────────────────────────────────────────────
@@ -765,6 +767,7 @@ export default function Dashboard() {
   const [mtCompletion,        setMtCompletion]        = useState(null)
   const [mtDrillActive,       setMtDrillActive]       = useState(null)  // quick-start drill for MT
   const [journalOpen,         setJournalOpen]         = useState(false)
+  const [hasTimeOpen,         setHasTimeOpen]         = useState(false)
   const [welcomeDone,         setWelcomeDone]         = useState(false)
   const [lessonNotesOpen,     setLessonNotesOpen]     = useState(false)
   const [_showDetails,      setShowDetails]       = useState(false)
@@ -1500,6 +1503,23 @@ export default function Dashboard() {
             <div style={{ marginBottom: '0.875rem' }}>
               <JournalCard onOpen={() => setJournalOpen(true)} />
             </div>
+            {/* "I have time" — shows once today's main work (track task / habits) is done */}
+            {showHasTimeButton(primaryType) && (
+              <div style={{ marginBottom: '0.875rem' }}>
+                <button
+                  className="btn-tactile"
+                  onClick={() => setHasTimeOpen(true)}
+                  style={{
+                    width: '100%', boxSizing: 'border-box', minHeight: 52, display: 'flex', alignItems: 'center', gap: '0.65rem',
+                    background: 'rgba(217,179,76,0.1)', border: '1px solid rgba(217,179,76,0.45)', borderRadius: 14,
+                    padding: '0.8rem 1rem', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'start',
+                  }}
+                >
+                  <span style={{ fontSize: '1.1rem' }} aria-hidden="true">⏱️</span>
+                  <span style={{ flex: 1, color: '#D9B34C', fontSize: '0.92rem', fontWeight: 800 }}>{tAll.hasTime.button}</span>
+                </button>
+              </div>
+            )}
             <div ref={pathCardRef} style={{ scrollMarginTop: '4rem' }} />
             <div className="prime-home-grid">
 
@@ -1886,7 +1906,9 @@ export default function Dashboard() {
 
                 {/* Daily Learning Card */}
                 {FEATURES.dailyLesson && !isGuest && (
-                  <DailyLessonCard prefTopics={profile?.learnTopics || []} uid={user?.uid} onOpenNotes={() => setLessonNotesOpen(true)} />
+                  <div id="has-time-lesson">
+                    <DailyLessonCard prefTopics={profile?.learnTopics || []} uid={user?.uid} onOpenNotes={() => setLessonNotesOpen(true)} />
+                  </div>
                 )}
 
                 {/* Today XP Summary */}
@@ -2344,6 +2366,27 @@ export default function Dashboard() {
       )}
       {lessonNotesOpen && (
         <FullScreen><LessonNotesPage uid={isGuest ? null : user?.uid} onClose={() => setLessonNotesOpen(false)} /></FullScreen>
+      )}
+      {hasTimeOpen && (
+        <FullScreen><HasTimeScreen
+          uid={isGuest ? null : user?.uid}
+          dayKey={todayKey()}
+          onClose={() => setHasTimeOpen(false)}
+          onClaim={option => {
+            if (isGuest) { setXPToast('signin'); return }
+            const { amount } = claimHasTime(todayKey(), option)
+            if (amount > 0) awardXP(amount)
+          }}
+          onAction={action => {
+            if (action === 'journal') { setJournalOpen(true); return }
+            setHasTimeOpen(false)
+            if (action === 'workout') { setActiveTab('workouts'); return }
+            if (action === 'lesson') {
+              setActiveTab('home')
+              setTimeout(() => document.getElementById('has-time-lesson')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150)
+            }
+          }}
+        /></FullScreen>
       )}
       {journalOpen && (
         <FullScreen><Journal uid={isGuest ? null : user?.uid} onClose={() => setJournalOpen(false)} /></FullScreen>
