@@ -272,6 +272,20 @@ const he = {
     goals:     'כתוב מטרות לשבוע הזה',
     closeAria: 'סגור את הסיכום השבועי',
   },
+  // Story share card (utils/shareCard.js, components/ShareStreakButton.jsx)
+  share: {
+    streakButton: 'שתף את הרצף שלך',
+    weekButton:   'שתף את השבוע',
+    text:         'עומד במילה שלי עם PRIME 🔥',
+    downloaded:   'התמונה ירדה למכשיר. אפשר להעלות אותה לסטורי',
+    failed:       'לא הצלחנו לשתף. נסה שוב',
+    card: {
+      streakOne:  'יום ברצף',
+      streakMany: 'ימים ברצף',
+      week:       '{n} מתוך 7 ימים השבוע',
+      tagline:    '1% יותר טוב כל יום',
+    },
+  },
   // Add-to-home-screen banner (components/AddToHomeScreen.jsx)
   install: {
     button:     'התקן את PRIME כאפליקציה',

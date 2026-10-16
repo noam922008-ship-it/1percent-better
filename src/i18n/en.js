@@ -270,6 +270,20 @@ const en = {
     goals:     "Write this week's goals",
     closeAria: 'Close the weekly summary',
   },
+  // Story share card (utils/shareCard.js, components/ShareStreakButton.jsx)
+  share: {
+    streakButton: 'Share your streak',
+    weekButton:   'Share your week',
+    text:         'Keeping my word with PRIME 🔥',
+    downloaded:   'The image was saved to your device. You can post it to your story',
+    failed:       "Couldn't share. Try again",
+    card: {
+      streakOne:  'day streak',
+      streakMany: 'day streak',
+      week:       '{n} of 7 days this week',
+      tagline:    '1% better every day',
+    },
+  },
   // Add-to-home-screen banner (components/AddToHomeScreen.jsx)
   install: {
     button:     'Install PRIME as an app',

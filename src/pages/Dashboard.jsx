@@ -80,7 +80,8 @@ import JournalCard from '../components/JournalCard'
 import Journal from '../components/Journal'
 import HasTimeScreen from '../components/HasTimeScreen'
 import WeeklySummaryCard from '../components/WeeklySummaryCard'
-import { weeklySummary, readWorkoutDays, isSummaryDay, wasDismissed as weeklyDismissed, dismiss as dismissWeekly } from '../utils/weeklySummary'
+import ShareStreakButton from '../components/ShareStreakButton'
+import { weekStartOf, weeklySummary, readWorkoutDays, isSummaryDay, wasDismissed as weeklyDismissed, dismiss as dismissWeekly } from '../utils/weeklySummary'
 import { claim as claimHasTime, showHasTimeButton } from '../utils/hasTime'
 import { combatAvailable, COMBAT_IDS } from '../utils/combatLang'
 import LessonNotesPage from '../components/LessonNotesPage'
@@ -1320,6 +1321,11 @@ export default function Dashboard() {
   }, [profile?.activityLog])
 
   const activitySet     = new Set(profile?.activityLog || [])
+  // This week so far (Sunday → today), for the share card
+  const thisWeekDays = useMemo(() => {
+    const start = Date.parse(`${weekStartOf(todayKey())}T00:00:00Z`)
+    return Array.from({ length: 7 }, (_, i) => activitySet.has(new Date(start + i * 86400000).toISOString().slice(0, 10)))
+  }, [profile?.activityLog]) // eslint-disable-line react-hooks/exhaustive-deps
   // Weekly summary (Sunday + Monday, last week) — signed-in users who have been active before
   const weekSummary = useMemo(() => {
     const today = todayKey()
@@ -1538,6 +1544,12 @@ export default function Dashboard() {
                   <span style={{ fontSize: '1.1rem' }} aria-hidden="true">⏱️</span>
                   <span style={{ flex: 1, color: '#D9B34C', fontSize: '0.92rem', fontWeight: 800 }}>{tAll.hasTime.button}</span>
                 </button>
+              </div>
+            )}
+            {/* Share the streak — only on a finished day with a streak worth showing */}
+            {!isGuest && primaryType === 'all-done' && streak >= 2 && (
+              <div style={{ marginBottom: '0.875rem' }}>
+                <ShareStreakButton streak={streak} activeDays={thisWeekDays.filter(Boolean).length} days={thisWeekDays} />
               </div>
             )}
             <div ref={pathCardRef} style={{ scrollMarginTop: '4rem' }} />

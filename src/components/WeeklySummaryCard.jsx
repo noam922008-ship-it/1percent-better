@@ -1,6 +1,7 @@
 import { X } from 'lucide-react'
 import { useLang } from '../context/LangContext'
 import { fmt, localeFor } from '../i18n/fmt'
+import ShareStreakButton from './ShareStreakButton'
 
 // "השבוע שלך" — last week at a glance (Sunday → Saturday), on Home on Sunday and Monday.
 // summary comes from utils/weeklySummary.js. onGoals opens the journal to write the week's goals
@@ -73,6 +74,9 @@ export default function WeeklySummaryCard({ summary, onGoals, onClose }) {
         className="btn-tactile"
         style={{ width: '100%', minHeight: 44, marginTop: '0.8rem', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit', background: 'rgba(217,179,76,0.1)', border: '1px solid rgba(217,179,76,0.45)', color: C.accent, fontSize: '0.85rem', fontWeight: 800 }}
       >{tw.goals}</button>
+      <div style={{ marginTop: '0.5rem' }}>
+        <ShareStreakButton variant="solid" streak={s.streak} activeDays={s.activeDays} days={s.days.map(d => d.active)} />
+      </div>
     </section>
   )
 }
