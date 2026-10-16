@@ -396,7 +396,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
       </div>
       </>)}
 
-      {/* Privacy — analytics consent, the same choice as the Home banner (FEATURES.consentBanner) */}
+      {/* Privacy — analytics consent, the same choice as the first-visit bar (FEATURES.consentBanner) */}
       {FEATURES.consentBanner && (
         <>
           <SectionHeader title={ts.privacy} />

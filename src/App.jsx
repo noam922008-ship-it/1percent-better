@@ -9,6 +9,7 @@ import OnboardingFlow from './pages/OnboardingFlow'
 import Dashboard from './pages/Dashboard'
 import Legal from './pages/Legal'
 import LegalDoc from './pages/LegalDoc'
+import ConsentBanner from './components/ConsentBanner'
 
 // Redirect to /welcome but keep the query string, so ?utm_source=… from a shared link stays
 // visible and readable after landing (e.g. prime-daily-app.web.app/?utm_source=tiktok).
@@ -34,6 +35,7 @@ export default function App() {
             <Route path="/terms"     element={<LegalDoc type="terms" />} />
             <Route path="*"          element={<ToWelcome />} />
           </Routes>
+          <ConsentBanner />
         </LoadingWrapper>
       </BrowserRouter>
     </UserProvider>

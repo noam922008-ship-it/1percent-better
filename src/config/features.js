@@ -14,6 +14,6 @@ export const FEATURES = {
   setupExtras:     false, // setup steps: energy level, time per day, "5 years" vision question
   legacyIntro:     false, // old first-run screens (PrimeOnboarding 1.01³⁶⁵ slides + InitiationFlow) — replaced by FirstWelcome
   english:         false, // English UI: language detection, Settings picker, welcome EN toggle, ltr. Off = always Hebrew + rtl (dev builds still get it, see i18n/detectLang.js)
-  consentBanner:   false, // GA only after the user turns it on (switch in Settings → Privacy, off by default). Off = GA starts on landing as before. Turn on together with `english` (docs/ENGLISH_PLAN.md)
+  consentBanner:   true,  // GA only after the user accepts: cookie-style bar on the first visit (components/ConsentBanner.jsx) + switch in Settings → Privacy. Off = GA starts on landing as before. Must be on whenever `english` is (docs/ENGLISH_PLAN.md)
   ai:              false, // every Gemini call (coach, path, spark, boxing photo/video analysis): off for launch — the client never calls the function, services fall back to static text, AI-only screens are hidden
 }

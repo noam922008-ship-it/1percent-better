@@ -715,10 +715,11 @@ const en = {
     finishGoogle:  'Sign in with Google and delete',
     cancel:        'Cancel',
   },
-  // Analytics consent banner (Home, FEATURES.consentBanner). Accepting covers this visit too — see services/analytics.js
+  // Analytics consent bar (components/ConsentBanner.jsx, FEATURES.consentBanner) — counts only from the click, see services/analytics.js
   consent: {
     aria:    'Analytics consent',
-    text:    "We'd like to use Google Analytics to understand, at a general level, how the app is used. Nothing you write, no name, no email. Accepting also covers this visit, from the moment you opened the app. You can change this anytime in Settings.",
+    title:   'Help us make PRIME better 🙏',
+    text:    "We'd like to use Google Analytics to see which screens really help people keep their word, and where they get stuck. That's how we know what to fix and what to build next. General data only: nothing you write, no name, no email. Google Analytics stores cookies and starts only after you accept. You can change this anytime in Settings.",
     accept:  'Accept',
     decline: 'No thanks',
     privacy: 'Privacy policy',

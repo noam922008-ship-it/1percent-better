@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../context/LangContext'
+import { needsConsentChoice } from '../services/analytics'
+import { CONSENT_CHOICE_EVENT } from './ConsentBanner'
 
 // "Add to Home Screen" banner. Shown on the welcome page and in the app, on phones, until the user
 // installs or dismisses it (it comes back after DISMISS_DAYS). Hidden once the app runs installed.
@@ -41,8 +43,18 @@ export default function AddToHomeScreen({ bottom = 80 }) {
   const ti = t.install
   const [show, setShow] = useState(false)
   const [ios,  setIOS]  = useState(false)
+  // The analytics consent bar comes first; this banner waits until it's answered
+  const [consentPending, setConsentPending] = useState(needsConsentChoice)
 
   useEffect(() => {
+    if (!consentPending) return undefined
+    const done = () => setConsentPending(false)
+    window.addEventListener(CONSENT_CHOICE_EVENT, done)
+    return () => window.removeEventListener(CONSENT_CHOICE_EVENT, done)
+  }, [consentPending])
+
+  useEffect(() => {
+    if (consentPending) return undefined
     if (isStandalone()) return undefined
     if (wasDismissedRecently()) return undefined
     const ua = navigator.userAgent
@@ -56,7 +68,7 @@ export default function AddToHomeScreen({ bottom = 80 }) {
     listeners.add(sync)
     sync()
     return () => { listeners.delete(sync) }
-  }, [])
+  }, [consentPending])
 
   function dismiss() {
     try { localStorage.setItem(DISMISSED_KEY, String(Date.now())) } catch { /* ignore */ }

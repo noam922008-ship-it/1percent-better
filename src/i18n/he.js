@@ -722,10 +722,11 @@ const he = {
     finishGoogle:  'התחבר עם Google ומחק',
     cancel:        'ביטול',
   },
-  // Analytics consent banner (Home, FEATURES.consentBanner). Accepting covers this visit too — see services/analytics.js
+  // Analytics consent bar (components/ConsentBanner.jsx, FEATURES.consentBanner) — counts only from the click, see services/analytics.js
   consent: {
     aria:    'הסכמה לאנליטיקה',
-    text:    'אנחנו רוצים להשתמש ב-Google Analytics כדי להבין, ברמה כללית, איך משתמשים באפליקציה. לא נשלח שום דבר ממה שכתוב, לא שם ולא אימייל. אישור חל גם על הביקור הזה, מהרגע שהאפליקציה נפתחה. אפשר לשנות בכל רגע בהגדרות.',
+    title:   'עזור לנו לשפר את PRIME 🙏',
+    text:    'אנחנו רוצים להשתמש ב-Google Analytics כדי לראות אילו מסכים באמת עוזרים לאנשים לעמוד במילה שלהם ואיפה הם נתקעים. ככה אנחנו יודעים מה לתקן ומה לבנות הלאה. רק נתונים כלליים: שום דבר ממה שאתה כותב, לא שם ולא אימייל. Google Analytics שומר עוגיות (cookies) ומתחיל רק אחרי שתאשר. אפשר לשנות בכל רגע בהגדרות.',
     accept:  'לאשר',
     decline: 'לא, תודה',
     privacy: 'מדיניות פרטיות',

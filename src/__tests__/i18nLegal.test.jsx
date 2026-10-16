@@ -64,7 +64,7 @@ describe('LegalContent in English', () => {
       'Ad personalization and Google Signals are off', "We don't sell your data", 'paid API key',
       "By default your name doesn't appear on the leaderboard", '"Delete account"', 'within 30 days',
       'ages 18 and up', 'only in the browser on your device', 'Noam Cohen', 'prime.daily.app@gmail.com',
-      'Last updated: October 15, 2026',
+      'Last updated: October 16, 2026',
     ]) expect(t).toContain(phrase)
   })
 
@@ -89,7 +89,7 @@ describe('Hebrew is unchanged', () => {
     const { container } = render(<LegalContent type="privacy" />)
     expect(container.firstChild.getAttribute('dir')).toBe('rtl')
     expect(container.textContent).toContain('מדיניות פרטיות')
-    expect(container.textContent).toContain('עודכן לאחרונה: 15.10.2026')
+    expect(container.textContent).toContain('עודכן לאחרונה: 16.10.2026')
     expect(container.textContent).toContain('נועם כהן (Noam Cohen)')
   })
 })
