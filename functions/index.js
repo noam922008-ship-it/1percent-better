@@ -671,3 +671,36 @@ exports.localScheduler = onSchedule(
     console.log(`[localScheduler] ${now.toISOString()} users=${JSON.stringify(perKind)} sent=${sent} failed=${failed} stale_cleaned=${staleTokens.size}`);
   }
 );
+
+// ── dailyStats: internal usage numbers (no Google Analytics, no cookies) ─────────
+// Every day at 03:15 UTC: counts from focusTriggers + users for the previous UTC day, written to
+// stats/{YYYY-MM-DD}. Only counts — no uids, names or emails. Clients can't read it
+// (firestore.rules has no stats match); open it in the Firebase console → Firestore → stats.
+// See computeStats in stats.js for what each number means.
+
+const { computeStats, dateKey: statsDateKey } = require('./stats');
+
+exports.dailyStats = onSchedule(
+  {
+    schedule:       '15 3 * * *',
+    timeZone:       'UTC',
+    region:         'europe-west1',
+    memory:         '256MiB',
+    timeoutSeconds: 300,
+  },
+  async () => {
+    const db         = getFirestore();
+    const reportDate = statsDateKey(Date.now() - 86400000);
+    const [profilesSnap, usersSnap] = await Promise.all([
+      db.collection('focusTriggers').get(),
+      db.collection('users').get(),
+    ]);
+    const stats = computeStats(
+      profilesSnap.docs.map(d => d.data()),
+      usersSnap.docs.map(d => d.data()),
+      reportDate,
+    );
+    await db.collection('stats').doc(reportDate).set({ ...stats, computedAt: new Date().toISOString() });
+    console.log(`[dailyStats] ${reportDate} ${JSON.stringify(stats)}`);
+  }
+);
