@@ -5,7 +5,7 @@ const { onDocumentWritten }       = require('firebase-functions/v2/firestore');
 const { onCall, HttpsError }      = require('firebase-functions/v2/https');
 const { defineSecret }            = require('firebase-functions/params');
 const { initializeApp }           = require('firebase-admin/app');
-const { getFirestore }            = require('firebase-admin/firestore');
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const { getMessaging }            = require('firebase-admin/messaging');
 const { GoogleGenerativeAI }      = require('@google/generative-ai');
 const { GoogleAIFileManager }     = require('@google/generative-ai/server');
@@ -363,10 +363,15 @@ async function purgeStaleTokens(db, staleTokens, tokenToUid) {
     const ref  = db.collection('users').doc(uid);
     const snap = await ref.get();
     if (!snap.exists) continue;
-    const { fcmTokens = [], fcmToken } = snap.data();
+    const { fcmTokens = [], fcmToken, fcmDevices = {} } = snap.data();
     const clean  = fcmTokens.filter(t => !staleTokens.has(t));
     const update = { fcmTokens: clean };
-    if (fcmToken && staleTokens.has(fcmToken)) update.fcmToken = clean.at(-1) ?? '';
+    const liveDeviceTokens = [];
+    for (const [id, d] of Object.entries(fcmDevices || {})) {
+      if (d && staleTokens.has(d.token)) update[`fcmDevices.${id}`] = FieldValue.delete();
+      else if (d && d.token) liveDeviceTokens.push(d.token);
+    }
+    if (fcmToken && staleTokens.has(fcmToken)) update.fcmToken = liveDeviceTokens.at(-1) ?? clean.at(-1) ?? '';
     await ref.update(update);
   }
   console.log(`[purgeStaleTokens] purged ${staleTokens.size} tokens from ${affectedUids.size} users`);
@@ -434,8 +439,7 @@ exports.broadcastUpdate = onDocumentWritten(
 
     for (const doc of usersSnap.docs) {
       const d = doc.data();
-      const tokenSet = new Set(Array.isArray(d.fcmTokens) ? d.fcmTokens : []);
-      if (d.fcmToken) tokenSet.add(d.fcmToken);
+      const tokenSet = collectTokens(d);
       if (!tokenSet.size) continue;
 
       const copy  = copyFor(BROADCAST_COPY, d.lang);
@@ -525,10 +529,9 @@ exports.sendTestNotification = onCall(
       throw new HttpsError('not-found', 'User document not found. Register a push token first.');
     }
 
-    const { fcmTokens = [], fcmToken, lang } = userDoc.data();
-    const copy = copyFor(TEST_COPY, lang);
-    const tokenSet = new Set(Array.isArray(fcmTokens) ? fcmTokens : []);
-    if (fcmToken) tokenSet.add(fcmToken);
+    const userData = userDoc.data();
+    const copy = copyFor(TEST_COPY, userData.lang);
+    const tokenSet = collectTokens(userData);
 
     if (!tokenSet.size) {
       throw new HttpsError('failed-precondition', 'No FCM tokens registered for this user.');

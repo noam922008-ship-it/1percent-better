@@ -150,8 +150,26 @@ function pickFrom(map, lang, rand = Math.random) {
   return pool[Math.floor(rand() * pool.length)];
 }
 
-/** All FCM tokens of a user doc: fcmTokens array + legacy fcmToken scalar, deduplicated. */
-function collectTokens(userData) {
+const DEVICE_MAX_AGE_MS = 60 * 86400000;   // a device not seen for 60 days gets no pushes
+
+/**
+ * A user's FCM tokens, deduplicated.
+ * New clients save one token per device in fcmDevices: { [deviceId]: { token, updatedAt } } —
+ * when that map exists it is the only source, so the old pile-up in fcmTokens (several tokens for
+ * one phone → duplicate pushes) is ignored. Devices not updated for 60 days are skipped.
+ * Users without fcmDevices yet: fcmTokens array + fcmToken scalar, as before.
+ */
+function collectTokens(userData, now = Date.now()) {
+  const devices = userData && userData.fcmDevices;
+  if (devices && typeof devices === 'object' && Object.keys(devices).length) {
+    const set = new Set();
+    for (const d of Object.values(devices)) {
+      if (!d || typeof d.token !== 'string' || !d.token) continue;
+      if (Number.isFinite(d.updatedAt) && now - d.updatedAt > DEVICE_MAX_AGE_MS) continue;
+      set.add(d.token);
+    }
+    return set;
+  }
   const set = new Set(Array.isArray(userData.fcmTokens) ? userData.fcmTokens : []);
   if (userData.fcmToken) set.add(userData.fcmToken);
   return set;

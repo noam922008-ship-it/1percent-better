@@ -12,6 +12,7 @@ vi.mock('firebase/firestore', () => ({
   setDoc:      vi.fn(),
   arrayUnion:  vi.fn(v => ({ type: 'arrayUnion', value: v })),
   arrayRemove: vi.fn(v => ({ type: 'arrayRemove', value: v })),
+  deleteField: vi.fn(() => ({ type: 'deleteField' })),
 }))
 
 // ── Mock ./firebase to expose a non-null messaging instance ──────────
@@ -22,7 +23,7 @@ vi.mock('../services/firebase', () => ({
 
 import { getToken, deleteToken } from 'firebase/messaging'
 import { setDoc, arrayRemove } from 'firebase/firestore'
-import { registerFcmToken, unregisterFcmToken, sendForegroundTestNotif, isFcmReady } from '../services/fcmService'
+import { registerFcmToken, unregisterFcmToken, sendForegroundTestNotif, isFcmReady, getDeviceId } from '../services/fcmService'
 
 // ── SW ready mock ─────────────────────────────────────────────────────
 const mockSwReg = { scope: '/' }
@@ -154,5 +155,45 @@ describe('sendForegroundTestNotif', () => {
 describe('isFcmReady', () => {
   it('returns a boolean based on messaging + VAPID_KEY + serviceWorker', () => {
     expect(typeof isFcmReady()).toBe('boolean')
+  })
+})
+
+// ── one token per device ─────────────────────────────────────────────
+
+describe('getDeviceId', () => {
+  const mem = () => { const m = new Map(); return { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)) } }
+  it('creates an id once and keeps it', () => {
+    const s = mem()
+    const a = getDeviceId(s)
+    expect(a).toMatch(/^[A-Za-z0-9-]{8,64}$/)
+    expect(getDeviceId(s)).toBe(a)
+  })
+  it('replaces a junk stored value', () => {
+    const s = mem(); s.setItem('prime_device_id', 'x')
+    expect(getDeviceId(s)).not.toBe('x')
+  })
+  it('broken storage → null (falls back to the latest-token field only)', () => {
+    expect(getDeviceId({ getItem: () => { throw new Error('blocked') } })).toBeNull()
+  })
+})
+
+describe('registerFcmToken — saves under this device', () => {
+  it('writes fcmDevices[deviceId] and fcmToken, not the old fcmTokens array', async () => {
+    getToken.mockResolvedValue('tok-new')
+    setDoc.mockResolvedValue(undefined)
+    await registerFcmToken('uid-1')
+    const data = setDoc.mock.calls[0][1]
+    const id = localStorage.getItem('prime_device_id')
+    expect(data.fcmToken).toBe('tok-new')
+    expect(data.fcmDevices[id].token).toBe('tok-new')
+    expect(typeof data.fcmDevices[id].updatedAt).toBe('number')
+    expect(data.fcmTokens).toBeUndefined()
+  })
+  it('the same device registering again overwrites its own entry', async () => {
+    setDoc.mockResolvedValue(undefined)
+    getToken.mockResolvedValue('tok-1'); await registerFcmToken('uid-1')
+    getToken.mockResolvedValue('tok-2'); await registerFcmToken('uid-1')
+    const [a, b] = setDoc.mock.calls.map(c => Object.keys(c[1].fcmDevices))
+    expect(a).toEqual(b)
   })
 })

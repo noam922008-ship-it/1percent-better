@@ -1,8 +1,26 @@
 import { getToken, deleteToken } from 'firebase/messaging'
-import { doc, setDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { doc, setDoc, arrayRemove, deleteField } from 'firebase/firestore'
 import { messaging, db } from './firebase'
 
 const VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY
+const DEVICE_KEY = 'prime_device_id'
+
+/**
+ * A stable id for this browser / installed app, kept in localStorage. Tokens are saved per
+ * device (users/{uid}.fcmDevices[deviceId]), so a new token replaces this device's old one
+ * instead of piling up (two pushes for one phone). An installed iPhone app has its own storage,
+ * so it gets its own id — it also has its own push subscription.
+ */
+export function getDeviceId(storage = globalThis.localStorage) {
+  try {
+    let id = storage.getItem(DEVICE_KEY)
+    if (!id || !/^[A-Za-z0-9-]{8,64}$/.test(id)) {
+      id = globalThis.crypto?.randomUUID?.() || `d${Date.now().toString(36)}${Math.random().toString(36).slice(2, 12)}`
+      storage.setItem(DEVICE_KEY, id)
+    }
+    return id
+  } catch { return null }
+}
 
 export function isFcmReady() {
   return !!messaging && !!VAPID_KEY && 'serviceWorker' in navigator
@@ -33,10 +51,15 @@ export async function registerFcmToken(uid) {
       console.warn('[FCM] getToken returned empty — permission denied or browser issue')
       return null
     }
-    // arrayUnion prevents duplicate token entries; also keep legacy fcmToken scalar
+    // One token per device: this device's entry is replaced, never added to. fcmToken (latest) stays
+    // for old readers. The legacy fcmTokens array is no longer grown; the server ignores it once
+    // fcmDevices exists (functions/notifyCopy.js collectTokens).
+    const deviceId = getDeviceId()
     await setDoc(
       doc(db, 'users', uid),
-      { fcmTokens: arrayUnion(token), fcmToken: token },
+      deviceId
+        ? { fcmDevices: { [deviceId]: { token, updatedAt: Date.now() } }, fcmToken: token }
+        : { fcmToken: token },
       { merge: true }
     )
     console.log(`[FCM] token saved uid=${uid.slice(0, 8)}… len=${token.length}`)
@@ -58,9 +81,12 @@ export async function unregisterFcmToken(uid) {
     const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg }).catch(() => null)
     if (!token) return
     await deleteToken(messaging)
+    const deviceId = getDeviceId()
     await setDoc(
       doc(db, 'users', uid),
-      { fcmTokens: arrayRemove(token) },
+      deviceId
+        ? { fcmTokens: arrayRemove(token), fcmDevices: { [deviceId]: deleteField() } }
+        : { fcmTokens: arrayRemove(token) },
       { merge: true }
     )
     console.log(`[FCM] token removed uid=${uid.slice(0, 8)}…`)

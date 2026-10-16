@@ -70,7 +70,7 @@ function computeStats(profiles, users, reportDate) {
   let withPush = 0, outsideIsrael = 0;
   const langs = {};
   for (const u of users) {
-    const tokens = (Array.isArray(u.fcmTokens) && u.fcmTokens.length) || u.fcmToken;
+    const tokens = (u.fcmDevices && Object.keys(u.fcmDevices).length) || (Array.isArray(u.fcmTokens) && u.fcmTokens.length) || u.fcmToken;
     if (tokens) withPush++;
     const lang = u.lang === 'en' ? 'en' : 'he';
     langs[lang] = (langs[lang] || 0) + 1;

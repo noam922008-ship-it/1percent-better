@@ -183,3 +183,26 @@ describe('buildPush — message per kind', () => {
     expect(buildPush('nope', {}, url)).toBeNull();
   });
 });
+
+describe('collectTokens — one token per device', () => {
+  const NOW = 1_800_000_000_000;
+  it('uses fcmDevices when present and ignores the old pile-up', () => {
+    const u = {
+      fcmTokens: ['old-1', 'old-2', 'old-3'], fcmToken: 'old-3',
+      fcmDevices: { a: { token: 'phone', updatedAt: NOW }, b: { token: 'mac', updatedAt: NOW } },
+    };
+    expect([...collectTokens(u, NOW)].sort()).toEqual(['mac', 'phone']);
+  });
+  it('skips devices not seen for 60 days and bad entries', () => {
+    const u = { fcmDevices: {
+      a: { token: 'fresh', updatedAt: NOW - 86400000 },
+      b: { token: 'gone',  updatedAt: NOW - 61 * 86400000 },
+      c: { token: '' }, d: null,
+    } };
+    expect([...collectTokens(u, NOW)]).toEqual(['fresh']);
+  });
+  it('no fcmDevices → legacy array + scalar, deduplicated', () => {
+    expect([...collectTokens({ fcmTokens: ['x', 'y'], fcmToken: 'x' }, NOW)]).toEqual(['x', 'y']);
+    expect(collectTokens({ fcmDevices: {} , fcmToken: 'z' }, NOW).has('z')).toBe(true);
+  });
+});
