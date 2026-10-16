@@ -80,6 +80,7 @@ import JournalCard from '../components/JournalCard'
 import Journal from '../components/Journal'
 import HasTimeScreen from '../components/HasTimeScreen'
 import { claim as claimHasTime, showHasTimeButton } from '../utils/hasTime'
+import { combatAvailable, COMBAT_IDS } from '../utils/combatLang'
 import LessonNotesPage from '../components/LessonNotesPage'
 
 // ── Constants ──────────────────────────────────────────────────────
@@ -250,7 +251,7 @@ function WorkoutLibraryModal({ onSelect, onClose }) {
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem' }}>
-          {WORKOUT_EXERCISES.map(ex => (
+          {WORKOUT_EXERCISES.filter(ex => !COMBAT_IDS.includes(ex.id) || combatAvailable(lang)).map(ex => (
             <button
               key={ex.id}
               className={ex.available ? 'btn-tactile' : ''}
@@ -1712,7 +1713,8 @@ export default function Dashboard() {
                     { id: 'muaythai', category: 'combat',    intensity: 'high', icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
                   ]
                   const tw = th.workout
-                  const wd = DAILY_WORKOUTS[doy % DAILY_WORKOUTS.length]
+                  const dailyPool = DAILY_WORKOUTS.filter(dw => !dw.isCombat || combatAvailable(lang))
+                  const wd = dailyPool[doy % dailyPool.length]
                   const w  = { ...wd, ...tw.items[wd.id], category: tw.category[wd.category] }
                   function startWorkout() {
                     const trackDef = w.trackId ? TRACK_MAP[w.trackId] : null
@@ -2571,7 +2573,8 @@ export default function Dashboard() {
       )}
 
       {saving && <div style={{ position: 'fixed', bottom: TAB_H + 12, left: '50%', transform: 'translateX(-50%)', background: '#18181b', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(232,232,232,0.7)', borderRadius: 20, padding: '0.45rem 1.1rem', fontSize: '0.78rem', fontWeight: 600, zIndex: 300 }}>{td.saving}</div>}
-      <AddToHomeScreen />
+      {/* Install pop-up only after a win today (not stacked on the consent bar) */}
+      <AddToHomeScreen ready={todayDoneTasks > 0} />
 
     </div>
   )

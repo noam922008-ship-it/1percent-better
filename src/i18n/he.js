@@ -257,7 +257,8 @@ const he = {
   },
   // Add-to-home-screen banner (components/AddToHomeScreen.jsx)
   install: {
-    title:      'הוסף את PRIME למסך הבית',
+    button:     'התקן את PRIME כאפליקציה',
+    winTitle:   'יפה! 🎉 שים את PRIME על מסך הבית כדי לא לשכוח מחר',
     iosTap:     'לחץ על',
     share:      'שתף',
     iosThen:    'ואז',

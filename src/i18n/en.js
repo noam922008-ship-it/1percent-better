@@ -255,7 +255,8 @@ const en = {
   },
   // Add-to-home-screen banner (components/AddToHomeScreen.jsx)
   install: {
-    title:      'Add PRIME to your Home Screen',
+    button:     'Install PRIME as an app',
+    winTitle:   'Nice! 🎉 Put PRIME on your Home Screen so you don\'t forget tomorrow',
     iosTap:     'Tap',
     share:      'Share',
     iosThen:    'then',
