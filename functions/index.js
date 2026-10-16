@@ -11,10 +11,9 @@ const { GoogleGenerativeAI }      = require('@google/generative-ai');
 const { GoogleAIFileManager }     = require('@google/generative-ai/server');
 const { getStorage }              = require('firebase-admin/storage');
 const {
-  ACCOUNTABILITY_COPY, TEST_COPY, BROADCAST_COPY,
-  MORNING_COPY, MIDDAY_COPY, WEEKLY_COPY,
-  copyFor, todayIsraelDateKey, pickCopy, pickFrom, collectTokens,
-  hasAccountabilityReminder, isCompletedToday,
+  TEST_COPY, BROADCAST_COPY,
+  copyFor, todayIsraelDateKey, collectTokens,
+  localClock, dueSlots, shouldPush, buildPush,
 } = require('./notifyCopy');
 
 const geminiApiKey = defineSecret('GEMINI_API_KEY');
@@ -374,208 +373,11 @@ async function purgeStaleTokens(db, staleTokens, tokenToUid) {
 }
 
 // ── FCM push notification functions ──────────────────────────────────────────
-// NOTE: dailyHabitNudge, accountabilityReminder, broadcastUpdate, and
-// sendTestNotification all use Firebase Cloud Messaging (Admin SDK) and require
-// the Blaze (pay-as-you-go) plan to deploy. They are intentionally left here
-// for future reintroduction. The client does NOT call any of these functions —
-// local browser notifications (Notification API) handle all user-facing nudges.
+// broadcastUpdate, sendTestNotification and localScheduler use Firebase Cloud Messaging
+// (Admin SDK) and need the Blaze plan. Tokens come from the client (fcmService.js).
 
-// ── Scheduled function ────────────────────────────────────────────────────────
-// Fires every day at 19:30 Israel local time (handles IDT/IST automatically).
-// Sends only to users who haven't completed today's activity.
-
-exports.dailyHabitNudge = onSchedule(
-  {
-    schedule:       '30 19 * * *',
-    timeZone:       'Asia/Jerusalem',
-    region:         'europe-west1',   // nearest region to Israel
-    memory:         '256MiB',
-    timeoutSeconds: 300,
-  },
-  async () => {
-    const db        = getFirestore();
-    const messaging = getMessaging();
-    const today     = todayIsraelDateKey();
-
-    console.log(`[dailyHabitNudge] running for date=${today}`);
-
-    const usersSnap = await db.collection('users').get();
-    if (usersSnap.empty) {
-      console.log('[dailyHabitNudge] no users found');
-      return;
-    }
-
-    const messages    = [];
-    const tokenToUid  = new Map();
-
-    for (const doc of usersSnap.docs) {
-      const d = doc.data();
-
-      // Deduplicate tokens (fcmTokens array + legacy fcmToken scalar)
-      const tokenSet = new Set(Array.isArray(d.fcmTokens) ? d.fcmTokens : []);
-      if (d.fcmToken) tokenSet.add(d.fcmToken);
-      if (!tokenSet.size) continue;
-
-      if (isCompletedToday(d, today)) continue;
-
-      // PRO users with a blocked app already got the 18:00 accountabilityReminder
-      if (hasAccountabilityReminder(d)) continue;
-
-      const copy = pickCopy(d.lang || 'he');
-
-      for (const token of tokenSet) {
-        tokenToUid.set(token, doc.id);
-        messages.push({
-          token,
-          webpush: {
-            headers: { Urgency: 'high' },
-            // Use webpush.data (flat keys) so the app's service-worker push
-            // handler receives { title, body, url, icon, badge, tag } directly.
-            data: {
-              title: copy.title,
-              body:  copy.body,
-              url:   'https://prime-app-84fe0.web.app/#hub',
-              icon:  '/icon-192.png',
-              badge: '/icon-192.png',
-              tag:   'daily-nudge',
-            },
-          },
-        });
-      }
-    }
-
-    if (!messages.length) {
-      console.log(`[dailyHabitNudge] ${today}: all users already done — no nudges sent`);
-      return;
-    }
-
-    // FCM sendEach → max 500 per call
-    let sent = 0, failed = 0;
-    const staleTokens = new Set();
-
-    for (let i = 0; i < messages.length; i += 500) {
-      const chunk  = messages.slice(i, i + 500);
-      const result = await messaging.sendEach(chunk);
-
-      result.responses.forEach((r, idx) => {
-        if (r.success) {
-          sent++;
-        } else {
-          failed++;
-          const code = r.error?.code || '';
-          // Registration-not-found or invalid token → stale, safe to purge
-          if (
-            code === 'messaging/registration-token-not-registered' ||
-            code === 'messaging/invalid-registration-token'
-          ) {
-            staleTokens.add(chunk[idx].token);
-          }
-          console.warn(`[FCM] token error uid=${tokenToUid.get(chunk[idx].token)} code=${code}`);
-        }
-      });
-    }
-
-    await purgeStaleTokens(db, staleTokens, tokenToUid);
-    console.log(`[dailyHabitNudge] ${today}: sent=${sent} failed=${failed} stale_cleaned=${staleTokens.size} total_eligible=${messages.length}`);
-  }
-);
-
-// ── accountabilityReminder ────────────────────────────────────────────────────
-// Fires daily at 18:00 Israel time.
-// Sends personalized "Before you open TikTok…" FCM push to PRO users
-// who have configured at least one accountability app.
-
-exports.accountabilityReminder = onSchedule(
-  {
-    schedule:       '0 18 * * *',
-    timeZone:       'Asia/Jerusalem',
-    region:         'europe-west1',
-    memory:         '256MiB',
-    timeoutSeconds: 300,
-  },
-  async () => {
-    const db        = getFirestore();
-    const messaging = getMessaging();
-
-    console.log('[accountabilityReminder] running');
-
-    // Query PRO users — filter accountabilityApps in-process to avoid composite index
-    const usersSnap = await db.collection('users').where('isPro', '==', true).get();
-    if (usersSnap.empty) {
-      console.log('[accountabilityReminder] no PRO users');
-      return;
-    }
-
-    const messages   = [];
-    const tokenToUid = new Map();
-
-    for (const doc of usersSnap.docs) {
-      const d = doc.data();
-
-      const apps = Array.isArray(d.accountabilityApps) ? d.accountabilityApps : [];
-      if (apps.length === 0) continue;
-
-      // Collect tokens
-      const tokenSet = new Set(Array.isArray(d.fcmTokens) ? d.fcmTokens : []);
-      if (d.fcmToken) tokenSet.add(d.fcmToken);
-      if (!tokenSet.size) continue;
-
-      const lang    = d.lang || 'he';
-      const appName = apps[0]; // most important app (first in list)
-      const copy    = copyFor(ACCOUNTABILITY_COPY, lang)(appName);
-
-      for (const token of tokenSet) {
-        tokenToUid.set(token, doc.id);
-        messages.push({
-          token,
-          webpush: {
-            headers: { Urgency: 'high' },
-            data: {
-              title: copy.title,
-              body:  copy.body,
-              lang:  copy.lang,
-              url:   'https://prime-app-84fe0.web.app/#focus-gate',
-              icon:  '/icon-192.png',
-              badge: '/icon-192.png',
-              tag:   'accountability-lock',
-            },
-          },
-        });
-      }
-    }
-
-    if (!messages.length) {
-      console.log('[accountabilityReminder] no eligible users with apps configured');
-      return;
-    }
-
-    let sent = 0, failed = 0;
-    const staleTokens = new Set();
-
-    for (let i = 0; i < messages.length; i += 500) {
-      const chunk  = messages.slice(i, i + 500);
-      const result = await messaging.sendEach(chunk);
-      result.responses.forEach((r, idx) => {
-        if (r.success) {
-          sent++;
-        } else {
-          failed++;
-          const code = r.error?.code || '';
-          if (
-            code === 'messaging/registration-token-not-registered' ||
-            code === 'messaging/invalid-registration-token'
-          ) {
-            staleTokens.add(chunk[idx].token);
-          }
-          console.warn(`[accountabilityReminder] token error uid=${tokenToUid.get(chunk[idx].token)} code=${code}`);
-        }
-      });
-    }
-
-    await purgeStaleTokens(db, staleTokens, tokenToUid);
-    console.log(`[accountabilityReminder] sent=${sent} failed=${failed} stale_cleaned=${staleTokens.size} total_eligible=${messages.length}`);
-  }
-);
+// The daily pushes (morning, weekly, midday, accountability, evening nudge) are all sent by
+// localScheduler at the bottom of this file, in each user's own time zone.
 
 // ── broadcastUpdate ───────────────────────────────────────────────────────────
 // Triggered when config/app is written.
@@ -773,133 +575,99 @@ exports.sendTestNotification = onCall(
   }
 );
 
-// ── Daily schedule: morning / midday / weekly ─────────────────────────────────
-// One shared sender for the three scheduled pushes below. Every message carries a
-// distinct `tag`, so a later push never replaces an earlier one on the device.
-// Times are Israel local time (IDT/IST handled by Cloud Scheduler). Fri/Sat are included.
+// ── localScheduler: all daily pushes, in each user's local time ──────────────
+// Runs every 30 minutes. For each user with a push token it works out the local time from
+// users/{uid}.tz (fallback Israel) and sends the pushes due now — see PUSH_SLOTS and
+// shouldPush in notifyCopy.js:
+//   08:00 morning (everyone) · Sun 10:00 weekly goals (everyone)
+//   15:30 midday (not done yet) · 18:00 accountability (PRO with apps)
+//   19:30 evening nudge (not done yet, not PRO-with-apps)
+// Every push has its own tag, so a later one never replaces an earlier one on the device.
+// Replaces the five fixed-time (Israel) schedulers: dailyHabitNudge, accountabilityReminder,
+// morningKickoff, middayNudge, weeklyGoals.
 
 const PUSH_APP_URL = 'https://prime-app-84fe0.web.app/';
 
-async function pushCopyToUsers({ label, tag, shouldSend, buildCopy }) {
-  const db        = getFirestore();
-  const messaging = getMessaging();
-  const today     = todayIsraelDateKey();
+exports.localScheduler = onSchedule(
+  {
+    schedule:       '0,30 * * * *',
+    timeZone:       'UTC',
+    region:         'europe-west1',
+    memory:         '256MiB',
+    timeoutSeconds: 300,
+  },
+  async () => {
+    const db        = getFirestore();
+    const messaging = getMessaging();
+    const now       = new Date();
 
-  console.log(`[${label}] running for date=${today}`);
+    const usersSnap = await db.collection('users').get();
+    if (usersSnap.empty) return;
 
-  const usersSnap = await db.collection('users').get();
-  if (usersSnap.empty) {
-    console.log(`[${label}] no users found`);
-    return;
-  }
+    const messages   = [];
+    const tokenToUid = new Map();
+    const perKind    = {};
 
-  const messages   = [];
-  const tokenToUid = new Map();
+    for (const doc of usersSnap.docs) {
+      const d      = doc.data();
+      const tokens = collectTokens(d);
+      if (!tokens.size) continue;
 
-  for (const doc of usersSnap.docs) {
-    const d      = doc.data();
-    const tokens = collectTokens(d);
-    if (!tokens.size) continue;
-    if (shouldSend && !shouldSend(d, today)) continue;
+      const clock = localClock(now, d.tz);
+      for (const { kind } of dueSlots(clock)) {
+        if (!shouldPush(kind, d, clock, now)) continue;
+        const push = buildPush(kind, d, PUSH_APP_URL);
+        if (!push) continue;
+        perKind[kind] = (perKind[kind] || 0) + 1;
 
-    const copy = buildCopy(d.lang);
+        for (const token of tokens) {
+          tokenToUid.set(token, doc.id);
+          messages.push({
+            token,
+            webpush: {
+              headers: { Urgency: 'high' },
+              // Flat webpush.data keys — the service worker's push handler reads them directly.
+              data: {
+                title: push.title,
+                body:  push.body,
+                url:   push.url,
+                icon:  '/icon-192.png',
+                badge: '/icon-192.png',
+                tag:   push.tag,
+                ...(push.lang ? { lang: push.lang } : {}),
+              },
+            },
+          });
+        }
+      }
+    }
 
-    for (const token of tokens) {
-      tokenToUid.set(token, doc.id);
-      messages.push({
-        token,
-        webpush: {
-          headers: { Urgency: 'high' },
-          data: {
-            title: copy.title,
-            body:  copy.body,
-            url:   PUSH_APP_URL,
-            icon:  '/icon-192.png',
-            badge: '/icon-192.png',
-            tag,
-          },
-        },
+    if (!messages.length) return;
+
+    let sent = 0, failed = 0;
+    const staleTokens = new Set();
+
+    for (let i = 0; i < messages.length; i += 500) {
+      const chunk  = messages.slice(i, i + 500);
+      const result = await messaging.sendEach(chunk);
+      result.responses.forEach((r, idx) => {
+        if (r.success) {
+          sent++;
+        } else {
+          failed++;
+          const code = r.error?.code || '';
+          if (
+            code === 'messaging/registration-token-not-registered' ||
+            code === 'messaging/invalid-registration-token'
+          ) {
+            staleTokens.add(chunk[idx].token);
+          }
+          console.warn(`[localScheduler] token error uid=${tokenToUid.get(chunk[idx].token)} code=${code}`);
+        }
       });
     }
+
+    await purgeStaleTokens(db, staleTokens, tokenToUid);
+    console.log(`[localScheduler] ${now.toISOString()} users=${JSON.stringify(perKind)} sent=${sent} failed=${failed} stale_cleaned=${staleTokens.size}`);
   }
-
-  if (!messages.length) {
-    console.log(`[${label}] ${today}: no eligible tokens — nothing sent`);
-    return;
-  }
-
-  let sent = 0, failed = 0;
-  const staleTokens = new Set();
-
-  for (let i = 0; i < messages.length; i += 500) {
-    const chunk  = messages.slice(i, i + 500);
-    const result = await messaging.sendEach(chunk);
-    result.responses.forEach((r, idx) => {
-      if (r.success) {
-        sent++;
-      } else {
-        failed++;
-        const code = r.error?.code || '';
-        if (
-          code === 'messaging/registration-token-not-registered' ||
-          code === 'messaging/invalid-registration-token'
-        ) {
-          staleTokens.add(chunk[idx].token);
-        }
-        console.warn(`[${label}] token error uid=${tokenToUid.get(chunk[idx].token)} code=${code}`);
-      }
-    });
-  }
-
-  await purgeStaleTokens(db, staleTokens, tokenToUid);
-  console.log(`[${label}] ${today}: sent=${sent} failed=${failed} stale_cleaned=${staleTokens.size} total_eligible=${messages.length}`);
-}
-
-// 08:00 every day — everyone with a token.
-exports.morningKickoff = onSchedule(
-  {
-    schedule:       '0 8 * * *',
-    timeZone:       'Asia/Jerusalem',
-    region:         'europe-west1',
-    memory:         '256MiB',
-    timeoutSeconds: 300,
-  },
-  () => pushCopyToUsers({
-    label:     'morningKickoff',
-    tag:       'morning-kickoff',
-    buildCopy: lang => pickFrom(MORNING_COPY, lang),
-  })
-);
-
-// 15:30 every day — only users who have not completed today.
-exports.middayNudge = onSchedule(
-  {
-    schedule:       '30 15 * * *',
-    timeZone:       'Asia/Jerusalem',
-    region:         'europe-west1',
-    memory:         '256MiB',
-    timeoutSeconds: 300,
-  },
-  () => pushCopyToUsers({
-    label:      'middayNudge',
-    tag:        'midday-nudge',
-    shouldSend: (d, today) => !isCompletedToday(d, today),
-    buildCopy:  lang => pickFrom(MIDDAY_COPY, lang),
-  })
-);
-
-// Sunday 10:00 — everyone with a token: write this week's goals.
-exports.weeklyGoals = onSchedule(
-  {
-    schedule:       '0 10 * * 0',
-    timeZone:       'Asia/Jerusalem',
-    region:         'europe-west1',
-    memory:         '256MiB',
-    timeoutSeconds: 300,
-  },
-  () => pushCopyToUsers({
-    label:     'weeklyGoals',
-    tag:       'weekly-goals',
-    buildCopy: lang => copyFor(WEEKLY_COPY, lang),
-  })
 );

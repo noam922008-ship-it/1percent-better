@@ -182,9 +182,95 @@ function isCompletedToday(userData, today) {
   return false;
 }
 
+// ── Per-user local time ───────────────────────────────────────────────────────
+// One scheduler runs every 30 minutes (index.js localScheduler). For each user it reads
+// users/{uid}.tz (IANA name saved by the client, e.g. 'America/New_York') and sends the
+// pushes whose local time is now. Missing or invalid tz → Israel time, as before.
+
+const DEFAULT_TZ = 'Asia/Jerusalem';
+
+// at: local "HH:MM" (on the :00 / :30 grid). weekday: 0 = Sunday (only for weekly).
+const PUSH_SLOTS = [
+  { kind: 'morning',        at: '08:00' },
+  { kind: 'weekly',         at: '10:00', weekday: 0 },
+  { kind: 'midday',         at: '15:30' },
+  { kind: 'accountability', at: '18:00' },
+  { kind: 'nudge',          at: '19:30' },
+];
+
+const WEEKDAYS = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+function isValidTimeZone(tz) {
+  if (typeof tz !== 'string' || !tz || tz.length > 64) return false;
+  try { new Intl.DateTimeFormat('en-US', { timeZone: tz }); return true; } catch { return false; }
+}
+
+/**
+ * The user's local clock at `now`: { date: 'YYYY-MM-DD', weekday: 0-6, slot: 'HH:MM' }.
+ * slot is floored to the half hour, so a run that starts a few seconds late still matches.
+ */
+function localClock(now, tz) {
+  const zone  = isValidTimeZone(tz) ? tz : DEFAULT_TZ;
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', {
+    timeZone: zone, year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', weekday: 'short', hourCycle: 'h23',
+  }).formatToParts(now).map(p => [p.type, p.value]));
+  const hour = parts.hour === '24' ? '00' : parts.hour;
+  const half = Number(parts.minute) < 30 ? '00' : '30';
+  return {
+    date:    `${parts.year}-${parts.month}-${parts.day}`,
+    weekday: WEEKDAYS[parts.weekday],
+    slot:    `${hour}:${half}`,
+  };
+}
+
+/** Push slots due for a user's local clock right now. */
+function dueSlots(clock) {
+  return PUSH_SLOTS.filter(s => s.at === clock.slot && (s.weekday === undefined || s.weekday === clock.weekday));
+}
+
+/**
+ * Done today? The client saves streak.lastDate as a UTC date, so check the user's local
+ * date and the current UTC date (a user west of UTC who finished in the evening has a
+ * lastDate one day "ahead" of their local date).
+ */
+function isDoneForUser(userData, clock, now) {
+  return isCompletedToday(userData, clock.date)
+      || isCompletedToday(userData, now.toISOString().slice(0, 10));
+}
+
+/** Whether `kind` goes to this user (same rules the five separate schedulers had). */
+function shouldPush(kind, userData, clock, now) {
+  switch (kind) {
+    case 'morning':
+    case 'weekly':         return true;
+    case 'midday':         return !isDoneForUser(userData, clock, now);
+    case 'accountability': return hasAccountabilityReminder(userData);
+    case 'nudge':          return !isDoneForUser(userData, clock, now) && !hasAccountabilityReminder(userData);
+    default:               return false;
+  }
+}
+
+/** { title, body, url, tag, lang? } for one push kind in the user's language. */
+function buildPush(kind, userData, appUrl, rand = Math.random) {
+  const lang = userData.lang;
+  switch (kind) {
+    case 'morning': return { ...pickFrom(MORNING_COPY, lang, rand), url: appUrl, tag: 'morning-kickoff' };
+    case 'midday':  return { ...pickFrom(MIDDAY_COPY, lang, rand),  url: appUrl, tag: 'midday-nudge' };
+    case 'weekly':  return { ...copyFor(WEEKLY_COPY, lang),         url: appUrl, tag: 'weekly-goals' };
+    case 'nudge':   return { ...pickFrom(NUDGE_COPY, lang, rand),   url: `${appUrl}#hub`, tag: 'daily-nudge' };
+    case 'accountability': {
+      const app = userData.accountabilityApps[0];
+      return { ...copyFor(ACCOUNTABILITY_COPY, lang)(app), url: `${appUrl}#focus-gate`, tag: 'accountability-lock' };
+    }
+    default: return null;
+  }
+}
+
 module.exports = {
   NUDGE_COPY, ACCOUNTABILITY_COPY, TEST_COPY, BROADCAST_COPY,
   MORNING_COPY, MIDDAY_COPY, WEEKLY_COPY,
   copyFor, todayIsraelDateKey, pickCopy, pickFrom, collectTokens,
   hasAccountabilityReminder, isCompletedToday,
+  DEFAULT_TZ, PUSH_SLOTS, isValidTimeZone, localClock, dueSlots, isDoneForUser, shouldPush, buildPush,
 };
