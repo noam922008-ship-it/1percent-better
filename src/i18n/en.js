@@ -253,6 +253,23 @@ const en = {
       focus:       { name: 'Focus session',              desc: 'Thirty minutes with no phone. The timer starts when you press Start.' },
     },
   },
+  // Weekly summary card on Home, Sunday + Monday (components/WeeklySummaryCard.jsx)
+  weekly: {
+    title:      'Your week',
+    range:      '{from} – {to}',
+    days:       ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+    activeDays: '{n} of 7 days active',
+    trend: {
+      up:    'More than the week before ({n}) 💪',
+      down:  'Fewer than the week before ({n}). New week, clean slate',
+      same:  'Same as the week before ({n}). One more day this week',
+      first: 'Your first week here. Only up from here',
+    },
+    workouts:  { zero: 'No workouts', one: '1 workout', many: '{n} workouts' },
+    streak:    { zero: 'No streak right now', one: '1-day streak', many: '{n}-day streak' },
+    goals:     "Write this week's goals",
+    closeAria: 'Close the weekly summary',
+  },
   // Add-to-home-screen banner (components/AddToHomeScreen.jsx)
   install: {
     button:     'Install PRIME as an app',

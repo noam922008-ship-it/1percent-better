@@ -255,6 +255,23 @@ const he = {
       focus:       { name: 'סשן ריכוז',          desc: 'שלושים דקות בלי טלפון. הטיימר מתחיל כשאתה לוחץ התחל.' },
     },
   },
+  // Weekly summary card on Home, Sunday + Monday (components/WeeklySummaryCard.jsx)
+  weekly: {
+    title:      'השבוע שלך',
+    range:      '{from} – {to}',
+    days:       ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'],
+    activeDays: '{n} מתוך 7 ימים פעילים',
+    trend: {
+      up:    'יותר מהשבוע שלפני ({n}) 💪',
+      down:  'פחות מהשבוע שלפני ({n}). שבוע חדש, דף חדש',
+      same:  'כמו השבוע שלפני ({n}). השבוע עוד יום אחד',
+      first: 'השבוע הראשון שלך כאן. מכאן רק עולים',
+    },
+    workouts:  { zero: 'בלי אימונים', one: 'אימון אחד', many: '{n} אימונים' },
+    streak:    { zero: 'אין רצף כרגע', one: 'רצף של יום אחד', many: 'רצף של {n} ימים' },
+    goals:     'כתוב מטרות לשבוע הזה',
+    closeAria: 'סגור את הסיכום השבועי',
+  },
   // Add-to-home-screen banner (components/AddToHomeScreen.jsx)
   install: {
     button:     'התקן את PRIME כאפליקציה',

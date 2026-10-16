@@ -79,6 +79,8 @@ import MyTasks from '../components/MyTasks'
 import JournalCard from '../components/JournalCard'
 import Journal from '../components/Journal'
 import HasTimeScreen from '../components/HasTimeScreen'
+import WeeklySummaryCard from '../components/WeeklySummaryCard'
+import { weeklySummary, readWorkoutDays, isSummaryDay, wasDismissed as weeklyDismissed, dismiss as dismissWeekly } from '../utils/weeklySummary'
 import { claim as claimHasTime, showHasTimeButton } from '../utils/hasTime'
 import { combatAvailable, COMBAT_IDS } from '../utils/combatLang'
 import LessonNotesPage from '../components/LessonNotesPage'
@@ -769,6 +771,7 @@ export default function Dashboard() {
   const [mtDrillActive,       setMtDrillActive]       = useState(null)  // quick-start drill for MT
   const [journalOpen,         setJournalOpen]         = useState(false)
   const [hasTimeOpen,         setHasTimeOpen]         = useState(false)
+  const [weeklyClosed,        setWeeklyClosed]        = useState(false)
   const [welcomeDone,         setWelcomeDone]         = useState(false)
   const [lessonNotesOpen,     setLessonNotesOpen]     = useState(false)
   const [_showDetails,      setShowDetails]       = useState(false)
@@ -1317,6 +1320,13 @@ export default function Dashboard() {
   }, [profile?.activityLog])
 
   const activitySet     = new Set(profile?.activityLog || [])
+  // Weekly summary (Sunday + Monday, last week) — signed-in users who have been active before
+  const weekSummary = useMemo(() => {
+    const today = todayKey()
+    if (isGuest || !isSummaryDay(today) || !(profile?.activityLog?.length)) return null
+    const s = weeklySummary({ today, activityLog: profile.activityLog, workoutDays: readWorkoutDays(today), streak })
+    return weeklyDismissed(s.weekStart) ? null : s
+  }, [isGuest, profile?.activityLog, streak])
   const isFirstTimer    = activitySet.size === 0
   const missedYesterday = !isFirstTimer && streak === 0
   // ── Single primary action ──────────────────────────────────────
@@ -1504,6 +1514,15 @@ export default function Dashboard() {
             <div style={{ marginBottom: '0.875rem' }}>
               <JournalCard onOpen={() => setJournalOpen(true)} />
             </div>
+            {weekSummary && !weeklyClosed && (
+              <div style={{ marginBottom: '0.875rem' }}>
+                <WeeklySummaryCard
+                  summary={weekSummary}
+                  onGoals={() => setJournalOpen(true)}
+                  onClose={() => { dismissWeekly(weekSummary.weekStart); setWeeklyClosed(true) }}
+                />
+              </div>
+            )}
             {/* "I have time" — shows once today's main work (track task / habits) is done */}
             {showHasTimeButton(primaryType) && (
               <div style={{ marginBottom: '0.875rem' }}>

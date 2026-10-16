@@ -1,4 +1,4 @@
-const CACHE = 'prime-v24'
+const CACHE = 'prime-v25'
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -68,15 +68,26 @@ self.addEventListener('notificationclick', e => {
   )
 })
 
+// Network first, cache as offline fallback — for the app's own files only.
+// Other origins (Firestore streams, Google APIs, the pose-model CDN) go straight to the network:
+// caching them failed on every streamed response ("Cache.put() encountered a network error")
+// and would have kept API data in the cache. Not active on localhost (Vite dev server).
 self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return
+  const req = e.request
+  if (req.method !== 'GET') return
+  const url = new URL(req.url)
+  if (url.origin !== self.location.origin) return
+  if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') return
+
   e.respondWith(
-    fetch(e.request)
+    fetch(req)
       .then(res => {
-        const clone = res.clone()
-        caches.open(CACHE).then(c => c.put(e.request, clone))
+        if (res.ok && res.status === 200 && res.type === 'basic') {
+          const clone = res.clone()
+          caches.open(CACHE).then(c => c.put(req, clone)).catch(() => {})
+        }
         return res
       })
-      .catch(() => caches.match(e.request).then(r => r || caches.match('/')))
+      .catch(() => caches.match(req).then(r => r || (req.mode === 'navigate' ? caches.match('/') : Response.error())))
   )
 })
