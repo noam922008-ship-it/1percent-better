@@ -81,6 +81,7 @@ import Journal from '../components/Journal'
 import HasTimeScreen from '../components/HasTimeScreen'
 import WeeklySummaryCard from '../components/WeeklySummaryCard'
 import ShareStreakButton from '../components/ShareStreakButton'
+import RemindersCard from '../components/RemindersCard'
 import { weekStartOf, weeklySummary, readWorkoutDays, isSummaryDay, wasDismissed as weeklyDismissed, dismiss as dismissWeekly } from '../utils/weeklySummary'
 import { claim as claimHasTime, showHasTimeButton } from '../utils/hasTime'
 import { combatAvailable, COMBAT_IDS } from '../utils/combatLang'
@@ -1516,6 +1517,8 @@ export default function Dashboard() {
             <div style={{ marginBottom: '0.875rem' }}>
               <MyTasks uid={isGuest ? null : user?.uid} />
             </div>
+            {/* Reminders — the only other place that asks is Settings; renders nothing once decided */}
+            <RemindersCard uid={user?.uid} isGuest={isGuest} />
             {/* Journal — opens full-screen writing page */}
             <div style={{ marginBottom: '0.875rem' }}>
               <JournalCard onOpen={() => setJournalOpen(true)} />

@@ -66,6 +66,12 @@ const en = {
     habitArrow: '→',
   },
   social: { aria: 'PRIME on {name}' },
+  reminders: {
+    title:  'Turn on reminders? 🔔',
+    body:   "We'll remind you to come back and keep your streak. You can turn it off any time in Settings.",
+    turnOn: 'Turn on reminders',
+    later:  'Later',
+  },
   firstWelcome: {
     title: "What's on your mind?",
     line1: 'Let it all out. No filter. Only you can see it.',

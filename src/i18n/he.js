@@ -66,6 +66,12 @@ const he = {
     habitArrow: '←',
   },
   social: { aria: 'PRIME ב-{name}' },
+  reminders: {
+    title:  'להפעיל תזכורות? 🔔',
+    body:   'נזכיר לך לחזור ולשמור על הרצף. אפשר לכבות בכל רגע בהגדרות.',
+    turnOn: 'הפעל תזכורות',
+    later:  'אחר כך',
+  },
   firstWelcome: {
     title: 'מה יש לך בראש?',
     line1: 'תוציא הכל. בלי פילטר. רק אתה רואה.',
