@@ -2,7 +2,7 @@
 
 const { onSchedule }              = require('firebase-functions/v2/scheduler');
 const { onDocumentWritten }       = require('firebase-functions/v2/firestore');
-const { onCall, HttpsError }      = require('firebase-functions/v2/https');
+const { onCall, onRequest, HttpsError } = require('firebase-functions/v2/https');
 const { defineSecret }            = require('firebase-functions/params');
 const { initializeApp }           = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
@@ -17,6 +17,12 @@ const {
 } = require('./notifyCopy');
 
 const geminiApiKey = defineSecret('GEMINI_API_KEY');
+
+// Instagram auto-DM (functions/igAutoDm.js) — values set with `firebase functions:secrets:set <NAME>`
+const igVerifyToken  = defineSecret('IG_VERIFY_TOKEN');
+const igAppSecret    = defineSecret('IG_APP_SECRET');
+const igAccessToken  = defineSecret('IG_ACCESS_TOKEN');    // page token, @prime.daily.app
+const igAccessToken2 = defineSecret('IG_ACCESS_TOKEN_2');  // page token, @noam_cohen_02
 
 initializeApp();
 
@@ -708,4 +714,34 @@ exports.dailyStats = onSchedule(
     await db.collection('stats').doc(reportDate).set({ ...stats, computedAt: new Date().toISOString() });
     console.log(`[dailyStats] ${reportDate} ${JSON.stringify(stats)}`);
   }
+);
+
+// ── igAutoDm — Instagram comment "לינק" → DM with the app link ─────────────────
+// Meta webhook (app "Noam Auto Reply", Instagram object, field `comments`) points here.
+// Replaces the Supabase Edge Function, which paused after a week without traffic.
+exports.igAutoDm = onRequest(
+  {
+    region:         'europe-west1',
+    memory:         '256MiB',
+    timeoutSeconds: 30,
+    maxInstances:   5,
+    secrets:        [igVerifyToken, igAppSecret, igAccessToken, igAccessToken2],
+  },
+  require('./igAutoDm').makeHandler({
+    verifyToken: () => igVerifyToken.value(),
+    appSecret:   () => igAppSecret.value(),
+    getToken:    key => (key === 'IG_ACCESS_TOKEN_2' ? igAccessToken2 : igAccessToken).value(),
+    // igAutoDmSent/{account_userId}: create() fails if it exists → one DM per person per account.
+    // Clients can't read it (catch-all deny in firestore.rules). A store error lets the DM go out.
+    firstTime: async key => {
+      try {
+        await getFirestore().collection('igAutoDmSent').doc(key).create({ at: FieldValue.serverTimestamp() });
+        return true;
+      } catch (e) {
+        if (e && (e.code === 6 || e.code === 'already-exists')) return false;
+        console.error('igAutoDmSent store error', e && e.message);
+        return true;
+      }
+    },
+  }),
 );
