@@ -189,6 +189,16 @@ describe('registerFcmToken — saves under this device', () => {
     expect(typeof data.fcmDevices[id].updatedAt).toBe('number')
     expect(data.fcmTokens).toBeUndefined()
   })
+  it('saves this device\'s UI language with its token', async () => {
+    getToken.mockResolvedValue('tok-he')
+    setDoc.mockResolvedValue(undefined)
+    await registerFcmToken('uid-1', 'he')
+    const id = localStorage.getItem('prime_device_id')
+    expect(setDoc.mock.calls[0][1].fcmDevices[id].lang).toBe('he')
+    setDoc.mockClear()
+    await registerFcmToken('uid-1', 'xx')
+    expect(setDoc.mock.calls[0][1].fcmDevices[id].lang).toBeUndefined()
+  })
   it('the same device registering again overwrites its own entry', async () => {
     setDoc.mockResolvedValue(undefined)
     getToken.mockResolvedValue('tok-1'); await registerFcmToken('uid-1')

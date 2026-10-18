@@ -176,6 +176,29 @@ function collectTokens(userData, now = Date.now()) {
 }
 
 /**
+ * [{ token, lang }] — one entry per device, each with the language that device's UI is in
+ * (fcmDevices[id].lang), falling back to the user's lang (the last device that opened Home).
+ * Same devices and age limit as collectTokens; a token listed twice keeps its first entry.
+ */
+function collectDevices(userData, now = Date.now()) {
+  const fallback = userData && userData.lang;
+  const devices = userData && userData.fcmDevices;
+  const out = [];
+  const seen = new Set();
+  if (devices && typeof devices === 'object' && Object.keys(devices).length) {
+    for (const d of Object.values(devices)) {
+      if (!d || typeof d.token !== 'string' || !d.token || seen.has(d.token)) continue;
+      if (Number.isFinite(d.updatedAt) && now - d.updatedAt > DEVICE_MAX_AGE_MS) continue;
+      seen.add(d.token);
+      out.push({ token: d.token, lang: d.lang === 'he' || d.lang === 'en' ? d.lang : fallback });
+    }
+    return out;
+  }
+  for (const token of collectTokens(userData || {}, now)) out.push({ token, lang: fallback });
+  return out;
+}
+
+/**
  * True when the 18:00 accountabilityReminder targets this user (PRO + at least one
  * app configured). They skip the 19:30 nudge so they never get both in one evening.
  */
@@ -288,7 +311,7 @@ function buildPush(kind, userData, appUrl, rand = Math.random) {
 module.exports = {
   NUDGE_COPY, ACCOUNTABILITY_COPY, TEST_COPY, BROADCAST_COPY,
   MORNING_COPY, MIDDAY_COPY, WEEKLY_COPY,
-  copyFor, todayIsraelDateKey, pickCopy, pickFrom, collectTokens,
+  copyFor, todayIsraelDateKey, pickCopy, pickFrom, collectTokens, collectDevices,
   hasAccountabilityReminder, isCompletedToday,
   DEFAULT_TZ, PUSH_SLOTS, isValidTimeZone, localClock, dueSlots, isDoneForUser, shouldPush, buildPush,
 };

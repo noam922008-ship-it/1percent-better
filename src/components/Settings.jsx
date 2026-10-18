@@ -128,7 +128,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
     if (!('Notification' in window)) return
     const perm = await Notification.requestPermission()
     setNotifPerm(perm)
-    if (perm === 'granted' && user?.uid && !isGuest) registerFcmToken(user.uid)
+    if (perm === 'granted' && user?.uid && !isGuest) registerFcmToken(user.uid, lang)
   }, [user, isGuest])
 
   const handleTestNotif = useCallback(() => {

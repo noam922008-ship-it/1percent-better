@@ -4,7 +4,7 @@
 
 const {
   MORNING_COPY, MIDDAY_COPY, WEEKLY_COPY,
-  pickFrom, collectTokens, hasAccountabilityReminder,
+  pickFrom, collectTokens, collectDevices, hasAccountabilityReminder,
 } = require('../notifyCopy');
 
 const HEBREW = /[֐-׿]/;
@@ -61,6 +61,35 @@ describe('collectTokens', () => {
   it('is empty for a user without tokens', () => {
     expect(collectTokens({}).size).toBe(0);
     expect(collectTokens({ fcmTokens: 'not-an-array' }).size).toBe(0);
+  });
+});
+
+describe('collectDevices — each device in its own language', () => {
+  const now = Date.parse('2026-10-18T12:00:00Z');
+  it('uses the device language, and the user lang for a device without one', () => {
+    const d = { lang: 'en', fcmDevices: {
+      phone:  { token: 't1', updatedAt: now, lang: 'he' },
+      laptop: { token: 't2', updatedAt: now },
+    } };
+    expect(collectDevices(d, now)).toEqual([{ token: 't1', lang: 'he' }, { token: 't2', lang: 'en' }]);
+  });
+  it('ignores an unknown device language', () => {
+    const d = { lang: 'he', fcmDevices: { a: { token: 't', updatedAt: now, lang: 'fr' } } };
+    expect(collectDevices(d, now)).toEqual([{ token: 't', lang: 'he' }]);
+  });
+  it('skips idle devices and duplicate tokens, like collectTokens', () => {
+    const old = now - 61 * 86400000;
+    const d = { fcmDevices: {
+      a: { token: 't', updatedAt: now, lang: 'en' },
+      b: { token: 't', updatedAt: now, lang: 'he' },
+      c: { token: 'idle', updatedAt: old, lang: 'he' },
+    } };
+    expect(collectDevices(d, now)).toEqual([{ token: 't', lang: 'en' }]);
+  });
+  it('legacy tokens get the user lang', () => {
+    expect(collectDevices({ lang: 'en', fcmTokens: ['x'], fcmToken: 'y' }, now))
+      .toEqual([{ token: 'x', lang: 'en' }, { token: 'y', lang: 'en' }]);
+    expect(collectDevices({}, now)).toEqual([]);
   });
 });
 

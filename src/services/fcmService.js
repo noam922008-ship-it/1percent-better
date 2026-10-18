@@ -29,9 +29,11 @@ export function isFcmReady() {
 /**
  * Requests an FCM registration token and saves it to users/{uid}.
  * Must be called after the user has granted Notification permission.
+ * lang ('he' | 'en') = this device's UI language: pushes to this device go out in it,
+ * so a phone in Hebrew and a laptop in English each get their own language.
  * Returns the token string on success, null on failure.
  */
-export async function registerFcmToken(uid) {
+export async function registerFcmToken(uid, lang) {
   if (!messaging) {
     console.warn('[FCM] messaging not initialized — Firebase config missing or SW unsupported')
     return null
@@ -55,10 +57,11 @@ export async function registerFcmToken(uid) {
     // for old readers. The legacy fcmTokens array is no longer grown; the server ignores it once
     // fcmDevices exists (functions/notifyCopy.js collectTokens).
     const deviceId = getDeviceId()
+    const entry = { token, updatedAt: Date.now(), ...(lang === 'he' || lang === 'en' ? { lang } : {}) }
     await setDoc(
       doc(db, 'users', uid),
       deviceId
-        ? { fcmDevices: { [deviceId]: { token, updatedAt: Date.now() } }, fcmToken: token }
+        ? { fcmDevices: { [deviceId]: entry }, fcmToken: token }
         : { fcmToken: token },
       { merge: true }
     )

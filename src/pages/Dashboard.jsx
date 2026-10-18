@@ -878,12 +878,12 @@ export default function Dashboard() {
   useEffect(() => {
     if (!user || isGuest) return
     if (!('Notification' in window) || Notification.permission !== 'granted') return
-    registerFcmToken(user.uid)
+    registerFcmToken(user.uid, lang)
     if (!('serviceWorker' in navigator)) return
-    const onSwMessage = e => { if (e.data?.type === 'FCM_TOKEN_REFRESH') registerFcmToken(user.uid) }
+    const onSwMessage = e => { if (e.data?.type === 'FCM_TOKEN_REFRESH') registerFcmToken(user.uid, lang) }
     navigator.serviceWorker.addEventListener('message', onSwMessage)
     return () => navigator.serviceWorker.removeEventListener('message', onSwMessage)
-  }, [user, isGuest])
+  }, [user, isGuest, lang])
 
   // users/{uid}.lang + tz — read by the Cloud Functions (push language, later local send time)
   useEffect(() => {

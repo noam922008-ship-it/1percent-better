@@ -12,7 +12,7 @@ const { GoogleAIFileManager }     = require('@google/generative-ai/server');
 const { getStorage }              = require('firebase-admin/storage');
 const {
   TEST_COPY, BROADCAST_COPY,
-  copyFor, todayIsraelDateKey, collectTokens,
+  copyFor, todayIsraelDateKey, collectTokens, collectDevices,
   localClock, dueSlots, shouldPush, buildPush,
 } = require('./notifyCopy');
 
@@ -612,18 +612,20 @@ exports.localScheduler = onSchedule(
     const perKind    = {};
 
     for (const doc of usersSnap.docs) {
-      const d      = doc.data();
-      const tokens = collectTokens(d);
-      if (!tokens.size) continue;
+      const d       = doc.data();
+      const devices = collectDevices(d);
+      if (!devices.length) continue;
 
       const clock = localClock(now, d.tz);
       for (const { kind } of dueSlots(clock)) {
         if (!shouldPush(kind, d, clock, now)) continue;
-        const push = buildPush(kind, d, PUSH_APP_URL);
-        if (!push) continue;
         perKind[kind] = (perKind[kind] || 0) + 1;
-
-        for (const token of tokens) {
+        // One copy per language, so each device gets the language its own UI is in.
+        const byLang = new Map();
+        for (const { token, lang } of devices) {
+          if (!byLang.has(lang)) byLang.set(lang, buildPush(kind, { ...d, lang }, PUSH_APP_URL));
+          const push = byLang.get(lang);
+          if (!push) continue;
           tokenToUid.set(token, doc.id);
           messages.push({
             token,
