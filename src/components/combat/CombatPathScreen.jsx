@@ -148,6 +148,7 @@ export default function CombatPathScreen({
   const { lang, t: tr } = useLang()
   const tc = tr.workouts.combat
   const completedIds  = state?.completedWorkoutIds ?? []
+  const [showRoadmap, setShowRoadmap] = useState(false)   // the level list is folded by default
   const nextWorkout   = engine.getNextWorkout(state ?? { completedWorkoutIds: [], currentLevel: 1 })
   const learnedTechs  = engine.getLearnedTechniques(completedIds)
   const allDone       = !nextWorkout && levels?.every((lv) => engine.isLevelComplete(lv.level, completedIds))
@@ -164,6 +165,8 @@ export default function CombatPathScreen({
   }
 
   const levelProgress = nextLevel ? engine.getLevelProgress(nextLevel.level, completedIds) : null
+  // Locked levels are not listed one by one (they took a whole screen): one line says how many are left
+  const lockedCount = (levels ?? []).filter((level) => !engine.isLevelUnlocked(level.level, completedIds)).length
 
   return (
     <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: 'system-ui, sans-serif', paddingBottom: 32, overflowX: 'hidden' }}>
@@ -174,6 +177,40 @@ export default function CombatPathScreen({
       </div>
 
       <div style={{ padding: '16px 16px 0' }}>
+
+        {/* Current workout card */}
+        <div style={{ background: C.surface, borderRadius: 16, border: `1px solid ${C.border}`, padding: 20, marginBottom: 16 }}>
+          {allDone ? (
+            <div style={{ textAlign: 'center', color: C.muted, fontSize: 15 }}>🏆 {allCompletedLabel}</div>
+          ) : nextWorkout ? (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                <span style={{ background: C.accent + '22', color: C.accent, borderRadius: 20, padding: '3px 10px', fontSize: 12, fontWeight: 700 }}>
+                  {fmt(tc.levelChip, { n: nextLevel?.level ?? 1, title: byLang(nextLevel, 'title', lang) })}
+                </span>
+                <span style={{ fontSize: 12, color: C.muted }}>
+                  {fmt(tc.workoutOf, { n: nextWorkout.order, total: nextLevel?.workouts.length ?? 6 })}
+                </span>
+              </div>
+              <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 6 }}>{byLang(nextWorkout, 'title', lang)}</div>
+              <div style={{ fontSize: 13, color: C.muted, marginBottom: 18 }}>
+                {fmt(tc.minutes, { n: nextWorkout.estimatedMinutes })} ·{' '}
+                {tc.difficulty[nextWorkout.difficulty] ?? nextWorkout.difficulty} ·{' '}
+                {(nextWorkout.equipment ?? []).length === 0 ? tc.equipment.none : (nextWorkout.equipment ?? []).map((id) => tc.equipment[id] ?? id).join(', ')}
+              </div>
+              <button className="btn-tactile" onClick={() => onStartWorkout(nextWorkout)} style={{ width: '100%', background: C.accent, color: '#111317', border: 'none', borderRadius: 14, padding: '15px 0', fontSize: 17, fontWeight: 800, cursor: 'pointer', letterSpacing: 0.3 }}>
+                {tc.startWorkout}
+              </button>
+            </>
+          ) : (
+            <div style={{ textAlign: 'center', color: C.muted, fontSize: 15 }}>🎉 {allCompletedLabel}</div>
+          )}
+        </div>
+
+        {/* Camera workout with the voice coach — right under the main start */}
+        <button className="btn-tactile" onClick={onFreeTraining} style={{ width: '100%', background: C.surface, color: C.text, border: `1px solid ${C.accent}55`, borderRadius: 14, padding: '14px 16px', fontSize: 15, cursor: 'pointer', fontWeight: 700, textAlign: 'start', marginBottom: 16 }}>
+          {freePracticeLabel}
+        </button>
 
         {/* ── Quick Start ──────────────────────────────────────────────── */}
         {(onQuickLegWork || onQuickHandsElbows) && (
@@ -208,35 +245,6 @@ export default function CombatPathScreen({
           </div>
         )}
 
-        {/* Current workout card */}
-        <div style={{ background: C.surface, borderRadius: 16, border: `1px solid ${C.border}`, padding: 20, marginBottom: 16 }}>
-          {allDone ? (
-            <div style={{ textAlign: 'center', color: C.muted, fontSize: 15 }}>🏆 {allCompletedLabel}</div>
-          ) : nextWorkout ? (
-            <>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                <span style={{ background: C.accent + '22', color: C.accent, borderRadius: 20, padding: '3px 10px', fontSize: 12, fontWeight: 700 }}>
-                  {fmt(tc.levelChip, { n: nextLevel?.level ?? 1, title: byLang(nextLevel, 'title', lang) })}
-                </span>
-                <span style={{ fontSize: 12, color: C.muted }}>
-                  {fmt(tc.workoutOf, { n: nextWorkout.order, total: nextLevel?.workouts.length ?? 6 })}
-                </span>
-              </div>
-              <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 6 }}>{byLang(nextWorkout, 'title', lang)}</div>
-              <div style={{ fontSize: 13, color: C.muted, marginBottom: 18 }}>
-                {fmt(tc.minutes, { n: nextWorkout.estimatedMinutes })} ·{' '}
-                {tc.difficulty[nextWorkout.difficulty] ?? nextWorkout.difficulty} ·{' '}
-                {(nextWorkout.equipment ?? []).length === 0 ? tc.equipment.none : (nextWorkout.equipment ?? []).map((id) => tc.equipment[id] ?? id).join(', ')}
-              </div>
-              <button className="btn-tactile" onClick={() => onStartWorkout(nextWorkout)} style={{ width: '100%', background: C.accent, color: '#111317', border: 'none', borderRadius: 14, padding: '15px 0', fontSize: 17, fontWeight: 800, cursor: 'pointer', letterSpacing: 0.3 }}>
-                {tc.startWorkout}
-              </button>
-            </>
-          ) : (
-            <div style={{ textAlign: 'center', color: C.muted, fontSize: 15 }}>🎉 {allCompletedLabel}</div>
-          )}
-        </div>
-
         {/* Level progress bar */}
         {nextLevel && levelProgress && (
           <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '14px 16px', marginBottom: 16 }}>
@@ -262,8 +270,16 @@ export default function CombatPathScreen({
 
         {/* Level roadmap */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10, textAlign: 'start' }}>{tc.roadmap}</div>
-          {(levels ?? []).map((level) => (
+          <button
+            className="btn-tactile"
+            onClick={() => setShowRoadmap((v) => !v)}
+            aria-expanded={showRoadmap}
+            style={{ width: '100%', background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14, padding: '14px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, color: C.text }}
+          >
+            <span style={{ flex: 1, textAlign: 'start', fontSize: 15, fontWeight: 700 }}>{tc.roadmap}</span>
+            <span style={{ color: C.muted, fontSize: 14 }}>{showRoadmap ? '▲' : '▼'}</span>
+          </button>
+          {showRoadmap && (levels ?? []).filter((level) => engine.isLevelUnlocked(level.level, completedIds)).map((level) => (
             <LevelAccordion
               key={level.level}
               level={level}
@@ -272,12 +288,13 @@ export default function CombatPathScreen({
               defaultOpen={nextLevel?.level === level.level}
             />
           ))}
+          {showRoadmap && lockedCount > 0 && (
+            <div style={{ fontSize: 13, color: C.muted, textAlign: 'start', padding: '10px 4px' }}>
+              {fmt(tc.moreLevels, { n: lockedCount })}
+            </div>
+          )}
         </div>
 
-        {/* Free training */}
-        <button className="btn-tactile" onClick={onFreeTraining} style={{ width: '100%', background: C.surface, color: C.muted, border: `1px solid ${C.border}`, borderRadius: 14, padding: '14px 0', fontSize: 15, cursor: 'pointer', fontWeight: 600 }}>
-          {freePracticeLabel}
-        </button>
       </div>
     </div>
   )

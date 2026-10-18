@@ -1,5 +1,5 @@
 import CombatPathScreen from '../combat/CombatPathScreen'
-import { MT_LEVELS, MT_L1_TECHNIQUES, MT_L1_TECHNIQUES_EN } from '../../data/muayThaiPath'
+import { MT_LEVELS, MT_L1_TECHNIQUES } from '../../data/muayThaiPath'
 import { getMuayThaiState, muayThaiEngine } from '../../utils/muayThaiProgress'
 import { useLang } from '../../context/LangContext'
 
@@ -20,10 +20,9 @@ export default function MuayThaiPathScreen({
       title={tmt.title}
       levels={MT_LEVELS}
       levelOneTechniques={MT_L1_TECHNIQUES}
-      levelOneTechniquesEn={MT_L1_TECHNIQUES_EN}
       state={state}
       engine={muayThaiEngine}
-      freePracticeLabel={tmt.free}
+      freePracticeLabel={tr.workouts.combat.cameraCoach}
       allCompletedLabel={tmt.allDone}
       onStartWorkout={onStartWorkout}
       onFreeTraining={onFreeTraining}

@@ -489,6 +489,9 @@ const en = {
       levelProgress: 'Level progress',
       techniques:   'Techniques',
       roadmap:      'Roadmap',
+      moreLevels:   '🔒 {n} more levels unlock as you go',
+      pickFocus:    'Pick a specific focus',
+      cameraCoach:  '📷 Camera workout with voice coach',
       mt: {
         title:    '🦵 Muay Thai — from the basics to fighter',
         free:     'Free practice 🦵',

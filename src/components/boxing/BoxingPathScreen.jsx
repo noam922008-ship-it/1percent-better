@@ -221,16 +221,14 @@ export default function BoxingPathScreen({
   const [skipWarmup,       setSkipWarmup]       = useState(false)
   const [activeDrill,      setActiveDrill]      = useState(null)
   const [drillStats,       setDrillStats]       = useState(null)
-  const [showCourse,       setShowCourse]       = useState(false)
+  const [showFocus,        setShowFocus]        = useState(false)
+  const [showRoadmap,      setShowRoadmap]      = useState(false)   // the level list is folded by default
   const [xpAwarded,        setXpAwarded]        = useState(0)
   const [videoReturnView,  setVideoReturnView]  = useState('home')
 
-  // ── guided course summary text for collapsed header ──
-  const courseProgressText = (() => {
-    if (!nextLevel) return null
-    const p = getLevelProgress(nextLevel.level, completedIds)
-    return fmt(tb.courseProgress, { n: p.completed + 1, total: p.total, level: nextLevel.level })
-  })()
+  // Locked levels are not listed one by one: one line says how many are left
+  const lockedLevels = BOXING_LEVELS.filter((level) => !isLevelUnlocked(level.level, completedIds)).length
+
 
   // ─── VIEW: drill-active ───────────────────────────────────────────────────
   if (view === 'drill-active' && activeDrill) {
@@ -696,6 +694,119 @@ export default function BoxingPathScreen({
 
       <div style={{ padding: '20px 16px 0' }}>
 
+        {/* Current workout card */}
+        <div
+          style={{
+            background: C.bg,
+            borderRadius: 14,
+            border: `1px solid ${C.border}`,
+            padding: 16,
+            marginBottom: 12,
+            marginTop: 0,
+          }}
+        >
+          {allL1Complete && !nextWorkout ? (
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: C.accent, marginBottom: 4 }}>
+                {tb.l1Done}
+              </div>
+              <div style={{ fontSize: 13, color: C.muted, marginBottom: 14 }}>
+                {tb.l2Waiting}
+              </div>
+              <button
+                className="btn-tactile"
+                onClick={onFreeTraining}
+                style={{
+                  background: C.border,
+                  color: C.text,
+                  border: 'none',
+                  borderRadius: 12,
+                  padding: '12px 24px',
+                  fontSize: 14,
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                }}
+              >
+                {tb.practiceAgain}
+              </button>
+            </div>
+          ) : nextWorkout ? (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                <span
+                  style={{
+                    background: C.accent + '22',
+                    color: C.accent,
+                    borderRadius: 20,
+                    padding: '3px 10px',
+                    fontSize: 12,
+                    fontWeight: 700,
+                  }}
+                >
+                  {fmt(tc.levelChip, { n: nextLevel?.level ?? 1, title: byLang(nextLevel, 'title', lang) })}
+                </span>
+                <span style={{ fontSize: 12, color: C.muted }}>
+                  {fmt(tc.workoutOf, { n: nextWorkout.order, total: nextLevel?.workouts.length ?? 6 })}
+                </span>
+              </div>
+
+              <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>
+                {byLang(nextWorkout, 'title', lang)}
+              </div>
+
+              <div style={{ fontSize: 13, color: C.muted, marginBottom: 16 }}>
+                {fmt(tc.minutes, { n: nextWorkout.estimatedMinutes })} ·{' '}
+                {tc.difficulty[nextWorkout.difficulty] ?? nextWorkout.difficulty} ·{' '}
+                {(nextWorkout.equipment ?? []).map((id) => tc.equipment[id] ?? id).join(', ')}
+              </div>
+
+              <button
+                className="btn-tactile"
+                onClick={() => onStartWorkout(nextWorkout)}
+                style={{
+                  width: '100%',
+                  background: C.accent,
+                  color: '#111317',
+                  border: 'none',
+                  borderRadius: 12,
+                  padding: '14px 0',
+                  fontSize: 16,
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                {tc.startWorkout}
+              </button>
+            </>
+          ) : (
+            <div style={{ textAlign: 'center', color: C.muted, fontSize: 14 }}>
+              {tb.allDone}
+            </div>
+          )}
+        </div>
+
+        {/* Camera workout with the voice coach */}
+        <button
+          className="btn-tactile"
+          onClick={onFreeTraining}
+          style={{
+            width: '100%',
+            background: C.surface,
+            border: `1px solid ${C.accent}55`,
+            borderRadius: 14,
+            padding: '14px 16px',
+            cursor: 'pointer',
+            textAlign: 'start',
+            fontSize: 15,
+            fontWeight: 700,
+            color: C.text,
+            marginBottom: 16,
+          }}
+        >
+          {tc.cameraCoach}
+        </button>
+
         {/* ── Quick Start ──────────────────────────────────────────────── */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, marginBottom: 8, textAlign: 'start', letterSpacing: 0.3 }}>
@@ -765,66 +876,78 @@ export default function BoxingPathScreen({
           </div>
         </div>
 
-        {/* Section title */}
-        <div
+        {/* Specific focus — folded: the main path above is the one-tap start */}
+        <button
+          className="btn-tactile"
+          onClick={() => setShowFocus((v) => !v)}
+          aria-expanded={showFocus}
           style={{
-            fontSize: 15,
-            fontWeight: 700,
-            color: C.text,
-            marginBottom: 12,
-            textAlign: 'start',
-          }}
-        >
-          {tb.todayQ}
-        </div>
-
-        {/* Category grid — 2 columns */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            width: '100%',
+            background: C.surface,
+            border: `1px solid ${C.border}`,
+            borderRadius: 14,
+            padding: '14px 16px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
             gap: 10,
-            marginBottom: 24,
+            marginBottom: showFocus ? 10 : 12,
+            color: C.text,
           }}
         >
-          {DRILL_CATEGORIES.filter(cat => FEATURES.ai || cat.id !== 'analysis').map((cat) => (
-            <button
-              key={cat.id}
-              className="btn-tactile"
-              onClick={() => {
-                if (cat.id === 'analysis') {
-                  setView('analysis')
-                } else {
-                  setSelectedCategory(cat)
-                  setView('drill-config')
-                }
-              }}
-              style={{
-                background: C.surface,
-                border: `1px solid ${C.border}`,
-                borderRadius: 14,
-                padding: '14px 12px',
-                cursor: 'pointer',
-                textAlign: 'start',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 5,
-                minHeight: 88,
-                minWidth: 0,
-                overflow: 'hidden',
-                transition: 'border-color 0.15s ease',
-              }}
-            >
-              <span style={{ fontSize: 26, lineHeight: 1 }}>{cat.emoji}</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: C.text, lineHeight: 1.2, wordBreak: 'break-word' }}>
-                {byLang(cat, 'label', lang)}
-              </span>
-              <span style={{ fontSize: 11, color: C.muted, lineHeight: 1.4, wordBreak: 'break-word' }}>
-                {byLang(cat, 'desc', lang)}
-              </span>
-            </button>
-          ))}
-        </div>
+          <span style={{ flex: 1, textAlign: 'start', fontSize: 15, fontWeight: 700 }}>{tc.pickFocus}</span>
+          <span style={{ color: C.muted, fontSize: 14 }}>{showFocus ? '▲' : '▼'}</span>
+        </button>
+        {/* Category grid — 2 columns */}
+        {showFocus && (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 10,
+              marginBottom: 24,
+            }}
+          >
+            {DRILL_CATEGORIES.filter(cat => FEATURES.ai || cat.id !== 'analysis').map((cat) => (
+              <button
+                key={cat.id}
+                className="btn-tactile"
+                onClick={() => {
+                  if (cat.id === 'analysis') {
+                    setView('analysis')
+                  } else {
+                    setSelectedCategory(cat)
+                    setView('drill-config')
+                  }
+                }}
+                style={{
+                  background: C.surface,
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 14,
+                  padding: '14px 12px',
+                  cursor: 'pointer',
+                  textAlign: 'start',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 5,
+                  minHeight: 88,
+                  minWidth: 0,
+                  overflow: 'hidden',
+                  transition: 'border-color 0.15s ease',
+                }}
+              >
+                <span style={{ fontSize: 26, lineHeight: 1 }}>{cat.emoji}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: C.text, lineHeight: 1.2, wordBreak: 'break-word' }}>
+                  {byLang(cat, 'label', lang)}
+                </span>
+                <span style={{ fontSize: 11, color: C.muted, lineHeight: 1.4, wordBreak: 'break-word' }}>
+                  {byLang(cat, 'desc', lang)}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
 
         {/* Video session analysis — standalone entry */}
         {FEATURES.ai && (
@@ -854,218 +977,80 @@ export default function BoxingPathScreen({
         </button>
         )}
 
-        {/* Divider */}
-        <div
-          style={{
-            height: 1,
-            background: C.border,
-            marginBottom: 20,
-          }}
-        />
-
-        {/* Guided course — collapsible */}
-        <div
-          style={{
-            borderRadius: 14,
-            border: `1px solid ${C.border}`,
-            overflow: 'hidden',
-            marginBottom: 16,
-          }}
-        >
-          {/* Collapsible header */}
-          <button
-            className="btn-tactile"
-            onClick={() => setShowCourse((v) => !v)}
+        {/* Level progress bar */}
+        {nextLevel && (
+          <div
             style={{
-              width: '100%',
-              background: showCourse ? C.surface : 'transparent',
-              border: 'none',
-              padding: '14px 16px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              minHeight: 52,
+              background: C.bg,
+              borderRadius: 12,
+              border: `1px solid ${C.border}`,
+              padding: '12px 14px',
+              marginBottom: 12,
             }}
           >
-            <span style={{ color: C.muted, fontSize: 14, flexShrink: 0 }}>
-              {showCourse ? '▲' : '▼'}
-            </span>
-            <div style={{ flex: 1, textAlign: 'start' }}>
-              <span style={{ fontSize: 15, fontWeight: 700, color: C.text }}>
-                {tb.course}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 8,
+              }}
+            >
+              <span style={{ fontSize: 12, color: C.muted }}>
+                {getLevelProgress(nextLevel.level, completedIds).completed}/
+                {getLevelProgress(nextLevel.level, completedIds).total}
               </span>
-              {courseProgressText && !showCourse && (
-                <span style={{ fontSize: 12, color: C.muted, marginInlineStart: 8 }}>
-                  {courseProgressText}
-                </span>
-              )}
+              <span style={{ fontSize: 13, fontWeight: 600, color: C.text }}>
+                {tc.levelProgress}
+              </span>
             </div>
+            <ProgressBar
+              value={getLevelProgress(nextLevel.level, completedIds).completed}
+              total={getLevelProgress(nextLevel.level, completedIds).total}
+            />
+          </div>
+        )}
+
+        {/* Techniques section */}
+        <div
+          style={{
+            background: C.bg,
+            borderRadius: 12,
+            border: `1px solid ${C.border}`,
+            padding: '12px 14px',
+            marginBottom: 12,
+          }}
+        >
+          <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, textAlign: 'start' }}>
+            {tc.techniques}
+          </div>
+          {L1_TECHNIQUES.map((tech, i) => (
+            <TechniqueRow key={tech} name={(lang === 'en' && L1_TECHNIQUES_EN[i]) || tech} status={techStatus(tech)} />
+          ))}
+        </div>
+
+        {/* Level list */}
+        <div>
+          <button
+            className="btn-tactile"
+            onClick={() => setShowRoadmap((v) => !v)}
+            aria-expanded={showRoadmap}
+            style={{ width: '100%', background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14, padding: '14px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, color: C.text }}
+          >
+            <span style={{ flex: 1, textAlign: 'start', fontSize: 15, fontWeight: 700 }}>{tc.roadmap}</span>
+            <span style={{ color: C.muted, fontSize: 14 }}>{showRoadmap ? '▲' : '▼'}</span>
           </button>
-
-          {/* Expanded content */}
-          {showCourse && (
-            <div style={{ background: C.surface, padding: '4px 16px 16px' }}>
-
-              {/* Current workout card */}
-              <div
-                style={{
-                  background: C.bg,
-                  borderRadius: 14,
-                  border: `1px solid ${C.border}`,
-                  padding: 16,
-                  marginBottom: 12,
-                  marginTop: 8,
-                }}
-              >
-                {allL1Complete && !nextWorkout ? (
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: C.accent, marginBottom: 4 }}>
-                      {tb.l1Done}
-                    </div>
-                    <div style={{ fontSize: 13, color: C.muted, marginBottom: 14 }}>
-                      {tb.l2Waiting}
-                    </div>
-                    <button
-                      className="btn-tactile"
-                      onClick={onFreeTraining}
-                      style={{
-                        background: C.border,
-                        color: C.text,
-                        border: 'none',
-                        borderRadius: 12,
-                        padding: '12px 24px',
-                        fontSize: 14,
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                      }}
-                    >
-                      {tb.practiceAgain}
-                    </button>
-                  </div>
-                ) : nextWorkout ? (
-                  <>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                      <span
-                        style={{
-                          background: C.accent + '22',
-                          color: C.accent,
-                          borderRadius: 20,
-                          padding: '3px 10px',
-                          fontSize: 12,
-                          fontWeight: 700,
-                        }}
-                      >
-                        {fmt(tc.levelChip, { n: nextLevel?.level ?? 1, title: byLang(nextLevel, 'title', lang) })}
-                      </span>
-                      <span style={{ fontSize: 12, color: C.muted }}>
-                        {fmt(tc.workoutOf, { n: nextWorkout.order, total: nextLevel?.workouts.length ?? 6 })}
-                      </span>
-                    </div>
-
-                    <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>
-                      {byLang(nextWorkout, 'title', lang)}
-                    </div>
-
-                    <div style={{ fontSize: 13, color: C.muted, marginBottom: 16 }}>
-                      {fmt(tc.minutes, { n: nextWorkout.estimatedMinutes })} ·{' '}
-                      {tc.difficulty[nextWorkout.difficulty] ?? nextWorkout.difficulty} ·{' '}
-                      {(nextWorkout.equipment ?? []).map((id) => tc.equipment[id] ?? id).join(', ')}
-                    </div>
-
-                    <button
-                      className="btn-tactile"
-                      onClick={() => onStartWorkout(nextWorkout)}
-                      style={{
-                        width: '100%',
-                        background: C.accent,
-                        color: '#111317',
-                        border: 'none',
-                        borderRadius: 12,
-                        padding: '14px 0',
-                        fontSize: 16,
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {tc.startWorkout}
-                    </button>
-                  </>
-                ) : (
-                  <div style={{ textAlign: 'center', color: C.muted, fontSize: 14 }}>
-                    {tb.allDone}
-                  </div>
-                )}
-              </div>
-
-              {/* Level progress bar */}
-              {nextLevel && (
-                <div
-                  style={{
-                    background: C.bg,
-                    borderRadius: 12,
-                    border: `1px solid ${C.border}`,
-                    padding: '12px 14px',
-                    marginBottom: 12,
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: 8,
-                    }}
-                  >
-                    <span style={{ fontSize: 12, color: C.muted }}>
-                      {getLevelProgress(nextLevel.level, completedIds).completed}/
-                      {getLevelProgress(nextLevel.level, completedIds).total}
-                    </span>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: C.text }}>
-                      {tc.levelProgress}
-                    </span>
-                  </div>
-                  <ProgressBar
-                    value={getLevelProgress(nextLevel.level, completedIds).completed}
-                    total={getLevelProgress(nextLevel.level, completedIds).total}
-                  />
-                </div>
-              )}
-
-              {/* Techniques section */}
-              <div
-                style={{
-                  background: C.bg,
-                  borderRadius: 12,
-                  border: `1px solid ${C.border}`,
-                  padding: '12px 14px',
-                  marginBottom: 12,
-                }}
-              >
-                <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, textAlign: 'start' }}>
-                  {tc.techniques}
-                </div>
-                {L1_TECHNIQUES.map((tech, i) => (
-                  <TechniqueRow key={tech} name={(lang === 'en' && L1_TECHNIQUES_EN[i]) || tech} status={techStatus(tech)} />
-                ))}
-              </div>
-
-              {/* Level list */}
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, textAlign: 'start', color: C.text }}>
-                  {tc.roadmap}
-                </div>
-                {BOXING_LEVELS.map((level) => (
-                  <LevelAccordion
-                    key={level.level}
-                    level={level}
-                    completedIds={completedIds}
-                    defaultOpen={nextLevel?.level === level.level}
-                  />
-                ))}
-              </div>
-
+          {showRoadmap && BOXING_LEVELS.filter((level) => isLevelUnlocked(level.level, completedIds)).map((level) => (
+            <LevelAccordion
+              key={level.level}
+              level={level}
+              completedIds={completedIds}
+              defaultOpen={nextLevel?.level === level.level}
+            />
+          ))}
+          {showRoadmap && lockedLevels > 0 && (
+            <div style={{ fontSize: 13, color: C.muted, textAlign: 'start', padding: '10px 4px' }}>
+              {fmt(tc.moreLevels, { n: lockedLevels })}
             </div>
           )}
         </div>

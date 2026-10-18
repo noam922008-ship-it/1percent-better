@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 
 // Firebase "configured" — so anything that stays off is off because of FEATURES.ai
 const { callable } = vi.hoisted(() => ({ callable: vi.fn(async () => ({ data: { text: 'x' } })) }))
@@ -35,6 +35,7 @@ describe('launch without AI (FEATURES.ai = false)', () => {
 
   it('boxing screen hides photo and video analysis', () => {
     render(<BoxingPathScreen profile={{}} onStartWorkout={() => {}} onFreeTraining={() => {}} onClose={() => {}} onDrillComplete={() => {}} />)
+    fireEvent.click(screen.getByText('בחר נושא ספציפי'))   // the topics are folded now
     expect(screen.getByText('עבודת רגליים')).toBeInTheDocument()
     expect(screen.queryByText('בדיקת עמידה מתמונה')).toBeNull()
     expect(screen.queryByText('ניתוח סשן')).toBeNull()

@@ -111,10 +111,20 @@ describe('English Workouts tab has no Hebrew', () => {
 
   it('boxing path: home, guided path open, drill settings (technique names excluded)', () => {
     const { container } = render(<BoxingPathScreen profile={null} onStartWorkout={() => {}} onFreeTraining={() => {}} onClose={() => {}} />)
-    fireEvent.click(screen.getByText('Guided path'))
     expect(hebrewIn(container, L1_TECHNIQUES)).toEqual([])
+    // The next workout and its start button are on screen without opening anything
     expect(screen.getAllByText('Level 1 · Stance and guard').length).toBeGreaterThan(0)
     expect(screen.getByText(/No equipment/)).toBeTruthy()
+    expect(screen.getByText('Start workout →')).toBeTruthy()
+    // The roadmap is folded; opened, locked levels are one line, not a list
+    expect(screen.queryByText(/more levels unlock as you go/)).toBeNull()
+    fireEvent.click(screen.getByText('Roadmap'))
+    expect(screen.queryByText(/Level 7 —/)).toBeNull()
+    expect(screen.getByText(/more levels unlock as you go/)).toBeTruthy()
+    expect(screen.getByText('📷 Camera workout with voice coach')).toBeTruthy()
+    // Specific focus is folded until asked for
+    expect(screen.queryByText('Footwork')).toBeNull()
+    fireEvent.click(screen.getByText('Pick a specific focus'))
     fireEvent.click(screen.getByText('Footwork'))
     expect(screen.getByText('How long?')).toBeTruthy()
     expect(hebrewIn(container)).toEqual([])
@@ -145,6 +155,10 @@ describe('English Workouts tab has no Hebrew', () => {
     let r = render(<MuayThaiPathScreen profile={null} onStartWorkout={() => {}} onFreeTraining={() => {}} onClose={() => {}} onQuickLegWork={() => {}} onQuickHandsElbows={() => {}} quickDuration={5} />)
     expect(hebrewIn(r.container, MT_L1_TECHNIQUES)).toEqual([])
     expect(screen.getByText(/No equipment/)).toBeTruthy()
+    fireEvent.click(screen.getByText('Roadmap'))
+    expect(screen.queryByText(/Level 7 —/)).toBeNull()
+    expect(screen.getByText('🔒 6 more levels unlock as you go')).toBeTruthy()
+    expect(screen.getByText('📷 Camera workout with voice coach')).toBeTruthy()
     r.unmount()
 
     r = render(<CombatWorkoutPreview workout={MT_W1} levelNum={1} trainingOptions={mtOptions(en)} bagWarningLabel={en.home.combat.bagWarning} onStart={() => {}} onInstant={() => {}} onBack={() => {}} />)
@@ -179,9 +193,9 @@ describe('Hebrew is unchanged', () => {
 
   it('boxing path card says "ללא ציוד", titles and drill labels stay Hebrew', () => {
     render(<BoxingPathScreen profile={null} onStartWorkout={() => {}} onFreeTraining={() => {}} onClose={() => {}} />)
-    fireEvent.click(screen.getByText('מסלול מודרך'))
     expect(screen.getByText(/15 דקות · מתחילים · ללא ציוד|12 דקות · מתחילים · ללא ציוד/)).toBeTruthy()
     expect(screen.getAllByText('רמה 1 · עמידה והגנה').length).toBeGreaterThan(0)
+    fireEvent.click(screen.getByText('בחר נושא ספציפי'))
     expect(screen.getByText('עבודת רגליים')).toBeTruthy()
   })
 

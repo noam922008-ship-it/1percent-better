@@ -494,6 +494,9 @@ const he = {
       levelProgress: 'התקדמות ברמה',
       techniques:   'טכניקות',
       roadmap:      'מפת הדרך',
+      moreLevels:   '🔒 עוד {n} רמות נפתחות בהמשך',
+      pickFocus:    'בחר נושא ספציפי',
+      cameraCoach:  '📷 אימון עם מצלמה ומאמן קולי',
       mt: {
         title:    '🦵 מואי תאי — מהיסודות ללוחם',
         free:     'תרגול חופשי 🦵',
