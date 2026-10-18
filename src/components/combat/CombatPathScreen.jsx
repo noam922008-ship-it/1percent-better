@@ -49,7 +49,7 @@ function WorkoutRow({ workout, completedIds }) {
 
 const TECHNIQUES_DEFAULT_VISIBLE = 3
 
-function CollapsibleTechniqueList({ techniques, techStatus }) {
+function CollapsibleTechniqueList({ techniques, techStatus, labelOf = t => t }) {
   const { t: tr } = useLang()
   const [expanded, setExpanded] = useState(false)
   const visible = expanded ? techniques : techniques.slice(0, TECHNIQUES_DEFAULT_VISIBLE)
@@ -57,7 +57,7 @@ function CollapsibleTechniqueList({ techniques, techStatus }) {
 
   return (
     <>
-      {visible.map((tech) => <TechniqueRow key={tech} name={tech} status={techStatus(tech)} />)}
+      {visible.map((tech) => <TechniqueRow key={tech} name={labelOf(tech)} status={techStatus(tech)} />)}
       {!expanded && hidden > 0 && (
         <button
           onClick={() => setExpanded(true)}
@@ -116,7 +116,8 @@ function LevelAccordion({ level, completedIds, engine, defaultOpen }) {
  * Props:
  *   title              — header title string
  *   levels             — LEVELS array
- *   levelOneTechniques — string[] shown in techniques section
+ *   levelOneTechniques — string[] shown in techniques section (Hebrew: also the progress key)
+ *   levelOneTechniquesEn — same list in English, same order (display only)
  *   state              — { currentLevel, completedWorkoutIds, ... }
  *   engine             — progression engine from createCombatProgressionEngine
  *   freePracticeLabel  — string
@@ -132,6 +133,7 @@ export default function CombatPathScreen({
   title,
   levels,
   levelOneTechniques,
+  levelOneTechniquesEn,
   state,
   engine,
   freePracticeLabel,
@@ -250,7 +252,11 @@ export default function CombatPathScreen({
         {levelOneTechniques && levelOneTechniques.length > 0 && (
           <div style={{ background: C.surface, borderRadius: 14, border: `1px solid ${C.border}`, padding: '14px 16px', marginBottom: 16 }}>
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10, textAlign: 'start' }}>{tc.techniques}</div>
-            <CollapsibleTechniqueList techniques={levelOneTechniques} techStatus={techStatus} />
+            <CollapsibleTechniqueList
+              techniques={levelOneTechniques}
+              techStatus={techStatus}
+              labelOf={tech => (lang === 'en' && levelOneTechniquesEn?.[levelOneTechniques.indexOf(tech)]) || tech}
+            />
           </div>
         )}
 

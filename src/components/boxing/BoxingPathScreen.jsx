@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BOXING_LEVELS, L1_TECHNIQUES } from '../../data/boxingPath'
+import { BOXING_LEVELS, L1_TECHNIQUES, L1_TECHNIQUES_EN } from '../../data/boxingPath'
 import {
   getBoxingState,
   getNextWorkout,
@@ -1046,8 +1046,8 @@ export default function BoxingPathScreen({
                 <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, textAlign: 'start' }}>
                   {tc.techniques}
                 </div>
-                {L1_TECHNIQUES.map((tech) => (
-                  <TechniqueRow key={tech} name={tech} status={techStatus(tech)} />
+                {L1_TECHNIQUES.map((tech, i) => (
+                  <TechniqueRow key={tech} name={(lang === 'en' && L1_TECHNIQUES_EN[i]) || tech} status={techStatus(tech)} />
                 ))}
               </div>
 
