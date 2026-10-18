@@ -11,6 +11,7 @@ import HabitScheduleFields from '../components/HabitScheduleFields'
 import { normalizeSchedule, frequencyLabel } from '../utils/habitSchedule'
 import { fmt } from '../i18n/fmt'
 import { markWelcomeSeen } from '../utils/welcome'
+import { restoreFocus, toggleFocus } from '../utils/focusGoals'
 
 // A habit in setup: cue + habit + schedule (every day / X times a week, optional days and time) + note
 const EMPTY_TRIGGER = { cue: '', habit: '', time: '', note: '', weekly: false, times: 3, days: [] }
@@ -153,7 +154,8 @@ export default function OnboardingFlow() {
   const [name,      setName]      = useState(saved.name   || '')
   const [energy,    setEnergy]    = useState(saved.energy || '')
   const [timeAvail, setTimeAvail] = useState(saved.timeAvail || '')
-  const [goal,      setGoal]      = useState(saved.goal   || '')
+  const [goals,     setGoals]     = useState(() => restoreFocus(saved))   // up to 3 focus areas
+  const goal = goals[0] || ''   // the first one stays profile.focusGoal
   const [aiPick,    setAiPick]    = useState(saved.aiPick || null)   // suggested challenge ID
   const [aiLoading, setAiLoading] = useState(false)
   const [t1,        setT1]        = useState({ ...EMPTY_TRIGGER, ...(saved.t1 || {}) })
@@ -176,9 +178,9 @@ export default function OnboardingFlow() {
   }, [user, navigate])
 
   useEffect(() => {
-    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify({ step, name, energy, timeAvail, goal, aiPick, t1, t2, vision })) }
+    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify({ step, name, energy, timeAvail, goals, aiPick, t1, t2, vision })) }
     catch { /* storage full */ }
-  }, [step, name, energy, timeAvail, goal, aiPick, t1, t2, vision])
+  }, [step, name, energy, timeAvail, goals, aiPick, t1, t2, vision])
 
   // Trigger AI suggestion when entering ai-pick step
   useEffect(() => {
@@ -227,6 +229,7 @@ export default function OnboardingFlow() {
     const profile = {
       name: name.trim(),
       focusGoal: goal,
+      focusGoals: goals,
       ...(FEATURES.setupExtras ? { vision: vision.trim() || null } : {}),
       triggers: filledTriggers.map(([id, tr]) => (
         { id, cue: tr.cue.trim(), habit: tr.habit.trim(), note: tr.note.trim(),
@@ -298,16 +301,17 @@ export default function OnboardingFlow() {
               {GOAL_IDS.map(g => (
                 <button
                   key={g.id}
-                  onClick={() => setGoal(g.id)}
+                  onClick={() => setGoals(cur => toggleFocus(cur, g.id))}
+                  aria-pressed={goals.includes(g.id)}
                   style={{
                     padding: '0.85rem 0.5rem', borderRadius: 14, cursor: 'pointer', textAlign: 'center',
-                    border: goal === g.id ? '2px solid #facc15' : '1px solid rgba(255,255,255,0.08)',
-                    background: goal === g.id ? 'rgba(250,204,21,0.08)' : 'rgba(255,255,255,0.03)',
+                    border: goals.includes(g.id) ? '2px solid #facc15' : '1px solid rgba(255,255,255,0.08)',
+                    background: goals.includes(g.id) ? 'rgba(250,204,21,0.08)' : 'rgba(255,255,255,0.03)',
                     transition: 'all 0.15s',
                   }}
                 >
                   <div style={{ fontSize: '1.5rem', marginBottom: '0.3rem' }}>{g.emoji}</div>
-                  <div style={{ color: goal === g.id ? '#facc15' : 'rgba(241,245,249,0.75)', fontSize: '0.78rem', fontWeight: 600 }}>
+                  <div style={{ color: goals.includes(g.id) ? '#facc15' : 'rgba(241,245,249,0.75)', fontSize: '0.78rem', fontWeight: 600 }}>
                     {to.goals[g.id]}
                   </div>
                 </button>
