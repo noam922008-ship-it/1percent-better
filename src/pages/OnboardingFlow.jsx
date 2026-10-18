@@ -10,6 +10,7 @@ import { FEATURES } from '../config/features'
 import HabitScheduleFields from '../components/HabitScheduleFields'
 import { normalizeSchedule, frequencyLabel } from '../utils/habitSchedule'
 import { fmt } from '../i18n/fmt'
+import { markWelcomeSeen } from '../utils/welcome'
 
 // A habit in setup: cue + habit + schedule (every day / X times a week, optional days and time) + note
 const EMPTY_TRIGGER = { cue: '', habit: '', time: '', note: '', weekly: false, times: 3, days: [] }
@@ -233,10 +234,13 @@ export default function OnboardingFlow() {
       )),
       preferences: { energy: energy || null, timeAvail: timeAvail || null, recommendedTrack: FEATURES.pathBuilder ? aiPick : null },
       onboardingDone: true,
+      // The "how it works" screen above replaces the first-run welcome: land straight on Home with the habit
+      welcomeSeen: true,
       createdAt: new Date().toISOString(),
     }
     setPrefs({ energy: energy || null, timeAvail: timeAvail || null, focusGoal: goal, recommendedTrack: FEATURES.pathBuilder ? aiPick : null })
     try { await saveProfile(user.uid, profile) } catch { /* non-fatal */ }
+    markWelcomeSeen()
     localStorage.removeItem(PROGRESS_KEY)
     navigate('/dashboard', { replace: true })
   }
@@ -391,6 +395,12 @@ export default function OnboardingFlow() {
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚡</div>
             <h2 style={S.h2}>{to.done.title}</h2>
+            {/* How to use the app — the only explanation a new user gets before Home */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', margin: '0.75rem 0 1.25rem', textAlign: 'start' }}>
+              {(to.done.how || []).map(line => (
+                <div key={line} style={{ color: '#f1f5f9', fontSize: '0.9rem', lineHeight: 1.6 }}>{line}</div>
+              ))}
+            </div>
             <p style={S.sub}>{filledTriggers.length ? to.done.sub : to.done.subNoHabits}</p>
             {pickedMeta && (
               <div style={{ background: `${pickedMeta.color}12`, border: `1px solid ${pickedMeta.color}30`, borderRadius: 12, padding: '0.75rem 1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>

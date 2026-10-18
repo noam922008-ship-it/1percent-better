@@ -7,7 +7,7 @@ import { LESSON_TOPICS, DAILY_LESSONS, LESSON_BY_ID } from '../data/dailyLessons
 import { getTopSuggestionsForPillars, HABIT_SUGGESTIONS } from '../data/habitSuggestions'
 import { byLang } from '../i18n/fmt'
 
-// Phase 3: Home's remaining cards (My Tasks, "הראש שלי", daily lesson, week strip) and the add-habit flow
+// Phase 3: Home's remaining cards (My Tasks, "יומן התקדמות", daily lesson, week strip) and the add-habit flow
 // have no Hebrew UI left when English is on. Habit suggestions are English; daily lessons are English where translated
 // (all 30 lessons: brain, communication, creativity, money, technology).
 const lang = { current: 'en' }
@@ -91,9 +91,9 @@ describe('English Home cards have no Hebrew', () => {
     expect(hebrewIn(container)).toEqual([])
   })
 
-  it('"On my mind" card and full screen: write, past entries, one entry', () => {
+  it('"Progress journal" card and full screen: write, past entries, one entry', () => {
     const card = render(<JournalCard onOpen={() => {}} />)
-    expect(screen.getByText('On my mind')).toBeInTheDocument()
+    expect(screen.getByText('Progress journal')).toBeInTheDocument()
     expect(hebrewIn(card.container)).toEqual([])
     card.unmount()
 
@@ -295,7 +295,7 @@ describe('Hebrew is unchanged', () => {
 
   it('cards keep their Hebrew copy', () => {
     render(<><MyTasks uid={null} /><JournalCard onOpen={() => {}} /><WeekStrip activityLog={[]} /></>)
-    for (const s of ['המשימות שלי', 'מאתמול', 'הראש שלי', 'פעילות שבועית', '0 מתוך 7 ימים']) expect(screen.getByText(s)).toBeInTheDocument()
+    for (const s of ['המשימות שלי', 'מאתמול', 'יומן התקדמות', 'פעילות שבועית', '0 מתוך 7 ימים']) expect(screen.getByText(s)).toBeInTheDocument()
     expect(screen.getByPlaceholderText('מה אתה חייב לעשות היום?')).toBeInTheDocument()
   })
 
@@ -344,7 +344,7 @@ describe('Hebrew is unchanged', () => {
 })
 
 describe('chevrons follow the reading direction', () => {
-  it('"On my mind" card arrow: left in Hebrew, right in English', () => {
+  it('"Progress journal" card arrow: left in Hebrew, right in English', () => {
     lang.current = 'he'
     const a = render(<JournalCard onOpen={() => {}} />)
     expect(chevron(a.container)).toMatch(/chevron-left/)
