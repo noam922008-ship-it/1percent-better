@@ -11,18 +11,17 @@ vi.mock('../context/LangContext', () => ({
 
 import WorkoutsScreen from '../pages/WorkoutsScreen'
 
-describe('boxing / Muay Thai while their content is Hebrew only', () => {
+describe('boxing / Muay Thai in both languages', () => {
   beforeEach(() => { lang.current = 'en' })
 
-  it('combatAvailable: Hebrew yes, English no', () => {
+  it('combatAvailable: Hebrew and English', () => {
     expect(combatAvailable('he')).toBe(true)
-    expect(combatAvailable('en')).toBe(false)
+    expect(combatAvailable('en')).toBe(true)
   })
 
-  it('English Workouts tab has no combat category', () => {
+  it('English Workouts tab has the combat category', () => {
     render(<WorkoutsScreen onStartWorkout={() => {}} />)
-    expect(screen.queryByText(en.workouts.categories.combat.label)).toBeNull()
-    expect(screen.queryByLabelText(`Start ${en.workouts.exercises.boxing.name}`)).toBeNull()
+    expect(screen.getByText(en.workouts.categories.combat.label)).toBeTruthy()
     expect(screen.getByLabelText('Start Dips')).toBeTruthy()
   })
 

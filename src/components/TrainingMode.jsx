@@ -297,7 +297,7 @@ const isHebrew = text => /[\u0590-\u05FF]/.test(text)
 function speakSummary(highlight, tip) {
   try {
     if (!window.speechSynthesis) return
-    window.speechSynthesis.cancel()
+    stopSpeaking()
     ;[highlight, tip].forEach((text, i) => {
       const he     = isHebrew(text)
       const voice  = he ? getHebrewVoice() : null
@@ -312,10 +312,30 @@ function speakSummary(highlight, tip) {
   } catch {}
 }
 
+// iPhone (Safari and the installed app) only lets a page talk after speech was started inside a tap.
+// The coach's first line comes 3 seconds after the tap (countdown), so without this nothing is ever heard.
+// Call it directly from the tap handler: a silent utterance unlocks speech for the rest of the session.
+function unlockSpeech() {
+  try {
+    const synth = window.speechSynthesis
+    if (!synth) return
+    synth.resume?.()
+    const u = new SpeechSynthesisUtterance(' ')
+    u.volume = 0
+    synth.speak(u)
+  } catch {}
+}
+
+// cancel() right before speak() drops the new line on some browsers: only cancel when something is playing
+function stopSpeaking() {
+  const synth = window.speechSynthesis
+  if (synth && (synth.speaking || synth.pending)) synth.cancel()
+}
+
 function speak(text, diff) {
   try {
     if (!window.speechSynthesis) return
-    window.speechSynthesis.cancel()
+    stopSpeaking()
     const he    = isHebrew(text)
     const utt   = new SpeechSynthesisUtterance(text)
     utt.lang    = he ? 'he-IL' : 'en-US'
@@ -382,6 +402,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
 
   function initiateSession(diff) {
     if (countdown !== null || !discipline) return
+    unlockSpeech()   // must run inside the tap, before the countdown
     pendingDiff.current = diff
     setCountdown(3)
   }
