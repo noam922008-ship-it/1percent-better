@@ -407,6 +407,13 @@ Batch 1:
 
 ## Blockers before `FEATURES.english = true`
 
+**2026-10-18 — English turned on** (`english: true`, `consentBanner` already on). No lawyer yet (owner's call). Instead
+the privacy policy got the basic gaps closed in both languages: "Your rights" (copy, correct, delete, object,
+withdraw consent, 30-day answer, EU/UK legal basis, complaint to a data protection authority), "How long we keep it",
+the EU→US transfer under Google's SCCs, push IDs via FCM + time zone/language use + removal, and "we don't use your
+habits/workouts/journal for anything but showing them to you". Still open for a lawyer: Israeli jurisdiction for EU
+consumers, the pre-consent analytics queue, US health-data laws. `updated` → 18.10.2026 / October 18, 2026.
+
 - **GA consent (EU) — built, behind `FEATURES.consentBanner = false`** (merged into `main` `7d5ecde` and live with the
   flag off, 2026-10-12). **Turn `consentBanner` on together with `english`** — same release, never `english` alone.
   With it off, GA starts on landing exactly as before (ePrivacy / GDPR need consent first for EU users; owner chose a

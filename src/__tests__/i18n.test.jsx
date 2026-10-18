@@ -5,6 +5,8 @@ import he from '../i18n/he'
 import en from '../i18n/en'
 import { detectLang } from '../i18n/detectLang'
 import { FEATURES } from '../config/features'
+
+const SHIPPED_ENGLISH = FEATURES.english
 import { LangProvider, useLang } from '../context/LangContext'
 
 vi.mock('../context/AuthContext', () => ({ useAuth: () => ({ user: null, isGuest: true, logout: async () => {} }) }))
@@ -73,12 +75,13 @@ function Probe() {
 
 describe('LangProvider — <html dir> and <html lang>', () => {
   beforeEach(() => {
+    FEATURES.english = false
     localStorage.clear()
     document.documentElement.removeAttribute('dir')
     document.documentElement.removeAttribute('lang')
   })
   afterEach(() => {
-    FEATURES.english = false
+    FEATURES.english = SHIPPED_ENGLISH
     vi.unstubAllEnvs()
   })
 
@@ -116,14 +119,15 @@ describe('LangProvider — <html dir> and <html lang>', () => {
     expect(localStorage.getItem('ft_lang')).toBe('en') // untouched, not overwritten
   })
 
-  it('ships with English off', () => {
-    expect(FEATURES.english).toBe(false)
+  it('ships with English on, together with the consent banner', () => {
+    expect(SHIPPED_ENGLISH).toBe(true)
+    expect(FEATURES.consentBanner).toBe(true)
   })
 })
 
 describe('Settings — language picker', () => {
-  beforeEach(() => localStorage.clear())
-  afterEach(() => vi.unstubAllEnvs())
+  beforeEach(() => { FEATURES.english = false; localStorage.clear() })
+  afterEach(() => { FEATURES.english = SHIPPED_ENGLISH; vi.unstubAllEnvs() })
 
   it('hidden in a production build with English off', () => {
     vi.stubEnv('DEV', false)

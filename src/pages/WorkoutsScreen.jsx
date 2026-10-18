@@ -1,5 +1,6 @@
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
+import { combatAvailable } from '../utils/combatLang'
 
 // Labels come from t.workouts.categories / t.workouts.exercises, by id
 const WORKOUT_CATEGORIES = [
@@ -32,12 +33,13 @@ const WORKOUT_CATEGORIES = [
 ]
 
 export default function WorkoutsScreen({ onStartWorkout, onCombat, onBoxing, onMuayThai }) {
-  const { t: tr } = useLang()
+  const { t: tr, lang } = useLang()
   const tw = tr.workouts
+  const categories = WORKOUT_CATEGORIES.filter(cat => cat.id !== 'combat' || combatAvailable(lang))
   return (
     <div style={{ maxWidth: 480, margin: '0 auto', padding: '1.25rem' }}>
       <h2 style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1rem', margin: '0 0 1rem' }}>{tw.title}</h2>
-      {WORKOUT_CATEGORIES.map(cat => (
+      {categories.map(cat => (
         <div key={cat.id} style={{ marginBottom: '1.25rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.6rem' }}>
             <span style={{ fontSize: '1rem' }}>{cat.icon}</span>

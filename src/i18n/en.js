@@ -701,7 +701,7 @@ const en = {
     deleteDesc:   "Deletes your account and all your data. This can't be undone",
     notifs:       '◈ Notifications',
     nudges:       'PRIME reminders',
-    nudgesDesc:   'Reminders at 10 AM and 4 PM, based on your must-do habits and 3-year vision',
+    nudgesDesc:   'While the app is open at 10 AM and 4 PM, we remind you of your must-do habits. Phone notifications are sent separately',
     perm:         'Browser permission',
     permGranted:  'Notifications allowed ✓',
     permDenied:   'Blocked — change it in your browser settings',

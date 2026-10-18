@@ -14,14 +14,14 @@ export const LEGAL_CONFIG = {
   minAge:        18,     // Gemini API terms (updated 2026-04-28): 18+, and not in apps likely used by under-18s
   deletionDays:  30,
   courtCity:     'ירושלים',
-  updated:       '16.10.2026',
+  updated:       '18.10.2026',
 }
 
 // English values that differ from the Hebrew ones; everything else comes from LEGAL_CONFIG.
 const LEGAL_CONFIG_EN = {
   operatorName: 'Noam Cohen',
   courtCity:    'Jerusalem',
-  updated:      'October 16, 2026',
+  updated:      'October 18, 2026',
 }
 
 // Analytics consent (FEATURES.consentBanner). Off = GA starts on landing and these aren't shown.
@@ -69,7 +69,7 @@ export const PRIVACY = {
           'התקדמות: XP, רצף, סימוני הרגלים, אימונים ושיעורים שהשלמת.',
           'תמונות "הוכחת ביצוע" שהעלית בעבר, אם העלית. היום אי אפשר יותר להעלות תמונות או סרטונים לאפליקציה.',
           'הגדרות: שפה, אזור זמן והעדפות.',
-          'אם אישרת התראות: מזהה טכני של המכשיר לשליחת התראות.',
+          'אם אישרת התראות: מזהה טכני של המכשיר. הוא משמש רק לשליחת התראות דרך Google Firebase Cloud Messaging. אזור הזמן והשפה שלך קובעים מתי ההתראה נשלחת ובאיזו שפה. כיבוי ההתראות או מחיקת החשבון מוחקים את המזהה, ומזהים שהפסיקו לעבוד נמחקים אוטומטית.',
         ] },
         'אם אתה משתמש כאורח (בלי חשבון), הכל נשמר רק בדפדפן במכשיר שלך ולא אצלנו.',
       ],
@@ -77,7 +77,7 @@ export const PRIVACY = {
     {
       title: 'איפה זה נשמר',
       paras: [
-        'המידע נשמר ב-Google Firebase (מסד נתונים, התחברות ואחסון קבצים), בשרתים של Google בארצות הברית.',
+        'המידע נשמר ב-Google Firebase (מסד נתונים, התחברות ואחסון קבצים), בשרתים של Google בארצות הברית. אם אתה גר באיחוד האירופי או בבריטניה, המידע מועבר לארצות הברית לפי תנאי עיבוד הנתונים של Google, שכוללים את הסעיפים החוזיים הסטנדרטיים (SCCs) של האיחוד האירופי.',
         'כללי אבטחה מגבילים את הגישה: רק אתה יכול לקרוא את המשימות, היומן, ההערות וההרגלים שלך.',
       ],
     },
@@ -120,6 +120,7 @@ export const PRIVACY = {
           'לא מוכרים את המידע שלך.',
           'לא מציגים פרסומות ולא משתפים מידע למטרות פרסום.',
           'לא קוראים את היומן שלך. הוא נשלח ל-AI רק אם אישרת.',
+          'לא משתמשים בהרגלים, באימונים או ביומן שלך לשום דבר חוץ מלהציג אותם לך.',
         ] },
       ],
     },
@@ -129,6 +130,27 @@ export const PRIVACY = {
         'באפליקציה: הגדרות ← חשבון ← "מחק חשבון". זה מוחק מיד את החשבון ואת כל המידע שלו — היומן, המשימות, ההרגלים, ההערות, ההתקדמות והתמונות. אי אפשר לשחזר.',
         'אם משהו לא נמחק או שאין לך גישה לחשבון: שלח בקשה ל-{contactEmail} מהאימייל שאיתו נרשמת, ונמחק הכל תוך {deletionDays} ימים.',
         'אורח: הגדרות ← "מחק את הנתונים מהמכשיר", או מחיקת נתוני האתר בדפדפן.',
+      ],
+    },
+    {
+      title: 'כמה זמן שומרים',
+      paras: [
+        'אנחנו שומרים את המידע שלך כל עוד החשבון קיים. כשמוחקים את החשבון, המידע נמחק כמו שכתוב למעלה.',
+      ],
+    },
+    {
+      title: 'הזכויות שלך',
+      paras: [
+        { list: [
+          'לקבל עותק של המידע שלך.',
+          'לתקן מידע לא נכון.',
+          'למחוק את החשבון וכל המידע.',
+          'להתנגד לשימוש במידע או להגביל אותו.',
+          'לבטל הסכמה בכל רגע: אנליטיקה ושאלות AI בהגדרות, והתראות בהגדרות או בדפדפן.',
+        ] },
+        'לכל בקשה: {contactEmail}. נענה תוך 30 יום.',
+        'הבסיס החוקי (למשתמשים באיחוד האירופי ובבריטניה): החשבון, מה שאתה כותב, ההתקדמות ומזהה ההתראות נדרשים כדי לתת לך את השירות שביקשת. Google Analytics ושאלות AI פועלים רק בהסכמה שלך. אבטחה ומניעת שימוש לרעה הם אינטרס לגיטימי שלנו.',
+        'אם אתה גר באיחוד האירופי או בבריטניה, מותר לך גם להגיש תלונה לרשות להגנת המידע במדינה שלך.',
       ],
     },
     {
@@ -251,7 +273,7 @@ export const PRIVACY_EN = {
           'Progress: XP, streak, habit check-ins, workouts and lessons you completed.',
           '"Proof" photos you uploaded in the past, if you did. Today you can no longer upload photos or videos to the app.',
           'Settings: language, time zone and preferences.',
-          'If you allowed notifications: a technical ID of your device for sending notifications.',
+          'If you allowed notifications: a technical ID of your device. It is used only to send you notifications through Google Firebase Cloud Messaging. Your time zone and language decide when a notification is sent and in which language. Turning notifications off or deleting your account deletes the ID, and IDs that stop working are deleted automatically.',
         ] },
         "If you use the app as a guest (without an account), everything is saved only in the browser on your device, not with us.",
       ],
@@ -259,7 +281,7 @@ export const PRIVACY_EN = {
     {
       title: "Where it's stored",
       paras: [
-        'Data is stored in Google Firebase (database, sign-in and file storage), on Google servers in the United States.',
+        'Data is stored in Google Firebase (database, sign-in and file storage), on Google servers in the United States. If you live in the EU or the UK, your data is transferred to the United States under Google\'s data processing terms, which include the EU Standard Contractual Clauses (SCCs).',
         'Security rules limit access: only you can read your tasks, journal, notes and habits.',
       ],
     },
@@ -302,6 +324,7 @@ export const PRIVACY_EN = {
           "We don't sell your data.",
           "We don't show ads and don't share data for advertising.",
           "We don't read your journal. It's sent to AI only if you approved.",
+          "We don't use your habits, workouts or journal for anything except showing them to you.",
         ] },
       ],
     },
@@ -311,6 +334,27 @@ export const PRIVACY_EN = {
         "In the app: Settings → Account → \"Delete account\". This immediately deletes the account and all its data: the journal, tasks, habits, notes, progress and photos. It can't be undone.",
         "If something wasn't deleted or you can't access your account: send a request to {contactEmail} from the email you signed up with, and we'll delete everything within {deletionDays} days.",
         'Guest: Settings → "Delete data from this device", or clear the site data in your browser.',
+      ],
+    },
+    {
+      title: 'How long we keep it',
+      paras: [
+        'We keep your data as long as your account exists. When you delete your account, the data is deleted as described above.',
+      ],
+    },
+    {
+      title: 'Your rights',
+      paras: [
+        { list: [
+          'Get a copy of your data.',
+          'Correct data that is wrong.',
+          'Delete your account and all your data.',
+          'Object to or restrict how your data is used.',
+          'Withdraw consent at any time: analytics and AI questions in Settings, notifications in Settings or your browser.',
+        ] },
+        'For any request: {contactEmail}. We will answer within 30 days.',
+        'Legal basis (for users in the EU and the UK): your account, what you write, your progress and the notification ID are needed to give you the service you asked for. Google Analytics and AI questions run only with your consent. Security and preventing abuse are our legitimate interest.',
+        'If you live in the EU or the UK, you can also complain to the data protection authority in your country.',
       ],
     },
     {
