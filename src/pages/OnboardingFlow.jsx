@@ -12,6 +12,7 @@ import { normalizeSchedule, frequencyLabel } from '../utils/habitSchedule'
 import { fmt } from '../i18n/fmt'
 import { markWelcomeSeen } from '../utils/welcome'
 import { restoreFocus, toggleFocus } from '../utils/focusGoals'
+import TimeReminderAsk from '../components/TimeReminderAsk'
 
 // A habit in setup: cue + habit + schedule (every day / X times a week, optional days and time) + note
 const EMPTY_TRIGGER = { cue: '', habit: '', time: '', note: '', weekly: false, times: 3, days: [] }
@@ -388,6 +389,8 @@ export default function OnboardingFlow() {
             <h2 style={S.h2}>{to.trigger1.title}</h2>
             <p style={S.sub}>{to.trigger1.sub}</p>
             <TriggerStep num={1} value={t1} onChange={setT1} to={to} />
+            {/* Picked a time? Offer the reminder now — the moment it makes sense */}
+            <TimeReminderAsk uid={user?.uid} time={t1.time} />
             {/* Second habit — optional, on the same screen */}
             {showT2 ? (
               <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
