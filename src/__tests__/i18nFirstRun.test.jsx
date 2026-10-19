@@ -53,7 +53,7 @@ describe('English first-run flow has no Hebrew', () => {
     expect(screen.getByText(en.welcome.guest, { exact: false })).toBeInTheDocument()
   })
 
-  it('Setup: name, focus, habit (weekly) and done steps', async () => {
+  it('Setup: name, focus, how it works, habit (weekly) and done steps', async () => {
     localStorage.setItem('ft_ob_progress', JSON.stringify({ step: 'name' }))
     const { container } = render(<OnboardingFlow />)
     fireEvent.change(await screen.findByPlaceholderText(en.onboarding.name.placeholder), { target: { value: 'Sam' } })
@@ -63,6 +63,10 @@ describe('English first-run flow has no Hebrew', () => {
     expect(hebrewIn(container)).toEqual([])
     fireEvent.click(screen.getByText(en.onboarding.goals.fitness))
     fireEvent.click(screen.getByText(en.onboarding.next))
+    // "How PRIME works" comes before the habits
+    expect(await screen.findByText(en.onboarding.how.title)).toBeInTheDocument()
+    expect(hebrewIn(container)).toEqual([])
+    fireEvent.click(screen.getByText(en.onboarding.how.btn))
     fireEvent.change(await screen.findByPlaceholderText(en.onboarding.cuePh), { target: { value: 'After work' } })
     fireEvent.change(screen.getByPlaceholderText(en.onboarding.habitPh), { target: { value: 'Run' } })
     fireEvent.click(screen.getByText(en.habitSchedule.someDays))

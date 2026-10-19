@@ -52,6 +52,7 @@ const STEPS = [
   ...(FEATURES.setupExtras ? ['energy', 'time'] : []),
   'focus',
   ...(FEATURES.pathBuilder ? ['ai-pick'] : []),   // AI picks a 30-day track
+  'how',                                          // how PRIME works — before the habits, so they make sense
   'trigger1', 'trigger2',
   ...(FEATURES.setupExtras ? ['vision'] : []),
   'done',
@@ -198,6 +199,7 @@ export default function OnboardingFlow() {
     energy:    !!energy,
     time:      !!timeAvail,
     focus:     !!goal,
+    how:       true,
     'ai-pick': !!aiPick && !aiLoading,
     trigger1:  t1.cue.trim() && t1.habit.trim(),
     trigger2:  t2.cue.trim() && t2.habit.trim(),
@@ -360,6 +362,19 @@ export default function OnboardingFlow() {
           </>
         )}
 
+        {/* HOW PRIME WORKS */}
+        {step === 'how' && (
+          <>
+            <h2 style={S.h2}>{to.how.title}</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', margin: '0.75rem 0 1.25rem', textAlign: 'start' }}>
+              {to.how.lines.map(line => (
+                <div key={line} style={{ color: '#f1f5f9', fontSize: '0.92rem', lineHeight: 1.6 }}>{line}</div>
+              ))}
+            </div>
+            <p style={S.sub}>{to.how.sub}</p>
+          </>
+        )}
+
         {/* TRIGGER 1 */}
         {step === 'trigger1' && (
           <>
@@ -399,12 +414,6 @@ export default function OnboardingFlow() {
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚡</div>
             <h2 style={S.h2}>{to.done.title}</h2>
-            {/* How to use the app — the only explanation a new user gets before Home */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', margin: '0.75rem 0 1.25rem', textAlign: 'start' }}>
-              {(to.done.how || []).map(line => (
-                <div key={line} style={{ color: '#f1f5f9', fontSize: '0.9rem', lineHeight: 1.6 }}>{line}</div>
-              ))}
-            </div>
             <p style={S.sub}>{filledTriggers.length ? to.done.sub : to.done.subNoHabits}</p>
             {pickedMeta && (
               <div style={{ background: `${pickedMeta.color}12`, border: `1px solid ${pickedMeta.color}30`, borderRadius: 12, padding: '0.75rem 1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
@@ -454,6 +463,8 @@ export default function OnboardingFlow() {
                 <button onClick={skipHabit} style={S.btnSkip}>{to.done.skip}</button>
                 <button onClick={next} disabled={!canNext[step]} style={S.btnPrimary(canNext[step])}>{to.next}</button>
               </>
+            ) : step === 'how' ? (
+              <button onClick={next} style={S.btnPrimary(true)}>{to.how.btn}</button>
             ) : step === 'ai-pick' ? (
               <button onClick={next} disabled={!canNext['ai-pick']} style={S.btnPrimary(canNext['ai-pick'])}>
                 {aiLoading ? 'מנתח…' : 'מתחילים עם המסלול הזה ←'}
