@@ -1,6 +1,6 @@
 'use strict';
 
-const { computeStats, dayNReturn, shiftKey } = require('../stats');
+const { computeStats, dayNReturn, shiftKey, excludeInternal } = require('../stats');
 
 const R = '2026-10-15';   // report date
 const p = (created, days = [], streak) => ({ createdAt: `${created}T10:00:00.000Z`, activityLog: days, ...(streak ? { streak } : {}) });
@@ -84,5 +84,23 @@ describe('computeStats — streaks, push, languages', () => {
     expect(json).not.toContain('Noam');
     expect(json).not.toContain('x@y.z');
     expect(json).not.toContain('"t"');
+  });
+});
+
+
+describe('excludeInternal — the developer and test accounts are not counted', () => {
+  it('drops profiles marked internal, and their users docs', () => {
+    const profiles = [
+      { id: 'me',   data: { internal: true, createdAt: '2026-10-15T10:00:00.000Z' } },
+      { id: 'test', data: { internal: true } },
+      { id: 'real', data: { createdAt: '2026-10-15T10:00:00.000Z' } },
+      { id: 'str',  data: { internal: 'true' } },          // only the boolean counts
+    ];
+    const users = [{ id: 'me', data: { lang: 'he' } }, { id: 'real', data: { lang: 'en' } }, { id: 'str', data: {} }];
+    const out = excludeInternal(profiles, users);
+    expect(out.internalCount).toBe(2);
+    expect(out.profiles).toHaveLength(2);
+    expect(out.users.map(u => u.lang)).toEqual(['en', undefined]);
+    expect(computeStats(out.profiles, out.users, '2026-10-15').newUsers).toBe(1);
   });
 });

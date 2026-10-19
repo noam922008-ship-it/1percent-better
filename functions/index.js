@@ -689,7 +689,7 @@ exports.localScheduler = onSchedule(
 // (firestore.rules has no stats match); open it in the Firebase console → Firestore → stats.
 // See computeStats in stats.js for what each number means.
 
-const { computeStats, dateKey: statsDateKey } = require('./stats');
+const { computeStats, excludeInternal, dateKey: statsDateKey } = require('./stats');
 
 exports.dailyStats = onSchedule(
   {
@@ -706,12 +706,13 @@ exports.dailyStats = onSchedule(
       db.collection('focusTriggers').get(),
       db.collection('users').get(),
     ]);
-    const stats = computeStats(
-      profilesSnap.docs.map(d => d.data()),
-      usersSnap.docs.map(d => d.data()),
-      reportDate,
+    // Internal accounts (focusTriggers/{uid}.internal == true) aren't counted — see stats.js
+    const { profiles, users, internalCount } = excludeInternal(
+      profilesSnap.docs.map(d => ({ id: d.id, data: d.data() })),
+      usersSnap.docs.map(d => ({ id: d.id, data: d.data() })),
     );
-    await db.collection('stats').doc(reportDate).set({ ...stats, computedAt: new Date().toISOString() });
+    const stats = computeStats(profiles, users, reportDate);
+    await db.collection('stats').doc(reportDate).set({ ...stats, internalExcluded: internalCount, computedAt: new Date().toISOString() });
     console.log(`[dailyStats] ${reportDate} ${JSON.stringify(stats)}`);
   }
 );

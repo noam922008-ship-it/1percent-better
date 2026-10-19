@@ -95,4 +95,20 @@ function computeStats(profiles, users, reportDate) {
   };
 }
 
-module.exports = { computeStats, dayNReturn, shiftKey, dateKey };
+/**
+ * Drop internal accounts (the developer's own and test accounts) before counting.
+ * Mark one in the Firebase console: focusTriggers/{uid} → field internal = true (boolean).
+ * No emails or uids live in the code. Its users/{uid} doc (push, language) is dropped too.
+ * @param {{id: string, data: object}[]} profileDocs  focusTriggers
+ * @param {{id: string, data: object}[]} userDocs     users
+ */
+function excludeInternal(profileDocs, userDocs) {
+  const internal = new Set(profileDocs.filter(d => d.data && d.data.internal === true).map(d => d.id))
+  return {
+    profiles: profileDocs.filter(d => !internal.has(d.id)).map(d => d.data),
+    users:    userDocs.filter(d => !internal.has(d.id)).map(d => d.data),
+    internalCount: internal.size,
+  }
+}
+
+module.exports = { computeStats, dayNReturn, shiftKey, dateKey, excludeInternal };
