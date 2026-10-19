@@ -9,7 +9,6 @@ import { checkNotifications, checkNudges, saveNudgeResponse, snoozeNudge, markNu
 import { analyzeVideoForm } from '../services/coachService'
 import { registerFcmToken } from '../services/fcmService'
 import { CHALLENGES, getDayTask, getModuleIndex } from '../data/challenges'
-import { getDayContent } from '../data/lessonContent'
 import { MANTRAS } from '../data/mantras'
 import AddToHomeScreen from '../components/AddToHomeScreen'
 import ContractLock from '../components/ContractLock'
@@ -744,6 +743,14 @@ export default function Dashboard() {
   const { lang, t: tAll } = useLang()
   const td  = tAll.dashboard
   const to  = tAll.onboarding
+  // Track lessons (~330 kB) load right after Home appears instead of with it.
+  // Until they arrive, the track card shows the short task from data/challenges.
+  const [lessonMod, setLessonMod] = useState(null)
+  useEffect(() => {
+    let alive = true
+    import('../data/lessonContent').then(m => { if (alive) setLessonMod(m) }).catch(() => {})
+    return () => { alive = false }
+  }, [])
   const th  = tAll.home
 
   const [initiationDone, setInitiationDone] = useState(() => !!localStorage.getItem('onboardingCompleted'))
@@ -1209,10 +1216,11 @@ export default function Dashboard() {
 
   // ── Challenge actions ─────────────────────────────────────────
 
-  function openChallengeModal(challenge, dayNum, taskDesc) {
+  async function openChallengeModal(challenge, dayNum, taskDesc) {
     const moduleIdx  = getModuleIndex(dayNum)
     const dayInMod   = (dayNum - 1) % 5
-    const richContent = getDayContent(challenge.id, moduleIdx, dayInMod)
+    const lessons    = lessonMod || await import('../data/lessonContent').catch(() => null)
+    const richContent = lessons ? lessons.getDayContent(challenge.id, moduleIdx, dayInMod) : null
     setProofModal({
       type:     'challenge',
       id:       challenge.id,
@@ -1376,7 +1384,7 @@ export default function Dashboard() {
     const dayNum    = activeTrackDay
     const moduleIdx = getModuleIndex(dayNum)
     const dayInMod  = (dayNum - 1) % 5
-    const richDay   = getDayContent(activeTrack.id, moduleIdx, dayInMod)
+    const richDay   = lessonMod ? lessonMod.getDayContent(activeTrack.id, moduleIdx, dayInMod) : null
     const taskDesc  = activeTrack.id === HOBBY_DISCOVERY_ID
       ? (getHobbyDay(dayNum)?.taskHe || getDayTask(activeTrack.id, dayNum))
       : (richDay?.microTask || getDayTask(activeTrack.id, dayNum))
