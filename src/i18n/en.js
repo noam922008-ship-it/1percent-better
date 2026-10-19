@@ -80,11 +80,11 @@ const en = {
     later:  'Later',
   },
   firstWelcome: {
-    title: "What's on your mind?",
-    line1: 'Let it all out. No filter. Only you can see it.',
-    line2: "From there, we'll find one clear step for today.",
-    start: "Let's start",
-    skip:  'Skip',
+    title: 'A small change every day',
+    line1: 'Pick one small habit and do it every day.',
+    line2: 'PRIME keeps your streak and reminds you.',
+    start: 'Pick my first habit',
+    skip:  'Just look around',
   },
   habitSchedule: {
     howOften:    'How often?',

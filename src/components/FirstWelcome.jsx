@@ -1,5 +1,5 @@
 // First-run welcome — one screen, shown once to users with no XP (guests and new sign-ups).
-// Start opens the journal for the first entry; Skip goes to Home.
+// Start opens habit creation (the habit is what brings people back); Skip goes to Home.
 // Replaces the legacy intro screens (PrimeOnboarding / InitiationFlow — hidden via FEATURES.legacyIntro).
 
 import { useLang } from '../context/LangContext'

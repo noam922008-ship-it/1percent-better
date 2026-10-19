@@ -119,8 +119,8 @@ describe('Hebrew stays as it was', () => {
   it('first welcome', () => {
     lang.current = 'he'
     render(<FirstWelcome onStart={() => {}} onSkip={() => {}} />)
-    expect(screen.getByText('מה יש לך בראש?')).toBeInTheDocument()
-    expect(screen.getByText('בוא נתחיל')).toBeInTheDocument()
+    expect(screen.getByText('שינוי קטן כל יום')).toBeInTheDocument()
+    expect(screen.getByText('בחר הרגל ראשון')).toBeInTheDocument()
   })
   it('frequencyLabel defaults to Hebrew and takes English strings', () => {
     const tr = { frequency: { type: 'weekly', timesPerWeek: 2 }, days: [0, 4] }

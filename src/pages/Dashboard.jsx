@@ -1427,12 +1427,12 @@ export default function Dashboard() {
 
   // First-run welcome — once, for users with no XP yet (guests and new sign-ups after setup)
   if (!welcomeDone && (profile?.xp || 0) === 0 && !hasSeenWelcome(profile)) {
-    const finishWelcome = openJournal => {
+    const finishWelcome = openHabit => {
       markWelcomeSeen()
       if (!isGuest && user) saveProfile(user.uid, { welcomeSeen: true }).catch(() => {})
       setWelcomeDone(true)
       setActiveTab('home')
-      if (openJournal) { track('welcome_start'); setJournalOpen(true) }
+      if (openHabit) { track('welcome_start'); setShowHabitFlow(true) }
     }
     return <FirstWelcome onStart={() => finishWelcome(true)} onSkip={() => finishWelcome(false)} />
   }
