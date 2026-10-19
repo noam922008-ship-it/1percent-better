@@ -67,7 +67,53 @@ function SecondaryButton({ children, disabled, done, onClick, color = C.accent }
   )
 }
 
-export default function Journal({ uid, onClose }) {
+// Vision at the top of the journal — "progress" means progress toward this. Signed-in users only
+// (onSaveVision is null for guests). The value lives in the profile (focusTriggers/{uid}.vision).
+function VisionCard({ vision, onSave, tj }) {
+  const [editing, setEditing] = useState(false)
+  const [draft,   setDraft]   = useState(vision || '')
+  const [busy,    setBusy]    = useState(false)
+  useEffect(() => { if (!editing) setDraft(vision || '') }, [vision, editing])
+
+  async function save() {
+    setBusy(true)
+    try { await onSave(draft.trim().slice(0, 300)) } catch { /* keep the draft open */ setBusy(false); return }
+    setBusy(false); setEditing(false)
+  }
+
+  return (
+    <div style={{ background: C.accentSoft, border: `1px solid ${C.accentBorder}`, borderRadius: 14, padding: '0.85rem 1rem', marginBottom: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
+        <span style={{ flex: 1, color: C.accent, fontSize: '0.8rem', fontWeight: 800 }}>{tj.visionLabel}</span>
+        {!editing && vision && (
+          <button onClick={() => setEditing(true)} style={{ background: 'none', border: 'none', color: C.muted, fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', minHeight: 32, fontFamily: 'inherit' }}>{tj.visionEdit}</button>
+        )}
+      </div>
+      {editing ? (
+        <>
+          <textarea
+            value={draft}
+            onChange={e => setDraft(e.target.value)}
+            placeholder={tj.visionPh}
+            maxLength={300}
+            rows={2}
+            style={{ ...fieldStyle, minHeight: 64 }}
+          />
+          <button onClick={save} disabled={busy} style={{ marginTop: '0.5rem', minHeight: 40, padding: '0 1rem', borderRadius: 10, border: 'none', background: C.accent, color: '#09090b', fontWeight: 800, fontFamily: 'inherit', cursor: 'pointer' }}>{tj.visionSave}</button>
+        </>
+      ) : vision ? (
+        <div style={{ color: C.text, fontSize: '0.95rem', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{vision}</div>
+      ) : (
+        <>
+          <div style={{ color: C.muted, fontSize: '0.88rem', lineHeight: 1.6 }}>{tj.visionEmpty}</div>
+          <button onClick={() => setEditing(true)} style={{ marginTop: '0.4rem', background: 'none', border: 'none', padding: 0, color: C.accent, fontSize: '0.88rem', fontWeight: 800, cursor: 'pointer', minHeight: 32, fontFamily: 'inherit' }}>{tj.visionAdd}</button>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default function Journal({ uid, onClose, vision = '', onSaveVision = null }) {
   const { lang, t } = useLang()
   const tj = t.journal, tc = t.common
   const [entries,  setEntries]  = useState([])
@@ -164,6 +210,7 @@ export default function Journal({ uid, onClose }) {
         {/* ── Write / edit ── */}
         {view === 'write' && (
           <>
+            {!editId && onSaveVision && <VisionCard vision={vision} onSave={onSaveVision} tj={tj} />}
             <textarea
               value={form.text}
               onChange={set('text')}

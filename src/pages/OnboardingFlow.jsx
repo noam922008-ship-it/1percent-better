@@ -54,7 +54,7 @@ const STEPS = [
   ...(FEATURES.pathBuilder ? ['ai-pick'] : []),   // AI picks a 30-day track
   'how',                                          // how PRIME works — before the habits, so they make sense
   'trigger1',                                     // one habit screen; a second habit is optional on the same screen
-  ...(FEATURES.setupExtras ? ['vision'] : []),
+  'vision',                                       // optional one-liner; shown at the top of the progress journal
   'done',
 ]
 
@@ -239,7 +239,7 @@ export default function OnboardingFlow() {
       name: name.trim(),
       focusGoal: goal,
       focusGoals: goals,
-      ...(FEATURES.setupExtras ? { vision: vision.trim() || null } : {}),
+      vision: vision.trim().slice(0, 300) || null,
       triggers: filledTriggers.map(([id, tr]) => (
         { id, cue: tr.cue.trim(), habit: tr.habit.trim(), note: tr.note.trim(),
           ...normalizeSchedule({ weekly: tr.weekly, times: tr.times, days: tr.days, time: tr.time }) }
@@ -403,15 +403,15 @@ export default function OnboardingFlow() {
         {/* VISION */}
         {step === 'vision' && (
           <>
-            <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem', textAlign: 'center' }}>🔭</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem', textAlign: 'center' }}>🎯</div>
             <h2 style={{ ...S.h2, textAlign: 'center' }}>{to.vision.title}</h2>
             <p style={{ ...S.sub, textAlign: 'center' }}>{to.vision.sub}</p>
             <textarea
-              style={{ ...S.textarea, minHeight: 120, marginBottom: '0' }}
+              style={{ ...S.textarea, minHeight: 90, marginBottom: '0' }}
               placeholder={to.vision.placeholder}
               value={vision}
               onChange={e => setVision(e.target.value)}
-              autoFocus
+              maxLength={300}
             />
           </>
         )}

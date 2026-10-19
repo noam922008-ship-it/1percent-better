@@ -2425,7 +2425,12 @@ export default function Dashboard() {
         /></FullScreen>
       )}
       {journalOpen && (
-        <FullScreen><Journal uid={isGuest ? null : user?.uid} onClose={() => setJournalOpen(false)} /></FullScreen>
+        <FullScreen><Journal
+          uid={isGuest ? null : user?.uid}
+          onClose={() => setJournalOpen(false)}
+          vision={profile?.vision || ''}
+          onSaveVision={isGuest || !user ? null : v => saveProfile(user.uid, { vision: v || null })}
+        /></FullScreen>
       )}
       {mtDrillActive && (
         <FullScreen><BoxingDrillTimer

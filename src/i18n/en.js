@@ -47,7 +47,7 @@ const en = {
     goal:     { title: 'What do you want to work on?',   sub: "Pick up to 3. We'll shape your habits around them." },
     trigger1: { title: 'Set up your habit',              sub: 'Pick a cue, attach a small habit to it, and choose every day or a few times a week.' },
     trigger2: { title: 'Set up your second habit',       sub: 'One more cue to anchor your routine.' },
-    vision:   { title: 'Where do you see yourself in 5 years?', sub: "Describe the life you're building.", placeholder: 'In 5 years, I will…', skip: 'Skip' },
+    vision:   { title: 'Where do you want to be in a year?', sub: "One sentence is enough. It goes at the top of your progress journal. You can skip and add it later.", placeholder: 'A year from now I…', skip: 'Skip' },
     how:      { title: 'Here is how PRIME works', sub: "Now pick one or two small habits. That's all you need to start.", btn: 'Got it, pick a habit →',
                 lines: ["✅ Every day you check off your habit. That's today's 1%.", "🔔 We remind you when it's time, so your streak doesn't break.", '📓 Got another minute? Journal, a daily lesson or a workout.'] },
     done:     { title: "You're all set",                 sub: 'Your habits are ready. Small actions, every day.', subNoHabits: 'You can add habits any time from Home.', skip: 'Skip', btn: "Let's go →", saving: 'Saving…' },
@@ -231,6 +231,12 @@ const en = {
     delete:        'Delete',
     confirmDelete: 'Sure? Delete',
     errorLoad:     "Couldn't load your journal",
+    visionLabel:   '🎯 Your vision',
+    visionEmpty:   "No vision yet. Where do you want to be a year from now?",
+    visionAdd:     'Add a vision',
+    visionEdit:    'Edit',
+    visionSave:    'Save vision',
+    visionPh:      'A year from now I…',
   },
   // "I have time" — what to do with a few free minutes (utils/hasTime.js)
   hasTime: {

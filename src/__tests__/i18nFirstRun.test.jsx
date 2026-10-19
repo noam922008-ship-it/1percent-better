@@ -78,7 +78,11 @@ describe('English first-run flow has no Hebrew', () => {
     fireEvent.click(screen.getByText(en.onboarding.removeSecond))
     expect(screen.getAllByPlaceholderText(en.onboarding.cuePh)).toHaveLength(1)
     fireEvent.click(screen.getByText(en.onboarding.next))
-    // One habit screen, then straight to the summary
+    // Vision is optional — skip it
+    expect(await screen.findByText(en.onboarding.vision.title)).toBeInTheDocument()
+    expect(hebrewIn(container)).toEqual([])
+    fireEvent.click(screen.getByText(en.onboarding.vision.skip))
+    // One habit screen, then the summary
     expect(await screen.findByText(/3 times a week · Su/)).toBeInTheDocument()
     expect(hebrewIn(container)).toEqual([])
   })
