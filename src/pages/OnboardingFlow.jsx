@@ -53,7 +53,7 @@ const STEPS = [
   'focus',
   ...(FEATURES.pathBuilder ? ['ai-pick'] : []),   // AI picks a 30-day track
   'how',                                          // how PRIME works — before the habits, so they make sense
-  'trigger1', 'trigger2',
+  'trigger1',                                     // one habit screen; a second habit is optional on the same screen
   ...(FEATURES.setupExtras ? ['vision'] : []),
   'done',
 ]
@@ -151,7 +151,9 @@ export default function OnboardingFlow() {
   const PROGRESS_KEY = 'ft_ob_progress'
   const saved = (() => { try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {} } catch { return {} } })()
 
-  const [step,      setStep]      = useState(STEPS.includes(saved.step) ? saved.step : 'name')
+  // Saved progress from before the merge may still say 'trigger2' — that's the habit screen now
+  const savedStep = saved.step === 'trigger2' ? 'trigger1' : saved.step
+  const [step,      setStep]      = useState(STEPS.includes(savedStep) ? savedStep : 'name')
   const [name,      setName]      = useState(saved.name   || '')
   const [energy,    setEnergy]    = useState(saved.energy || '')
   const [timeAvail, setTimeAvail] = useState(saved.timeAvail || '')
@@ -161,6 +163,7 @@ export default function OnboardingFlow() {
   const [aiLoading, setAiLoading] = useState(false)
   const [t1,        setT1]        = useState({ ...EMPTY_TRIGGER, ...(saved.t1 || {}) })
   const [t2,        setT2]        = useState({ ...EMPTY_TRIGGER, ...(saved.t2 || {}) })
+  const [showT2,    setShowT2]    = useState(() => !!(saved.t2 && (saved.t2.cue || saved.t2.habit)))
   const [vision,    setVision]    = useState(saved.vision || '')
   const [saving,    setSaving]    = useState(false)
   const [allowed,   setAllowed]   = useState(false)   // guard: only accounts that haven't finished setup
@@ -179,9 +182,9 @@ export default function OnboardingFlow() {
   }, [user, navigate])
 
   useEffect(() => {
-    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify({ step, name, energy, timeAvail, goals, aiPick, t1, t2, vision })) }
+    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify({ step, name, energy, timeAvail, goals, aiPick, t1, t2: showT2 ? t2 : EMPTY_TRIGGER, vision })) }
     catch { /* storage full */ }
-  }, [step, name, energy, timeAvail, goals, aiPick, t1, t2, vision])
+  }, [step, name, energy, timeAvail, goals, aiPick, t1, t2, showT2, vision])
 
   // Trigger AI suggestion when entering ai-pick step
   useEffect(() => {
@@ -201,8 +204,8 @@ export default function OnboardingFlow() {
     focus:     !!goal,
     how:       true,
     'ai-pick': !!aiPick && !aiLoading,
-    trigger1:  t1.cue.trim() && t1.habit.trim(),
-    trigger2:  t2.cue.trim() && t2.habit.trim(),
+    // The first habit must be complete; the second only if it was started
+    trigger1:  !!(t1.cue.trim() && t1.habit.trim()) && (!showT2 || !(t2.cue.trim() || t2.habit.trim()) || !!(t2.cue.trim() && t2.habit.trim())),
     vision:    true,
     done:      false,
   }
@@ -210,10 +213,14 @@ export default function OnboardingFlow() {
   function next() { setStep(STEPS[idx + 1]) }
   // Habits are optional: skipping clears that habit and moves on
   function skipHabit() {
-    const empty = EMPTY_TRIGGER
-    if (step === 'trigger1') setT1(empty)
-    if (step === 'trigger2') setT2(empty)
+    setT1(EMPTY_TRIGGER)
+    setT2(EMPTY_TRIGGER)
+    setShowT2(false)
     next()
+  }
+  function removeT2() {
+    setT2(EMPTY_TRIGGER)
+    setShowT2(false)
   }
   const isFilled = tr => !!(tr.cue.trim() && tr.habit.trim())
   const filledTriggers = [['t1', t1], ['t2', t2]].filter(([, tr]) => isFilled(tr))
@@ -381,15 +388,15 @@ export default function OnboardingFlow() {
             <h2 style={S.h2}>{to.trigger1.title}</h2>
             <p style={S.sub}>{to.trigger1.sub}</p>
             <TriggerStep num={1} value={t1} onChange={setT1} to={to} />
-          </>
-        )}
-
-        {/* TRIGGER 2 */}
-        {step === 'trigger2' && (
-          <>
-            <h2 style={S.h2}>{to.trigger2.title}</h2>
-            <p style={S.sub}>{to.trigger2.sub}</p>
-            <TriggerStep num={2} value={t2} onChange={setT2} to={to} />
+            {/* Second habit — optional, on the same screen */}
+            {showT2 ? (
+              <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                <TriggerStep num={2} value={t2} onChange={setT2} to={to} />
+                <button onClick={removeT2} style={{ ...S.btnSkip, marginTop: '0.75rem', width: '100%' }}>{to.removeSecond}</button>
+              </div>
+            ) : (
+              <button onClick={() => setShowT2(true)} style={{ ...S.btnSkip, marginTop: '1.25rem', width: '100%' }}>{to.addSecond}</button>
+            )}
           </>
         )}
 
@@ -458,7 +465,7 @@ export default function OnboardingFlow() {
                 <button onClick={next} style={S.btnSkip}>{to.vision.skip}</button>
                 <button onClick={next} style={S.btnPrimary(true)}>{to.next}</button>
               </>
-            ) : step === 'trigger1' || step === 'trigger2' ? (
+            ) : step === 'trigger1' ? (
               <>
                 <button onClick={skipHabit} style={S.btnSkip}>{to.done.skip}</button>
                 <button onClick={next} disabled={!canNext[step]} style={S.btnPrimary(canNext[step])}>{to.next}</button>

@@ -45,7 +45,7 @@ const en = {
   onboarding: {
     name:     { title: 'What should we call you?',       sub: 'First name is fine.',                          placeholder: 'Your name' },
     goal:     { title: 'What do you want to work on?',   sub: "Pick up to 3. We'll shape your habits around them." },
-    trigger1: { title: 'Set up your first habit',        sub: 'Pick a cue, attach a small habit to it, and choose every day or a few times a week.' },
+    trigger1: { title: 'Set up your habit',              sub: 'Pick a cue, attach a small habit to it, and choose every day or a few times a week.' },
     trigger2: { title: 'Set up your second habit',       sub: 'One more cue to anchor your routine.' },
     vision:   { title: 'Where do you see yourself in 5 years?', sub: "Describe the life you're building.", placeholder: 'In 5 years, I will…', skip: 'Skip' },
     how:      { title: 'Here is how PRIME works', sub: "Now pick one or two small habits. That's all you need to start.", btn: 'Got it, pick a habit →',
@@ -62,6 +62,8 @@ const en = {
     habitPh:  '"3 deep breaths and a look at my plan"',
     notePh:   'Why does this matter to you?',
     triggerLabel: 'Habit',
+    addSecond:    '+ Add another habit (optional)',
+    removeSecond: 'Remove the second habit',
     next: 'Continue →',
     back: '← Back',
     stepOf: '{n} of {total}',

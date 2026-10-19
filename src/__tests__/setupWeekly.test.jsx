@@ -31,8 +31,7 @@ describe('setup — habits can be weekly', () => {
     fireEvent.click(screen.getByText('כמה פעמים בשבוע'))
     fireEvent.click(screen.getByText('א׳'))
     fireEvent.click(screen.getByText('ה׳'))
-    fireEvent.click(screen.getByText(t.he.onboarding.next))         // → habit 2
-    fireEvent.click(await screen.findByText(t.he.onboarding.done.skip)) // skip habit 2
+    fireEvent.click(screen.getByText(t.he.onboarding.next))         // one habit screen → done
     expect(await screen.findByText(/3 פעמים בשבוע · א׳ ה׳/)).toBeInTheDocument()   // shown on the done screen
     fireEvent.click(screen.getByText(t.he.onboarding.done.btn))
     await waitFor(() => expect(saves).toHaveLength(1))
@@ -47,7 +46,6 @@ describe('setup — habits can be weekly', () => {
     fireEvent.change(await screen.findByPlaceholderText(t.he.onboarding.cuePh), { target: { value: 'כשאני קם' } })
     fireEvent.change(screen.getByPlaceholderText(t.he.onboarding.habitPh), { target: { value: 'כוס מים' } })
     fireEvent.click(screen.getByText(t.he.onboarding.next))
-    fireEvent.click(await screen.findByText(t.he.onboarding.done.skip))
     fireEvent.click(await screen.findByText(t.he.onboarding.done.btn))
     await waitFor(() => expect(saves).toHaveLength(1))
     expect(saves[0].triggers[0]).toMatchObject({ frequency: { type: 'daily' }, days: [] })

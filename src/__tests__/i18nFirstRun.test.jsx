@@ -72,8 +72,13 @@ describe('English first-run flow has no Hebrew', () => {
     fireEvent.click(screen.getByText(en.habitSchedule.someDays))
     fireEvent.click(screen.getByText('Su'))
     expect(hebrewIn(container)).toEqual([])
+    // The second habit is optional on the same screen — open it, then remove it again
+    fireEvent.click(screen.getByText(en.onboarding.addSecond))
+    expect(screen.getAllByPlaceholderText(en.onboarding.cuePh)).toHaveLength(2)
+    fireEvent.click(screen.getByText(en.onboarding.removeSecond))
+    expect(screen.getAllByPlaceholderText(en.onboarding.cuePh)).toHaveLength(1)
     fireEvent.click(screen.getByText(en.onboarding.next))
-    fireEvent.click(await screen.findByText(en.onboarding.done.skip))
+    // One habit screen, then straight to the summary
     expect(await screen.findByText(/3 times a week · Su/)).toBeInTheDocument()
     expect(hebrewIn(container)).toEqual([])
   })
@@ -103,7 +108,7 @@ describe('Hebrew stays as it was', () => {
   it('Setup talks about habits, not the old "focus trigger" feature', () => {
     const o = he.onboarding
     expect([o.goal.sub, o.trigger1.title, o.trigger2.title, o.triggerLabel]).toEqual([
-      'אפשר לבחור עד 3. נתאים את ההרגלים בהתאם.', 'הגדר את ההרגל הראשון שלך', 'הגדר את ההרגל השני שלך', 'הרגל',
+      'אפשר לבחור עד 3. נתאים את ההרגלים בהתאם.', 'הגדר את ההרגל שלך', 'הגדר את ההרגל השני שלך', 'הרגל',
     ])
     expect(JSON.stringify({ ...o, time: '' })).not.toMatch(/טריגר/)   // time = the cue's time (unused modal)
   })
