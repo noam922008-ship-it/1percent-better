@@ -636,6 +636,11 @@ const he = {
   },
   // Progress tab (AnalyticsTab). Day names / letters come from Intl (he-IL gives "יום ראשון", "א׳").
   progress: {
+    workoutsTitle: '💪 ימי אימון',
+    workoutsTotal: 'בסך הכל',
+    workoutsWeek:  '7 ימים אחרונים',
+    workoutsMonth: '30 ימים אחרונים',
+    workoutsRule:  'אימון נחשב מ-5 דקות, או כשמסיימים אותו עד הסוף.',
     title:       'ההתקדמות שלך',
     sub:         'מבט כללי על ההתקדמות',
     copy:        'העתק סיכום',

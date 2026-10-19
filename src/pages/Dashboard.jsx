@@ -53,7 +53,8 @@ import { getBoxingState, getNextWorkout, completeWorkout } from '../utils/boxing
 import { getMuayThaiState, getNextWorkout as getMTNextWorkout, completeWorkout as completeMTWorkout } from '../utils/muayThaiProgress'
 import { MT_LEVELS } from '../data/muayThaiPath'
 import { buildDrill, getLastDuration } from '../data/boxingDrills'
-import { claimDailyWorkoutReward } from '../services/workoutRewardService'
+import { claimDailyWorkoutReward, recordWorkoutDay } from '../services/workoutRewardService'
+import { countsAsWorkout } from '../utils/workoutRule'
 import { INSTANT_BOXING_WORKOUT, INSTANT_MT_WORKOUT } from '../data/instantWorkouts'
 import DailyLessonCard from '../components/DailyLessonCard'
 import MyTasks from '../components/MyTasks'
@@ -1054,6 +1055,14 @@ export default function Dashboard() {
     setProfile(p => ({ ...p, xp: newXP }))
     await saveProfile(user.uid, { xp: newXP })
     await syncLeaderboard(user.uid, publicName(profile), newXP).catch(() => {})
+  }
+
+  // Every workout type reports here. A workout counts at 5 minutes or when finished
+  // (utils/workoutRule); a counted one is saved as a workout day for the progress screen.
+  function logWorkoutDay(stats) {
+    if (!countsAsWorkout(stats)) return false
+    recordWorkoutDay(isGuest ? null : user?.uid, todayKey())
+    return true
   }
 
   function bumpStreak() {
@@ -2228,13 +2237,21 @@ export default function Dashboard() {
       {showCombatTraining && (
         <TrainingMode
           onClose={() => setShowCombatTraining(false)}
-          onAwardXP={amount => { setShowCombatTraining(false); awardXP(amount); bumpStreak() }}
+          onAwardXP={(amount, session) => {
+            setShowCombatTraining(false)
+            if (!logWorkoutDay(session)) return   // under 5 minutes — not a workout, no XP
+            awardXP(amount); bumpStreak()
+          }}
         />
       )}
       {showCombatProtocols && (
         <CombatProtocols
           onClose={() => setShowCombatProtocols(false)}
-          onAwardXP={amount => { setShowCombatProtocols(false); awardXP(amount); bumpStreak() }}
+          onAwardXP={(amount, session) => {
+            setShowCombatProtocols(false)
+            if (!logWorkoutDay(session)) return   // under 5 minutes and not finished — no XP
+            awardXP(amount); bumpStreak()
+          }}
           onOpenFreeSession={() => { setShowCombatProtocols(false); setShowCombatTraining(true) }}
         />
       )}
@@ -2246,6 +2263,7 @@ export default function Dashboard() {
           onClose={() => setShowBoxingPath(false)}
           onDrillComplete={async stats => {
             let xpAwarded = 0
+            if (!logWorkoutDay(stats)) return 0
             if (isGuest) {
               const lsKey = `prime_workout_done_${todayKey()}`
               if (!localStorage.getItem(lsKey)) {
@@ -2281,7 +2299,9 @@ export default function Dashboard() {
             const isInstant = boxingActive.workoutMode === 'instant'
             setBoxingActive(null)
             let xpAwarded = 0
-            if (isGuest) {
+            const counted = logWorkoutDay(stats)
+            if (!counted) { /* under 5 minutes and not finished — no workout, no XP */ }
+            else if (isGuest) {
               const lsKey = `prime_workout_done_${todayKey()}`
               if (!localStorage.getItem(lsKey)) {
                 localStorage.setItem(lsKey, '1')
@@ -2360,7 +2380,9 @@ export default function Dashboard() {
             const isInstant = mtActive.workoutMode === 'instant'
             setMtActive(null)
             let xpAwarded = 0
-            if (isGuest) {
+            const counted = logWorkoutDay(stats)
+            if (!counted) { /* under 5 minutes and not finished — no workout, no XP */ }
+            else if (isGuest) {
               const lsKey = `prime_workout_done_${todayKey()}`
               if (!localStorage.getItem(lsKey)) {
                 localStorage.setItem(lsKey, '1')
@@ -2441,8 +2463,7 @@ export default function Dashboard() {
           skipWarmup={false}
           onComplete={async stats => {
             setMtDrillActive(null)
-            const earnedXP = stats.durationSeconds >= 60 || stats.roundsCompleted >= 1
-            if (!earnedXP) return
+            if (!logWorkoutDay(stats)) return   // 5 minutes or finished — utils/workoutRule
             if (isGuest) {
               const lsKey = `prime_workout_done_${todayKey()}`
               if (!localStorage.getItem(lsKey)) {
@@ -2491,6 +2512,14 @@ export default function Dashboard() {
               const track = boxingSession?.track
               setBoxingSession(null)
               if (!track || !amount) return
+              const goalN = Number(boxingSession?.goal) || 0
+              if (track.category === 'cardio') {
+                // Cardio: 5 minutes or the minutes goal reached
+                if (!logWorkoutDay({ durationSeconds: amount * 60, finished: goalN > 0 && amount >= goalN })) return
+              } else {
+                // Sets: a workout day when the reps goal is reached; XP still follows the reps
+                logWorkoutDay({ finished: goalN > 0 && amount >= goalN })
+              }
               let xp
               if (track.category === 'cardio') {
                 xp = Math.max(10, Math.round(amount * 4))         // minutes × 4

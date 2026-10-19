@@ -6,6 +6,7 @@ import { getTrackDay } from '../utils/trackDay'
 import { FEATURES } from '../config/features'
 import { useLang } from '../context/LangContext'
 import { fmt, plural, localeFor } from '../i18n/fmt'
+import { workoutDaySet, guestWorkoutDays, workoutDayStats } from '../utils/workoutRule'
 
 const WHATSAPP_LINK = 'https://chat.whatsapp.com/L5AoG0c2l4H29BkAZanCw4'
 const APP_URL       = 'https://prime-app-84fe0.web.app'
@@ -360,6 +361,30 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
           </span>
         </div>
       </div>
+
+      {/* ── Workout days — what counts: utils/workoutRule ── */}
+      {(() => {
+        const days = workoutDaySet(profile)
+        for (const d of guestWorkoutDays()) days.add(d)
+        const w = workoutDayStats(days)
+        const cell = (value, label) => (
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.35rem' }}>{value.toLocaleString(locale)}</div>
+            <div style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.68rem', marginTop: '0.15rem' }}>{label}</div>
+          </div>
+        )
+        return (
+          <div style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '1rem 1.1rem', marginBottom: '1rem' }}>
+            <div style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.88rem', marginBottom: '0.85rem' }}>{tp.workoutsTitle}</div>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              {cell(w.total, tp.workoutsTotal)}
+              {cell(w.week, tp.workoutsWeek)}
+              {cell(w.month, tp.workoutsMonth)}
+            </div>
+            <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.66rem', marginTop: '0.8rem', textAlign: 'center' }}>{tp.workoutsRule}</div>
+          </div>
+        )
+      })()}
 
       {/* ── Weekly Insight card ── */}
       <div style={{ background: '#111114', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '1rem 1.1rem', marginBottom: '1.25rem' }}>

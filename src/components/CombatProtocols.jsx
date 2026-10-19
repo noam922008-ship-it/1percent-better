@@ -447,6 +447,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
   const [phase,    setPhase]    = useState('select')   // 'select' | 'active' | 'done'
   const [protocol, setProtocol] = useState(null)
   const [xpEarned, setXpEarned] = useState(0)
+  const sessionRef = useRef({ start: 0, finished: false })   // for "what counts as a workout"
   const [logs,     setLogs]     = useState([])         // session log lines
 
   const activeRef = useRef(false)
@@ -458,6 +459,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
   } = usePoseCamera(protocol?.poseFeature || 'none', phase === 'active')
 
   function selectProtocol(p) {
+    sessionRef.current = { start: Date.now(), finished: false }
     setProtocol(p)
     setXpEarned(0)
     setLogs([])
@@ -471,6 +473,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
   }
 
   function handleComboComplete(comboCount) {
+    sessionRef.current.finished = true
     const xp = comboCount * XP_PER_COMBO
     setXpEarned(xp)
     setLogs([lang === 'en' ? `✓ ${comboCount} combinations done · +${xp} XP` : `✓ ${comboCount} קומבינציות הושלמו · +${xp} XP`])
@@ -478,6 +481,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
   }
 
   function handleSessionEnd(roundsCompleted) {
+    sessionRef.current.finished = roundsCompleted >= (protocol?.rounds?.length || Infinity)
     const xp = roundsCompleted * XP_PER_ROUND
     setXpEarned(xp)
     // Save to localStorage for daily summary
@@ -498,7 +502,8 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
 
   function handleFinish() {
     stopCamera()
-    onAwardXP(xpEarned)
+    const { start, finished } = sessionRef.current
+    onAwardXP(xpEarned, { durationSeconds: start ? Math.round((Date.now() - start) / 1000) : 0, finished })
     onClose()
   }
 

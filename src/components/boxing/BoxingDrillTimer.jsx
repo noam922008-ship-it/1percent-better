@@ -197,7 +197,7 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
     if (nextIndex >= effectiveRounds.length) {
       audio.play(BEEP_COMPLETE)
       const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000)
-      onComplete({ durationSeconds, roundsCompleted: workDoneRef.current, techniques: workout?.techniques ?? [] })
+      onComplete({ durationSeconds, roundsCompleted: workDoneRef.current, techniques: workout?.techniques ?? [], finished: true })
       return
     }
     warned3Ref.current = false
@@ -226,7 +226,7 @@ export default function BoxingDrillTimer({ workout, onComplete, onExit, skipWarm
     const roundsCompleted = effectiveRounds
       .slice(0, currentRoundIndex)
       .filter((r) => r.type === 'work').length
-    onComplete({ durationSeconds, roundsCompleted, techniques: workout?.techniques ?? [] })
+    onComplete({ durationSeconds, roundsCompleted, techniques: workout?.techniques ?? [], finished: false })
   }
 
   useEffect(() => {

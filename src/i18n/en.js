@@ -629,6 +629,11 @@ const en = {
   },
   // Progress tab (AnalyticsTab). Day names / letters come from Intl (en-US gives "Sunday", "S").
   progress: {
+    workoutsTitle: '💪 Workout days',
+    workoutsTotal: 'Total',
+    workoutsWeek:  'Last 7 days',
+    workoutsMonth: 'Last 30 days',
+    workoutsRule:  'A workout counts from 5 minutes, or when you finish it.',
     title:       'Your progress',
     sub:         "An overview of how you're doing",
     copy:        'Copy summary',

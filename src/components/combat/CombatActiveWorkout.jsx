@@ -138,7 +138,7 @@ export default function CombatActiveWorkout({ workout, onComplete, onExit, skipW
     const nextIndex = currentRoundIndex + 1
     if (nextIndex >= effectiveRounds.length) {
       const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000)
-      onComplete({ durationSeconds, roundsCompleted: workDoneRef.current, techniques: workout?.techniques ?? [] })
+      onComplete({ durationSeconds, roundsCompleted: workDoneRef.current, techniques: workout?.techniques ?? [], finished: true })
       return
     }
     setCurrentRoundIndex(nextIndex)

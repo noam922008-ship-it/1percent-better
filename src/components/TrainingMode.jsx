@@ -562,7 +562,8 @@ export default function TrainingMode({ onClose, onAwardXP }) {
   }
 
   function handleFinish() {
-    onAwardXP(xpEarned)
+    // Free training has no end — it counts as a workout from 5 minutes (utils/workoutRule)
+    onAwardXP(xpEarned, { durationSeconds: elapsed, finished: false })
     onClose()
   }
 

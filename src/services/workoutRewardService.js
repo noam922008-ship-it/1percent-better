@@ -18,7 +18,7 @@
  * and atomically increments XP server-side, removing the client from the trust chain.
  */
 
-import { doc, runTransaction } from 'firebase/firestore'
+import { doc, runTransaction, setDoc } from 'firebase/firestore'
 import { db } from './firebase'
 
 const LS_PREFIX = 'prime_workout_done_'
@@ -81,4 +81,21 @@ export async function claimDailyWorkoutReward(uid, date) {
  */
 export function isDailyWorkoutClaimedLocally(date) {
   return !!localStorage.getItem(`${LS_PREFIX}${date}`)
+}
+
+
+/**
+ * Marks `date` as a workout day — for every workout type (strength, cardio, camera, combat).
+ * Separate from the XP claim above, so a strength set in the morning doesn't use up the daily
+ * workout XP of a boxing workout later. Counted on the progress screen (utils/workoutRule).
+ * Guests: this device only.
+ */
+export async function recordWorkoutDay(uid, date) {
+  if (!uid) {
+    try { localStorage.setItem(`prime_workout_day_${date}`, '1') } catch { /* ignore */ }
+    return
+  }
+  try {
+    await setDoc(profileRef(uid), { workoutDays: { [date]: true } }, { merge: true })
+  } catch { /* non-fatal: the day just isn't counted */ }
 }

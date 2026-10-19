@@ -21,6 +21,7 @@ import BoxingSessionAnalysis from './BoxingSessionAnalysis'
 import { FEATURES } from '../../config/features'
 import { useLang } from '../../context/LangContext'
 import { fmt, byLang } from '../../i18n/fmt'
+import { countsAsWorkout } from '../../utils/workoutRule'
 
 // ─── palette ────────────────────────────────────────────────────────────────
 const C = {
@@ -237,8 +238,8 @@ export default function BoxingPathScreen({
         workout={activeDrill}
         skipWarmup={skipWarmup}
         onComplete={async (stats) => {
-          // Only award XP for sessions with meaningful activity (≥60s elapsed OR ≥1 work round)
-          const earnedXP = stats.durationSeconds >= 60 || stats.roundsCompleted >= 1
+          // A drill counts (XP + workout day) at 5 minutes or when finished — utils/workoutRule
+          const earnedXP = countsAsWorkout(stats)
           const xp = (earnedXP && onDrillComplete) ? await onDrillComplete(stats) : 0
           const awarded = xp ?? 0
           setXpAwarded(awarded)
