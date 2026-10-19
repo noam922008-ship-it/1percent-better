@@ -570,7 +570,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
   const cfg = difficulty ? DIFFICULTIES[difficulty] : null
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 5500, background: 'rgba(4,4,10,0.97)', display: 'flex', flexDirection: 'column', alignItems: 'center', animation: 'fadeIn 0.2s ease' }}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 5500, paddingTop: 'env(safe-area-inset-top, 0px)', boxSizing: 'border-box', background: 'rgba(4,4,10,0.97)', display: 'flex', flexDirection: 'column', alignItems: 'center', animation: 'fadeIn 0.2s ease' }}>
       <div style={{ width: '100%', maxWidth: 480, height: '100%', display: 'flex', flexDirection: 'column', position: 'relative' }}>
 
         {/* ── Countdown overlay ── */}

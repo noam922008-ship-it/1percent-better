@@ -513,6 +513,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 5500,
+        paddingTop: 'env(safe-area-inset-top, 0px)', boxSizing: 'border-box', 
         background: '#09090b',
         display: 'flex', flexDirection: 'column', alignItems: 'center',
         animation: 'fadeIn 0.2s ease',

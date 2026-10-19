@@ -191,7 +191,7 @@ export default function Journal({ uid, onClose, vision = '', onSaveVision = null
       <div style={{
         position: 'sticky', top: 0, zIndex: 1, background: C.bg,
         display: 'flex', alignItems: 'center', gap: '0.25rem',
-        padding: 'calc(env(safe-area-inset-top, 0px) + 0.5rem) 0.5rem 0.5rem',
+        padding: '0.5rem',   // FullScreen already keeps clear of the status bar
         borderBottom: '1px solid rgba(255,255,255,0.05)',
       }}>
         <button onClick={goBack} aria-label={tc.back} style={{ background: 'none', border: 'none', color: C.muted, cursor: 'pointer', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>

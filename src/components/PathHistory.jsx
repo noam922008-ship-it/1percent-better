@@ -33,7 +33,7 @@ export default function PathHistory({ user, onRestore, onClose }) {
   }
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(5,5,12,0.97)', zIndex: 5100, display: 'flex', flexDirection: 'column', animation: 'fadeIn 0.2s ease' }}>
+    <div style={{ position: 'fixed', inset: 0, paddingTop: 'env(safe-area-inset-top, 0px)', boxSizing: 'border-box', background: 'rgba(5,5,12,0.97)', zIndex: 5100, display: 'flex', flexDirection: 'column', animation: 'fadeIn 0.2s ease' }}>
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.9rem 1.25rem', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>

@@ -69,7 +69,7 @@ export default function LessonView({ user, pathRecord, dayIndex, onComplete, onC
   const phaseColor = dayEntry ? (PHASE_COLORS[dayEntry.phase] || '#F5C518') : '#F5C518'
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: '#080810', zIndex: 6000, display: 'flex', flexDirection: 'column' }}>
+    <div style={{ position: 'fixed', inset: 0, paddingTop: 'env(safe-area-inset-top, 0px)', boxSizing: 'border-box', background: '#080810', zIndex: 6000, display: 'flex', flexDirection: 'column' }}>
 
       {/* ── Sticky header ── */}
       <div style={{ position: 'relative', zIndex: 10, background: 'rgba(8,8,16,0.98)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>

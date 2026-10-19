@@ -15,7 +15,7 @@ function Toast({ icon, msg, onDone: _onDone }) {
   return (
     <div
       style={{
-        position: 'fixed', top: '1.2rem', left: '50%', transform: 'translateX(-50%)',
+        position: 'fixed', top: 'calc(env(safe-area-inset-top, 0px) + 1.2rem)', left: '50%', transform: 'translateX(-50%)',
         zIndex: 99999, background: 'rgba(15,23,42,0.96)', border: '1px solid rgba(255,255,255,0.1)',
         borderRadius: 14, padding: '0.7rem 1.2rem', display: 'flex', alignItems: 'center',
         gap: '0.6rem', boxShadow: '0 8px 32px rgba(0,0,0,0.5)',

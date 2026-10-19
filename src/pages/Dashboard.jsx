@@ -146,8 +146,12 @@ function FullScreen({ children }) {
     return () => { document.body.style.overflow = prev }
   }, [])
   return (
-    <div ref={ref} style={{ position: 'fixed', inset: 0, zIndex: 300, background: '#09090b', overflowY: 'auto', overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}>
-      {children}
+    // The outer layer keeps clear of the phone's status bar / notch; the inner one scrolls,
+    // so sticky headers inside the screens stick just below the status bar.
+    <div style={{ position: 'fixed', inset: 0, zIndex: 300, background: '#09090b', paddingTop: 'env(safe-area-inset-top, 0px)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
+      <div ref={ref} style={{ flex: 1, minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}>
+        {children}
+      </div>
     </div>
   )
 }
@@ -190,7 +194,7 @@ function XPToast({ xp, onDone }) {
   const { t: tAll } = useLang()
   const isSignin = xp === 'signin'
   return (
-    <div style={{ position: 'fixed', top: '5.5rem', left: '50%', transform: 'translateX(-50%)', background: '#1a1a1a', border: '1px solid rgba(245,197,24,0.3)', color: '#d4a843', borderRadius: 20, padding: '0.45rem 1.1rem', fontSize: '0.83rem', fontWeight: 800, zIndex: 9999, animation: 'xp-pop 0.35s cubic-bezier(.34,1.56,.64,1) forwards', boxShadow: '0 1px 3px rgba(0,0,0,0.4)', pointerEvents: 'none', whiteSpace: 'nowrap' }}>
+    <div style={{ position: 'fixed', top: 'calc(env(safe-area-inset-top, 0px) + 5.5rem)', left: '50%', transform: 'translateX(-50%)', background: '#1a1a1a', border: '1px solid rgba(245,197,24,0.3)', color: '#d4a843', borderRadius: 20, padding: '0.45rem 1.1rem', fontSize: '0.83rem', fontWeight: 800, zIndex: 9999, animation: 'xp-pop 0.35s cubic-bezier(.34,1.56,.64,1) forwards', boxShadow: '0 1px 3px rgba(0,0,0,0.4)', pointerEvents: 'none', whiteSpace: 'nowrap' }}>
       {isSignin ? tAll.home.xpSignIn : `+${xp} XP ✨`}
     </div>
   )
@@ -1481,6 +1485,7 @@ export default function Dashboard() {
       {/* ── Sticky Header ── */}
       <div style={{
         position: 'sticky', top: 0, zIndex: 100,
+        paddingTop: 'env(safe-area-inset-top, 0px)',
         background: '#111317',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}>
@@ -2556,7 +2561,7 @@ export default function Dashboard() {
               background: '#111111',
               borderBottom: '1px solid rgba(255,255,255,0.07)',
               display: 'flex', alignItems: 'center', gap: '0.75rem',
-              padding: '0.55rem 1.1rem', cursor: 'pointer',
+              padding: 'calc(env(safe-area-inset-top, 0px) + 0.55rem) 1.1rem 0.55rem', cursor: 'pointer',
               animation: 'fadeIn 0.3s ease',
             }}
           >

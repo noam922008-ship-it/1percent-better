@@ -376,7 +376,7 @@ export default function PathBuilder({ user, onDone }) {
   }
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(5,5,10,0.98)', display: 'flex', flexDirection: 'column', zIndex: 5000 }}>
+    <div style={{ position: 'fixed', inset: 0, paddingTop: 'env(safe-area-inset-top, 0px)', boxSizing: 'border-box', background: 'rgba(5,5,10,0.98)', display: 'flex', flexDirection: 'column', zIndex: 5000 }}>
 
       {/* ── Header ── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.85rem 1.25rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
