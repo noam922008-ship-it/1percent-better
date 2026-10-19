@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+import lazyScreen from '../utils/lazyScreen'   // screens below load on first open
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { fmt, plural, localeFor, byLang } from '../i18n/fmt'
@@ -10,27 +11,16 @@ import { registerFcmToken } from '../services/fcmService'
 import { CHALLENGES, getDayTask, getModuleIndex } from '../data/challenges'
 import { getDayContent } from '../data/lessonContent'
 import { MANTRAS } from '../data/mantras'
-import TracksPage from './TracksPage'
-import AnalyticsTab from './AnalyticsTab'
-import InitiationFlow from './InitiationFlow'
 import AddToHomeScreen from '../components/AddToHomeScreen'
 import ContractLock from '../components/ContractLock'
 import PrimeOnboarding, { hasSeenOnboarding } from '../components/PrimeOnboarding'
 import FirstWelcome from '../components/FirstWelcome'
 import { hasSeenWelcome, markWelcomeSeen } from '../utils/welcome'
-import PathBuilder from '../components/PathBuilder'
-import Settings from '../components/Settings'
-import ArenaPage from './ArenaPage'
-import TrainingMode from '../components/TrainingMode'
-import CombatProtocols from '../components/CombatProtocols'
 import { buildCustomPath } from '../services/pathBuilderService'
 import { onSnapshot, doc } from 'firebase/firestore'
 import { db } from '../services/firebase'
 import { checkAndGenerateMirror } from '../services/mirrorService'
 import { getTodayEnergy } from '../services/energyLogService'
-import ProofOfActionModal from '../components/ProofOfActionModal'
-import PathHistory from '../components/PathHistory'
-import ActiveWorkout from '../components/ActiveWorkout'
 import { TRACK_MAP } from '../data/trainingTracks'
 import { getDailyChallenge } from '../data/dailyQuests'
 import { Home, Dumbbell, TrendingUp, User, PencilLine } from 'lucide-react'
@@ -39,7 +29,6 @@ import WeekStrip from '../components/dashboard/WeekStrip'
 import WorkoutsScreen from './WorkoutsScreen'
 import SurpriseMissionCard from '../components/SurpriseMissionCard'
 import { SURPRISE_CATEGORIES, DEFAULT_ENABLED_CATEGORIES } from '../data/surpriseMissions'
-import HabitCreationFlow from '../components/HabitCreationFlow'
 import GrowthPillarSelector from '../components/GrowthPillarSelector'
 import HobbyReflection from '../components/HobbyReflection'
 import HobbyDiscoveryProgress from '../components/HobbyDiscoveryProgress'
@@ -60,32 +49,46 @@ import { track } from '../services/analytics'
 import { renameWeeklyReps } from '../services/squadService'
 import { getTrackDay } from '../utils/trackDay'
 import { detectNicheRecs } from '../utils/nicheKeywords'
-import BoxingPathScreen from '../components/boxing/BoxingPathScreen'
-import BoxingWorkoutPreview from '../components/boxing/BoxingWorkoutPreview'
-import BoxingActiveWorkout from '../components/boxing/BoxingActiveWorkout'
-import BoxingCompletion from '../components/boxing/BoxingCompletion'
 import { getBoxingState, getNextWorkout, completeWorkout } from '../utils/boxingProgress'
-import CombatWorkoutPreview from '../components/combat/CombatWorkoutPreview'
-import CombatCompletion from '../components/combat/CombatCompletion'
-import MuayThaiPathScreen from '../components/muaythai/MuayThaiPathScreen'
 import { getMuayThaiState, getNextWorkout as getMTNextWorkout, completeWorkout as completeMTWorkout } from '../utils/muayThaiProgress'
 import { MT_LEVELS } from '../data/muayThaiPath'
-import BoxingDrillTimer from '../components/boxing/BoxingDrillTimer'
 import { buildDrill, getLastDuration } from '../data/boxingDrills'
 import { claimDailyWorkoutReward } from '../services/workoutRewardService'
 import { INSTANT_BOXING_WORKOUT, INSTANT_MT_WORKOUT } from '../data/instantWorkouts'
 import DailyLessonCard from '../components/DailyLessonCard'
 import MyTasks from '../components/MyTasks'
 import JournalCard from '../components/JournalCard'
-import Journal from '../components/Journal'
-import HasTimeScreen from '../components/HasTimeScreen'
 import WeeklySummaryCard from '../components/WeeklySummaryCard'
 import ShareStreakButton from '../components/ShareStreakButton'
 import RemindersCard from '../components/RemindersCard'
 import { weekStartOf, weeklySummary, readWorkoutDays, isSummaryDay, wasDismissed as weeklyDismissed, dismiss as dismissWeekly } from '../utils/weeklySummary'
 import { claim as claimHasTime, showHasTimeButton } from '../utils/hasTime'
 import { combatAvailable, COMBAT_IDS } from '../utils/combatLang'
-import LessonNotesPage from '../components/LessonNotesPage'
+
+// Screens opened from Home / tabs — each is its own file, fetched the first time it opens
+const TracksPage = lazyScreen(() => import('./TracksPage'))
+const AnalyticsTab = lazyScreen(() => import('./AnalyticsTab'))
+const InitiationFlow = lazyScreen(() => import('./InitiationFlow'))
+const PathBuilder = lazyScreen(() => import('../components/PathBuilder'))
+const Settings = lazyScreen(() => import('../components/Settings'))
+const ArenaPage = lazyScreen(() => import('./ArenaPage'))
+const TrainingMode = lazyScreen(() => import('../components/TrainingMode'))
+const CombatProtocols = lazyScreen(() => import('../components/CombatProtocols'))
+const ProofOfActionModal = lazyScreen(() => import('../components/ProofOfActionModal'))
+const PathHistory = lazyScreen(() => import('../components/PathHistory'))
+const ActiveWorkout = lazyScreen(() => import('../components/ActiveWorkout'))
+const HabitCreationFlow = lazyScreen(() => import('../components/HabitCreationFlow'))
+const BoxingPathScreen = lazyScreen(() => import('../components/boxing/BoxingPathScreen'))
+const BoxingWorkoutPreview = lazyScreen(() => import('../components/boxing/BoxingWorkoutPreview'))
+const BoxingActiveWorkout = lazyScreen(() => import('../components/boxing/BoxingActiveWorkout'))
+const BoxingCompletion = lazyScreen(() => import('../components/boxing/BoxingCompletion'))
+const CombatWorkoutPreview = lazyScreen(() => import('../components/combat/CombatWorkoutPreview'))
+const CombatCompletion = lazyScreen(() => import('../components/combat/CombatCompletion'))
+const MuayThaiPathScreen = lazyScreen(() => import('../components/muaythai/MuayThaiPathScreen'))
+const BoxingDrillTimer = lazyScreen(() => import('../components/boxing/BoxingDrillTimer'))
+const Journal = lazyScreen(() => import('../components/Journal'))
+const HasTimeScreen = lazyScreen(() => import('../components/HasTimeScreen'))
+const LessonNotesPage = lazyScreen(() => import('../components/LessonNotesPage'))
 
 // ── Constants ──────────────────────────────────────────────────────
 

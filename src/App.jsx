@@ -5,11 +5,14 @@ import { UserProvider } from './context/UserContext'
 import LoadingWrapper from './components/LoadingWrapper'
 import GoogleAuthGuard from './components/GoogleAuthGuard'
 import WelcomeScreen from './pages/WelcomeScreen'
-import OnboardingFlow from './pages/OnboardingFlow'
-import Dashboard from './pages/Dashboard'
-import Legal from './pages/Legal'
-import LegalDoc from './pages/LegalDoc'
 import ConsentBanner from './components/ConsentBanner'
+import lazyScreen from './utils/lazyScreen'
+
+// The welcome page loads first; setup, the app itself and the legal pages load when opened
+const OnboardingFlow = lazyScreen(() => import('./pages/OnboardingFlow'))
+const Dashboard      = lazyScreen(() => import('./pages/Dashboard'))
+const Legal          = lazyScreen(() => import('./pages/Legal'))
+const LegalDoc       = lazyScreen(() => import('./pages/LegalDoc'))
 
 // Redirect to /welcome but keep the query string, so ?utm_source=… from a shared link stays
 // visible and readable after landing (e.g. prime-daily-app.web.app/?utm_source=tiktok).
