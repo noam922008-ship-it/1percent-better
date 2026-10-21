@@ -3,6 +3,7 @@ import './index.css'
 import './styles/animations.css'
 import App from './App.jsx'
 import { startAnalytics } from './services/analytics'
+import { importHandoff } from './utils/guestHandoff'
 
 // One-time v2 flush (legacy — already ran for most users)
 if (!localStorage.getItem('_v2_init')) {
@@ -24,6 +25,9 @@ if (!localStorage.getItem('_v3_init')) {
   })
   localStorage.setItem('_v3_init', '1')
 }
+
+// Guest coming over from Instagram's browser: bring their habits along (utils/guestHandoff)
+importHandoff()
 
 // Before render: the router turns '/' into '/welcome' and drops ?utm_source=…
 startAnalytics()

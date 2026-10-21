@@ -37,6 +37,9 @@ import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitRemind
 import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
 import { loadGuestTriggers, saveGuestTriggers } from '../utils/guestHabits'
+import { writeHandoffHash } from '../utils/guestHandoff'
+import { inAppBrowser } from '../utils/inAppBrowser'
+import InAppInstallCard from '../components/InAppInstallCard'
 import { homeActionType } from '../utils/homeAction'
 import { nextHabitStreak, saveHabitStreak } from '../utils/habitStreak'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, normalizeSchedule, MAX_ACTIVE_HABITS } from '../utils/habitSchedule'
@@ -756,6 +759,8 @@ export default function Dashboard() {
     return () => { alive = false }
   }, [])
   const th  = tAll.home
+  // Guest inside Instagram/TikTok: keep their data in the address so "open in browser" carries it over
+  useEffect(() => { if (isGuest) writeHandoffHash() })
 
   const [initiationDone, setInitiationDone] = useState(() => !!localStorage.getItem('onboardingCompleted'))
 
@@ -1544,6 +1549,8 @@ export default function Dashboard() {
             </div>
             {/* Reminders — the only other place that asks is Settings; renders nothing once decided */}
             <RemindersCard uid={user?.uid} isGuest={isGuest} />
+            {/* Guest in Instagram's browser with a habit: how to get the real app (habits come along) */}
+            {isGuest && inAppBrowser() && (profile?.triggers || []).length > 0 && <InAppInstallCard />}
             {/* Journal — opens full-screen writing page */}
             <div style={{ marginBottom: '0.875rem' }}>
               <JournalCard onOpen={() => setJournalOpen(true)} />

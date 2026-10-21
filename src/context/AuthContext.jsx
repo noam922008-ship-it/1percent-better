@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { onAuthStateChanged, signOut, signInWithPopup, signInWithRedirect, getRedirectResult, browserPopupRedirectResolver, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, isFirebaseConfigured, googleProvider } from '../services/firebase'
+import { autoGuestPending, clearAutoGuest } from '../utils/guestHandoff'
 
 const Ctx = createContext(null)
 
@@ -12,7 +13,8 @@ const AUTH_WAIT_MS = 3000
 export function AuthProvider({ children }) {
   const [user,        setUser]        = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
-  const [isGuest,     setIsGuest]     = useState(false)
+  // A guest who just moved over from Instagram's browser carries on as a guest (utils/guestHandoff)
+  const [isGuest,     setIsGuest]     = useState(autoGuestPending)
 
   useEffect(() => {
     if (!isFirebaseConfigured) { setAuthLoading(false); return }
@@ -66,6 +68,7 @@ export function AuthProvider({ children }) {
     if (isFirebaseConfigured && !isGuest) await signOut(auth)
     setUser(null)
     setIsGuest(false)
+    clearAutoGuest()
   }
 
   return (
