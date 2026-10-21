@@ -2,12 +2,14 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { onAuthStateChanged, signOut, signInWithPopup, signInWithRedirect, getRedirectResult, browserPopupRedirectResolver, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, isFirebaseConfigured, googleProvider } from '../services/firebase'
 import { autoGuestPending, clearAutoGuest } from '../utils/guestHandoff'
+import { inAppBrowser } from '../utils/inAppBrowser'
 
 const Ctx = createContext(null)
 
 // Set just before a Google redirect sign-in, so the redirect result is only fetched when one is pending
 const REDIRECT_FLAG = 'prime_auth_redirect'
-// Never keep the whole app on the loading spinner longer than this
+// Inside Instagram/TikTok browsers auth can stall — never keep the spinner up longer than this there.
+// Elsewhere wait for the real answer, or a signed-in user would briefly see the welcome screen.
 const AUTH_WAIT_MS = 3000
 
 export function AuthProvider({ children }) {
@@ -24,7 +26,7 @@ export function AuthProvider({ children }) {
     if (pending) getRedirectResult(auth, browserPopupRedirectResolver).catch(() => {})
     // Slow networks / in-app browsers: show the app after a few seconds even if auth hasn't answered yet;
     // a signed-in user still lands where they should once it does (WelcomeScreen redirects on user).
-    const timer = setTimeout(() => setAuthLoading(false), AUTH_WAIT_MS)
+    const timer = inAppBrowser() ? setTimeout(() => setAuthLoading(false), AUTH_WAIT_MS) : null
     const unsub = onAuthStateChanged(auth, u => {
       clearTimeout(timer)
       setUser(u)
