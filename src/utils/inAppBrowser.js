@@ -19,13 +19,14 @@ export function isIOS(ua = (typeof navigator !== 'undefined' ? navigator.userAge
   return /iPhone|iPad|iPod/i.test(ua || '')
 }
 
-// A link that leaves the in-app browser: Safari on iOS 17+ (x-safari-https), Chrome on Android
-// (intent://, falls back to the same page if Chrome isn't installed). Null when there's no trick.
+// A link that leaves the in-app browser: Chrome on Android (intent://, falls back to the same page
+// if Chrome isn't installed). Null on iPhone — Instagram blocks the x-safari-https trick there
+// (tested Oct 2026), so iPhone users get the manual "⋯ → open in external browser" hint instead.
 export function externalBrowserUrl(href, ua = (typeof navigator !== 'undefined' ? navigator.userAgent : '')) {
   let u
   try { u = new URL(href) } catch { return null }
   if (u.protocol !== 'https:') return null
-  if (isIOS(ua)) return 'x-safari-' + u.href
+  if (isIOS(ua)) return null
   if (/Android/i.test(ua || '')) {
     return `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(u.href)};end`
   }

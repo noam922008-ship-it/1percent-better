@@ -12,7 +12,7 @@ const en = {
       title: "You're in the app's built-in browser",
       body: "You can start right away as a guest. To sign in with Google, open this page in your phone's browser.",
       open: 'Open in browser',
-      manual: "Didn't open? Tap ⋯ at the top → \"Open in browser\"",
+      manual: "To sign in with Google: tap ⋯ at the top → \"Open in external browser\"",
       guestFirst: 'Start now — no sign-up',
       googleInBrowser: 'Sign in with Google in the browser',
     },

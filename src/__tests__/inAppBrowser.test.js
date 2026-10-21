@@ -21,8 +21,8 @@ describe('inAppBrowser', () => {
 
 describe('externalBrowserUrl', () => {
   const href = 'https://prime-app-84fe0.web.app/welcome?utm_source=instagram'
-  it('iOS → Safari scheme', () => {
-    expect(externalBrowserUrl(href, IG_IOS)).toBe('x-safari-' + href)
+  it('iOS → no link (Instagram blocks it) — the manual hint is shown instead', () => {
+    expect(externalBrowserUrl(href, IG_IOS)).toBeNull()
   })
   it('Android → Chrome intent with a fallback to the same page', () => {
     const u = externalBrowserUrl(href, IG_ANDROID)
