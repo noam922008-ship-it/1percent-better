@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
 import { loadProfile } from '../services/focusTriggerService'
+import { inAppBrowser, externalBrowserUrl } from '../utils/inAppBrowser'
 
 const S = {
   page: { minHeight: '100vh', background: '#09090b', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', position: 'relative' },
@@ -68,6 +69,9 @@ export default function WelcomeScreen() {
   const [legalModal,  setLegalModal]  = useState(null) // 'terms' | 'privacy' | null
   const [ageOk,       setAgeOk]       = useState(false) // 18+ and terms checkbox — required before any sign-in
   const navigate = useNavigate()
+  // Inside Instagram / TikTok etc. Google sign-in is blocked — offer the real browser, guest first
+  const inApp   = inAppBrowser()
+  const openOut = inApp ? externalBrowserUrl(window.location.href) : null
 
   useEffect(() => {
     if (authLoading || !user) return
@@ -151,6 +155,17 @@ export default function WelcomeScreen() {
           ))}
         </div>
 
+        {inApp && (
+          <div style={{ background: 'rgba(217,179,76,0.1)', border: '1px solid rgba(217,179,76,0.35)', borderRadius: 14, padding: '0.85rem 0.9rem', margin: '0.75rem 0 0.25rem', textAlign: 'start' }}>
+            <div style={{ color: '#f1f5f9', fontSize: '0.88rem', fontWeight: 800, marginBottom: '0.3rem' }}>{t.welcome.inApp.title}</div>
+            <div style={{ color: 'rgba(241,245,249,0.7)', fontSize: '0.8rem', lineHeight: 1.55 }}>{t.welcome.inApp.body}</div>
+            {openOut && (
+              <a href={openOut} style={{ display: 'block', marginTop: '0.65rem', textAlign: 'center', padding: '0.7rem', borderRadius: 11, background: '#D9B34C', color: '#111', fontWeight: 900, fontSize: '0.88rem', textDecoration: 'none' }}>{t.welcome.inApp.open}</a>
+            )}
+            <div style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.74rem', marginTop: '0.5rem' }}>{t.welcome.inApp.manual}</div>
+          </div>
+        )}
+
         {/* 18+ and terms — one checkbox; every way in stays disabled until it's checked */}
         <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', textAlign: 'start', color: 'rgba(241,245,249,0.75)', fontSize: '0.84rem', lineHeight: 1.55, margin: '0.75rem 0 1rem', cursor: 'pointer', minHeight: 44 }}>
           <input type="checkbox" checked={ageOk} onChange={e => setAgeOk(e.target.checked)} aria-label={t.welcome.ageRequired}
@@ -163,7 +178,23 @@ export default function WelcomeScreen() {
           </span>
         </label>
 
-        {/* Google Sign-in */}
+        {/* In-app browser: guest is the way in that works here */}
+        {inApp && (
+          <button
+            onClick={handleGuest}
+            disabled={!ageOk}
+            style={{ ...S.btn, marginTop: '0.25rem', opacity: !ageOk ? 0.45 : 1, cursor: !ageOk ? 'not-allowed' : 'pointer' }}
+          >
+            {t.welcome.inApp.guestFirst}
+          </button>
+        )}
+
+        {/* Google Sign-in — inside an in-app browser it opens the real browser instead */}
+        {inApp && openOut ? (
+          <a href={openOut} style={{ ...S.btn, marginTop: '0.65rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(241,245,249,0.75)', textDecoration: 'none', boxShadow: 'none', boxSizing: 'border-box' }}>
+            <GoogleIcon />{t.welcome.inApp.googleInBrowser}
+          </a>
+        ) : !inApp && (
         <button
           onClick={handleGoogle}
           disabled={loading || !ageOk}
@@ -176,6 +207,7 @@ export default function WelcomeScreen() {
             : <GoogleIcon />}
           {loading ? t.welcome.signingIn : t.welcome.signIn}
         </button>
+        )}
         {error && <p style={S.err}>{error}</p>}
 
         {/* Divider */}
@@ -246,6 +278,7 @@ export default function WelcomeScreen() {
           </form>
         )}
 
+        {!inApp && (
         <button
           onClick={handleGuest}
           disabled={loading || !ageOk}
@@ -255,6 +288,7 @@ export default function WelcomeScreen() {
         >
           👁 {t.welcome.guest}
         </button>
+        )}
 
         <InstallButton />
         <div style={{ marginTop: '1rem' }}><SocialLinks /></div>

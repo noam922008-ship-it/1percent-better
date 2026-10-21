@@ -2,12 +2,20 @@
 const en = {
   welcome: {
     title: 'PRIME',
-    subtitle: 'Figure out who you want to be — body, money and mind. One clear step a day.',
+    subtitle: "One small habit a day. A streak you won't want to break.",
     features: [
-      ['✍️', "Write — get what's on your mind onto the page"],
-      ['🧭', 'Understand — one question that shows what really matters to you'],
-      ['👣', 'Take a step — turn it into one clear step for today'],
+      ['✅', 'Pick a small habit — 10 minutes of reading, 20 push-ups, anything'],
+      ['🔥', 'Check it off every day and watch your streak grow'],
+      ['🥊', 'Boxing workouts with a coach that sees you on camera'],
     ],
+    inApp: {
+      title: "You're in the app's built-in browser",
+      body: "You can start right away as a guest. To sign in with Google, open this page in your phone's browser.",
+      open: 'Open in browser',
+      manual: "Didn't open? Tap ⋯ at the top → \"Open in browser\"",
+      guestFirst: 'Start now — no sign-up',
+      googleInBrowser: 'Sign in with Google in the browser',
+    },
     signIn: 'Continue with Google',
     signingIn: 'Signing in…',
     error: 'Sign-in failed. Please try again.',
