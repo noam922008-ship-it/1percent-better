@@ -11,6 +11,7 @@ const FIXED_KEYS = ['prime_guest_triggers', 'prime_habit_log_guest', 'prime_welc
 const CHECKIN_PREFIX = 'ft_checkins_'
 const CHECKIN_DAYS = 60
 export const AUTO_GUEST_FLAG = 'prime_auto_guest'
+const ARRIVED_KEY = 'prime_handoff_arrived'   // shows the "last step: add to home screen" card
 
 function dayKey(daysAgo, now) {
   return new Date(now - daysAgo * 86400000).toISOString().slice(0, 10)
@@ -88,6 +89,7 @@ export function importHandoff() {
     if (!state || inAppBrowser()) return false   // still inside Instagram: its own data is already here
     applyState(state)
     try { sessionStorage.setItem(AUTO_GUEST_FLAG, '1') } catch {}
+    try { localStorage.setItem(ARRIVED_KEY, '1') } catch {}
     return true
   } catch { return false }
 }
@@ -97,4 +99,11 @@ export function autoGuestPending() {
 }
 export function clearAutoGuest() {
   try { sessionStorage.removeItem(AUTO_GUEST_FLAG) } catch {}
+}
+
+export function handoffArrived() {
+  try { return localStorage.getItem(ARRIVED_KEY) === '1' } catch { return false }
+}
+export function clearHandoffArrived() {
+  try { localStorage.removeItem(ARRIVED_KEY) } catch {}
 }

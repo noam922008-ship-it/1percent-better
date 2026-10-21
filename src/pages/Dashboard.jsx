@@ -10,7 +10,7 @@ import { analyzeVideoForm } from '../services/coachService'
 import { registerFcmToken } from '../services/fcmService'
 import { CHALLENGES, getDayTask, getModuleIndex } from '../data/challenges'
 import { MANTRAS } from '../data/mantras'
-import AddToHomeScreen from '../components/AddToHomeScreen'
+import AddToHomeScreen, { isStandalone } from '../components/AddToHomeScreen'
 import ContractLock from '../components/ContractLock'
 import PrimeOnboarding, { hasSeenOnboarding } from '../components/PrimeOnboarding'
 import FirstWelcome from '../components/FirstWelcome'
@@ -37,9 +37,9 @@ import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitRemind
 import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
 import { loadGuestTriggers, saveGuestTriggers } from '../utils/guestHabits'
-import { writeHandoffHash } from '../utils/guestHandoff'
+import { writeHandoffHash, handoffArrived } from '../utils/guestHandoff'
 import { inAppBrowser } from '../utils/inAppBrowser'
-import InAppInstallCard from '../components/InAppInstallCard'
+import InAppInstallCard, { HandoffArrivedCard } from '../components/InAppInstallCard'
 import { homeActionType } from '../utils/homeAction'
 import { nextHabitStreak, saveHabitStreak } from '../utils/habitStreak'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, normalizeSchedule, MAX_ACTIVE_HABITS } from '../utils/habitSchedule'
@@ -1551,6 +1551,8 @@ export default function Dashboard() {
             <RemindersCard uid={user?.uid} isGuest={isGuest} />
             {/* Guest in Instagram's browser with a habit: how to get the real app (habits come along) */}
             {isGuest && inAppBrowser() && (profile?.triggers || []).length > 0 && <InAppInstallCard />}
+            {/* …and once they've moved to Safari/Chrome: their habits are here, last step is installing */}
+            {isGuest && !inAppBrowser() && !isStandalone() && handoffArrived() && <HandoffArrivedCard />}
             {/* Journal — opens full-screen writing page */}
             <div style={{ marginBottom: '0.875rem' }}>
               <JournalCard onOpen={() => setJournalOpen(true)} />
