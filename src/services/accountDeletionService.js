@@ -9,7 +9,7 @@ import {
 } from 'firebase/firestore'
 import { ref, listAll, deleteObject } from 'firebase/storage'
 import {
-  deleteUser, reauthenticateWithCredential, reauthenticateWithPopup, EmailAuthProvider,
+  deleteUser, reauthenticateWithCredential, reauthenticateWithPopup, browserPopupRedirectResolver, EmailAuthProvider,
 } from 'firebase/auth'
 import { db, storage, auth, googleProvider } from './firebase'
 import { setProfileAutoCreate } from './focusTriggerService'
@@ -31,7 +31,7 @@ export async function reauthenticate({ password } = {}) {
   if (signInMethod(user) === 'password') {
     await reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email, password || ''))
   } else {
-    await reauthenticateWithPopup(user, googleProvider)
+    await reauthenticateWithPopup(user, googleProvider, browserPopupRedirectResolver)
   }
 }
 

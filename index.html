@@ -14,7 +14,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Font loads without blocking the first paint (in-app browsers can be slow to reach Google Fonts) -->
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
     <title>PRIME</title>
     <meta name="description" content="PRIME עוזרת לך להבין מי אתה רוצה להיות — בגוף, בכסף ובנפש — והופכת את זה לצעד אחד ברור כל יום." />
     <meta property="og:title" content="PRIME" />

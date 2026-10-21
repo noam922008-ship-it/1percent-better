@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider, connectAuthEmulator } from 'firebase/auth'
+import { getAuth, initializeAuth, indexedDBLocalPersistence, browserLocalPersistence, GoogleAuthProvider, connectAuthEmulator } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getStorage, connectStorageEmulator } from 'firebase/storage'
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
@@ -27,7 +27,14 @@ let _app = null
 
 if (isFirebaseConfigured) {
   _app       = initializeApp(config)
-  _auth      = getAuth(_app)
+  // No popup/redirect resolver at start-up: with one, auth waits for a hidden iframe from the auth
+  // domain before it reports the user, and inside Instagram / TikTok browsers that iframe can hang
+  // for minutes (the app sat on a spinner). Sign-in passes the resolver itself (context/AuthContext).
+  try {
+    _auth = initializeAuth(_app, { persistence: [indexedDBLocalPersistence, browserLocalPersistence] })
+  } catch {
+    _auth = getAuth(_app)   // already initialised (dev hot reload)
+  }
   _db        = getFirestore(_app)
   _storage   = getStorage(_app)
   _functions = getFunctions(_app, 'europe-west1')
