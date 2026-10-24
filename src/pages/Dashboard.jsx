@@ -36,7 +36,7 @@ import { DEFAULT_PILLARS } from '../data/pillars'
 import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitReminder'
 import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
-import { loadGuestTriggers, saveGuestTriggers } from '../utils/guestHabits'
+import { loadGuestTriggers, saveGuestTriggers, guestTriggersToAdopt, markGuestTriggersAdopted } from '../utils/guestHabits'
 import { writeHandoffHash, handoffArrived } from '../utils/guestHandoff'
 import { inAppBrowser } from '../utils/inAppBrowser'
 import InAppInstallCard, { HandoffArrivedCard } from '../components/InAppInstallCard'
@@ -887,9 +887,20 @@ export default function Dashboard() {
   useEffect(() => {
     if (isGuest) { setProfile({ name: 'Guest', xp: 0, triggers: loadGuestTriggers(), challenges: {} }); setLoading(false); return }
     if (!user) return
+    let adopted = false
     const unsub = subscribeProfile(
       user.uid,
-      p => { setProfile(p); setLoading(false) },
+      p => {
+        // A guest who just signed in: their guest habits move to the account (see utils/guestHabits)
+        const adopt = !adopted && guestTriggersToAdopt(p)
+        if (adopt) {
+          adopted = true
+          const moved = { triggers: adopt, onboardingDone: true, welcomeSeen: true }
+          p = { ...p, ...moved }
+          saveProfile(user.uid, moved).then(markGuestTriggersAdopted)
+        }
+        setProfile(p); setLoading(false)
+      },
       () => { setLoading(false) }  // network error: stop spinner, keep last profile
     )
     return unsub
@@ -1552,7 +1563,7 @@ export default function Dashboard() {
             {/* Guest in Instagram's browser with a habit: how to get the real app (habits come along) */}
             {isGuest && inAppBrowser() && (profile?.triggers || []).length > 0 && <InAppInstallCard />}
             {/* …and once they've moved to Safari/Chrome: their habits are here, last step is installing */}
-            {isGuest && !inAppBrowser() && !isStandalone() && handoffArrived() && <HandoffArrivedCard />}
+            {!inAppBrowser() && !isStandalone() && handoffArrived() && <HandoffArrivedCard />}
             {/* Journal — opens full-screen writing page */}
             <div style={{ marginBottom: '0.875rem' }}>
               <JournalCard onOpen={() => setJournalOpen(true)} />

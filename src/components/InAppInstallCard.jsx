@@ -2,10 +2,13 @@
 //   • InAppInstallCard — inside the in-app browser, once they have a habit: why to move to the real
 //     browser + 3 visual steps, and a bouncing pointer at the top corner where the ⋯ menu is.
 //   • HandoffArrivedCard — in Safari/Chrome right after the move: "your habits are here" + the last
-//     step (Add to Home Screen). Hidden once installed or dismissed.
+//     step (Add to Home Screen). On iPhone it first asks to save the habits with Google: an app added
+//     to the Home Screen starts with empty storage there, so a guest would open it with nothing.
+//     Hidden once installed or dismissed.
 
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
 import { isIOS } from '../utils/inAppBrowser'
 import { clearHandoffArrived } from '../utils/guestHandoff'
 
@@ -74,15 +77,36 @@ export default function InAppInstallCard() {
 
 export function HandoffArrivedCard() {
   const { t } = useLang()
+  const { user, isGuest, loginWithGoogle } = useAuth()
   const s = t.home.handoffArrived
   const [hidden, setHidden] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [failed, setFailed] = useState(false)
   if (hidden) return null
   const ios = isIOS()
+  const saved = !!user && !isGuest
+  const needSave = ios && !saved
+
+  async function save() {
+    if (busy) return
+    setBusy(true); setFailed(false)
+    try { await loginWithGoogle() } catch { setFailed(true) }
+    setBusy(false)
+  }
+
   return (
     <div style={cardStyle}>
-      <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', marginBottom: '0.3rem' }}>{s.title}</div>
-      <div style={{ color: 'rgba(241,245,249,0.7)', fontSize: '0.82rem', lineHeight: 1.55, marginBottom: '0.2rem' }}>{s.body}</div>
-      <Step n={'✓'} icon={ios ? <ShareIcon /> : '⋮'} text={ios ? s.stepIos : s.stepAndroid} sub={ios ? s.subIos : s.subAndroid} />
+      <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', marginBottom: '0.3rem' }}>{ios && saved ? s.titleSaved : s.title}</div>
+      <div style={{ color: 'rgba(241,245,249,0.7)', fontSize: '0.82rem', lineHeight: 1.55, marginBottom: '0.2rem' }}>{needSave ? s.bodySave : s.body}</div>
+      {needSave && (
+        <>
+          <Step n={1} icon="G" text={s.saveStep} sub={s.saveSub} />
+          <button onClick={save} disabled={busy} className="btn-tactile" style={{ width: '100%', margin: '0.15rem 0 0.35rem', padding: '0.8rem', borderRadius: 12, border: 'none', background: GOLD, color: '#111', fontWeight: 900, fontSize: '0.92rem', cursor: 'pointer', fontFamily: 'inherit', opacity: busy ? 0.7 : 1 }}>{busy ? '…' : s.saveBtn}</button>
+          {failed && <div style={{ color: '#f87171', fontSize: '0.76rem', fontWeight: 700, marginBottom: '0.3rem' }}>{s.saveError}</div>}
+        </>
+      )}
+      <Step n={needSave ? 2 : '✓'} icon={ios ? <ShareIcon /> : '⋮'} text={ios ? s.stepIos : s.stepAndroid} sub={ios ? s.subIos : s.subAndroid} />
+      {ios && saved && <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.76rem', lineHeight: 1.5, marginTop: '0.2rem' }}>{s.reopenNote}</div>}
       <button onClick={() => { clearHandoffArrived(); setHidden(true) }} style={laterStyle}>{s.done}</button>
     </div>
   )
