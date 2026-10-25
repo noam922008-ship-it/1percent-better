@@ -717,7 +717,7 @@ exports.dailyStats = onSchedule(
   }
 );
 
-// ── igAutoDm — Instagram comment "לינק" → DM with the app link ─────────────────
+// ── igAutoDm — Instagram comment "link" → DM with the app link ─────────────────
 // Meta webhook (app "Noam Auto Reply", Instagram object, field `comments`) points here.
 // Replaces the Supabase Edge Function, which paused after a week without traffic.
 exports.igAutoDm = onRequest(

@@ -31,9 +31,14 @@ function post(payload) {
   const raw = JSON.stringify(payload);
   return { method: 'POST', rawBody: Buffer.from(raw), get: h => (h === 'x-hub-signature-256' ? sign(raw) : undefined) };
 }
-const comment = (entryId, text, fromId = '999') => ({
-  entry: [{ id: entryId, changes: [{ field: 'comments', value: { id: 'c1', text, from: { id: fromId, username: 'friend' } } }] }],
+const comment = (entryId, text, fromId = '999', mediaId) => ({
+  entry: [{ id: entryId, changes: [{ field: 'comments', value: { id: 'c1', text, from: { id: fromId, username: 'friend' }, ...(mediaId ? { media: { id: mediaId } } : {}) } }] }],
 });
+const PRIME = '17841426948960609';
+function memoryStore() {
+  const seen = new Set();
+  return { seen, firstTime: async k => (seen.has(k) ? false : (seen.add(k), true)) };
+}
 
 describe('rules', () => {
   it('keywords get the rule with the public reply, any other comment gets the DM only', () => {
@@ -122,6 +127,31 @@ describe('webhook handler', () => {
     await h(post(comment('17841426948960609', 'link')), fakeRes());
     expect(f.calls).toHaveLength(1);
     expect([...seen]).toEqual(['prime_999']);
+  });
+
+  it('asking again on a new post gets the link again, once per post', async () => {
+    const f = okFetch();
+    const { firstTime } = memoryStore();
+    const h = makeHandler({ ...env(), firstTime }, f);
+    const dms = () => f.calls.filter(c => c.url.endsWith('/messages')).length;
+    await h(post(comment(PRIME, 'link', '999', 'reelA')), fakeRes());   // first ever → DM
+    expect(dms()).toBe(1);
+    await h(post(comment(PRIME, 'link', '999', 'reelA')), fakeRes());   // same post again → nothing
+    expect(dms()).toBe(1);
+    await h(post(comment(PRIME, 'link pls', '999', 'reelB')), fakeRes()); // new post, asked → DM
+    expect(dms()).toBe(2);
+    await h(post(comment(PRIME, 'what app is this?', '999', 'reelC')), fakeRes()); // "app" counts as asking
+    expect(dms()).toBe(3);
+  });
+
+  it('plain comments on new posts never get the link twice', async () => {
+    const f = okFetch();
+    const { firstTime } = memoryStore();
+    const h = makeHandler({ ...env(), firstTime }, f);
+    await h(post(comment(PRIME, '🔥🔥', '999', 'reelA')), fakeRes());
+    await h(post(comment(PRIME, 'great video', '999', 'reelB')), fakeRes());
+    await h(post(comment(PRIME, 'love it', '999', 'reelC')), fakeRes());
+    expect(f.calls).toHaveLength(1);
   });
 
   it('a failed DM still answers 200 to Meta', async () => {

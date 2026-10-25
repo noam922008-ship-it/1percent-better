@@ -8,13 +8,16 @@
 
 const crypto = require('crypto');
 
+// Words that mean "send me the link". These also get the link again on a new post (see handleComment).
+const ASK_WORDS = ['לינק', 'link', 'קישור', 'app', 'אפליקציה', 'prime', 'פריים'];
+
 // ===== Rules per account (prime = English, noam = Hebrew) =====
 // keywords: ["*"] = every comment gets the DM. mediaIds empty = all posts and reels.
 const RULES_BY_ACCOUNT = {
   // @prime.daily.app (English videos)
   prime: [
     {
-      keywords: ['לינק', 'link', 'קישור'],
+      keywords: ASK_WORDS,
       dm: "Hey! 👋 Here's your link to Prime – get 1% better every day 💪\nhttps://prime-app-84fe0.web.app",
       publicReply: 'Sent you a DM 📩',
     },
@@ -27,7 +30,7 @@ const RULES_BY_ACCOUNT = {
   // @noam_cohen_02 (Hebrew videos)
   noam: [
     {
-      keywords: ['לינק', 'link', 'קישור'],
+      keywords: ASK_WORDS,
       dm: 'היי! 👋 הנה הלינק לאפליקציה – להשתפר ב-1% כל יום 💪\nhttps://prime-app-84fe0.web.app',
       publicReply: 'שלחתי לך בפרטי 📩',
     },
@@ -120,17 +123,29 @@ async function sendPublicReply(acc, commentId, text, fetchFn) {
 }
 
 /**
- * firstTime(key) → true the first time a key is seen (one DM per person per account, ever),
- * so someone who comments five times gets the link once. Without a store: always true.
+ * firstTime(key) → true the first time a key is seen (the store remembers every key).
+ * - Anyone's first comment ever on this account gets the DM.
+ * - After that, only someone who asks again (a word from ASK_WORDS) on a post where they
+ *   didn't get it yet gets it again. Plain comments ("🔥", "great") never get it twice, so
+ *   people who comment on every video aren't spammed.
+ * Without a store: always true.
  */
 async function handleComment(acc, v, fetchFn, firstTime = async () => true) {
   // Ignore the account's own comments, or the bot would answer itself
   if (!v || !v.text || (v.from && v.from.id === acc.igUserId)) return 'ignored';
   const rule = findRule(acc.rules, v.text, v.media && v.media.id);
   if (!rule) return 'no-match';
-  if (v.from && v.from.id && !(await firstTime(`${acc.name}_${v.from.id}`))) {
-    console.log(`[${acc.name}] already sent to @${v.from.username}, skipping`);
-    return 'already-sent';
+  const who = v.from && v.from.id;
+  if (who) {
+    const mediaId = v.media && v.media.id;
+    const firstEver = await firstTime(`${acc.name}_${who}`);
+    // Always mark the post too, so a "link" on the post where they first got it doesn't resend
+    const firstOnPost = mediaId ? await firstTime(`${acc.name}_${who}_${mediaId}`) : firstEver;
+    const asked = !rule.keywords.includes('*');
+    if (!firstEver && !(asked && firstOnPost)) {
+      console.log(`[${acc.name}] already sent to @${v.from.username}, skipping`);
+      return 'already-sent';
+    }
   }
 
   console.log(`[${acc.name}] match from @${v.from && v.from.username}: "${v.text}"`);
@@ -194,6 +209,6 @@ function makeHandler(env, fetchFn = globalThis.fetch) {
 }
 
 module.exports = {
-  RULES_BY_ACCOUNT, ACCOUNT_DEFS,
+  RULES_BY_ACCOUNT, ACCOUNT_DEFS, ASK_WORDS,
   cleanToken, normalize, findRule, loadAccounts, accountFor, isValidSignature, handleComment, makeHandler,
 };
