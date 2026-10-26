@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
 import { countFunnel, countOpen, funnelDate, FUNNEL_KEYS } from '../services/funnel'
 
 function recorder() {
@@ -34,8 +36,8 @@ describe('funnel counters', () => {
     expect(r2.calls.map(c => c.keys[0])).toEqual(['open'])
   })
 
-  it('counter names match firestore.rules', async () => {
-    const rules = (await import('fs')).readFileSync(new URL('../../firestore.rules', import.meta.url), 'utf8')
+  it('counter names match firestore.rules', () => {
+    const rules = readFileSync(resolve(process.cwd(), 'firestore.rules'), 'utf8')
     for (const k of FUNNEL_KEYS) expect(rules).toContain(`'${k}'`)
     expect(funnelDate(new Date('2026-01-02T00:00:00Z'))).toBe('2026-01-02')
   })

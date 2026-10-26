@@ -5,6 +5,7 @@ import { MAX_ACTIVE_HABITS, normalizeSchedule } from '../utils/habitSchedule'
 import HabitScheduleFields from './HabitScheduleFields'
 import { useLang } from '../context/LangContext'
 import { fmt, byLang } from '../i18n/fmt'
+import { newQuitHabit, quitTitle } from '../utils/quitHabit'
 
 // Cue presets, by id. Labels in t.habitFlow.cues; 'custom' opens a free-text field.
 const CUE_IDS = ['wake', 'bfast', 'phone', 'work', 'sleep', 'custom']
@@ -27,12 +28,21 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
   const [cue, setCue] = useState(() => cueFromSuggestion(prefill))
   const [customTrigger, setCustomTrigger] = useState('')
   const [schedule, setSchedule] = useState({ weekly: false, times: 3, days: [], time: '' })
+  // Quit a bad habit (utils/quitHabit): on the same first screen, below the habits to build —
+  // one tap on a suggestion (or own text) + save; no cue or schedule steps
+  const [quitText, setQuitText]   = useState('')
+  const [quitOther, setQuitOther] = useState(false)
 
   const activePillars = growthPillars?.length ? growthPillars : ['discipline', 'body']
   const suggestions = getTopSuggestionsForPillars(activePillars, 6)
   const atMax = existingCount >= MAX_ACTIVE_HABITS
   const hasCue = !!(cue.id || cue.sug)
   const title = selected ? byLang(selected, 'title', lang) : customTitle
+  const quitName = quitTitle(quitText, tf.quitPrefix)
+
+  function handleQuitSave() {
+    if (quitName) onSave(newQuitHabit(quitName))
+  }
 
   function handleSuggestionPick(s) {
     setSelected(s)
@@ -98,6 +108,60 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
               </div>
             ) : (
               <>
+                {!hasPreFill && (
+                  <div style={{ marginBottom: '1.25rem', background: 'rgba(217,179,76,0.05)', border: '1px solid rgba(217,179,76,0.25)', borderRadius: 14, padding: '0.9rem' }}>
+                    <div style={{ color: '#D9B34C', fontSize: '0.9rem', fontWeight: 800 }}>{tf.quitHeader}</div>
+                    <div style={{ color: '#71717A', fontSize: '0.7rem', margin: '0.15rem 0 0.75rem' }}>{tf.quitSub}</div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                      {tf.quitSuggestions.map(q => (
+                        <button
+                          key={q}
+                          onClick={() => { setQuitOther(false); setQuitText(q) }}
+                          aria-pressed={!quitOther && quitText === q}
+                          className="btn-tactile"
+                          style={{ padding: '0.5rem 0.8rem', borderRadius: 999, cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, minHeight: 40,
+                            border: `1px solid ${!quitOther && quitText === q ? 'rgba(217,179,76,0.6)' : 'rgba(255,255,255,0.08)'}`,
+                            background: !quitOther && quitText === q ? 'rgba(217,179,76,0.15)' : '#111317',
+                            color: !quitOther && quitText === q ? '#D9B34C' : '#F4F1E8' }}
+                        >
+                          {tf.quitPrefix}{q}
+                        </button>
+                      ))}
+                      {!quitOther && (
+                        <button
+                          onClick={() => { setQuitOther(true); setQuitText('') }}
+                          className="btn-tactile"
+                          style={{ padding: '0.5rem 0.8rem', borderRadius: 999, cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, minHeight: 40, border: '1px dashed rgba(255,255,255,0.15)', background: 'transparent', color: '#A4A6AD' }}
+                        >
+                          {tf.quitOwn}
+                        </button>
+                      )}
+                    </div>
+                    {quitOther && (
+                      <input
+                        autoFocus
+                        className="glow-input"
+                        placeholder={tf.quitPh}
+                        value={quitText}
+                        onChange={e => setQuitText(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && handleQuitSave()}
+                        style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#f1f5f9', fontSize: '0.88rem', boxSizing: 'border-box', marginTop: '0.75rem', fontFamily: 'inherit' }}
+                      />
+                    )}
+                    {quitName && (
+                      <button
+                        onClick={handleQuitSave}
+                        className="btn-tactile"
+                        style={{ width: '100%', padding: '0.9rem', marginTop: '0.75rem', borderRadius: 12, border: 'none', background: 'linear-gradient(135deg,#c49020,#d4a843)', color: '#111', fontSize: '0.9rem', fontWeight: 900, cursor: 'pointer' }}
+                      >
+                        {tf.quitSave} · {quitName}
+                      </button>
+                    )}
+                  </div>
+                )}
+                {!hasPreFill && (
+                  <div style={{ color: '#F4F1E8', fontSize: '0.9rem', fontWeight: 800, marginBottom: '0.6rem' }}>{tf.buildHeader}</div>
+                )}
                 <button
                   onClick={handleCustom}
                   style={{ width: '100%', padding: '0.8rem', borderRadius: 10, background: 'transparent', border: '1px solid rgba(255,255,255,0.08)', color: '#A4A6AD', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer', marginBottom: '1rem' }}

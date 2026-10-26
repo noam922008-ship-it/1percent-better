@@ -30,25 +30,26 @@ describe('signup — one 18+ / terms checkbox', () => {
     expect(screen.queryByText(/בהמשך אתה/)).toBeNull()        // the old implicit line is gone
   })
 
-  it('every way in is disabled until checked', () => {
+  it('a tap before ticking does nothing but point at the box', () => {
     render(<WelcomeScreen />)
     expect(box()).not.toBeChecked()
-    expect(google()).toBeDisabled()
-    expect(guest()).toBeDisabled()
+    expect(screen.queryByText(t.he.welcome.ageTap)).toBeNull()
     fireEvent.click(google()); fireEvent.click(guest())
     expect(calls).toEqual([])
+    expect(screen.getByText(t.he.welcome.ageTap)).toBeInTheDocument()
     fireEvent.click(box())
-    expect(google()).not.toBeDisabled()
-    expect(guest()).not.toBeDisabled()
+    expect(screen.queryByText(t.he.welcome.ageTap)).toBeNull()
+    fireEvent.click(guest())
+    expect(calls).toEqual(['guest'])
   })
 
   it('email sign-up is blocked too until checked', () => {
     render(<WelcomeScreen />)
     fireEvent.click(screen.getByText(/כניסה עם אימייל/))
     const submit = screen.getByText('כניסה').closest('button')
-    expect(submit).toBeDisabled()
-    fireEvent.click(box())
-    expect(submit).not.toBeDisabled()
+    fireEvent.submit(submit.closest('form'))
+    expect(calls).toEqual([])
+    expect(screen.getByText(t.he.welcome.ageTap)).toBeInTheDocument()
   })
 
   it('opening the terms from the checkbox text does not tick it', () => {

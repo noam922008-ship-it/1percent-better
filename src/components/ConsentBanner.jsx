@@ -3,7 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { needsConsentChoice, setConsent } from '../services/analytics'
 import { useLang } from '../context/LangContext'
 
-// Analytics consent (FEATURES.consentBanner) — a cookie-style bar at the bottom of the screen,
+// Analytics consent (FEATURES.consentBanner) — a small cookie bar at the bottom of the screen (one short
+// line + two equal buttons, so it doesn't cover the welcome screen),
 // shown on the first visit on every page (welcome included) until the user picks.
 // Not blocking: the app works behind it. Same choice as the switch in Settings → Privacy.
 // Both buttons have the same size and weight — accepting must not be easier than declining (EU rules).
@@ -26,7 +27,7 @@ export default function ConsentBanner() {
     try { window.dispatchEvent(new Event(CONSENT_CHOICE_EVENT)) } catch { /* ignore */ }
   }
   const btn = {
-    flex: 1, minHeight: 44, borderRadius: 10, fontSize: '0.85rem', fontWeight: 800, cursor: 'pointer', fontFamily: 'inherit',
+    flex: 1, minHeight: 40, borderRadius: 9, fontSize: '0.8rem', fontWeight: 800, cursor: 'pointer', fontFamily: 'inherit',
   }
 
   return (
@@ -34,36 +35,32 @@ export default function ConsentBanner() {
       role="dialog"
       aria-label={tc.aria}
       style={{
-        position: 'fixed', left: 12, right: 12, bottom: 'calc(12px + env(safe-area-inset-bottom, 0px))', zIndex: 4500,
+        position: 'fixed', left: 8, right: 8, bottom: 'calc(8px + env(safe-area-inset-bottom, 0px))', zIndex: 4500,
         maxWidth: 480, margin: '0 auto',
-        background: '#111317', border: '1px solid rgba(245,197,24,0.3)', borderRadius: 16, padding: '1rem',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+        background: '#111317', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, padding: '0.6rem 0.75rem',
+        boxShadow: '0 6px 24px rgba(0,0,0,0.55)',
       }}
     >
-      <p style={{ color: '#F4F1E8', fontSize: '0.92rem', fontWeight: 800, margin: '0 0 0.35rem' }}>{tc.title}</p>
-      <p style={{ color: '#e8eaf0', fontSize: '0.8rem', lineHeight: 1.55, margin: 0 }}>{tc.text}</p>
-      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem' }}>
+      <p style={{ color: '#e8eaf0', fontSize: '0.74rem', lineHeight: 1.45, margin: 0 }}>
+        {tc.short}{' '}
+        <Link to="/privacy" style={{ color: 'rgba(245,197,24,0.8)', fontWeight: 700, textDecoration: 'underline' }}>{tc.privacy}</Link>
+      </p>
+      <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.5rem' }}>
         <button
           onClick={() => choose(true)}
           className="btn-tactile"
-          style={{ ...btn, background: 'rgba(245,197,24,0.9)', border: '1px solid rgba(245,197,24,0.6)', color: '#0e0e16' }}
+          style={{ ...btn, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.3)', color: '#F4F1E8' }}
         >
           {tc.accept}
         </button>
         <button
           onClick={() => choose(false)}
           className="btn-tactile"
-          style={{ ...btn, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.35)', color: '#F4F1E8' }}
+          style={{ ...btn, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.3)', color: '#F4F1E8' }}
         >
           {tc.decline}
         </button>
       </div>
-      <Link
-        to="/privacy"
-        style={{ display: 'inline-flex', alignItems: 'center', minHeight: 32, marginTop: '0.4rem', color: 'rgba(245,197,24,0.7)', fontSize: '0.74rem', fontWeight: 600, textDecoration: 'none' }}
-      >
-        {tc.privacy}
-      </Link>
     </section>
   )
 }

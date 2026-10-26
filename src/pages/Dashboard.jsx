@@ -45,6 +45,8 @@ import { homeActionType } from '../utils/homeAction'
 import { nextHabitStreak, saveHabitStreak } from '../utils/habitStreak'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, normalizeSchedule, MAX_ACTIVE_HABITS } from '../utils/habitSchedule'
 import { getLocalDateKey } from '../utils/localDate'
+import { isQuit, slipQuit } from '../utils/quitHabit'
+import QuitHabitRow from '../components/QuitHabitRow'
 import { subscribeWeekLog, markHabitDone } from '../services/habitLogService'
 import HabitScheduleFields from '../components/HabitScheduleFields'
 import { publicName, cleanNickname } from '../utils/publicName'
@@ -651,7 +653,8 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
     days: trigger.days || [], time: trigger.time || '',
   })
   const [confirmDel, setConfirmDel] = useState(false)
-  const canSave = cue.trim().length > 0 && habit.trim().length > 0
+  const quit    = isQuit(trigger)
+  const canSave = (quit || cue.trim().length > 0) && habit.trim().length > 0
 
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 5100, background: 'rgba(5,5,12,0.82)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', animation: 'fadeIn 0.2s ease' }}>
@@ -683,6 +686,7 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
           </div>
         ) : (
           <>
+{!quit && (<>
             <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.4rem' }}>{eh.cueLabel}</div>
             <input
               autoFocus
@@ -692,6 +696,7 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
               placeholder={eh.cuePh}
               style={{ width: '100%', boxSizing: 'border-box', padding: '0.8rem 0.95rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.875rem', fontFamily: 'inherit', marginBottom: '1rem', outline: 'none' }}
             />
+            </>)}
             <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.4rem' }}>{eh.habitLabel}</div>
             <input
               className="glow-input"
@@ -700,11 +705,13 @@ function EditHabitModal({ trigger, onSave, onDelete, onClose }) {
               placeholder={eh.habitPh}
               style={{ width: '100%', boxSizing: 'border-box', padding: '0.8rem 0.95rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.875rem', fontFamily: 'inherit', marginBottom: '1.25rem', outline: 'none' }}
             />
-            <div style={{ margin: '0.25rem 0 1.1rem' }}>
-              <HabitScheduleFields value={schedule} onChange={setSchedule} />
-            </div>
+            {!quit && (
+              <div style={{ margin: '0.25rem 0 1.1rem' }}>
+                <HabitScheduleFields value={schedule} onChange={setSchedule} />
+              </div>
+            )}
             <button
-              onClick={() => canSave && onSave(cue.trim(), habit.trim(), normalizeSchedule(schedule))}
+              onClick={() => canSave && (quit ? onSave(habit.trim(), habit.trim(), {}) : onSave(cue.trim(), habit.trim(), normalizeSchedule(schedule)))}
               disabled={!canSave}
               className="btn-tactile"
               style={{ width: '100%', padding: '0.95rem', borderRadius: 14, border: 'none', background: canSave ? 'linear-gradient(135deg,#c49020,#d4a843)' : 'rgba(255,255,255,0.06)', color: canSave ? '#0d0d0d' : 'rgba(255,255,255,0.25)', fontSize: '0.9rem', fontWeight: 800, cursor: canSave ? 'pointer' : 'not-allowed', marginBottom: '0.6rem', boxShadow: canSave ? '0 2px 8px rgba(0,0,0,0.4)' : 'none' }}
@@ -952,7 +959,7 @@ export default function Dashboard() {
     const visionProf   = customPath?.vision_profile || null
     const uid          = user?.uid || null
     const run = () => {
-      checkNotifications(triggers, profile, undefined, undefined, weekLog, lang)
+      checkNotifications(triggers.filter(t => !isQuit(t)), profile, undefined, undefined, weekLog, lang)
       checkNudges(visionProf, uid, lang)
     }
     run()
@@ -1160,7 +1167,7 @@ export default function Dashboard() {
     setCompletingId(id)
     setTimeout(() => setCompletingId(null), 850)
     awardXP(XP.HABIT)
-    updateStreak(next, (profile?.triggers || []).filter(t => !isWeekly(t)))
+    updateStreak(next, (profile?.triggers || []).filter(t => !isWeekly(t) && !isQuit(t)))
   }
 
 
@@ -1181,7 +1188,7 @@ export default function Dashboard() {
     setSaving(true)
     const newTrigger = { id: `t${Date.now()}`, ...data }
     const updated    = { ...(profile || {}), triggers: [...existing, newTrigger], onboardingDone: true }
-    const frequency = isWeekly(newTrigger) ? 'weekly' : 'daily'
+    const frequency = isQuit(newTrigger) ? 'quit' : isWeekly(newTrigger) ? 'weekly' : 'daily'
     if (!existing.length) countFunnel(isGuest ? 'habit_first_guest' : 'habit_first_user')
     if (isGuest) {
       // Guests: saved in this browser only (previously the habit was silently dropped)
@@ -1194,6 +1201,14 @@ export default function Dashboard() {
       track('habit_created', { frequency })
     } catch {}
     setSaving(false)
+  }
+
+  // Quit habit: "I slipped" restarts the clean-day count from today (best run kept)
+  function handleSlip(id) {
+    const newTriggers = (profile?.triggers || []).map(t => t.id === id ? slipQuit(t, getLocalDateKey()) : t)
+    setProfile(p => ({ ...p, triggers: newTriggers }))
+    if (isGuest) saveGuestTriggers(newTriggers)
+    else if (user) saveProfile(user.uid, { triggers: newTriggers }).catch(() => {})
   }
 
   // Same id → daily/weekly check-in history stays attached when the schedule changes
@@ -1314,7 +1329,7 @@ export default function Dashboard() {
   // ── Derived ───────────────────────────────────────────────────
 
   const triggers  = profile?.triggers || []
-  const dailyTriggers = triggers.filter(tr => !isWeekly(tr))   // weekly habits don't count toward "all done today"
+  const dailyTriggers = triggers.filter(tr => !isWeekly(tr) && !isQuit(tr))   // weekly and quit habits don't count toward "all done today"
   const doneCount = dailyTriggers.filter(tr => checkins[tr.id]).length
   const allDone   = dailyTriggers.length > 0 && doneCount === dailyTriggers.length
   const thisWeek  = weekKeys(localDay)
@@ -1898,6 +1913,10 @@ export default function Dashboard() {
                     )}
                     <div style={{ padding: '0.5rem 0 0' }}>
                       {triggers.slice(0, MAX_ACTIVE_HABITS).map((tr, i) => {
+                        if (isQuit(tr)) return (
+                          <QuitHabitRow key={tr.id} tr={tr} first={i === 0} today={localDay} s={th.quit}
+                            onSlip={() => handleSlip(tr.id)} onEdit={() => setEditHabit(tr)} />
+                        )
                         const weekly     = isWeekly(tr)
                         const target     = weekly ? timesPerWeek(tr) : 0
                         const weekDone   = weekly ? weeklyDone(tr, weekLog, thisWeek) : 0
