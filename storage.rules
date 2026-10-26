@@ -19,10 +19,8 @@ service firebase.storage {
     // No overwrite — each proof is an immutable timestamped record.
     match /proofs/{uid}/{fileName} {
       allow read:   if isOwner(uid);
-      allow create: if isOwner(uid)
-                   && request.resource.size < 10 * 1024 * 1024
-                   && isImage()
-                   && fileName.size() <= 200;
+      // Proofs are text-only (ProofOfActionModal) — no uploads until photo proofs come back
+      allow create: if false;
       allow update: if false;
       allow delete: if isOwner(uid);
     }
@@ -32,10 +30,8 @@ service firebase.storage {
     // Only the owner can write; overwrites are intentional (stable path).
     match /avatars/{uid}/{fileName} {
       allow read:   if isSignedIn();
-      allow write:  if isOwner(uid)
-                   && request.resource.size < 2 * 1024 * 1024
-                   && isImage()
-                   && fileName.size() <= 200;
+      // No avatar upload in the app today — reopen (with this size/type check) when it exists
+      allow write:  if false;
       allow delete: if isOwner(uid);
     }
 
@@ -45,10 +41,9 @@ service firebase.storage {
     // Client can also delete (cleanup on function error).
     match /workout-analysis/{uid}/{fileName} {
       allow read:   if isOwner(uid);
-      allow create: if isOwner(uid)
-                   && request.resource.size < 100 * 1024 * 1024
-                   && request.resource.contentType.matches('video/.*')
-                   && fileName.size() <= 200;
+      // AI is off (FEATURES.ai) and analyzeBoxingSession isn't deployed: any signed-in account
+      // could otherwise store unlimited 100 MB videos. Reopen together with the AI feature.
+      allow create: if false;
       allow update: if false;
       allow delete: if isOwner(uid);
     }

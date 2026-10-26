@@ -129,28 +129,38 @@ async function sendPublicReply(acc, commentId, text, fetchFn) {
  *   didn't get it yet gets it again. Plain comments ("🔥", "great") never get it twice, so
  *   people who comment on every video aren't spammed.
  * Without a store: always true.
+ * release(key) undoes a firstTime() of this comment when the DM didn't go out, so the person
+ * isn't marked as "sent" for a DM they never got (the next comment or a Meta retry can send it).
+ * Logs carry no comment text or usernames (personal data) — only ids.
  */
-async function handleComment(acc, v, fetchFn, firstTime = async () => true) {
+async function handleComment(acc, v, fetchFn, firstTime = async () => true, release = async () => {}) {
   // Ignore the account's own comments, or the bot would answer itself
   if (!v || !v.text || (v.from && v.from.id === acc.igUserId)) return 'ignored';
   const rule = findRule(acc.rules, v.text, v.media && v.media.id);
   if (!rule) return 'no-match';
   const who = v.from && v.from.id;
+  const claimed = [];
+  const claim = async key => { const first = await firstTime(key); if (first) claimed.push(key); return first; };
   if (who) {
     const mediaId = v.media && v.media.id;
-    const firstEver = await firstTime(`${acc.name}_${who}`);
+    const firstEver = await claim(`${acc.name}_${who}`);
     // Always mark the post too, so a "link" on the post where they first got it doesn't resend
-    const firstOnPost = mediaId ? await firstTime(`${acc.name}_${who}_${mediaId}`) : firstEver;
+    const firstOnPost = mediaId ? await claim(`${acc.name}_${who}_${mediaId}`) : firstEver;
     const asked = !rule.keywords.includes('*');
     if (!firstEver && !(asked && firstOnPost)) {
-      console.log(`[${acc.name}] already sent to @${v.from.username}, skipping`);
+      console.log(`[${acc.name}] already sent for comment ${v.id}, skipping`);
       return 'already-sent';
     }
   }
 
-  console.log(`[${acc.name}] match from @${v.from && v.from.username}: "${v.text}"`);
-  // Each step on its own: if one fails the other still runs
-  try { await sendPrivateReply(acc, v.id, rule.dm, fetchFn); } catch (e) { console.error('DM error', e); }
+  console.log(`[${acc.name}] match on comment ${v.id}`);
+  let sent = false;
+  try { sent = await sendPrivateReply(acc, v.id, rule.dm, fetchFn); } catch (e) { console.error('DM error', e && e.message); }
+  if (!sent) {
+    // Not delivered: forget the marks of this comment, and don't claim "Sent you a DM" publicly
+    await Promise.all(claimed.map(k => Promise.resolve().then(() => release(k)).catch(() => {})));
+    return 'dm-failed';
+  }
   if (rule.publicReply) {
     try { await sendPublicReply(acc, v.id, rule.publicReply, fetchFn); } catch (e) { console.error('Public reply error', e); }
   }
@@ -158,7 +168,7 @@ async function handleComment(acc, v, fetchFn, firstTime = async () => true) {
 }
 
 /**
- * The HTTP handler. env = { verifyToken, appSecret, getToken(key), firstTime?(key) }.
+ * The HTTP handler. env = { verifyToken, appSecret, getToken(key), firstTime?(key), release?(key) }.
  * req/res are Express-style (Cloud Functions): req.rawBody is the exact body Meta signed.
  */
 function makeHandler(env, fetchFn = globalThis.fetch) {
@@ -194,7 +204,7 @@ function makeHandler(env, fetchFn = globalThis.fetch) {
         if (!acc) { console.warn('event for unknown account', entry.id); continue; }
         for (const change of entry.changes || []) {
           if (change.field === 'comments' || change.field === 'live_comments') {
-            jobs.push(handleComment(acc, change.value, fetchFn, env.firstTime).catch(e => console.error(e)));
+            jobs.push(handleComment(acc, change.value, fetchFn, env.firstTime, env.release).catch(e => console.error(e)));
           }
         }
       }

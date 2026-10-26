@@ -26,6 +26,12 @@ const igAccessToken2 = defineSecret('IG_ACCESS_TOKEN_2');  // page token, @noam_
 
 initializeApp();
 
+// AI functions (analyzeWithGemini, analyzeBoxingSession) are exported — and so deployed — only
+// when ENABLE_AI_FUNCTIONS=true is set for the deploy (functions/.env or the shell). The app has AI
+// off (src/config/features.js → ai), and an exported AI callable is a paid API any signed-in
+// account could call. Without the flag a full `firebase deploy --only functions` can't publish them.
+const AI_FUNCTIONS_ENABLED = process.env.ENABLE_AI_FUNCTIONS === 'true';
+
 // ── analyzeWithGemini — secure Gemini proxy ───────────────────────────────────
 // Callable from the frontend. Requires Firebase Auth (blocks unauthenticated
 // and guest callers — those fall back to static responses on the client).
@@ -91,7 +97,7 @@ function validateGeminiRequest(data) {
   return { prompt, imageBase64, imageMimeType, systemInstruction };
 }
 
-exports.analyzeWithGemini = onCall(
+const analyzeWithGemini = onCall(
   {
     region:          'europe-west1',
     memory:          '512MiB',
@@ -197,7 +203,7 @@ function sanitizeAnalysis(obj) {
   return true;
 }
 
-exports.analyzeBoxingSession = onCall(
+const analyzeBoxingSession = onCall(
   {
     region:         'europe-west1',
     memory:         '1GiB',
@@ -744,5 +750,13 @@ exports.igAutoDm = onRequest(
         return true;
       }
     },
+    // The DM didn't go out: drop the mark so the person can still get it (igAutoDm.handleComment)
+    release: key => getFirestore().collection('igAutoDmSent').doc(key).delete(),
   }),
 );
+
+// ── AI functions: only with ENABLE_AI_FUNCTIONS=true (see the note near the top) ───────────────
+if (AI_FUNCTIONS_ENABLED) {
+  exports.analyzeWithGemini    = analyzeWithGemini;
+  exports.analyzeBoxingSession = analyzeBoxingSession;
+}

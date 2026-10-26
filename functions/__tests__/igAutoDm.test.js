@@ -154,6 +154,42 @@ describe('webhook handler', () => {
     expect(f.calls).toHaveLength(1);
   });
 
+  it('a failed DM is not marked as sent, and no public "Sent you a DM"', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    const calls = [];
+    const failing = async (url, init) => { calls.push(url); return { ok: false, status: 400, text: async () => '{"error":{}}' }; };
+    const { seen, firstTime } = memoryStore();
+    const released = [];
+    const h = makeHandler({ ...env(), firstTime, release: async k => { released.push(k); seen.delete(k); } }, failing);
+    await h(post(comment(PRIME, 'link', '999', 'reelA')), fakeRes());
+    expect(calls).toEqual(['https://graph.facebook.com/v23.0/1372542799274596/messages']);   // no /replies
+    expect(released.sort()).toEqual(['prime_999', 'prime_999_reelA']);
+    // the next try (Meta retry or a new comment) can send it
+    const f = okFetch();
+    await makeHandler({ ...env(), firstTime }, f)(post(comment(PRIME, 'link', '999', 'reelA')), fakeRes());
+    expect(f.calls.filter(c => c.url.endsWith('/messages'))).toHaveLength(1);
+  });
+
+  it('a delivered DM releases nothing; parallel duplicate events send once', async () => {
+    const f = okFetch();
+    const { firstTime } = memoryStore();
+    const released = [];
+    const h = makeHandler({ ...env(), firstTime, release: async k => { released.push(k); } }, f);
+    await Promise.all([1, 2, 3].map(() => h(post(comment(PRIME, 'link', '999', 'reelA')), fakeRes())));
+    expect(f.calls.filter(c => c.url.endsWith('/messages'))).toHaveLength(1);
+    expect(released).toEqual([]);
+  });
+
+  it('logs carry no comment text or username', async () => {
+    const logs = [];
+    console.log.mockImplementation((...a) => logs.push(a.join(' ')));
+    const { firstTime } = memoryStore();
+    const h = makeHandler({ ...env(), firstTime }, okFetch());
+    await h(post(comment(PRIME, 'my secret text', '999', 'reelA')), fakeRes());
+    await h(post(comment(PRIME, 'again', '999', 'reelB')), fakeRes());
+    expect(logs.join('\n')).not.toMatch(/secret text|again|friend/);
+  });
+
   it('a failed DM still answers 200 to Meta', async () => {
     const f = async () => ({ ok: false, status: 401, text: async () => 'Session has expired' });
     jest.spyOn(console, 'error').mockImplementation(() => {});
