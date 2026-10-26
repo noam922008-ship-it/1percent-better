@@ -4,6 +4,8 @@ import './styles/animations.css'
 import App from './App.jsx'
 import { startAnalytics } from './services/analytics'
 import { importHandoff } from './utils/guestHandoff'
+import { countOpen } from './services/funnel'
+import { inAppBrowser } from './utils/inAppBrowser'
 
 // One-time v2 flush (legacy — already ran for most users)
 if (!localStorage.getItem('_v2_init')) {
@@ -31,5 +33,8 @@ importHandoff()
 
 // Before render: the router turns '/' into '/welcome' and drops ?utm_source=…
 startAnalytics()
+
+// Cookieless daily counts (services/funnel) — read before the router drops the query string
+countOpen({ inApp: !!inAppBrowser(), search: window.location.search })
 
 createRoot(document.getElementById('root')).render(<App />)

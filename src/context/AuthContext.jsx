@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { onAuthStateChanged, signOut, signInWithPopup, signInWithRedirect, getRedirectResult, browserPopupRedirectResolver, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, isFirebaseConfigured, googleProvider } from '../services/firebase'
 import { autoGuestPending, clearAutoGuest } from '../utils/guestHandoff'
+import { countFunnel } from '../services/funnel'
 import { inAppBrowser } from '../utils/inAppBrowser'
 
 const Ctx = createContext(null)
@@ -62,6 +63,7 @@ export function AuthProvider({ children }) {
   }
 
   const loginAsGuest = () => {
+    countFunnel('guest_start')
     setIsGuest(true)
     setUser(null)
   }

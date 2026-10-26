@@ -1,4 +1,5 @@
 import { doc, getDoc, setDoc, onSnapshot, collection, query, orderBy, limit, getDocs } from 'firebase/firestore'
+import { countFunnel } from './funnel'
 import { db } from './firebase'
 
 const profileDoc   = uid         => doc(db, 'focusTriggers', uid)
@@ -43,7 +44,7 @@ export function subscribeProfile(uid, callback, onError) {
       callback(snap.data())
     } else {
       const defaults = { tier: 'free', createdAt: new Date().toISOString() }
-      if (_autoCreateProfile) setDoc(ref, defaults, { merge: true }).catch(() => {})
+      if (_autoCreateProfile) { setDoc(ref, defaults, { merge: true }).catch(() => {}); countFunnel('signup') }
       callback(defaults)
     }
   }, onError || (() => {}))

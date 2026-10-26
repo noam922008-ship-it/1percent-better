@@ -37,6 +37,7 @@ import { shouldShowLateReminder, getIncompleteCount } from '../utils/habitRemind
 import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
 import { loadGuestTriggers, saveGuestTriggers, guestTriggersToAdopt, markGuestTriggersAdopted } from '../utils/guestHabits'
+import { countFunnel } from '../services/funnel'
 import { writeHandoffHash, handoffArrived } from '../utils/guestHandoff'
 import { inAppBrowser } from '../utils/inAppBrowser'
 import InAppInstallCard, { HandoffArrivedCard } from '../components/InAppInstallCard'
@@ -898,6 +899,7 @@ export default function Dashboard() {
           const moved = { triggers: adopt, onboardingDone: true, welcomeSeen: true }
           p = { ...p, ...moved }
           saveProfile(user.uid, moved).then(markGuestTriggersAdopted)
+          countFunnel('guest_to_account')
         }
         setProfile(p); setLoading(false)
       },
@@ -1143,6 +1145,7 @@ export default function Dashboard() {
       if (weekLog[today]?.[id]) { setProofModal(null); return }
       setWeekLog(l => ({ ...l, [today]: { ...(l[today] || {}), [id]: true } }))
       markHabitDone(isGuest ? null : user?.uid, id, today).catch(() => {})
+      countFunnel(isGuest ? 'checkin_guest' : 'checkin_user')
       setProofModal(null)
       setCompletingId(id)
       setTimeout(() => setCompletingId(null), 850)
@@ -1150,6 +1153,7 @@ export default function Dashboard() {
       return
     }
     const next = { ...checkins, [id]: true }
+    countFunnel(isGuest ? 'checkin_guest' : 'checkin_user')
     saveCheckins(next)
     setCheckinsS(next)
     setProofModal(null)
@@ -1178,6 +1182,7 @@ export default function Dashboard() {
     const newTrigger = { id: `t${Date.now()}`, ...data }
     const updated    = { ...(profile || {}), triggers: [...existing, newTrigger], onboardingDone: true }
     const frequency = isWeekly(newTrigger) ? 'weekly' : 'daily'
+    if (!existing.length) countFunnel(isGuest ? 'habit_first_guest' : 'habit_first_user')
     if (isGuest) {
       // Guests: saved in this browser only (previously the habit was silently dropped)
       saveGuestTriggers(updated.triggers); setProfile(updated); setShowModal(false); setSaving(false)

@@ -306,6 +306,27 @@ service cloud.firestore {
     }
 
     // ── DENY EVERYTHING ELSE ───────────────────────────
+    // ── FUNNEL COUNTERS (src/services/funnel.js) ─────────
+    // Daily counts only, no person data. Anyone (guests too) may add exactly 1 to one known
+    // counter. Nobody can read them from the app — only the Firebase console.
+    match /funnel/{date} {
+      function funnelKeys() {
+        return ['open', 'open_inapp', 'open_dm', 'guest_start', 'habit_first_guest', 'habit_first_user', 'checkin_guest', 'checkin_user', 'signup', 'guest_to_account'];
+      }
+      function oneMore() {
+        let ks = request.resource.data.diff(resource.data).affectedKeys();
+        let k = ks.toList()[0];
+        return ks.size() == 1 && request.resource.data[k] == resource.data.get(k, 0) + 1;
+      }
+      allow create: if date.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
+                    && request.resource.data.keys().hasOnly(funnelKeys())
+                    && request.resource.data.size() == 1
+                    && request.resource.data.values().hasOnly([1]);
+      allow update: if date.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
+                    && request.resource.data.keys().hasOnly(funnelKeys())
+                    && oneMore();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
