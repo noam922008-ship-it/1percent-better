@@ -1798,74 +1798,6 @@ export default function Dashboard() {
                   </div>
                 )}
 
-                {/* Daily Workout Card — red accent */}
-                {(() => {
-                  const doy = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000)
-                  // Text per id lives in t.home.workout (items, category, intensity)
-                  const DAILY_WORKOUTS = [
-                    { id: 'pushups',  category: 'strength',  intensity: 'med',  icon: '💪', trackId: 'strength-pushups', isCombat: false },
-                    { id: 'run',      category: 'endurance', intensity: 'high', icon: '🏃', trackId: 'cardio-run',       isCombat: false },
-                    { id: 'squats',   category: 'strength',  intensity: 'med',  icon: '🦵', trackId: 'strength-squats',  isCombat: false },
-                    { id: 'boxing',   category: 'combat',    intensity: 'high', icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
-                    { id: 'pullups',  category: 'strength',  intensity: 'high', icon: '🏋️', trackId: 'strength-pullups', isCombat: false },
-                    { id: 'walk',     category: 'endurance', intensity: 'low',  icon: '🚶', trackId: 'cardio-walk',      isCombat: false },
-                    { id: 'muaythai', category: 'combat',    intensity: 'high', icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
-                  ]
-                  const tw = th.workout
-                  const dailyPool = DAILY_WORKOUTS.filter(dw => !dw.isCombat || combatAvailable(lang))
-                  const wd = dailyPool[doy % dailyPool.length]
-                  const w  = { ...wd, ...tw.items[wd.id], category: tw.category[wd.category] }
-                  function startWorkout() {
-                    const trackDef = w.trackId ? TRACK_MAP[w.trackId] : null
-                    if (w.isCombat) {
-                      setShowCombatProtocols(true)
-                    } else if (trackDef && (trackDef.useCamera || trackDef.category === 'cardio')) {
-                      setBoxingSession({ track: trackDef, goal: trackDef.startGoal })
-                    } else {
-                      setWorkoutSession({ id: w.trackId, name: w.name, emoji: w.icon, desc: w.sets, trackId: w.trackId })
-                    }
-                  }
-                  const intensityColor = w.intensity === 'high' ? '#D85C5C' : w.intensity === 'low' ? '#3FAF7A' : '#D9B34C'
-                  return (
-                    <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderInlineStart: '3px solid rgba(180,50,50,0.45)', borderRadius: 14, padding: '1rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.65rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}>
-                          <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(180,50,50,0.12)', border: '1px solid rgba(180,50,50,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', flexShrink: 0 }}>
-                            {w.icon}
-                          </div>
-                          <span style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{tw.label}</span>
-                        </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', alignItems: 'center' }}>
-                          <span style={{ background: 'rgba(255,255,255,0.05)', color: '#A4A6AD', fontSize: '0.58rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 5 }}>{w.category}</span>
-                          <span style={{ background: `${intensityColor}22`, color: intensityColor, fontSize: '0.58rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 5 }}>{tw.intensity[w.intensity]}</span>
-                          {workoutDoneToday
-                            ? <span style={{ color: '#3FAF7A', fontSize: '0.65rem', fontWeight: 800 }}>✓</span>
-                            : <span style={{ color: '#D9B34C', fontSize: '0.65rem', fontWeight: 800 }}>+{XP.WORKOUT} XP</span>
-                          }
-                        </div>
-                      </div>
-                      <div style={{ color: workoutDoneToday ? '#71717A' : '#F4F1E8', fontWeight: 700, fontSize: '0.93rem', marginBottom: '0.2rem' }}>{w.name}</div>
-                      <div style={{ color: '#71717A', fontSize: '0.68rem', marginBottom: '0.05rem' }}>{w.duration} · {w.sets}</div>
-                      <div style={{ color: '#71717A', fontSize: '0.65rem', marginBottom: '0.75rem' }}>{fmt(tw.thisWeek, { n: weeklyWorkoutCount })}</div>
-                      <button
-                        onClick={workoutDoneToday ? undefined : startWorkout}
-                        disabled={workoutDoneToday}
-                        className={workoutDoneToday ? '' : 'btn-tactile'}
-                        style={{
-                          width: '100%', padding: '0.8rem', borderRadius: 10,
-                          border: `1px solid ${workoutDoneToday ? 'rgba(63,175,122,0.25)' : 'rgba(255,255,255,0.08)'}`,
-                          background: workoutDoneToday ? 'rgba(63,175,122,0.07)' : '#17191E',
-                          color: workoutDoneToday ? '#3FAF7A' : '#A4A6AD',
-                          fontSize: '0.85rem', fontWeight: 800, cursor: workoutDoneToday ? 'default' : 'pointer', minHeight: 44,
-                        }}
-                        aria-label={workoutDoneToday ? tw.doneAria : fmt(tw.startAria, { name: w.name })}
-                      >
-                        {workoutDoneToday ? tw.done : tw.start}
-                      </button>
-                    </div>
-                  )
-                })()}
-
                 {/* השגרה שלי — collapsible habits section, open by default */}
                 <div>
                   <button
@@ -2015,6 +1947,74 @@ export default function Dashboard() {
                     <DailyLessonCard prefTopics={profile?.learnTopics || []} uid={user?.uid} onOpenNotes={() => setLessonNotesOpen(true)} />
                   </div>
                 )}
+
+                {/* Daily Workout Card — red accent */}
+                {(() => {
+                  const doy = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000)
+                  // Text per id lives in t.home.workout (items, category, intensity)
+                  const DAILY_WORKOUTS = [
+                    { id: 'pushups',  category: 'strength',  intensity: 'med',  icon: '💪', trackId: 'strength-pushups', isCombat: false },
+                    { id: 'run',      category: 'endurance', intensity: 'high', icon: '🏃', trackId: 'cardio-run',       isCombat: false },
+                    { id: 'squats',   category: 'strength',  intensity: 'med',  icon: '🦵', trackId: 'strength-squats',  isCombat: false },
+                    { id: 'boxing',   category: 'combat',    intensity: 'high', icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
+                    { id: 'pullups',  category: 'strength',  intensity: 'high', icon: '🏋️', trackId: 'strength-pullups', isCombat: false },
+                    { id: 'walk',     category: 'endurance', intensity: 'low',  icon: '🚶', trackId: 'cardio-walk',      isCombat: false },
+                    { id: 'muaythai', category: 'combat',    intensity: 'high', icon: '🥊', trackId: 'boxing-muaythai',  isCombat: true  },
+                  ]
+                  const tw = th.workout
+                  const dailyPool = DAILY_WORKOUTS.filter(dw => !dw.isCombat || combatAvailable(lang))
+                  const wd = dailyPool[doy % dailyPool.length]
+                  const w  = { ...wd, ...tw.items[wd.id], category: tw.category[wd.category] }
+                  function startWorkout() {
+                    const trackDef = w.trackId ? TRACK_MAP[w.trackId] : null
+                    if (w.isCombat) {
+                      setShowCombatProtocols(true)
+                    } else if (trackDef && (trackDef.useCamera || trackDef.category === 'cardio')) {
+                      setBoxingSession({ track: trackDef, goal: trackDef.startGoal })
+                    } else {
+                      setWorkoutSession({ id: w.trackId, name: w.name, emoji: w.icon, desc: w.sets, trackId: w.trackId })
+                    }
+                  }
+                  const intensityColor = w.intensity === 'high' ? '#D85C5C' : w.intensity === 'low' ? '#3FAF7A' : '#D9B34C'
+                  return (
+                    <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderInlineStart: '3px solid rgba(180,50,50,0.45)', borderRadius: 14, padding: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.65rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}>
+                          <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(180,50,50,0.12)', border: '1px solid rgba(180,50,50,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', flexShrink: 0 }}>
+                            {w.icon}
+                          </div>
+                          <span style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{tw.label}</span>
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', alignItems: 'center' }}>
+                          <span style={{ background: 'rgba(255,255,255,0.05)', color: '#A4A6AD', fontSize: '0.58rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 5 }}>{w.category}</span>
+                          <span style={{ background: `${intensityColor}22`, color: intensityColor, fontSize: '0.58rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 5 }}>{tw.intensity[w.intensity]}</span>
+                          {workoutDoneToday
+                            ? <span style={{ color: '#3FAF7A', fontSize: '0.65rem', fontWeight: 800 }}>✓</span>
+                            : <span style={{ color: '#D9B34C', fontSize: '0.65rem', fontWeight: 800 }}>+{XP.WORKOUT} XP</span>
+                          }
+                        </div>
+                      </div>
+                      <div style={{ color: workoutDoneToday ? '#71717A' : '#F4F1E8', fontWeight: 700, fontSize: '0.93rem', marginBottom: '0.2rem' }}>{w.name}</div>
+                      <div style={{ color: '#71717A', fontSize: '0.68rem', marginBottom: '0.05rem' }}>{w.duration} · {w.sets}</div>
+                      <div style={{ color: '#71717A', fontSize: '0.65rem', marginBottom: '0.75rem' }}>{fmt(tw.thisWeek, { n: weeklyWorkoutCount })}</div>
+                      <button
+                        onClick={workoutDoneToday ? undefined : startWorkout}
+                        disabled={workoutDoneToday}
+                        className={workoutDoneToday ? '' : 'btn-tactile'}
+                        style={{
+                          width: '100%', padding: '0.8rem', borderRadius: 10,
+                          border: `1px solid ${workoutDoneToday ? 'rgba(63,175,122,0.25)' : 'rgba(255,255,255,0.08)'}`,
+                          background: workoutDoneToday ? 'rgba(63,175,122,0.07)' : '#17191E',
+                          color: workoutDoneToday ? '#3FAF7A' : '#A4A6AD',
+                          fontSize: '0.85rem', fontWeight: 800, cursor: workoutDoneToday ? 'default' : 'pointer', minHeight: 44,
+                        }}
+                        aria-label={workoutDoneToday ? tw.doneAria : fmt(tw.startAria, { name: w.name })}
+                      >
+                        {workoutDoneToday ? tw.done : tw.start}
+                      </button>
+                    </div>
+                  )
+                })()}
 
                 {/* Today XP Summary */}
                 {FEATURES.homeXpExtras && (doneCount > 0 || challengeDone) && (
