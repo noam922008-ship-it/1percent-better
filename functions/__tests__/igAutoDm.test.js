@@ -52,7 +52,7 @@ describe('rules', () => {
   it('prime answers in English and noam in Hebrew, both with the app link', () => {
     expect(RULES_BY_ACCOUNT.prime[0].dm).toMatch(/^Hey!/);
     expect(RULES_BY_ACCOUNT.noam[0].dm).toMatch(/^היי!/);
-    for (const a of ['prime', 'noam']) expect(RULES_BY_ACCOUNT[a][0].dm).toContain('https://prime-app-84fe0.web.app');
+    for (const a of ['prime', 'noam']) expect(RULES_BY_ACCOUNT[a][0].dm).toContain('https://prime-daily.app/?utm_source=instagram&utm_medium=dm');
   });
   it('cleanToken keeps only the EAA token', () => {
     expect(cleanToken(' "EAAabc123", ')).toBe('EAAabc123');

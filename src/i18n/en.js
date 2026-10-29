@@ -42,7 +42,7 @@ const en = {
     guest: 'Continue as a guest',
     fillEmail: 'Enter your email and password',
     errorCode: 'Error: {code}',
-    unauthorizedDomain: 'This domain is not authorized in Firebase. Add prime-app-84fe0.web.app under Authentication → Authorized Domains.',
+    unauthorizedDomain: 'This domain is not authorized in Firebase. Add this domain under Authentication → Authorized Domains.',
     authErrors: {
       'auth/invalid-email':        "That email address isn't valid",
       'auth/user-not-found':       'No account with this email',

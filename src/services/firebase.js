@@ -5,9 +5,15 @@ import { getStorage, connectStorageEmulator } from 'firebase/storage'
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 import { getMessaging } from 'firebase/messaging'
 
+// Sign-in runs through the domain the page is on, so it stays same-site (fast, and Safari's
+// tracking prevention leaves it alone). Both addresses serve the same Hosting site; each one's
+// /__/auth/handler is an authorized redirect URI. Anything else (localhost, previews) uses .env.
+const OWN_DOMAINS = ['prime-daily.app', 'prime-app-84fe0.web.app']
+const pageHost = typeof window !== 'undefined' ? window.location.hostname : ''
+
 const config = {
   apiKey:            import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain:        import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  authDomain:        OWN_DOMAINS.includes(pageHost) ? pageHost : import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId:         import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket:     import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,

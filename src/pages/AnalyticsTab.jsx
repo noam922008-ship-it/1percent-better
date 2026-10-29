@@ -9,7 +9,7 @@ import { fmt, plural, localeFor } from '../i18n/fmt'
 import { workoutDaySet, guestWorkoutDays, workoutDayStats } from '../utils/workoutRule'
 
 const WHATSAPP_LINK = 'https://chat.whatsapp.com/L5AoG0c2l4H29BkAZanCw4'
-const APP_URL       = 'https://prime-app-84fe0.web.app'
+const APP_URL       = 'https://prime-daily.app'
 
 function Toast({ icon, msg, onDone: _onDone }) {
   return (

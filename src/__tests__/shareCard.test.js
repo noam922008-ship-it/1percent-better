@@ -22,6 +22,6 @@ describe('share card texts', () => {
     expect(cardTexts({ streak: undefined, copy: he.share.card }).big).toBe('0')
   })
   it('the card links to the live app', () => {
-    expect(APP_URL).toBe('prime-app-84fe0.web.app')
+    expect(APP_URL).toBe('prime-daily.app')
   })
 })

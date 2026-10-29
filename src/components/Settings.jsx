@@ -432,7 +432,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
 
       {/* Footer */}
       <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.15)', fontSize: '0.6rem', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '0.75rem', paddingBottom: '1rem' }}>
-        PRIME · v1.2 · prime-app-84fe0.web.app
+        PRIME · v1.2 · prime-daily.app
       </div>
     </div>
     </>

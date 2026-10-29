@@ -18,26 +18,26 @@ const RULES_BY_ACCOUNT = {
   prime: [
     {
       keywords: ASK_WORDS,
-      dm: "Hey! 👋 Here's your link to Prime – get 1% better every day 💪\nhttps://prime-app-84fe0.web.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime",
+      dm: "Hey! 👋 Here's your link to Prime – get 1% better every day 💪\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime",
       publicReply: 'Sent you a DM 📩',
     },
     // Any other comment: the same DM, no public reply (so "Sent you a DM" isn't under every 🔥)
     {
       keywords: ['*'],
-      dm: "Hey! 👋 Here's your link to Prime – get 1% better every day 💪\nhttps://prime-app-84fe0.web.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime",
+      dm: "Hey! 👋 Here's your link to Prime – get 1% better every day 💪\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime",
     },
   ],
   // @noam_cohen_02 (Hebrew videos)
   noam: [
     {
       keywords: ASK_WORDS,
-      dm: 'היי! 👋 הנה הלינק לאפליקציה – להשתפר ב-1% כל יום 💪\nhttps://prime-app-84fe0.web.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam',
+      dm: 'היי! 👋 הנה הלינק לאפליקציה – להשתפר ב-1% כל יום 💪\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam',
       publicReply: 'שלחתי לך בפרטי 📩',
     },
     // כל תגובה אחרת: אותו DM, בלי תגובה ציבורית
     {
       keywords: ['*'],
-      dm: 'היי! 👋 הנה הלינק לאפליקציה – להשתפר ב-1% כל יום 💪\nhttps://prime-app-84fe0.web.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam',
+      dm: 'היי! 👋 הנה הלינק לאפליקציה – להשתפר ב-1% כל יום 💪\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam',
     },
   ],
 };

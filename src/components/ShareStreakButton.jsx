@@ -26,7 +26,7 @@ export default function ShareStreakButton({ streak, days, activeDays, variant = 
   }, [streak, activeDays, daysKey, lang]) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function onShare() {
-    const result = await shareBlob(blob, { text: `${ts.text} https://prime-app-84fe0.web.app/` })
+    const result = await shareBlob(blob, { text: `${ts.text} https://prime-daily.app/` })
     setStatus(result === 'downloaded' || result === 'failed' ? result : null)
   }
 

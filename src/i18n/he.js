@@ -42,7 +42,7 @@ const he = {
     guest: 'המשך כאורח',
     fillEmail: 'נא למלא אימייל וסיסמה',
     errorCode: 'שגיאה: {code}',
-    unauthorizedDomain: 'הדומיין לא מורשה ב-Firebase. הוסף את prime-app-84fe0.web.app תחת Authentication → Authorized Domains.',
+    unauthorizedDomain: 'הדומיין לא מורשה ב-Firebase. הוסף את הדומיין הזה תחת Authentication → Authorized Domains.',
     authErrors: {
       'auth/invalid-email':        'כתובת אימייל לא תקינה',
       'auth/user-not-found':       'לא נמצא חשבון עם אימייל זה',
