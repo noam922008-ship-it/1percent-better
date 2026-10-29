@@ -8,8 +8,8 @@ import LandingRoute from '../components/LandingRoute'
 let authState
 vi.mock('../context/AuthContext', () => ({ useAuth: () => authState }))
 function Welcome() { return <p>Welcome{useLocation().search}</p> }
-function mount() {
-  return render(<MemoryRouter initialEntries={['/?utm_source=test']}><Routes>
+function mount(entry = '/?utm_source=test') {
+  return render(<MemoryRouter initialEntries={[entry]}><Routes>
     <Route path="/" element={<LandingRoute />} />
     <Route path="/welcome" element={<Welcome />} />
   </Routes></MemoryRouter>)
@@ -30,6 +30,16 @@ describe('landing eligibility and existing entry path', () => {
     expect(document.documentElement).not.toHaveClass('landing-visible')
     authState.authLoading = false
     result.rerender(<MemoryRouter><LandingRoute /></MemoryRouter>)
+    expect(document.documentElement).toHaveClass('landing-visible')
+  })
+  it('sends DM visitors to welcome with the full query string unchanged', async () => {
+    const search = '?utm_source=instagram&utm_medium=dm&utm_campaign=habit%20start&ref=a%2Bb&ref=second'
+    const result = mount('/' + search)
+    await waitFor(() => expect(result.getByText('Welcome' + search)).toBeInTheDocument())
+    expect(document.documentElement).not.toHaveClass('landing-visible')
+  })
+  it('keeps non-DM campaign visitors on the landing page', () => {
+    mount('/?utm_source=instagram&utm_medium=social&utm_campaign=dm')
     expect(document.documentElement).toHaveClass('landing-visible')
   })
   it.each(['signed-in', 'guest-session', 'guest-record', 'installed', 'ios-installed'])(
@@ -66,9 +76,11 @@ it.each(['he', 'en'])('ships crawlable %s content, matching metadata and five FA
   expect(doc.querySelector('h1').textContent).toBe(description)
   const graph = JSON.parse(doc.querySelector('[type="application/ld+json"]').textContent)['@graph']
   expect(graph[0].description).toBe(description)
+  expect(graph[0].sameAs).toEqual(['https://www.instagram.com/prime.daily.app/'])
   expect(graph[1].mainEntity).toHaveLength(5)
   const articles = doc.querySelectorAll('.landing-faq article')
   graph[1].mainEntity.forEach((q, i) => expect(articles[i].textContent).toContain(q.name))
   expect(doc.querySelector('.landing-cta').getAttribute('href')).toBe('/welcome')
+  expect(doc.querySelector('.landing-cta').textContent).toBe(lang === 'he' ? 'מתחילים עכשיו' : 'Start now')
   expect(doc.querySelectorAll('link[hreflang]')).toHaveLength(3)
 })

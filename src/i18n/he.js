@@ -13,7 +13,7 @@ const he = {
       body: 'כאן אפשר להתחיל מיד כאורח. כדי להתחבר עם Google צריך לפתוח בדפדפן של הטלפון.',
       open: 'פתח בדפדפן',
       manual: 'להתחברות עם Google: לחץ על ⋯ למעלה ← "פתח בדפדפן חיצוני"',
-      guestFirst: 'התחל עכשיו — בלי הרשמה',
+      guestFirst: 'מתחילים עכשיו — בלי הרשמה',
       googleInBrowser: 'התחבר עם Google בדפדפן',
     },
     iosInstallFirst: {

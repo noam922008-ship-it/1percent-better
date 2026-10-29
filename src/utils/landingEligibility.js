@@ -8,8 +8,9 @@ export function hasGuestData(storage) {
   } catch { return false }
 }
 
-export function shouldOpenApp({ user, isGuest, standalone, guestData }) {
-  return Boolean(user || isGuest || standalone || guestData)
+export function shouldOpenApp({ user, isGuest, standalone, guestData, search = '' }) {
+  return Boolean(user || isGuest || standalone || guestData ||
+    new URLSearchParams(search).getAll('utm_medium').includes('dm'))
 }
 
 // Snapshot before main.jsx runs its existing legacy storage migrations.

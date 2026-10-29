@@ -7,7 +7,7 @@ export default function LandingRoute({ english = false }) {
   const { user, isGuest, authLoading } = useAuth()
   const { search } = useLocation()
   const openApp = !english && shouldOpenApp({
-    user, isGuest,
+    user, isGuest, search,
     standalone: window.matchMedia?.('(display-mode: standalone)').matches || navigator.standalone === true,
     guestData: guestDataAtStartup || hasGuestData(window.localStorage),
   })
