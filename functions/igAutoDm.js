@@ -18,26 +18,26 @@ const RULES_BY_ACCOUNT = {
   prime: [
     {
       keywords: ASK_WORDS,
-      dm: "Hey! 👋 Here's your link to Prime – get 1% better every day 💪\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime",
+      dm: "Hey! 🙌 Here's your link to PRIME Daily:\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime\n\nPick a good habit to start, or a bad one to quit. Free, takes a minute 💪\nSo which habit would you most like to start, or quit? 👀",
       publicReply: 'Sent you a DM 📩',
     },
     // Any other comment: the same DM, no public reply (so "Sent you a DM" isn't under every 🔥)
     {
       keywords: ['*'],
-      dm: "Hey! 👋 Here's your link to Prime – get 1% better every day 💪\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime",
+      dm: "Thanks for the comment 🙏\nWant to start a good habit or quit a bad one? Free, takes a minute:\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime",
     },
   ],
   // @noam_cohen_02 (Hebrew videos)
   noam: [
     {
       keywords: ASK_WORDS,
-      dm: 'היי! 👋 הנה הלינק לאפליקציה – להשתפר ב-1% כל יום 💪\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam',
+      dm: 'היי! 🙌 הנה הלינק לאפליקציה:\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam\n\nנכנסים ובוחרים הרגל טוב להתחיל, או הרגל רע להפסיק. חינם ולוקח דקה 💪\nאז איזה הרגל הכי היית רוצה להתחיל, או להפסיק? 👀',
       publicReply: 'שלחתי לך בפרטי 📩',
     },
     // כל תגובה אחרת: אותו DM, בלי תגובה ציבורית
     {
       keywords: ['*'],
-      dm: 'היי! 👋 הנה הלינק לאפליקציה – להשתפר ב-1% כל יום 💪\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam',
+      dm: 'תודה על התגובה 🙏\nאם בא לך להתחיל הרגל טוב או להפסיק הרגל רע (חינם, לוקח דקה):\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam',
     },
   ],
 };

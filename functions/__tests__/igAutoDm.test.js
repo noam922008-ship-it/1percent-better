@@ -45,7 +45,8 @@ describe('rules', () => {
     for (const t of ['לינק', 'LINK!', 'אפשר קישור?', 'link please']) expect(findRule(RULES_BY_ACCOUNT.noam, t).publicReply).toBeTruthy();
     for (const t of ['אחלה סרטון', 'לינקים', '🔥']) {
       const r = findRule(RULES_BY_ACCOUNT.noam, t);
-      expect(r.dm).toMatch(/^היי!/);
+      expect(r.dm).toMatch(/^תודה על התגובה/);
+      expect(r.dm).toContain('https://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam');
       expect(r.publicReply).toBeUndefined();
     }
   });
@@ -53,6 +54,11 @@ describe('rules', () => {
     expect(RULES_BY_ACCOUNT.prime[0].dm).toMatch(/^Hey!/);
     expect(RULES_BY_ACCOUNT.noam[0].dm).toMatch(/^היי!/);
     for (const a of ['prime', 'noam']) expect(RULES_BY_ACCOUNT[a][0].dm).toContain('https://prime-daily.app/?utm_source=instagram&utm_medium=dm');
+    // the reply to a link request ends with a question, the DM to any other comment doesn't
+    for (const a of ['prime', 'noam']) {
+      expect(RULES_BY_ACCOUNT[a][0].dm).toMatch(/\? 👀$/);
+      expect(RULES_BY_ACCOUNT[a][1].dm).not.toContain('👀');
+    }
   });
   it('cleanToken keeps only the EAA token', () => {
     expect(cleanToken(' "EAAabc123", ')).toBe('EAAabc123');
