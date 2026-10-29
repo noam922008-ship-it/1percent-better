@@ -55,7 +55,7 @@ export async function loadProfile(uid) {
     const snap = await getDoc(profileDoc(uid))
     if (snap.exists()) return snap.data()
     const defaults = { tier: 'free', createdAt: new Date().toISOString() }
-    if (_autoCreateProfile) await setDoc(profileDoc(uid), defaults, { merge: true })
+    if (_autoCreateProfile) { await setDoc(profileDoc(uid), defaults, { merge: true }); countFunnel('signup') }
     return defaults
   } catch {
     return null

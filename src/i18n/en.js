@@ -16,6 +16,10 @@ const en = {
       guestFirst: 'Start now — no sign-up',
       googleInBrowser: 'Sign in with Google in the browser',
     },
+    iosInstallFirst: {
+      title: '📲 On iPhone? Install first, then sign in',
+      body: "On iPhone the Home Screen app is separate from Safari. If you sign in here you'll have to sign in again after installing. Install first and sign in inside the app — just once.",
+    },
     signIn: 'Continue with Google',
     signingIn: 'Signing in…',
     error: 'Sign-in failed. Please try again.',

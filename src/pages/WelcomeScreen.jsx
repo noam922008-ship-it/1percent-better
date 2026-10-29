@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import LegalContent from '../components/LegalContent'
 import SocialLinks from '../components/SocialLinks'
-import { InstallButton } from '../components/AddToHomeScreen'
+import { InstallButton, isStandalone } from '../components/AddToHomeScreen'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
 import { loadProfile } from '../services/focusTriggerService'
-import { inAppBrowser, externalBrowserUrl } from '../utils/inAppBrowser'
+import { inAppBrowser, externalBrowserUrl, isIOS } from '../utils/inAppBrowser'
 
 const S = {
   page: { minHeight: '100vh', background: '#09090b', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', position: 'relative' },
@@ -76,6 +76,8 @@ export default function WelcomeScreen() {
   // Inside Instagram / TikTok etc. Google sign-in is blocked — offer the real browser, guest first
   const inApp   = inAppBrowser()
   const openOut = inApp ? externalBrowserUrl(window.location.href) : null
+  // iPhone Safari keeps its sign-in apart from the Home Screen app, so install comes before sign-in there
+  const iosSafari = !inApp && isIOS() && !isStandalone()
 
   useEffect(() => {
     if (authLoading || !user) return
@@ -185,6 +187,14 @@ export default function WelcomeScreen() {
         </label>
         {ageNudge > 0 && !ageOk && (
           <p role="alert" style={{ color: '#D9B34C', fontSize: '0.8rem', fontWeight: 800, margin: '-0.5rem 0 0.9rem', textAlign: 'start' }}>{t.welcome.ageTap}</p>
+        )}
+
+        {iosSafari && (
+          <div style={{ background: 'rgba(217,179,76,0.1)', border: '1px solid rgba(217,179,76,0.35)', borderRadius: 14, padding: '0.85rem 0.9rem', margin: '0 0 0.75rem', textAlign: 'start' }}>
+            <div style={{ color: '#f1f5f9', fontSize: '0.88rem', fontWeight: 800, marginBottom: '0.3rem' }}>{t.welcome.iosInstallFirst.title}</div>
+            <div style={{ color: 'rgba(241,245,249,0.7)', fontSize: '0.8rem', lineHeight: 1.55 }}>{t.welcome.iosInstallFirst.body}</div>
+            <InstallButton defaultOpen />
+          </div>
         )}
 
         {/* In-app browser: guest is the way in that works here */}
@@ -298,7 +308,7 @@ export default function WelcomeScreen() {
         </button>
         )}
 
-        <InstallButton />
+        {!iosSafari && <InstallButton />}
         <div style={{ marginTop: '1rem' }}><SocialLinks /></div>
       </div>
       {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}

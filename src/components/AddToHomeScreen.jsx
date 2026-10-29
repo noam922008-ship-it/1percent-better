@@ -86,11 +86,11 @@ function IosSteps({ ti }) {
 }
 
 // Quiet button for the welcome card. iOS: tap shows the steps inline. Android: tap opens the browser's install dialog.
-export function InstallButton() {
+export function InstallButton({ defaultOpen = false }) {
   const { t } = useLang()
   const ti = t.install
   const { canInstall, ios } = useInstallState()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(defaultOpen)
   if (!canInstall) return null
 
   return (

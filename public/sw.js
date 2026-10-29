@@ -77,6 +77,7 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return
   const url = new URL(req.url)
   if (url.origin !== self.location.origin) return
+  if (url.pathname.startsWith('/__/')) return   // Firebase sign-in handler and config: always live
   if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') return
 
   e.respondWith(
