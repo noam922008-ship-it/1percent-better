@@ -1,0 +1,33 @@
+/* Scoped outside the React root so app screens keep their existing styles. */
+.landing-pending #prime-landing { display: none; }
+html.landing-visible #root { display: none; }
+body:has(#prime-landing) { margin: 0; }
+#prime-landing { color: #f4f1e8; background: #050505; font: 400 16px/1.7 'Heebo', Arial, sans-serif; min-height: 100svh; padding: 0 max(24px, calc((100% - 1040px) / 2)); }
+#prime-landing * { box-sizing: border-box; }
+#prime-landing a { color: inherit; text-decoration: none; }
+#prime-landing a:focus-visible { outline: 2px solid #D9B34C; outline-offset: 6px; }
+#prime-landing a:hover { text-decoration: underline; }
+#prime-landing header { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; border-bottom: 1px solid #292720; }
+#prime-landing .landing-brand { color: #D9B34C; font-size: 25px; font-weight: 800; letter-spacing: .12em; direction: ltr; }
+#prime-landing .landing-brand span { display: block; font-size: 10px; letter-spacing: .38em; line-height: 1; }
+#prime-landing nav a { display: inline-block; padding: 10px 0; color: #ccc8bc; }
+#prime-landing .landing-hero { padding: 92px 0 80px; max-width: 850px; }
+#prime-landing h1 { color: #f4f1e8; font-size: clamp(30px, 4.5vw, 54px); line-height: 1.35; font-weight: 800; margin: 0 0 32px; letter-spacing: -.025em; }
+#prime-landing .landing-cta { display: inline-flex; justify-content: center; align-items: center; min-height: 52px; padding: 12px 36px; border-radius: 12px; background: #D9B34C; color: #080808; font-weight: 800; }
+#prime-landing h2 { color: #D9B34C; font-size: 25px; margin: 0 0 28px; }
+#prime-landing p { margin: 0; }
+#prime-landing section + section { border-top: 1px solid #292720; padding: 40px 0; }
+#prime-landing ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+#prime-landing li span { display: block; color: #D9B34C; font-size: 14px; margin-bottom: 12px; }
+#prime-landing li p { font-size: 19px; }
+#prime-landing .landing-faq article { padding: 20px 0; max-width: 760px; }
+#prime-landing h3 { color: #f4f1e8; font-size: 18px; margin: 0 0 8px; }
+#prime-landing article p { color: #bdbbb3; }
+#prime-landing article a { color: #D9B34C; text-decoration: underline; }
+#prime-landing footer { display: flex; flex-wrap: wrap; gap: 16px 28px; border-top: 1px solid #292720; padding: 28px 0 40px; font-size: 14px; color: #bdbbb3; }
+@media (max-width: 600px) {
+  #prime-landing .landing-hero { padding: 52px 0; }
+  #prime-landing ol { grid-template-columns: 1fr; gap: 24px; }
+  #prime-landing li { display: flex; align-items: baseline; gap: 20px; }
+  #prime-landing li span { margin: 0; }
+}

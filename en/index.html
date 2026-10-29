@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- "black" (not black-translucent): the installed iPhone app starts below the clock, so top buttons on full-screen screens are not hidden under it -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Font loads without blocking the first paint (in-app browsers can be slow to reach Google Fonts) -->
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+    <title>PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day.</title>
+    <meta name="description" content="PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day." />
+    <meta property="og:title" content="PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day." />
+    <meta property="og:description" content="PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day." />
+    <meta property="og:locale" content="en_US" />
+    <link rel="canonical" href="https://prime-daily.app/en" />
+    <meta property="og:url" content="https://prime-daily.app/en" />
+    <meta property="og:image" content="https://prime-daily.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="PRIME" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PRIME" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day." />
+    <meta name="twitter:image" content="https://prime-daily.app/og-image.png" />
+    <meta name="twitter:description" content="PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day." />
+    <meta name="application-name" content="PRIME" />
+    <meta name="apple-mobile-web-app-title" content="PRIME" />
+    <link rel="alternate" hreflang="he" href="https://prime-daily.app/" />
+    <link rel="alternate" hreflang="en" href="https://prime-daily.app/en" />
+    <link rel="alternate" hreflang="x-default" href="https://prime-daily.app/" />
+    <link rel="stylesheet" href="/landing.css" />
+    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "PRIME Daily", "description": "PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day.", "url": "https://prime-daily.app/en", "operatingSystem": "Web", "applicationCategory": "LifestyleApplication", "offers": {"@type": "Offer", "price": 0, "priceCurrency": "USD"}, "sameAs": ["https://www.instagram.com/prime.daily.app/", "https://instagram.com/prime.daily.app/"]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. PRIME Daily is a free app."}}, {"@type": "Question", "name": "Do I need to sign up?", "acceptedAnswer": {"@type": "Answer", "text": "No. You can start in guest mode without signing up."}}, {"@type": "Question", "name": "Does it work on iPhone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. To install, open the site in Safari, tap Share, then Add to Home Screen."}}, {"@type": "Question", "name": "How is it different from a regular habit tracker?", "acceptedAnswer": {"@type": "Answer", "text": "PRIME Daily focuses on one clear step a day to start a good habit or quit a bad one."}}, {"@type": "Question", "name": "Is my data private?", "acceptedAnswer": {"@type": "Answer", "text": "Guest-mode data is stored in your browser. Read the privacy policy for details about data collection, use, and your rights. https://prime-daily.app/privacy"}}]}]}</script>
+  </head>
+  <body>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {})
+        })
+      }
+    </script>
+    <div id="prime-landing" lang="en" dir="ltr">
+      <header><a class="landing-brand" href="/" aria-label="PRIME Daily">PRIME<span>DAILY</span></a><nav aria-label="Language"><a href="/" lang="he">עברית</a></nav></header>
+      <main>
+        <section class="landing-hero"><h1>PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day.</h1><a class="landing-cta" href="/welcome">Start now</a></section>
+        <section class="landing-how" aria-labelledby="how"><h2 id="how">How it works</h2><ol><li><span aria-hidden="true">01</span><p>Pick a good habit to start or a bad one to quit.</p></li><li><span aria-hidden="true">02</span><p>Mark it done each day.</p></li><li><span aria-hidden="true">03</span><p>Get a reminder and keep your streak.</p></li></ol></section>
+        <section class="landing-faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><article><h3>Is it free?</h3><p>Yes. PRIME Daily is a free app.</p></article><article><h3>Do I need to sign up?</h3><p>No. You can start in guest mode without signing up.</p></article><article><h3>Does it work on iPhone?</h3><p>Yes. To install, open the site in Safari, tap Share, then Add to Home Screen.</p></article><article><h3>How is it different from a regular habit tracker?</h3><p>PRIME Daily focuses on one clear step a day to start a good habit or quit a bad one.</p></article><article><h3>Is my data private?</h3><p>Guest-mode data is stored in your browser. Read the privacy policy for details about data collection, use, and your rights. <a href="/privacy">Privacy policy</a></p></article></section>
+      </main>
+      <footer><a href="/privacy">Privacy policy</a><a href="/terms">Terms of use</a><a href="https://www.instagram.com/prime.daily.app/" dir="ltr">Instagram @prime.daily.app</a></footer>
+    </div>
+  </body>
+</html>

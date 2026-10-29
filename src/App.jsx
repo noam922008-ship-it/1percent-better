@@ -6,6 +6,7 @@ import LoadingWrapper from './components/LoadingWrapper'
 import GoogleAuthGuard from './components/GoogleAuthGuard'
 import WelcomeScreen from './pages/WelcomeScreen'
 import ConsentBanner from './components/ConsentBanner'
+import LandingRoute from './components/LandingRoute'
 import lazyScreen from './utils/lazyScreen'
 
 // The welcome page loads first; setup, the app itself and the legal pages load when opened
@@ -29,7 +30,8 @@ export default function App() {
       <BrowserRouter>
         <LoadingWrapper>
           <Routes>
-            <Route path="/"          element={<ToWelcome />} />
+            <Route path="/"          element={<LandingRoute />} />
+            <Route path="/en"        element={<LandingRoute english />} />
             <Route path="/welcome"   element={<WelcomeScreen />} />
             <Route path="/setup"     element={<GoogleAuthGuard><OnboardingFlow /></GoogleAuthGuard>} />
             <Route path="/dashboard" element={<GoogleAuthGuard><Dashboard /></GoogleAuthGuard>} />

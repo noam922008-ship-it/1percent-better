@@ -1,6 +1,17 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// Mirror the Firebase /en rewrite in local development and production preview.
+function englishLandingRewrite() {
+  const install = server => { server.middlewares.use((req, _res, next) => {
+    if (/^\/en\/?(?:\?|$)/.test(req.url)) {
+      req.url = req.url.replace(/^\/en\/?/, '/en/index.html')
+    }
+    next()
+  }) }
+  return { name: 'english-landing-rewrite', configureServer: install, configurePreviewServer: install }
+}
+
 export default defineConfig(({ mode }) => ({
   test: {
     environment: 'jsdom',
@@ -8,7 +19,7 @@ export default defineConfig(({ mode }) => ({
     setupFiles: ['./src/__tests__/setup.js'],
     include: ['src/__tests__/**/*.test.{js,jsx}'],
   },
-  plugins: [react()],
+  plugins: [react(), englishLandingRewrite()],
   server: {
     allowedHosts: true,
   },
@@ -25,6 +36,7 @@ export default defineConfig(({ mode }) => ({
       compress: { drop_console: true, drop_debugger: true },
     } : undefined,
     rollupOptions: {
+      input: { main: 'index.html', en: 'en/index.html' },
       output: {
         manualChunks(id) {
           if (id.includes('node_modules/firebase'))      return 'vendor-firebase'
