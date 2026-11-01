@@ -84,6 +84,7 @@ const ProofOfActionModal = lazyScreen(() => import('../components/ProofOfActionM
 const PathHistory = lazyScreen(() => import('../components/PathHistory'))
 const ActiveWorkout = lazyScreen(() => import('../components/ActiveWorkout'))
 const HabitCreationFlow = lazyScreen(() => import('../components/HabitCreationFlow'))
+const FromZeroFlow = lazyScreen(() => import('../components/FromZeroFlow'))
 const BoxingPathScreen = lazyScreen(() => import('../components/boxing/BoxingPathScreen'))
 const BoxingWorkoutPreview = lazyScreen(() => import('../components/boxing/BoxingWorkoutPreview'))
 const BoxingActiveWorkout = lazyScreen(() => import('../components/boxing/BoxingActiveWorkout'))
@@ -779,6 +780,7 @@ export default function Dashboard() {
   const [loading,      setLoading]      = useState(true)
   const [showModal,    setShowModal]    = useState(false)
   const [showHabitFlow,    setShowHabitFlow]    = useState(false)
+  const [showFromZero,     setShowFromZero]     = useState(false)   // first run: "starting from zero" path
   const [habitFlowPrefill, setHabitFlowPrefill] = useState(null)
   const [showHobbyReflection, setShowHobbyReflection] = useState(false)
   const [pendingHobbyDay,    setPendingHobbyDay]    = useState(null)
@@ -1180,25 +1182,33 @@ export default function Dashboard() {
     return existing.some(t => normalizeHabitTitle(t.cue) === n || normalizeHabitTitle(t.habit) === n)
   }
 
-  async function handleAddTrigger(data) {
+  // One habit, or several at once (FromZeroFlow saves a quit habit + the habit that replaces it).
+  // Built from one snapshot of the list, so two habits saved together never overwrite each other.
+  async function handleAddTrigger(dataOrList) {
+    const list     = Array.isArray(dataOrList) ? dataOrList : [dataOrList]
     const existing = profile?.triggers || []
-    const activeCount = existing.filter(t => !t.archived).length
-    if (activeCount >= MAX_ACTIVE_HABITS) { setShowModal(false); return }
-    if (hasDuplicateHabit(existing, data.habit || data.cue)) { setShowModal(false); setShowHabitFlow(false); return }
+    const added    = []
+    let activeCount = existing.filter(t => !t.archived).length
+    for (const data of list) {
+      if (activeCount >= MAX_ACTIVE_HABITS) break
+      if (hasDuplicateHabit([...existing, ...added], data.habit || data.cue)) continue
+      added.push({ id: `t${Date.now()}${added.length ? `_${added.length}` : ''}`, ...data })
+      activeCount++
+    }
+    if (!added.length) { setShowModal(false); setShowHabitFlow(false); return }
     setSaving(true)
-    const newTrigger = { id: `t${Date.now()}`, ...data }
-    const updated    = { ...(profile || {}), triggers: [...existing, newTrigger], onboardingDone: true }
-    const frequency = isQuit(newTrigger) ? 'quit' : isWeekly(newTrigger) ? 'weekly' : 'daily'
+    const updated = { ...(profile || {}), triggers: [...existing, ...added], onboardingDone: true }
+    const trackAll = () => added.forEach(tr => track('habit_created', { frequency: isQuit(tr) ? 'quit' : isWeekly(tr) ? 'weekly' : 'daily' }))
     if (!existing.length) countFunnel(isGuest ? 'habit_first_guest' : 'habit_first_user')
     if (isGuest) {
       // Guests: saved in this browser only (previously the habit was silently dropped)
       saveGuestTriggers(updated.triggers); setProfile(updated); setShowModal(false); setSaving(false)
-      track('habit_created', { frequency })
+      trackAll()
       return
     }
     try {
       await saveProfile(user.uid, updated); setProfile(updated); setShowModal(false)
-      track('habit_created', { frequency })
+      trackAll()
     } catch {}
     setSaving(false)
   }
@@ -1472,7 +1482,7 @@ export default function Dashboard() {
       if (!isGuest && user) saveProfile(user.uid, { welcomeSeen: true }).catch(() => {})
       setWelcomeDone(true)
       setActiveTab('home')
-      if (openHabit) { track('welcome_start'); setShowHabitFlow(true) }
+      if (openHabit) { track('welcome_start'); setShowFromZero(true) }
     }
     return <FirstWelcome onStart={() => finishWelcome(true)} onSkip={() => finishWelcome(false)} />
   }
@@ -2620,6 +2630,13 @@ export default function Dashboard() {
         )
       })()}
       {showModal && <AddTriggerModal onSave={handleAddTrigger} onClose={() => setShowModal(false)} td={td} to={to} />}
+      {showFromZero && (
+        <FromZeroFlow
+          onSave={async list => { await handleAddTrigger(list); setShowFromZero(false) }}
+          onRegular={() => { setShowFromZero(false); setShowHabitFlow(true) }}
+          onClose={() => setShowFromZero(false)}
+        />
+      )}
       {showHabitFlow && (
         <HabitCreationFlow
           growthPillars={profile?.growthPillars || DEFAULT_PILLARS}
