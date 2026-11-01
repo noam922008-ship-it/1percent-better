@@ -87,7 +87,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
               <div role="note" style={{ marginTop: '0.9rem', padding: '0.8rem 0.9rem', borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#A4A6AD', fontSize: '0.78rem', lineHeight: 1.6 }}>
                 {help.text}{' '}
                 {help.href
-                  ? <a href={help.href} target="_blank" rel="noopener noreferrer" style={{ color: GOLD, fontWeight: 700 }}>{help.link}</a>
+                  ? <a href={help.href} target="_blank" rel="noopener noreferrer" dir="ltr" style={{ color: GOLD, fontWeight: 700, unicodeBidi: 'isolate' }}>{help.link}</a>
                   : <span style={{ color: GOLD, fontWeight: 700 }}>{help.link}</span>}
               </div>
             )}
@@ -136,7 +136,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
               <div style={{ color: '#F4F1E8', fontSize: '1.02rem', fontWeight: 800, lineHeight: 1.6 }}>
                 {fmt(s.pact, { cue: bad.cue, good: good.phrase })}
               </div>
-              <div style={{ color: '#A4A6AD', fontSize: '0.8rem', marginTop: '0.5rem' }}>{fmt(s.reminderAt, { time })}</div>
+              <div style={{ color: '#A4A6AD', fontSize: '0.8rem', marginTop: '0.5rem' }}>{fmt(s.reminderAt, { time: '\u2066' + time + '\u2069' })}</div>
             </div>
             <ul style={{ color: '#A4A6AD', fontSize: '0.8rem', lineHeight: 1.7, margin: '0.9rem 0 0', paddingInlineStart: '1.1rem' }}>
               <li>{fmt(s.willCount, { quit: bad.quit })}</li>

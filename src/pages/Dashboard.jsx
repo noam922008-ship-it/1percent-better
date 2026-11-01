@@ -1869,7 +1869,7 @@ export default function Dashboard() {
                         const streakLabel = habitStreak > 0 ? plural(th.streak, habitStreak) : ''
                         const habitSubtitle = weekly
                           ? (weekDone >= target ? fmt(th.routine.weekDone, { done: weekDone, target }) : fmt(th.routine.weekProgress, { done: weekDone, target }) + (doneToday ? th.routine.markedToday : ''))
-                          : done ? (streakLabel || th.routine.done) : (streakLabel || tr.habit)
+                          : done ? (streakLabel || th.routine.done) : (streakLabel || (tr.source === 'from-zero' ? tr.cue : tr.habit))
                         return (
                           <div
                             key={tr.id}
@@ -1897,7 +1897,7 @@ export default function Dashboard() {
                             >{done && '✓'}</div>
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div style={{ color: done ? '#71717A' : '#F4F1E8', fontSize: '0.88rem', fontWeight: 700, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', textDecoration: done ? 'line-through' : 'none', textDecorationColor: 'rgba(255,255,255,0.18)', lineHeight: 1.35 }}>
-                                {weekly ? tr.habit : tr.cue}
+                                {weekly || tr.source === 'from-zero' ? tr.habit : tr.cue /* from-zero: the action is the title, "when I feel like X" the line under it */}
                               </div>
                               <div style={{ color: done ? 'rgba(63,175,122,0.6)' : '#71717A', fontSize: '0.68rem', marginTop: '0.15rem' }}>
                                 {habitSubtitle}

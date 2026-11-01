@@ -131,7 +131,7 @@ const en = {
     },
     less: 'Less', more: 'More',
     smallHint: 'Too small beats too big. You can change it later',
-    whenQ: '{bad}: when does it happen most?',
+    whenQ: 'The habit: {bad}',
     times: [
       { id: 'morning', label: '☀️ Morning',      time: '08:00' },
       { id: 'noon',    label: '🌤️ Afternoon',    time: '16:00' },
