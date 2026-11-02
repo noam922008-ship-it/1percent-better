@@ -6,7 +6,7 @@
 const { execFileSync } = require('child_process');
 const path = require('path');
 
-const ACTIVE = ['broadcastUpdate', 'dailyStats', 'igAutoDm', 'localScheduler', 'sendTestNotification'];
+const ACTIVE = ['broadcastUpdate', 'dailyStats', 'igAutoDm', 'localScheduler'];
 
 function exportedNames(flag) {
   const env = { ...process.env };

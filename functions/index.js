@@ -390,7 +390,7 @@ async function purgeStaleTokens(db, staleTokens, tokenToUid) {
 }
 
 // ── FCM push notification functions ──────────────────────────────────────────
-// broadcastUpdate, sendTestNotification and localScheduler use Firebase Cloud Messaging
+// broadcastUpdate and localScheduler use Firebase Cloud Messaging
 // (Admin SDK) and need the Blaze plan. Tokens come from the client (fcmService.js).
 
 // The daily pushes (morning, weekly, midday, accountability, evening nudge) are all sent by
@@ -513,80 +513,6 @@ exports.broadcastUpdate = onDocumentWritten(
     });
 
     console.log(`[broadcastUpdate] version=${version} sent=${sent} failed=${failed} stale=${staleTokens.size} total=${messages.length}`);
-  }
-);
-
-// ── sendTestNotification ──────────────────────────────────────────────────────
-// Callable from the client. Sends a real FCM push to all registered tokens for
-// the authenticated user — useful for end-to-end testing without waiting for the
-// scheduled nudge. Requires the user to be registered (tokens in users/{uid}).
-
-exports.sendTestNotification = onCall(
-  {
-    region:         'europe-west1',
-    memory:         '256MiB',
-    timeoutSeconds: 30,
-  },
-  async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Authentication required.');
-    }
-
-    const uid = request.auth.uid;
-    const db        = getFirestore();
-    const messaging = getMessaging();
-
-    const userDoc = await db.collection('users').doc(uid).get();
-    if (!userDoc.exists) {
-      throw new HttpsError('not-found', 'User document not found. Register a push token first.');
-    }
-
-    const userData = userDoc.data();
-    const copy = copyFor(TEST_COPY, userData.lang);
-    const tokenSet = collectTokens(userData);
-
-    if (!tokenSet.size) {
-      throw new HttpsError('failed-precondition', 'No FCM tokens registered for this user.');
-    }
-
-    let sent = 0, failed = 0;
-    const staleTokens = new Set();
-    const tokenToUid  = new Map([[...tokenSet].join(','), uid]);
-
-    for (const token of tokenSet) {
-      tokenToUid.set(token, uid);
-      try {
-        await messaging.send({
-          token,
-          webpush: {
-            headers: { Urgency: 'high' },
-            data: {
-              title: copy.title,
-              body:  copy.body,
-              url:   '/',
-              icon:  '/icon-192.png',
-              badge: '/icon-192.png',
-              tag:   'prime-test-backend',
-            },
-          },
-        });
-        sent++;
-      } catch (err) {
-        failed++;
-        const code = err?.errorInfo?.code || '';
-        if (
-          code === 'messaging/registration-token-not-registered' ||
-          code === 'messaging/invalid-registration-token'
-        ) {
-          staleTokens.add(token);
-        }
-        console.warn(`[sendTestNotification] uid=${uid} token_error=${code}`);
-      }
-    }
-
-    await purgeStaleTokens(db, staleTokens, tokenToUid);
-    console.log(`[sendTestNotification] uid=${uid} sent=${sent} failed=${failed}`);
-    return { sent, failed, total: tokenSet.size };
   }
 );
 
