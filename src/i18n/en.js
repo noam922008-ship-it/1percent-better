@@ -228,12 +228,15 @@ const en = {
     },
     guestSignIn: 'Sign in →',
     ringTasks:   'tasks',
+    ringAria:    '{done} of {total} done today',
     streak:      { one: '1 day in a row', two: '2 days in a row', many: '{n} days in a row' },
     xpToday:     '+{n} XP today',
     xpAvailable: '+{n} XP available',
     allDone:     '✓ All done for today',
     streakDays:  '{n} days in a row',
     workout: {
+      quick:     'A quick workout keeps the streak going',
+      doneToday: '✓ Today\'s workout done',
       label:     "Today's workout",
       thisWeek:  'This week: {n}/7 workouts',
       start:     'Start workout →',
@@ -339,6 +342,7 @@ const en = {
   },
   journal: {
     title:         'Progress journal',
+    homeHint:      "What's today's small step?",
     listTitle:     'Past entries',
     editTitle:     'Edit entry',
     placeholder:   "What's on your mind? Write it all down…",

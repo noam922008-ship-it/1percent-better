@@ -229,12 +229,15 @@ const he = {
     },
     guestSignIn: 'התחבר ←',
     ringTasks:   'משימות',
+    ringAria:    'הושלמו היום {done} מתוך {total}',
     streak:      { one: 'יום אחד ברצף', two: 'יומיים ברצף', many: '{n} ימים ברצף' },
     xpToday:     '+{n} XP היום',
     xpAvailable: '+{n} XP זמין',
     allDone:     '✓ הכל הושלם היום',
     streakDays:  '{n} ימים ברצף',
     workout: {
+      quick:     'אימון קצר ושומרים על הרצף',
+      doneToday: '✓ אימון היום הושלם',
       label:     'אימון יומי',
       thisWeek:  'השבוע: {n}/7 אימונים',
       start:     'התחל אימון ←',
@@ -341,6 +344,7 @@ const he = {
   },
   journal: {
     title:         'יומן התקדמות',
+    homeHint:      'מה הצעד הקטן של היום?',
     listTitle:     'רשומות קודמות',
     editTitle:     'עריכת רשומה',
     placeholder:   'מה יש לך בראש? כתוב הכל…',
