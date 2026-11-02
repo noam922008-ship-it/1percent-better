@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
 import { subscribeTasks, addTask, setTaskDone, deleteTask, MAX_TASK_LEN } from '../services/myTasksService'
 import { getLocalDateKey } from '../utils/localDate'
@@ -8,13 +8,15 @@ import { fmt } from '../i18n/fmt'
 
 // My Tasks — the user's own one-off tasks for today. Not connected to XP.
 // uid null → guest (localStorage).
-export default function MyTasks({ uid }) {
+// onFirstLoad(count): called once per day with the first loaded list size (Home uses it to place the card).
+export default function MyTasks({ uid, onFirstLoad }) {
   const { t: tr } = useLang()
   const tm = tr.myTasks
   const [tasks,  setTasks]  = useState([])
   const [text,   setText]   = useState('')
   const [error,  setError]  = useState(null)   // null | 'load' | 'save'
   const [dayKey, setDayKey] = useState(getLocalDateKey)
+  const reported = useRef(false)
 
   // Re-subscribe when the local day changes (app left open past midnight)
   useEffect(() => {
@@ -25,7 +27,12 @@ export default function MyTasks({ uid }) {
   }, [])
 
   useEffect(() => {
-    return subscribeTasks(uid, list => { setTasks(list); setError(null) }, () => setError('load'))
+    reported.current = false
+    return subscribeTasks(uid, list => {
+      setTasks(list); setError(null)
+      if (!reported.current) { reported.current = true; onFirstLoad?.(list.length) }
+    }, () => setError('load'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- onFirstLoad is read once per subscription
   }, [uid, dayKey])
 
   function handleSubmit(e) {

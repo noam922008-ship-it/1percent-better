@@ -825,6 +825,7 @@ export default function Dashboard() {
   const [levelUpModal, setLevelUpModal] = useState(null)
   const [_mantraIdx,      _setMantraIdx]        = useState(() => new Date().getDate() % MANTRAS.length)
   const [_showUnlockBanner,setShowUnlockBanner] = useState(false)
+  const [tasksUp, setTasksUp] = useState(false)   // My Tasks sits under the habits when today has tasks
   const [showMyRoutine,  setShowMyRoutine]   = useState(true)
   const [completingId,     setCompletingId]     = useState(null)
   const [showPathHistory,  setShowPathHistory]  = useState(false)
@@ -1647,8 +1648,8 @@ export default function Dashboard() {
               {/* ── Main Column ── */}
               <main className="prime-main-col">
 
-                {/* Greeting + small "done today" ring */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+                {/* Greeting + small "done today" ring (order -2: stays above My Tasks when it moves up) */}
+                <div style={{ order: -2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
                   <h1 style={{ flex: 1, minWidth: 0, color: '#F4F1E8', fontWeight: 800, fontSize: '1.05rem', margin: 0, lineHeight: 1.35 }}>
                     {dynamicGreeting}
                   </h1>
@@ -1670,7 +1671,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* השגרה שלי — collapsible habits section, open by default */}
-                <div>
+                <div style={{ order: -2 }}>
                   <button
                     onClick={() => setShowMyRoutine(v => !v)}
                     style={{
@@ -1934,8 +1935,11 @@ export default function Dashboard() {
                   <ForwardChevron size={18} color="#71717A" />
                 </button>
 
-                {/* My Tasks */}
-                <MyTasks uid={isGuest ? null : user?.uid} />
+                {/* My Tasks — right under the habits when today already has tasks, otherwise last
+                    (placed once on load with flex order, so adding a task doesn't make the card jump) */}
+                <div style={{ order: tasksUp ? -1 : 0 }}>
+                  <MyTasks uid={isGuest ? null : user?.uid} onFirstLoad={n => setTasksUp(n > 0)} />
+                </div>
 
                 {/* Today XP Summary */}
                 {FEATURES.homeXpExtras && (doneCount > 0 || challengeDone) && (
