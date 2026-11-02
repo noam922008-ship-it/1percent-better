@@ -47,6 +47,7 @@ import { nextHabitStreak, saveHabitStreak } from '../utils/habitStreak'
 import { isWeekly, timesPerWeek, weekKeys, weeklyDone, doneOn, frequencyLabel, normalizeSchedule, MAX_ACTIVE_HABITS } from '../utils/habitSchedule'
 import { getLocalDateKey } from '../utils/localDate'
 import { isQuit, slipQuit } from '../utils/quitHabit'
+import { fromZeroAge, FOCUS_DAYS, moreCardDismissed, dismissMoreCard } from '../utils/fromZero'
 import QuitHabitRow from '../components/QuitHabitRow'
 import { subscribeWeekLog, markHabitDone } from '../services/habitLogService'
 import HabitScheduleFields from '../components/HabitScheduleFields'
@@ -826,6 +827,7 @@ export default function Dashboard() {
   const [_mantraIdx,      _setMantraIdx]        = useState(() => new Date().getDate() % MANTRAS.length)
   const [_showUnlockBanner,setShowUnlockBanner] = useState(false)
   const [tasksUp, setTasksUp] = useState(false)   // My Tasks sits under the habits when today has tasks
+  const [moreDismissed, setMoreDismissed] = useState(moreCardDismissed)   // "ready to add more?" after the from-zero week
   const [showMyRoutine,  setShowMyRoutine]   = useState(true)
   const [completingId,     setCompletingId]     = useState(null)
   const [showPathHistory,  setShowPathHistory]  = useState(false)
@@ -1342,6 +1344,11 @@ export default function Dashboard() {
 
   const triggers  = profile?.triggers || []
   const dailyTriggers = triggers.filter(tr => !isWeekly(tr) && !isQuit(tr))   // weekly and quit habits don't count toward "all done today"
+  // Started from zero: the first week Home is just the pair (+ lesson, journal); then a "ready to add more?" card
+  const fzAge      = fromZeroAge(triggers)
+  const focusWeek  = fzAge !== null && fzAge < FOCUS_DAYS
+  const showMore   = fzAge !== null && fzAge >= FOCUS_DAYS && !moreDismissed && triggers.filter(t => !t.archived).length < MAX_ACTIVE_HABITS
+  const remindHabit = (() => { const h = triggers.find(t => !t.archived && !isQuit(t) && t.time); return h ? { time: h.time, title: h.habit || h.cue } : null })()
   const doneCount = dailyTriggers.filter(tr => checkins[tr.id]).length
   const allDone   = dailyTriggers.length > 0 && doneCount === dailyTriggers.length
   const thisWeek  = weekKeys(localDay)
@@ -1418,8 +1425,9 @@ export default function Dashboard() {
   const levelXP          = (xp || 0) % XP.PER_LEVEL
   const workoutDoneToday = !!localStorage.getItem(`prime_workout_done_${todayKey()}`)
   const missionDoneToday = !!(activeTrack && profile?.challenges?.[activeTrack.id]?.lastCompletedDate === todayKey())
-  const todayTotalTasks  = Math.min(dailyTriggers.length, MAX_ACTIVE_HABITS) + (activeTrack ? 1 : 0) + 1
-  const todayDoneTasks   = doneCount + (missionDoneToday ? 1 : 0) + (workoutDoneToday ? 1 : 0)
+  // The workout counts only when Home shows it (hidden in the from-zero week)
+  const todayTotalTasks  = Math.min(dailyTriggers.length, MAX_ACTIVE_HABITS) + (activeTrack ? 1 : 0) + (focusWeek ? 0 : 1)
+  const todayDoneTasks   = doneCount + (missionDoneToday ? 1 : 0) + (workoutDoneToday && !focusWeek ? 1 : 0)
 
   let primaryAction
   const primaryType = homeActionType({ activeTrack, trackDoneToday, firstUndoneHabit, dailyHabitCount: dailyTriggers.length })
@@ -1578,7 +1586,6 @@ export default function Dashboard() {
         {activeTab === 'home' && (
           <div className="prime-home-outer">
             {/* Reminders — the only other place that asks is Settings; renders nothing once decided */}
-            <RemindersCard uid={user?.uid} isGuest={isGuest} />
             {/* Guest in Instagram's browser with a habit: how to get the real app (habits come along) */}
             {isGuest && inAppBrowser() && (profile?.triggers || []).length > 0 && <InAppInstallCard />}
             {/* …and once they've moved to Safari/Chrome: their habits are here, last step is installing */}
@@ -1593,7 +1600,7 @@ export default function Dashboard() {
               </div>
             )}
             {/* "I have time" — shows once today's main work (track task / habits) is done */}
-            {showHasTimeButton(primaryType) && (
+            {!focusWeek && showHasTimeButton(primaryType) && (
               <div style={{ marginBottom: '0.875rem' }}>
                 <button
                   className="btn-tactile"
@@ -1705,7 +1712,7 @@ export default function Dashboard() {
                             {doneCount}/{dailyTriggers.length}
                           </span>
                         )}
-                        {triggers.filter(t => !t.archived).length < MAX_ACTIVE_HABITS && (
+                        {!focusWeek && triggers.filter(t => !t.archived).length < MAX_ACTIVE_HABITS && (
                           <button onClick={() => setShowHabitFlow(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, color: '#A4A6AD', fontSize: '0.7rem', fontWeight: 700, padding: '0.18rem 0.55rem', cursor: 'pointer' }} aria-label={th.routine.addAria}>{th.routine.add}</button>
                         )}
                       </div>
@@ -1813,8 +1820,25 @@ export default function Dashboard() {
                   )}
                 </div>
 
+                {/* Reminders — after the first ✓ today, right under the habits */}
+                <div style={{ order: -2 }}>
+                  <RemindersCard uid={user?.uid} isGuest={isGuest} ready={todayDoneTasks > 0} habit={remindHabit} />
+                </div>
+
+                {/* From-zero week is over: offer one more habit */}
+                {showMore && (
+                  <div style={{ order: -2, background: 'rgba(63,175,122,0.08)', border: '1px solid rgba(63,175,122,0.35)', borderRadius: 14, padding: '0.9rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                    <div style={{ color: '#F4F1E8', fontSize: '0.95rem', fontWeight: 800 }}>{tAll.fromZero.moreCard.title}</div>
+                    <div style={{ color: '#A4A6AD', fontSize: '0.85rem', lineHeight: 1.6 }}>{tAll.fromZero.moreCard.body}</div>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <button className="btn-tactile" onClick={() => { dismissMoreCard(); setMoreDismissed(true); setShowHabitFlow(true) }} style={{ flex: 1, minHeight: 44, borderRadius: 12, border: 'none', cursor: 'pointer', background: '#3FAF7A', color: '#09090b', fontSize: '0.92rem', fontWeight: 800, fontFamily: 'inherit' }}>{tAll.fromZero.moreCard.add}</button>
+                      <button className="btn-tactile" onClick={() => { dismissMoreCard(); setMoreDismissed(true) }} style={{ minHeight: 44, padding: '0 1rem', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'transparent', color: '#71717A', fontSize: '0.85rem', fontWeight: 600, fontFamily: 'inherit' }}>{tAll.fromZero.moreCard.later}</button>
+                    </div>
+                  </div>
+                )}
+
                 {/* Journal — one line, opens the full-screen writing page */}
-                <JournalCard onOpen={() => setJournalOpen(true)} />
+                <JournalCard onOpen={() => setJournalOpen(true)} hint={focusWeek ? tAll.fromZero.journalHint : undefined} />
 
                 {/* Program progress bar */}
                 {!isGuest && !pathLoading && activeTrack && (() => {
@@ -1894,7 +1918,7 @@ export default function Dashboard() {
                 })()}
 
                 {/* No active track: pick a program */}
-                {FEATURES.deepTracks && (primaryAction.type === 'no-tasks' || (!activeTrack && !pathLoading)) && !isGuest && (
+                {FEATURES.deepTracks && !focusWeek && (primaryAction.type === 'no-tasks' || (!activeTrack && !pathLoading)) && !isGuest && (
                   <div style={{ background: '#111317', border: '1px dashed rgba(255,255,255,0.1)', borderInlineStart: '3px solid rgba(217,179,76,0.35)', borderRadius: 14, padding: '1.25rem', textAlign: 'center' }}>
                     <div style={{ color: '#A4A6AD', fontSize: '0.88rem', fontWeight: 700, marginBottom: '0.6rem' }}>{lang === 'en' ? 'Pick a 30-day plan to start' : 'בחר תוכנית 30 יום להתחיל'}</div>
                     <button className="btn-primary btn-tactile" onClick={() => setActiveTab('progress')} style={{ padding: '0.8rem 1.5rem', borderRadius: 10, fontSize: '0.9rem', fontWeight: 800 }}>
@@ -1918,7 +1942,8 @@ export default function Dashboard() {
                   </div>
                 )}
 
-                {/* Daily workout — one line that opens the Workouts tab */}
+                {/* Daily workout — one line that opens the Workouts tab (hidden in the from-zero week) */}
+                {!focusWeek && (
                 <button
                   onClick={() => setActiveTab('workouts')}
                   className="btn-tactile"
@@ -1934,10 +1959,11 @@ export default function Dashboard() {
                   <span style={{ flex: 1, color: workoutDoneToday ? '#3FAF7A' : '#F4F1E8', fontSize: '0.88rem', fontWeight: 800 }}>{workoutDoneToday ? th.workout.doneToday : th.workout.quick}</span>
                   <ForwardChevron size={18} color="#71717A" />
                 </button>
+                )}
 
                 {/* My Tasks — right under the habits when today already has tasks, otherwise last
                     (placed once on load with flex order, so adding a task doesn't make the card jump) */}
-                <div style={{ order: tasksUp ? -1 : 0 }}>
+                <div style={{ order: tasksUp ? -1 : 0, display: focusWeek && !tasksUp ? 'none' : undefined /* from-zero week: only if there are tasks */ }}>
                   <MyTasks uid={isGuest ? null : user?.uid} onFirstLoad={n => setTasksUp(n > 0)} />
                 </div>
 

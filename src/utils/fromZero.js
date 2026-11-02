@@ -65,3 +65,25 @@ export function buildFromZero({ bad, good, time }, today = getLocalDateKey()) {
   }
   return [quit, build]
 }
+
+/** First week after starting from zero, Home shows only the pair (+ the daily lesson and journal). */
+export const FOCUS_DAYS = 7
+
+/** Days since the from-zero pair was made (0 = today), or null when the user didn't start from zero. */
+export function fromZeroAge(triggers = [], today = getLocalDateKey()) {
+  const dates = triggers
+    .filter(t => t && t.source === 'from-zero' && !t.archived && /^\d{4}-\d{2}-\d{2}$/.test(t.createdAt || ''))
+    .map(t => t.createdAt).sort()
+  if (!dates.length) return null
+  const ms = Date.parse(`${today}T00:00:00Z`) - Date.parse(`${dates[0]}T00:00:00Z`)
+  return Math.max(0, Math.round(ms / 86400000))
+}
+
+// "Ready to add more?" card after the first week — dismissed once per device.
+const MORE_KEY = 'prime_from_zero_more_done'
+export function moreCardDismissed(storage = globalThis.localStorage) {
+  try { return storage.getItem(MORE_KEY) === '1' } catch { return false }
+}
+export function dismissMoreCard(storage = globalThis.localStorage) {
+  try { storage.setItem(MORE_KEY, '1') } catch { /* ignore */ }
+}

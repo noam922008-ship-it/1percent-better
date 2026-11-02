@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { buildFromZero, BAD_IDS, GOOD, REPLACE, shiftTime } from '../utils/fromZero'
+import { buildFromZero, BAD_IDS, GOOD, REPLACE, shiftTime, fromZeroAge, moreCardDismissed, dismissMoreCard } from '../utils/fromZero'
 import he from '../i18n/he'
 import en from '../i18n/en'
 
@@ -91,5 +91,23 @@ describe('FromZeroFlow', () => {
     render(<FromZeroFlow onSave={() => {}} onRegular={onRegular} onClose={() => {}} />)
     fireEvent.click(screen.getByText(he.fromZero.start.some))
     expect(onRegular).toHaveBeenCalled()
+  })
+})
+
+describe('from-zero first week', () => {
+  const pair = d => buildFromZero({ bad: { quit: 'בלי גלילה', cue: 'כשבא לי לגלול' }, good: { title: 'לקרוא' }, time: '20:00' }, d)
+  it('counts days since the pair was made, null for everyone else', () => {
+    expect(fromZeroAge(pair('2026-11-01'), '2026-11-01')).toBe(0)
+    expect(fromZeroAge(pair('2026-11-01'), '2026-11-07')).toBe(6)
+    expect(fromZeroAge(pair('2026-11-01'), '2026-11-08')).toBe(7)
+    expect(fromZeroAge([{ habit: 'x', createdAt: '2026-11-01' }], '2026-11-08')).toBeNull()
+    expect(fromZeroAge(pair('2026-11-01').map(t => ({ ...t, archived: true })), '2026-11-08')).toBeNull()
+    expect(fromZeroAge([], '2026-11-08')).toBeNull()
+  })
+  it('the "add more" card is dismissed once per device', () => {
+    const m = new Map(); const store = { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, v) }
+    expect(moreCardDismissed(store)).toBe(false)
+    dismissMoreCard(store)
+    expect(moreCardDismissed(store)).toBe(true)
   })
 })

@@ -2,7 +2,7 @@ import { ForwardChevron } from './DirChevron'
 import { useLang } from '../context/LangContext'
 
 // One-line Home row that opens the Journal. Sits right below the habits.
-export default function JournalCard({ onOpen }) {
+export default function JournalCard({ onOpen, hint }) {
   const { t } = useLang()
   return (
     <button
@@ -18,7 +18,7 @@ export default function JournalCard({ onOpen }) {
       <span style={{ fontSize: '1.1rem' }} aria-hidden="true">📓</span>
       <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
         <span style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 800 }}>{t.journal.title}</span>
-        <span style={{ color: '#71717A', fontSize: '0.72rem', fontWeight: 600 }}>{t.journal.homeHint}</span>
+        <span style={{ color: '#71717A', fontSize: '0.72rem', fontWeight: 600 }}>{hint || t.journal.homeHint}</span>
       </span>
       <ForwardChevron size={18} color="#71717A" />
     </button>

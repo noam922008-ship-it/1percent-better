@@ -90,6 +90,9 @@ const en = {
     title:  'Turn on reminders? 🔔',
     body:   "We'll remind you to come back and keep your streak. You can turn it off any time in Settings.",
     turnOn: 'Turn on reminders',
+    titleHabit:  'Want a reminder at \u2066{time}\u2069? 🔔',
+    bodyHabit:   "Every day at this time: {habit}. That's how the streak stays alive.",
+    turnOnHabit: 'Yes, remind me',
     later:  'Later',
   },
   firstWelcome: {
@@ -100,6 +103,8 @@ const en = {
     skip:  'Just look around',
   },
   fromZero: {
+    journalHint: 'A few words on how it felt. That\'s how you learn what works',
+    moreCard: { title: 'A full week 🔥', body: 'You made it through a week with your habits. Want to add another habit?', add: 'Add a habit', later: 'Not now' },
     titles: ['Where are you starting?', 'Which bad habit bugs you most?', 'What replaces it?', 'When does it usually happen?', 'This is your deal'],
     subs:   ['No wrong answer', 'Pick one. Just one', 'Something too small to fail', "You'll get a reminder at this time", 'Starting today'],
     stepOf: 'Step {n} of {total}',
@@ -156,7 +161,7 @@ const en = {
     pact: '{cue}, I {good}.',
     reminderAt: 'Reminder every day at {time}',
     willCount: 'The "{quit}" count starts today and goes up on its own',
-    weekOne: 'Week one: just this pair. After a week you can add more',
+    weekOne: 'Week one: just these habits. After a week you can add more',
     save: "Let's go ✓",
     next: 'Next',
     back: 'Back',

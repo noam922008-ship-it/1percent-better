@@ -5,10 +5,12 @@
 // tap here (iPhone requires a tap, and asking out of the blue gets "Block"). On iPhone the
 // Notification API exists only in the installed app, so in Safari the card simply isn't shown.
 // "Later" hides it for 7 days on this device.
+// Home shows it only after the first ✓ of the day (ready), worded around the user's own habit and time.
 
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
 import { registerFcmToken } from '../services/fcmService'
+import { fmt } from '../i18n/fmt'
 
 const LATER_KEY  = 'prime_reminders_later'
 const LATER_DAYS = 7
@@ -27,13 +29,14 @@ export function shouldShowReminders({ uid, isGuest } = {}, storage, now) {
   return !laterRecently(storage, now)
 }
 
-export default function RemindersCard({ uid, isGuest }) {
+export default function RemindersCard({ uid, isGuest, ready = true, habit = null }) {
   const { lang, t } = useLang()
   const s = t.reminders
   const [hidden, setHidden] = useState(false)
   const [busy,   setBusy]   = useState(false)
 
-  if (hidden || !shouldShowReminders({ uid, isGuest })) return null
+  if (hidden || !ready || !shouldShowReminders({ uid, isGuest })) return null
+  const personal = !!(habit?.time && habit?.title)
 
   async function turnOn() {
     setBusy(true)
@@ -52,10 +55,10 @@ export default function RemindersCard({ uid, isGuest }) {
   return (
     <div style={{
       background: 'rgba(217,179,76,0.08)', border: '1px solid rgba(217,179,76,0.4)', borderRadius: 14,
-      padding: '0.9rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '0.875rem',
+      padding: '0.9rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.6rem',
     }}>
-      <div style={{ color: '#F4F1E8', fontSize: '0.95rem', fontWeight: 800, textAlign: 'start' }}>{s.title}</div>
-      <div style={{ color: '#A4A6AD', fontSize: '0.85rem', lineHeight: 1.6, textAlign: 'start' }}>{s.body}</div>
+      <div style={{ color: '#F4F1E8', fontSize: '0.95rem', fontWeight: 800, textAlign: 'start' }}>{personal ? fmt(s.titleHabit, { time: habit.time }) : s.title}</div>
+      <div style={{ color: '#A4A6AD', fontSize: '0.85rem', lineHeight: 1.6, textAlign: 'start' }}>{personal ? fmt(s.bodyHabit, { habit: habit.title }) : s.body}</div>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <button
           className="btn-tactile"
@@ -65,7 +68,7 @@ export default function RemindersCard({ uid, isGuest }) {
             flex: 1, minHeight: 44, borderRadius: 12, border: 'none', cursor: 'pointer',
             background: '#D9B34C', color: '#09090b', fontSize: '0.92rem', fontWeight: 800, fontFamily: 'inherit',
           }}
-        >{s.turnOn}</button>
+        >{personal ? s.turnOnHabit : s.turnOn}</button>
         <button
           className="btn-tactile"
           onClick={later}

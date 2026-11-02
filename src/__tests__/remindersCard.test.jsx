@@ -69,6 +69,20 @@ describe('reminders card on Home', () => {
     expect(register).not.toHaveBeenCalled()
   })
 
+  it('waits for the first ✓ of the day (ready) before showing', () => {
+    stubNotification('default')
+    const { container } = render(<RemindersCard uid="u1" isGuest={false} ready={false} />)
+    expect(container.innerHTML).toBe('')
+  })
+
+  it('names the habit and its time when there is one', () => {
+    stubNotification('default')
+    render(<RemindersCard uid="u1" isGuest={false} habit={{ time: '20:00', title: '2 עמודים בספר' }} />)
+    expect(screen.getByText(/20:00/)).toBeTruthy()
+    expect(screen.getByText(/2 עמודים בספר/)).toBeTruthy()
+    expect(screen.getByText(he.reminders.turnOnHabit)).toBeTruthy()
+  })
+
   it('Hebrew and English have the same keys', () => {
     expect(Object.keys(en.reminders)).toEqual(Object.keys(he.reminders))
   })
