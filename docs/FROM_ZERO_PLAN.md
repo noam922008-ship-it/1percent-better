@@ -10,8 +10,13 @@ Flow (src/components/FromZeroFlow.jsx, opened from the first-run welcome):
 1. Where are you starting? zero / I have some (regular flow) / only quit (regular flow)
 2. One bad habit: scrolling, smoking, alcohol, junk food, late nights, snooze, or own text.
    Smoking and alcohol show a short note with free professional help (MoH quit line *6800, Kol Zchut).
-3. One tiny good habit that replaces it, amount adjustable: 2 pages, 15 push-ups, 5 min run/walk.
-4. When does it usually happen → that is the reminder time.
+3. One tiny good habit that replaces it. Each bad habit gets 3 that fit it (body / head / setting),
+   amount adjustable where it makes sense (src/utils/fromZero.js REPLACE):
+   scrolling: 2 pages, 5 min walk, phone in another room · smoking: 10 deep breaths, water, 5 min walk
+   alcohol: drink without alcohol, 10 min walk, call a friend · junk: water first, fruit, 5 min walk
+   late nights: phone out of bed, 2 pages in bed, lights off · snooze: alarm across the room, water, 10 push-ups
+   other: 2 pages, 15 push-ups, 5 min run.
+4. When does it usually happen → that is the reminder time (late nights: an hour before bedtime).
 5. Summary ("the deal") → saves a quit habit (clean-day count) + a daily build habit with cue "when I feel like X".
 
 Week one: only this pair. After 7 days suggest adding another (not a lock, adding earlier is allowed).

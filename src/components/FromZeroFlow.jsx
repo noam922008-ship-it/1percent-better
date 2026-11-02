@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
-import { BAD_IDS, GOOD, HELP_FOR, buildFromZero } from '../utils/fromZero'
+import { BAD_IDS, GOOD, HELP_FOR, REMIND_EARLY, buildFromZero, replacementsFor, shiftTime } from '../utils/fromZero'
 
 // First-run path for people who start from zero (docs/FROM_ZERO_PLAN.md):
 // 0 where do you start → 1 the bad habit → 2 the tiny good habit that replaces it → 3 when → 4 summary + save.
@@ -37,16 +37,21 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
   const bad = badId === 'other'
     ? (ownText ? { label: ownText, quit: fmt(s.ownQuit, { x: ownText }), cue: fmt(s.ownCue, { x: ownText }) } : null)
     : badId ? s.bad[badId] : null
+  const options = replacementsFor(badId)
+  const hasAmount = goodId && GOOD[goodId].n != null
   const good = goodId ? { title: fmt(s.good[goodId].title, { n: amount }), phrase: fmt(s.good[goodId].phrase || s.good[goodId].title, { n: amount }) } : null
   const time = timeId === 'own' ? ownTime : timeId ? s.times.find(x => x.id === timeId)?.time || '' : ''
+  // Late nights: the reminder comes an hour before the bedtime the person picked
+  const remindAt = shiftTime(time, REMIND_EARLY[badId] || 0)
   const help = HELP_FOR[badId] ? s.help[HELP_FOR[badId]] : null
 
-  function pickGood(id) { setGoodId(id); setAmount(GOOD[id].n) }
+  function pickGood(opt) { setGoodId(opt.id); setAmount(opt.n ?? GOOD[opt.id].n ?? 0) }
+  function pickBad(id) { setBadId(id); setGoodId('') }
   function step1Next() { if (bad) setStep(2) }
   async function save() {
     if (!bad || !good || saving) return
     setSaving(true)
-    try { await onSave(buildFromZero({ bad, good, time })) } finally { setSaving(false) }
+    try { await onSave(buildFromZero({ bad, good, time: remindAt })) } finally { setSaving(false) }
   }
 
   return (
@@ -75,9 +80,9 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
           <div>
             <div style={{ display: 'grid', gap: '0.5rem' }}>
               {BAD_IDS.map(id => (
-                <button key={id} className="btn-tactile" aria-pressed={badId === id} style={chip(badId === id)} onClick={() => setBadId(id)}>{s.bad[id].icon} {s.bad[id].label}</button>
+                <button key={id} className="btn-tactile" aria-pressed={badId === id} style={chip(badId === id)} onClick={() => pickBad(id)}>{s.bad[id].icon} {s.bad[id].label}</button>
               ))}
-              <button className="btn-tactile" aria-pressed={badId === 'other'} style={chip(badId === 'other')} onClick={() => setBadId('other')}>{s.other}</button>
+              <button className="btn-tactile" aria-pressed={badId === 'other'} style={chip(badId === 'other')} onClick={() => pickBad('other')}>{s.other}</button>
             </div>
             {badId === 'other' && (
               <input autoFocus className="glow-input" style={input} placeholder={s.ownPh} value={own}
@@ -98,20 +103,20 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
         {step === 2 && (
           <div>
             <div style={{ display: 'grid', gap: '0.5rem' }}>
-              {Object.keys(GOOD).map(id => (
-                <button key={id} className="btn-tactile" aria-pressed={goodId === id} style={chip(goodId === id)} onClick={() => pickGood(id)}>
-                  {s.good[id].icon} {fmt(s.good[id].title, { n: goodId === id ? amount : GOOD[id].n })}
+              {options.map(opt => (
+                <button key={opt.id} className="btn-tactile" aria-pressed={goodId === opt.id} style={chip(goodId === opt.id)} onClick={() => pickGood(opt)}>
+                  {s.good[opt.id].icon} {fmt(s.good[opt.id].title, { n: goodId === opt.id ? amount : (opt.n ?? GOOD[opt.id].n) })}
                 </button>
               ))}
             </div>
-            {goodId && (
+            {hasAmount && (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginTop: '0.9rem' }}>
                 <button className="btn-tactile" aria-label={s.less} onClick={() => setAmount(a => Math.max(GOOD[goodId].min, a - 1))} style={{ ...chip(false), width: 48, textAlign: 'center' }}>−</button>
                 <span style={{ color: '#F4F1E8', fontWeight: 900, fontSize: '1.3rem', minWidth: 36, textAlign: 'center' }} aria-live="polite">{amount}</span>
                 <button className="btn-tactile" aria-label={s.more} onClick={() => setAmount(a => Math.min(GOOD[goodId].max, a + 1))} style={{ ...chip(false), width: 48, textAlign: 'center' }}>+</button>
               </div>
             )}
-            {goodId && <div style={{ color: '#71717A', fontSize: '0.74rem', textAlign: 'center', marginTop: '0.5rem' }}>{s.smallHint}</div>}
+            {hasAmount && <div style={{ color: '#71717A', fontSize: '0.74rem', textAlign: 'center', marginTop: '0.5rem' }}>{s.smallHint}</div>}
             <button className="btn-tactile" style={primary(!good)} disabled={!good} onClick={() => good && setStep(3)}>{s.next}</button>
           </div>
         )}
@@ -136,7 +141,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
               <div style={{ color: '#F4F1E8', fontSize: '1.02rem', fontWeight: 800, lineHeight: 1.6 }}>
                 {fmt(s.pact, { cue: bad.cue, good: good.phrase })}
               </div>
-              <div style={{ color: '#A4A6AD', fontSize: '0.8rem', marginTop: '0.5rem' }}>{fmt(s.reminderAt, { time: '\u2066' + time + '\u2069' })}</div>
+              <div style={{ color: '#A4A6AD', fontSize: '0.8rem', marginTop: '0.5rem' }}>{fmt(s.reminderAt, { time: '\u2066' + remindAt + '\u2069' })}</div>
             </div>
             <ul style={{ color: '#A4A6AD', fontSize: '0.8rem', lineHeight: 1.7, margin: '0.9rem 0 0', paddingInlineStart: '1.1rem' }}>
               <li>{fmt(s.willCount, { quit: bad.quit })}</li>
