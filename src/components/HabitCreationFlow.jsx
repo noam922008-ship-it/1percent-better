@@ -91,7 +91,7 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
             <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1rem' }}>
               {tf.titles[step]}
             </div>
-            <div style={{ color: '#71717A', fontSize: '0.68rem', marginTop: '0.1rem' }}>
+            <div style={{ color: '#8A8A93', fontSize: '0.68rem', marginTop: '0.1rem' }}>
               {tf.steps[step]}
             </div>
           </div>
@@ -104,14 +104,14 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
             {atMax ? (
               <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 12, padding: '1rem', textAlign: 'center', color: '#A4A6AD', fontSize: '0.85rem', lineHeight: 1.6 }}>
                 {tf.maxTitle}<br />
-                <span style={{ color: '#71717A', fontSize: '0.75rem' }}>{tf.maxSub}</span>
+                <span style={{ color: '#8A8A93', fontSize: '0.75rem' }}>{tf.maxSub}</span>
               </div>
             ) : (
               <>
                 {!hasPreFill && (
                   <div style={{ marginBottom: '1.25rem', background: 'rgba(217,179,76,0.05)', border: '1px solid rgba(217,179,76,0.25)', borderRadius: 14, padding: '0.9rem' }}>
                     <div style={{ color: '#D9B34C', fontSize: '0.9rem', fontWeight: 800 }}>{tf.quitHeader}</div>
-                    <div style={{ color: '#71717A', fontSize: '0.7rem', margin: '0.15rem 0 0.75rem' }}>{tf.quitSub}</div>
+                    <div style={{ color: '#8A8A93', fontSize: '0.7rem', margin: '0.15rem 0 0.75rem' }}>{tf.quitSub}</div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                       {tf.quitSuggestions.map(q => (
                         <button
@@ -168,7 +168,7 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
                 >
                   {tf.custom}
                 </button>
-                <div style={{ color: '#71717A', fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
+                <div style={{ color: '#8A8A93', fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
                   {tf.recommended}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
@@ -192,12 +192,12 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
                         <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{pillar?.emoji || '⚡'}</span>
                         <div style={{ flex: 1, textAlign: 'start' }}>
                           <div style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 700 }}>{byLang(s, 'title', lang)}</div>
-                          <div style={{ color: '#71717A', fontSize: '0.67rem', marginTop: '0.1rem' }}>
+                          <div style={{ color: '#8A8A93', fontSize: '0.67rem', marginTop: '0.1rem' }}>
                             {s.cueId ? tf.cues[s.cueId] : byLang(s, 'triggerSuggestion', lang)}
                             {s.estimatedMinutes > 0 && ` · ${fmt(tf.minutes, { n: s.estimatedMinutes })}`}
                           </div>
                         </div>
-                        <span style={{ color: '#71717A', fontSize: '0.8rem' }}>{tf.arrow}</span>
+                        <span style={{ color: '#8A8A93', fontSize: '0.8rem' }}>{tf.arrow}</span>
                       </button>
                     )
                   })}
@@ -234,7 +234,7 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
         {step === 2 && (
           <div>
             <div style={{ color: '#A4A6AD', fontSize: '0.82rem', fontWeight: 700, marginBottom: '0.1rem' }}>{title}</div>
-            <div style={{ color: '#71717A', fontSize: '0.7rem', marginBottom: '1rem' }}>{tf.cueQ}</div>
+            <div style={{ color: '#8A8A93', fontSize: '0.7rem', marginBottom: '1rem' }}>{tf.cueQ}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1rem' }}>
               {CUE_IDS.map(id => (
                 <button

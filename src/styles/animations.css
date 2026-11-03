@@ -172,7 +172,7 @@ body::before {
 }
 .btn-primary:disabled {
   background: rgba(255,255,255,0.07);
-  color: rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.55);
   box-shadow: none;
   cursor: not-allowed;
   filter: none;
@@ -191,7 +191,7 @@ body::before {
 }
 .btn-secondary:hover {
   background: #1e1e1e;
-  border-color: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.55);
 }
 .btn-secondary:active {
   background: #252525;
@@ -207,7 +207,7 @@ body::before {
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .btn-ghost:hover {
-  border-color: rgba(255,255,255,0.3);
+  border-color: rgba(255,255,255,0.55);
   background: rgba(255,255,255,0.03);
 }
 

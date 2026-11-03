@@ -7,7 +7,7 @@ import ShareStreakButton from './ShareStreakButton'
 // summary comes from utils/weeklySummary.js. onGoals opens the journal to write the week's goals
 // (the Sunday 10:00 push asks for exactly that).
 
-const C = { surface: '#111317', text: '#F4F1E8', muted: '#A4A6AD', faint: '#71717A', accent: '#D9B34C', ok: '#3FAF7A' }
+const C = { surface: '#111317', text: '#F4F1E8', muted: '#A4A6AD', faint: '#8A8A93', accent: '#D9B34C', ok: '#3FAF7A' }
 
 function shortDate(key, lang) {
   return new Date(`${key}T00:00:00Z`).toLocaleDateString(localeFor(lang), { day: 'numeric', month: 'short', timeZone: 'UTC' })

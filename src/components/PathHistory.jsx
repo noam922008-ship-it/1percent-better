@@ -38,7 +38,7 @@ export default function PathHistory({ user, onRestore, onClose }) {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.9rem 1.25rem', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <div>
-          <div style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.15rem' }}>
+          <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.15rem' }}>
             ◈ PRIME
           </div>
           <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem' }}>ארכיון מסלולים</div>
@@ -46,7 +46,7 @@ export default function PathHistory({ user, onRestore, onClose }) {
         <button
           onClick={onClose}
           className="btn-tactile"
-          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(241,245,249,0.5)', fontSize: '0.85rem', fontWeight: 700, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, cursor: 'pointer' }}
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', fontSize: '0.85rem', fontWeight: 700, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, cursor: 'pointer' }}
         >✕</button>
       </div>
 
@@ -63,7 +63,7 @@ export default function PathHistory({ user, onRestore, onClose }) {
           <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
             <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📂</div>
             <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.95rem', marginBottom: '0.4rem' }}>אין מסלולים בארכיון</div>
-            <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.8rem', lineHeight: 1.6 }}>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem', lineHeight: 1.6 }}>
               כשתבנה מסלול חדש, המסלול הקיים ישמר כאן אוטומטית.
             </div>
           </div>
@@ -95,19 +95,19 @@ export default function PathHistory({ user, onRestore, onClose }) {
                 >
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.5rem' }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.25rem' }}>
+                      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.25rem' }}>
                         הועבר לארכיון · {fmtDate(archive.archivedAt)}
                       </div>
                       <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '0.95rem', marginBottom: '0.15rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {path?.path_name || 'מסלול ללא שם'}
                       </div>
                       {path?.tagline && (
-                        <div style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {path.tagline}
                         </div>
                       )}
                     </div>
-                    <span style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.75rem', flexShrink: 0, marginTop: '0.1rem' }}>
+                    <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', flexShrink: 0, marginTop: '0.1rem' }}>
                       {isExpanded ? '▲' : '▼'}
                     </span>
                   </div>
@@ -116,16 +116,16 @@ export default function PathHistory({ user, onRestore, onClose }) {
                   <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.65rem' }}>
                     <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 8, padding: '0.3rem 0.6rem', textAlign: 'center' }}>
                       <span style={{ color: '#fbbf24', fontSize: '0.82rem', fontWeight: 800 }}>{daysCompleted}</span>
-                      <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.6rem', marginRight: '0.25rem' }}> ימים</span>
+                      <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', marginRight: '0.25rem' }}> ימים</span>
                     </div>
                     {streak > 0 && (
                       <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 8, padding: '0.3rem 0.6rem', textAlign: 'center' }}>
                         <span style={{ color: '#f97316', fontSize: '0.82rem', fontWeight: 800 }}>🔥{streak}</span>
-                        <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.6rem', marginRight: '0.25rem' }}> שיא רצף</span>
+                        <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', marginRight: '0.25rem' }}> שיא רצף</span>
                       </div>
                     )}
                     <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 8, padding: '0.3rem 0.6rem', textAlign: 'center' }}>
-                      <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem' }}>התחיל {fmtDate(archive.createdAt)}</span>
+                      <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem' }}>התחיל {fmtDate(archive.createdAt)}</span>
                     </div>
                   </div>
                 </div>
@@ -135,20 +135,20 @@ export default function PathHistory({ user, onRestore, onClose }) {
                   <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '0.9rem 1.1rem' }}>
                     {path?.roadmap && path.roadmap.length > 0 && (
                       <div style={{ marginBottom: '0.9rem' }}>
-                        <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>
+                        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>
                           מבט ראשון על המסלול
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                           {path.roadmap.slice(0, 4).map(r => (
                             <div key={r.day} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.55rem', padding: '0.3rem 0' }}>
-                              <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(245,197,24,0.08)', border: '1px solid rgba(245,197,24,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.55rem', fontWeight: 900, color: 'rgba(245,197,24,0.6)', fontFamily: 'monospace', flexShrink: 0 }}>
+                              <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(245,197,24,0.08)', border: '1px solid rgba(245,197,24,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.55rem', fontWeight: 900, color: 'rgba(245,197,24,0.8)', fontFamily: 'monospace', flexShrink: 0 }}>
                                 {r.day}
                               </div>
-                              <span style={{ color: 'rgba(241,245,249,0.45)', fontSize: '0.75rem', lineHeight: 1.45 }}>{r.task}</span>
+                              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', lineHeight: 1.45 }}>{r.task}</span>
                             </div>
                           ))}
                           {path.roadmap.length > 4 && (
-                            <div style={{ color: 'rgba(245,197,24,0.3)', fontSize: '0.65rem', marginTop: '0.15rem', fontFamily: "'SF Mono','Fira Code',monospace'" }}>
+                            <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.65rem', marginTop: '0.15rem', fontFamily: "'SF Mono','Fira Code',monospace'" }}>
                               + עוד {path.roadmap.length - 4} ימים...
                             </div>
                           )}

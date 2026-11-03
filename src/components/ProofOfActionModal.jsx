@@ -85,7 +85,7 @@ export default function ProofOfActionModal({
             onClick={onClose}
             disabled={uploading}
             className="btn-tactile"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'rgba(241,245,249,0.55)', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, flexShrink: 0 }}
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'rgba(241,245,249,0.6)', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, flexShrink: 0 }}
           >✕</button>
         </div>
 
@@ -94,7 +94,7 @@ export default function ProofOfActionModal({
           {/* Optional task context */}
           {taskDesc && (
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.6rem 0.8rem', marginBottom: '0.85rem' }}>
-              <p style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.8rem', lineHeight: 1.5, margin: 0 }}>{taskDesc}</p>
+              <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem', lineHeight: 1.5, margin: 0 }}>{taskDesc}</p>
             </div>
           )}
 
@@ -150,7 +150,7 @@ export default function ProofOfActionModal({
                     key={tag.id}
                     onClick={() => handleEnergyTag(tag.id)}
                     className="btn-tactile"
-                    style={{ padding: '0.4rem 0.75rem', borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: 'rgba(232,232,232,0.5)', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                    style={{ padding: '0.4rem 0.75rem', borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: 'rgba(232,232,232,0.6)', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer', whiteSpace: 'nowrap' }}
                   >
                     {lang === 'en' ? tag.labelEn : tag.label}
                   </button>

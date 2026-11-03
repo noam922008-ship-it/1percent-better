@@ -12,7 +12,7 @@ import { loadTimer, saveTimer, removeTimer, startMedia, stopMedia } from '../uti
 
 const C = {
   bg: '#09090b', surface: '#111317', field: '#17191E',
-  border: 'rgba(255,255,255,0.08)', text: '#F4F1E8', muted: '#A4A6AD', faint: '#71717A',
+  border: 'rgba(255,255,255,0.08)', text: '#F4F1E8', muted: '#A4A6AD', faint: '#8A8A93',
   accent: '#D9B34C', accentSoft: 'rgba(217,179,76,0.1)', accentBorder: 'rgba(217,179,76,0.45)',
   ok: '#3FAF7A',
 }

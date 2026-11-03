@@ -31,7 +31,7 @@ function BenchmarkModal({ existing, color, onSave, onDelete, onClose }) {
     fontSize: '0.9rem', fontFamily: 'inherit', outline: 'none',
   }
   const labelStyle = {
-    display: 'block', color: 'rgba(241,245,249,0.38)', fontSize: '0.62rem',
+    display: 'block', color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem',
     fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em',
     marginBottom: '0.4rem',
   }
@@ -58,7 +58,7 @@ function BenchmarkModal({ existing, color, onSave, onDelete, onClose }) {
           <button
             onClick={onClose}
             className="btn-tactile"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(241,245,249,0.5)', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, fontSize: '0.88rem', fontWeight: 700 }}
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, fontSize: '0.88rem', fontWeight: 700 }}
           >✕</button>
         </div>
 
@@ -151,7 +151,7 @@ function UpdatePanel({ benchmark, color, onSave, onClose }) {
 
   return (
     <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${color}30`, borderRadius: 14, padding: '0.85rem 1rem', marginTop: '0.5rem', animation: 'fadeIn 0.18s ease' }}>
-      <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.62rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.55rem' }}>
+      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.55rem' }}>
         מה הביצוע שלך היום?
       </div>
       <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -163,7 +163,7 @@ function UpdatePanel({ benchmark, color, onSave, onClose }) {
           className="glow-input"
           style={{ flex: 1, padding: '0.65rem 0.9rem', borderRadius: 10, border: `1px solid ${color}40`, background: `${color}08`, color: '#f1f5f9', fontSize: '1.1rem', fontWeight: 800, textAlign: 'center', outline: 'none', fontFamily: 'inherit' }}
         />
-        <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.78rem' }}>{benchmark.unit}</span>
+        <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem' }}>{benchmark.unit}</span>
         <button
           onClick={() => canSave && onSave(num)}
           disabled={!canSave}
@@ -173,7 +173,7 @@ function UpdatePanel({ benchmark, color, onSave, onClose }) {
         <button
           onClick={onClose}
           className="btn-tactile"
-          style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, color: 'rgba(241,245,249,0.3)', fontSize: '0.78rem', fontWeight: 600, padding: '0.65rem 0.75rem', cursor: 'pointer' }}
+          style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 600, padding: '0.65rem 0.75rem', cursor: 'pointer' }}
         >ביטול</button>
       </div>
     </div>
@@ -228,7 +228,7 @@ export default function BenchmarkTracker({ challengeId, color }) {
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', padding: '0.5rem 0', marginBottom: collapsed ? 0 : '0.75rem' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-          <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'SF Mono','Fira Code',monospace" }}>
             📊 ביצועים אישיים
           </span>
           {benchmarks.length > 0 && (
@@ -245,7 +245,7 @@ export default function BenchmarkTracker({ challengeId, color }) {
               style={{ background: `${color}15`, border: `1px solid ${color}30`, borderRadius: 20, color: color, fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.6rem', cursor: 'pointer', minHeight: 28 }}
             >+ הוסף</button>
           )}
-          <span style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.65rem' }}>{collapsed ? '▼' : '▲'}</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>{collapsed ? '▼' : '▲'}</span>
         </div>
       </div>
 
@@ -258,8 +258,8 @@ export default function BenchmarkTracker({ challengeId, color }) {
               style={{ border: '1.5px dashed rgba(255,255,255,0.1)', borderRadius: 16, padding: '1.35rem', textAlign: 'center', cursor: 'pointer', marginBottom: '1rem' }}
             >
               <div style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>📊</div>
-              <div style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.85rem', fontWeight: 800, marginBottom: '0.25rem' }}>עקוב אחרי הקפיצות שלך</div>
-              <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.75rem', lineHeight: 1.55, marginBottom: '0.85rem' }}>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.85rem', fontWeight: 800, marginBottom: '0.25rem' }}>עקוב אחרי הקפיצות שלך</div>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', lineHeight: 1.55, marginBottom: '0.85rem' }}>
                 הגדר מדד ביצועים — כמה שכיבות עכשיו, כמה ביעד.
               </div>
               <span style={{ background: `${color}18`, border: `1px solid ${color}35`, borderRadius: 20, color: color, fontSize: '0.78rem', fontWeight: 800, padding: '0.4rem 1rem' }}>
@@ -280,36 +280,36 @@ export default function BenchmarkTracker({ challengeId, color }) {
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.7rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                           <span style={{ color: '#f1f5f9', fontSize: '0.85rem', fontWeight: 800 }}>{b.label}</span>
-                          <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.7rem' }}>{b.unit}</span>
+                          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem' }}>{b.unit}</span>
                         </div>
                         <button
                           onClick={() => setEditing(b)}
                           className="btn-tactile"
-                          style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.25)', fontSize: '0.8rem', cursor: 'pointer', padding: '0.15rem 0.35rem', minHeight: 32, minWidth: 32 }}
+                          style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem', cursor: 'pointer', padding: '0.15rem 0.35rem', minHeight: 32, minWidth: 32 }}
                         >✎</button>
                       </div>
 
                       {/* Numbers: baseline ── current ── target */}
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr auto 1fr', alignItems: 'center', gap: '0.3rem', marginBottom: '0.6rem' }}>
                         <div style={{ textAlign: 'center' }}>
-                          <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.18rem' }}>בסיס</div>
-                          <div style={{ color: 'rgba(241,245,249,0.5)', fontSize: '1.1rem', fontWeight: 900, lineHeight: 1 }}>{b.baseline}</div>
+                          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.18rem' }}>בסיס</div>
+                          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '1.1rem', fontWeight: 900, lineHeight: 1 }}>{b.baseline}</div>
                         </div>
 
-                        <div style={{ color: 'rgba(255,255,255,0.12)', fontSize: '0.7rem' }}>→</div>
+                        <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.7rem' }}>→</div>
 
                         <div
                           style={{ textAlign: 'center', cursor: 'pointer' }}
                           onClick={() => setUpdating(isUpdating ? null : b.id)}
                         >
-                          <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.18rem' }}>עכשיו</div>
+                          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.18rem' }}>עכשיו</div>
                           <div style={{ color: '#f1f5f9', fontSize: '1.4rem', fontWeight: 900, lineHeight: 1 }}>{b.current}</div>
                           {gain > 0 && (
                             <div style={{ color: '#10b981', fontSize: '0.6rem', fontWeight: 700, marginTop: '0.1rem' }}>+{gain}</div>
                           )}
                         </div>
 
-                        <div style={{ color: 'rgba(255,255,255,0.12)', fontSize: '0.7rem' }}>→</div>
+                        <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.7rem' }}>→</div>
 
                         <div style={{ textAlign: 'center' }}>
                           <div style={{ color: `${color}88`, fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.18rem' }}>יעד</div>
@@ -323,7 +323,7 @@ export default function BenchmarkTracker({ challengeId, color }) {
                           <div style={{ height: '100%', width: `${Math.max(pct, 3)}%`, background: pct >= 100 ? '#10b981' : `linear-gradient(90deg,${color}80,${color})`, borderRadius: 99, transition: 'width 0.6s ease' }} />
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.25rem' }}>
-                          <span style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.58rem' }}>
+                          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem' }}>
                             {pct >= 100 ? '🏆 יעד הושג' : `${pct}% מהיעד`}
                           </span>
                           <span

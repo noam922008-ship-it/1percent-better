@@ -274,7 +274,7 @@ function RoundTimer({ protocol, onRoundComplete, onSessionEnd, headInsufficient 
             }}>
               {notStarted ? '3:00' : fmtTime(timeLeft)}
             </div>
-            <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.5rem', fontWeight: 700, marginTop: 4, letterSpacing: '0.1em' }}>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.5rem', fontWeight: 700, marginTop: 4, letterSpacing: '0.1em' }}>
               {notStarted ? 'READY' : roundPhase === 'work' ? 'WORK' : 'REST'}
             </div>
           </div>
@@ -282,7 +282,7 @@ function RoundTimer({ protocol, onRoundComplete, onSessionEnd, headInsufficient 
 
         <div style={{ flex: 1 }}>
           {notStarted && (
-            <div style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.82rem', lineHeight: 1.5 }}>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem', lineHeight: 1.5 }}>
               {lang === 'en' ? 'Press "Start" to start the first timer' : 'לחץ ״התחל״ להפעלת הטיימר הראשון'}
             </div>
           )}
@@ -351,7 +351,7 @@ function RoundTimer({ protocol, onRoundComplete, onSessionEnd, headInsufficient 
                 }}>
                   {lang === 'en' ? round.labelEn : round.label}
                 </div>
-                <div style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.65rem', marginTop: 2 }}>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem', marginTop: 2 }}>
                   {done ? (lang === 'en' ? '✓ Completed' : '✓ הושלם') : (lang === 'en' ? `3:00 work · 1:00 rest · +${XP_PER_ROUND} XP` : `3:00 עבודה · 1:00 מנוחה · +${XP_PER_ROUND} XP`)}
                 </div>
               </div>
@@ -430,7 +430,7 @@ function ComboChecklist({ protocol, onComplete }) {
               }}>
                 {lang === 'en' ? combo.labelEn : combo.label}
               </div>
-              <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', marginTop: 2 }}>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem', marginTop: 2 }}>
                 {lang === 'en' ? `${combo.reps} reps · +${XP_PER_COMBO} XP` : `${combo.reps} חזרות · +${XP_PER_COMBO} XP`}
               </div>
             </div>
@@ -563,7 +563,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
               className="btn-tactile"
               style={{
                 background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 8, color: 'rgba(241,245,249,0.5)', cursor: 'pointer',
+                borderRadius: 8, color: 'rgba(241,245,249,0.6)', cursor: 'pointer',
                 fontSize: '0.85rem', fontWeight: 700,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 minWidth: 44, minHeight: 44,
@@ -637,7 +637,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
           {/* ── SELECT phase ── */}
           {phase === 'select' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', animation: 'slide-up 0.25s ease' }}>
-              <p style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.76rem', margin: 0, lineHeight: 1.55 }}>
+              <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.76rem', margin: 0, lineHeight: 1.55 }}>
                 {lang === 'en' ? '3:00 work · 1:00 rest · optional AI tracking' : '3:00 עבודה · 1:00 מנוחה · מעקב AI אופציונלי'}
               </p>
               {/* Free AI session shortcut */}
@@ -645,7 +645,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
                 <button
                   onClick={onOpenFreeSession}
                   className="btn-tactile"
-                  style={{ width: '100%', padding: '0.65rem 1rem', borderRadius: 12, border: '1px dashed rgba(255,255,255,0.1)', background: 'transparent', color: 'rgba(232,232,232,0.5)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem' }}
+                  style={{ width: '100%', padding: '0.65rem 1rem', borderRadius: 12, border: '1px dashed rgba(255,255,255,0.1)', background: 'transparent', color: 'rgba(232,232,232,0.6)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem' }}
                 >
                   🥊 {lang === 'en' ? 'Free session with AI coach ←' : 'סשן חופשי עם מאמן AI ←'}
                 </button>
@@ -674,7 +674,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ color: '#f1f5f9', fontSize: '0.92rem', fontWeight: 900, marginBottom: 3 }}>{lang === 'en' ? p.name : p.nameHe}</div>
-                    <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.7rem', lineHeight: 1.4 }}>{lang === 'en' ? p.descEn : p.desc}</div>
+                    <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', lineHeight: 1.4 }}>{lang === 'en' ? p.descEn : p.desc}</div>
                     <div style={{ display: 'flex', gap: '0.4rem', marginTop: 5, flexWrap: 'wrap' }}>
                       {p.type === 'rounds' && (
                         <span style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.12rem 0.5rem', color: p.color, fontSize: '0.62rem', fontWeight: 700 }}>
@@ -693,7 +693,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
                       )}
                     </div>
                   </div>
-                  <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '1rem', flexShrink: 0 }}>←</span>
+                  <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '1rem', flexShrink: 0 }}>←</span>
                 </button>
               ))}
             </div>
@@ -748,7 +748,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
                   background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12,
                 }}>
                   <span style={{ fontSize: '0.9rem', opacity: 0.6 }}>📷</span>
-                  <span style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.73rem' }}>
+                  <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem' }}>
                     {lang === 'en' ? 'Turn on camera for AI tracking ·' : 'הפעל מצלמה למעקב AI ·'}{' '}
                     {protocol.poseFeature === 'teepCounter' ? (lang === 'en' ? 'teep counter' : 'מונה טיפ') : (lang === 'en' ? 'head movement' : 'תנועת ראש')}
                   </span>
@@ -766,9 +766,9 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
                     <div style={{ color: '#a78bfa', fontSize: '1.9rem', fontWeight: 900, fontFamily: "'SF Mono','Fira Code',monospace", lineHeight: 1 }}>
                       {teepCount}
                     </div>
-                    <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', marginTop: 2 }}>{lang === 'en' ? 'teep' : 'טיפ'}</div>
+                    <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', marginTop: 2 }}>{lang === 'en' ? 'teep' : 'טיפ'}</div>
                   </div>
-                  <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.71rem', lineHeight: 1.5 }}>
+                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.71rem', lineHeight: 1.5 }}>
                     {lang === 'en' ? 'Teeps are counted automatically' : 'טיפ נספרים אוטומטית'}
                   </div>
                 </div>
@@ -793,7 +793,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
               <div style={{ fontSize: '3rem' }}>{protocol.emoji}</div>
               <div>
                 <h2 style={{ color: col, fontWeight: 900, fontSize: '1.3rem', margin: 0, textAlign: 'center' }}>{lang === 'en' ? 'Protocol complete!' : 'פרוטוקול הושלם!'}</h2>
-                <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.82rem', textAlign: 'center', marginTop: 4 }}>{lang === 'en' ? protocol.name : protocol.nameHe}</p>
+                <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem', textAlign: 'center', marginTop: 4 }}>{lang === 'en' ? protocol.name : protocol.nameHe}</p>
               </div>
 
               {/* XP earned */}
@@ -805,7 +805,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
                 <span style={{ fontSize: '1.5rem' }}>✨</span>
                 <div>
                   <div style={{ color: '#d4a843', fontWeight: 900, fontSize: '1.4rem', lineHeight: 1, fontFamily: "'SF Mono','Fira Code',monospace" }}>+{xpEarned} XP</div>
-                  <div style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.65rem', marginTop: 2 }}>{lang === 'en' ? 'Earned from ' : 'נצברו מ-'}{protocol.type === 'combos' ? (lang === 'en' ? `${protocol.combos.length} combinations` : `${protocol.combos.length} קומבינציות`) : (lang === 'en' ? `${protocol.rounds.length} rounds` : `${protocol.rounds.length} סיבובים`)}</div>
+                  <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.65rem', marginTop: 2 }}>{lang === 'en' ? 'Earned from ' : 'נצברו מ-'}{protocol.type === 'combos' ? (lang === 'en' ? `${protocol.combos.length} combinations` : `${protocol.combos.length} קומבינציות`) : (lang === 'en' ? `${protocol.rounds.length} rounds` : `${protocol.rounds.length} סיבובים`)}</div>
                 </div>
               </div>
 
@@ -821,7 +821,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
                     <div style={{ color: '#a78bfa', fontWeight: 900, fontSize: '1rem' }}>
                       {teepCount} {lang === 'en' ? 'teeps logged' : 'טיפ נרשמו'}
                     </div>
-                    <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.68rem', marginTop: 2 }}>
+                    <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', marginTop: 2 }}>
                       {lang === 'en' ? 'Saved to the daily summary' : 'נשמר בסיכום היומי'}
                     </div>
                   </div>
@@ -831,7 +831,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
               {/* Activity log */}
               {logs.length > 0 && (
                 <div style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '0.85rem' }}>
-                  <div style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>◈ SESSION LOG</div>
+                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>◈ SESSION LOG</div>
                   {logs.map((log, i) => (
                     <div key={i} style={{ color: 'rgba(52,211,153,0.7)', fontSize: '0.72rem', fontFamily: "'SF Mono','Fira Code',monospace", padding: '0.18rem 0' }}>
                       {log}
@@ -853,7 +853,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
           background: '#111111',
         }}>
           {phase === 'select' && (
-            <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.18)', fontSize: '0.7rem' }}>
+            <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem' }}>
               {lang === 'en' ? '50 XP per round · optional AI camera' : '50 XP לכל סיבוב · מצלמה AI אופציונלית'}
             </div>
           )}
@@ -867,7 +867,7 @@ export default function CombatProtocols({ onClose, onAwardXP, onOpenFreeSession 
             </button>
           )}
           {phase === 'active' && protocol?.type === 'combos' && (
-            <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.22)', fontSize: '0.72rem' }}>
+            <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem' }}>
               {lang === 'en' ? 'Tick each combination after completing its reps' : 'סמן כל קומבינציה לאחר השלמת {/* number */} החזרות'}
             </div>
           )}

@@ -62,9 +62,9 @@ const STEPS = [
 const S = {
   page:       { minHeight: '100vh', background: '#0e0e16', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' },
   card:       { width: '100%', maxWidth: 460, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '2rem 1.75rem' },
-  label:      { color: 'rgba(241,245,249,0.45)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '0.4rem' },
+  label:      { color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '0.4rem' },
   h2:         { color: '#f1f5f9', fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.4rem' },
-  sub:        { color: 'rgba(241,245,249,0.45)', fontSize: '0.875rem', marginBottom: '1.5rem' },
+  sub:        { color: 'rgba(241,245,249,0.6)', fontSize: '0.875rem', marginBottom: '1.5rem' },
   input:      { width: '100%', padding: '0.875rem 1rem', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#f1f5f9', fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box', marginBottom: '0.75rem', fontFamily: 'inherit' },
   textarea:   { width: '100%', padding: '0.875rem 1rem', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#f1f5f9', fontSize: '0.875rem', outline: 'none', boxSizing: 'border-box', resize: 'vertical', minHeight: 72, fontFamily: 'inherit' },
   timeInput:  { width: '100%', padding: '0.875rem 1rem', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#f1f5f9', fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box', marginBottom: '0.75rem', fontFamily: 'inherit', colorScheme: 'dark' },
@@ -82,7 +82,7 @@ function ProgressBar({ step, to }) {
       <div style={{ height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg,#e8b800,#facc15)', borderRadius: 99, transition: 'width 0.3s' }} />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.4rem', color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.4rem', color: 'rgba(255,255,255,0.6)', fontSize: '0.7rem' }}>
         <span>{label}</span>
         <span>{Math.round(pct)}%</span>
       </div>
@@ -107,7 +107,7 @@ function OptionGrid({ options, selected, onSelect }) {
           <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>{opt.emoji}</span>
           <div>
             <div style={{ color: selected === opt.id ? '#facc15' : '#f1f5f9', fontSize: '0.9rem', fontWeight: 700 }}>{opt.label}</div>
-            <div style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.75rem', marginTop: '0.1rem' }}>{opt.sub}</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', marginTop: '0.1rem' }}>{opt.sub}</div>
           </div>
           {selected === opt.id && <span style={{ marginInlineEnd: 'auto', color: '#facc15', fontSize: '1rem' }}>✓</span>}
         </button>
@@ -135,7 +135,7 @@ function TriggerStep({ num, value, onChange, to }) {
         <HabitScheduleFields value={value} onChange={onChange} />
       </div>
       <div>
-        <p style={S.label}>{to.note} <span style={{ color: 'rgba(241,245,249,0.25)', textTransform: 'none', letterSpacing: 0, fontSize: '0.7rem' }}>{to.optional}</span></p>
+        <p style={S.label}>{to.note} <span style={{ color: 'rgba(241,245,249,0.6)', textTransform: 'none', letterSpacing: 0, fontSize: '0.7rem' }}>{to.optional}</span></p>
         <textarea style={S.textarea} placeholder={to.notePh} value={value.note} onChange={e => onChange({ ...value, note: e.target.value })} />
       </div>
     </div>
@@ -339,7 +339,7 @@ export default function OnboardingFlow() {
             {aiLoading ? (
               <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
                 <div style={{ width: 32, height: 32, borderRadius: '50%', border: '3px solid rgba(99,102,241,0.2)', borderTopColor: '#6366f1', animation: 'spin 0.8s linear infinite', margin: '0 auto 0.75rem' }} />
-                <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.82rem' }}>מנתח את הפרופיל שלך…</p>
+                <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem' }}>מנתח את הפרופיל שלך…</p>
               </div>
             ) : pickedMeta && (
               <div style={{ animation: 'fadeIn 0.4s ease' }}>
@@ -362,7 +362,7 @@ export default function OnboardingFlow() {
                     { label: `⏱ ${timeAvail} min/day` },
                     { label: `🎯 ${to.goals[goal] || goal}` },
                   ].map(tag => (
-                    <span key={tag.label} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.2rem 0.6rem', color: 'rgba(241,245,249,0.45)', fontSize: '0.7rem', fontWeight: 600 }}>{tag.label}</span>
+                    <span key={tag.label} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.2rem 0.6rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', fontWeight: 600 }}>{tag.label}</span>
                   ))}
                 </div>
               </div>
@@ -430,7 +430,7 @@ export default function OnboardingFlow() {
                 <span style={{ fontSize: '1.3rem' }}>{pickedMeta.emoji}</span>
                 <div style={{ textAlign: 'end' }}>
                   <div style={{ color: '#f1f5f9', fontSize: '0.82rem', fontWeight: 700 }}>{pickedMeta.title}</div>
-                  <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.7rem' }}>המסלול המומלץ עבורך ✨</div>
+                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem' }}>המסלול המומלץ עבורך ✨</div>
                 </div>
               </div>
             )}

@@ -200,7 +200,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
             animation: pct >= 90 && running ? 'danger-pulse 0.8s ease infinite' : 'none',
             transition: 'font-size 0.3s ease, color 0.4s ease',
           }}>{mins}:{secs}</span>
-          <span style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700 }}>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', fontWeight: 700 }}>
             {finished ? tcar.logged : fmt(tcar.goal, { n: goal })}
           </span>
         </div>
@@ -232,7 +232,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
           <span style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', fontVariantNumeric: 'tabular-nums' }}>
             {distance.toFixed(2)}
           </span>
-          <span style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700 }}>{tcar.km}</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', fontWeight: 700 }}>{tcar.km}</span>
           {geoStatus === 'denied' && (
             <span style={{ color: 'rgba(239,68,68,0.6)', fontSize: '0.6rem' }}>{tcar.gpsBlocked}</span>
           )}
@@ -283,7 +283,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
             </div>
           ) : (
             <div style={{ marginBottom: '0.65rem' }}>
-              <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
                 {geoStatus === 'denied' ? tcar.distDenied : tcar.distOptional}
               </div>
               <input
@@ -319,7 +319,7 @@ function CardioWorkout({ track, goal, onComplete, onClose: _onClose }) {
             <button
               onClick={() => handleSave(true)}
               className="btn-tactile"
-              style={{ width: '100%', padding: '0.5rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.22)', fontSize: '0.7rem', cursor: 'pointer' }}
+              style={{ width: '100%', padding: '0.5rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', cursor: 'pointer' }}
             >
               {tcar.skipDistance}
             </button>
@@ -379,7 +379,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
         transition: 'transform 0.15s ease, color 0.15s ease',
         animation: reps > 0 && !repFlash ? 'rep-flash 0.28s ease-out' : 'none',
       }}>{reps}</div>
-      <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.58rem', fontWeight: 700, marginBottom: '0.3rem' }}>
+      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', fontWeight: 700, marginBottom: '0.3rem' }}>
         {fmt(tfu.goalLine, { goal: sessionGoal, future: futureGoal })}
       </div>
       <div style={{ width: '100%', height: 3, background: 'rgba(255,255,255,0.1)', borderRadius: 99, overflow: 'hidden' }}>
@@ -401,11 +401,11 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
     }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
-        <span style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.48rem', fontWeight: 800, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+        <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.48rem', fontWeight: 800, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
           {tfu.title}
         </span>
         <button onClick={() => { setExpanded(false); setEditing(false) }}
-          style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.35)', fontSize: '0.82rem', cursor: 'pointer', padding: '0.1rem 0.2rem', lineHeight: 1 }}>
+          style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem', cursor: 'pointer', padding: '0.1rem 0.2rem', lineHeight: 1 }}>
           ✕
         </button>
       </div>
@@ -415,12 +415,12 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
         {/* Now */}
         <div style={{ flex: 1, textAlign: 'center' }}>
           <div key={reps} style={{ color: '#F5C518', fontSize: '2.1rem', fontWeight: 900, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{reps}</div>
-          <div style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.56rem', fontWeight: 700, marginTop: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{tfu.now}</div>
+          <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.56rem', fontWeight: 700, marginTop: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{tfu.now}</div>
         </div>
 
         {/* Arrow + delta */}
         <div style={{ textAlign: 'center', flexShrink: 0, padding: '0 0.2rem' }}>
-          <div style={{ color: 'rgba(241,245,249,0.2)', fontSize: '1rem', lineHeight: 1 }}>→</div>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '1rem', lineHeight: 1 }}>→</div>
           <div style={{
             color: reached ? '#34d399' : '#f87171',
             fontSize: '0.58rem', fontWeight: 900, marginTop: '0.12rem',
@@ -456,7 +456,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
               <div style={{ color: reached ? '#34d399' : 'rgba(241,245,249,0.8)', fontSize: '2.1rem', fontWeight: 900, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{futureGoal}</div>
             </button>
           )}
-          <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.56rem', fontWeight: 700, marginTop: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.56rem', fontWeight: 700, marginTop: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
             {tfu.goal60}
           </div>
         </div>
@@ -465,9 +465,9 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
       {/* Progress bar */}
       <div style={{ marginBottom: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.22rem' }}>
-          <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.48rem', fontWeight: 700 }}>0</span>
-          <span style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.5rem', fontWeight: 800 }}>{fmt(tfu.pct, { n: pct })}</span>
-          <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.48rem', fontWeight: 700 }}>{futureGoal}</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.48rem', fontWeight: 700 }}>0</span>
+          <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.5rem', fontWeight: 800 }}>{fmt(tfu.pct, { n: pct })}</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.48rem', fontWeight: 700 }}>{futureGoal}</span>
         </div>
         <div style={{ height: 5, background: 'rgba(255,255,255,0.08)', borderRadius: 99, overflow: 'hidden' }}>
           <div style={{
@@ -481,8 +481,8 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
       {/* Vision snippet */}
       {visionProfile?.three_year_vision && (
         <div style={{ marginTop: '0.55rem', padding: '0.38rem 0.6rem', background: 'rgba(245,197,24,0.04)', borderRadius: 9, border: '1px solid rgba(245,197,24,0.1)' }}>
-          <div style={{ color: 'rgba(245,197,24,0.4)', fontSize: '0.46rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.12rem' }}>{tfu.vision}</div>
-          <div style={{ color: 'rgba(241,245,249,0.42)', fontSize: '0.58rem', lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+          <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.46rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.12rem' }}>{tfu.vision}</div>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
             {visionProfile.three_year_vision}
           </div>
         </div>
@@ -491,7 +491,7 @@ function FutureVsNowWidget({ reps, sessionGoal, trackId, visionProfile, repFlash
       {/* Edit hint */}
       {!editing && (
         <button onClick={() => { setEditing(true); setEditVal(String(futureGoal)) }}
-          style={{ display: 'block', margin: '0.4rem auto 0', background: 'none', border: 'none', color: 'rgba(241,245,249,0.18)', fontSize: '0.52rem', cursor: 'pointer', fontFamily: 'inherit' }}>
+          style={{ display: 'block', margin: '0.4rem auto 0', background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.52rem', cursor: 'pointer', fontFamily: 'inherit' }}>
           {fmt(tfu.editHint, { n: futureGoal })}
         </button>
       )}
@@ -552,7 +552,7 @@ function SetSummaryPanel({ track: _track, reps, goal, score, headline, tips, onS
         ].map(s => (
           <div key={s.label} style={{ flex: 1, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '0.65rem 0.5rem', textAlign: 'center' }}>
             <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.1rem' }}>{s.value}</div>
-            <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{s.label}</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -560,7 +560,7 @@ function SetSummaryPanel({ track: _track, reps, goal, score, headline, tips, onS
       {/* Tips */}
       {tips.length > 0 && (
         <div style={{ background: 'rgba(245,197,24,0.05)', border: '1px solid rgba(245,197,24,0.15)', borderRadius: 12, padding: '0.75rem 0.9rem', marginBottom: '1rem' }}>
-          <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>{ts.tipsTitle}</div>
+          <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>{ts.tipsTitle}</div>
           {tips.map((t, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', marginBottom: i < tips.length - 1 ? '0.35rem' : 0 }}>
               <span style={{ color: '#F5C518', fontSize: '0.7rem', flexShrink: 0, marginTop: '0.05rem' }}>›</span>
@@ -856,7 +856,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
   if (phase === 'loading') return (
     <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
       <div className="anim-spin" style={{ width: 36, height: 36, border: '3px solid rgba(245,197,24,0.2)', borderTopColor: '#F5C518', borderRadius: '50%', margin: '0 auto 1rem' }} />
-      <p style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.85rem' }}>{ts.loading}</p>
+      <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.85rem' }}>{ts.loading}</p>
     </div>
   )
 
@@ -874,7 +874,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
         <p style={{ color: '#f87171', fontSize: '0.82rem', fontWeight: 700, margin: '0 0 0.5rem' }}>
           {phase === 'error' ? ts.denied : ts.unavailable}
         </p>
-        <p style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem', margin: '0 0 0.75rem' }}>
+        <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', margin: '0 0 0.75rem' }}>
           {phase === 'error'
             ? ts.deniedSub
             : ts.unavailSub}
@@ -888,7 +888,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
         </button>
       </div>
 
-      <label style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.67rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
+      <label style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.67rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
         {ts.manual}
       </label>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -1057,7 +1057,7 @@ function StrengthWorkout({ track, goal, uid, userName, visionProfile, onComplete
         {/* Close camera — bottom right */}
         {!goalReached && (
           <button onClick={() => { cleanup(); onClose() }} className="btn-tactile"
-            style={{ position: 'absolute', bottom: 10, right: isSquat ? 22 : 10, background: 'rgba(5,5,5,0.72)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.25rem 0.7rem', backdropFilter: 'blur(6px)', color: 'rgba(241,245,249,0.55)', fontSize: '0.62rem', fontWeight: 700, cursor: 'pointer' }}>
+            style={{ position: 'absolute', bottom: 10, right: isSquat ? 22 : 10, background: 'rgba(5,5,5,0.72)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.25rem 0.7rem', backdropFilter: 'blur(6px)', color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', fontWeight: 700, cursor: 'pointer' }}>
             {ts.closeCam}
           </button>
         )}
@@ -1105,10 +1105,10 @@ export default function ActiveWorkout({ track, goal, uid, userName, visionProfil
             <span style={{ fontSize: '1.3rem' }}>{track.emoji}</span>
             <div>
               <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.97rem' }}>{label.name}</div>
-              <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.7rem', fontWeight: 700 }}>{fmt(tr.workouts.goalUnit, { n: goal, unit: label.unit })}</div>
+              <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.7rem', fontWeight: 700 }}>{fmt(tr.workouts.goalUnit, { n: goal, unit: label.unit })}</div>
             </div>
           </div>
-          <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(241,245,249,0.5)', padding: '0.3rem 0.8rem', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 700, minHeight: 44 }}>✕</button>
+          <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', padding: '0.3rem 0.8rem', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 700, minHeight: 44 }}>✕</button>
         </div>
 
         {!track.useCamera

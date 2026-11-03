@@ -18,7 +18,7 @@ function InviteCodeBox({ inviteCode }) {
   }
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.55rem 0.75rem', background: 'rgba(245,197,24,0.06)', border: '1px solid rgba(245,197,24,0.2)', borderRadius: 12 }}>
-      <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.62rem', fontWeight: 700, flexShrink: 0 }}>קוד הזמנה:</span>
+      <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', fontWeight: 700, flexShrink: 0 }}>קוד הזמנה:</span>
       <span style={{ color: '#F5C518', fontFamily: "'SF Mono','Fira Code',monospace", fontSize: '0.88rem', fontWeight: 900, letterSpacing: '0.15em', flex: 1 }}>{inviteCode}</span>
       <button
         onClick={copy}
@@ -84,7 +84,7 @@ function SquadSetup({ uid, userName, onJoined }) {
           {isCreate ? '+ צור סקווד' : 'הצטרף לסקווד'}
         </span>
         <button onClick={() => { setMode(null); setInput(''); setError(null) }} className="btn-tactile"
-          style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.35)', cursor: 'pointer', fontSize: '0.8rem' }}>✕</button>
+          style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', cursor: 'pointer', fontSize: '0.8rem' }}>✕</button>
       </div>
       <input
         autoFocus
@@ -161,7 +161,7 @@ export default function SquadLeaderboard({ uid, userName }) {
 
   // ── Still loading ──
   if (squad === undefined) return (
-    <div style={{ padding: '1.25rem', textAlign: 'center', color: 'rgba(241,245,249,0.3)', fontSize: '0.76rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+    <div style={{ padding: '1.25rem', textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.76rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
       <div style={{ width: 12, height: 12, borderRadius: '50%', border: '2px solid rgba(245,197,24,0.2)', borderTopColor: '#F5C518', animation: 'spin 0.8s linear infinite', flexShrink: 0 }} />
       טוען את הסקווד…
     </div>
@@ -173,7 +173,7 @@ export default function SquadLeaderboard({ uid, userName }) {
       <div style={{ background: 'linear-gradient(145deg, rgba(245,197,24,0.08), rgba(245,197,24,0.03))', border: '1px solid rgba(245,197,24,0.22)', borderRadius: 18, padding: '1.5rem 1.25rem 1.25rem', marginBottom: '0.75rem', textAlign: 'center' }}>
         <div style={{ fontSize: '2.5rem', marginBottom: '0.6rem' }}>🏆</div>
         <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', marginBottom: '0.35rem' }}>הצטרף לזירה — התחרה בחברים</div>
-        <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.74rem', lineHeight: 1.6, marginBottom: '1.1rem' }}>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.74rem', lineHeight: 1.6, marginBottom: '1.1rem' }}>
           הדרך הכי חזקה להישאר על המסלול — צוות שרואה אותך.
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1.1rem', textAlign: 'right' }}>
@@ -190,7 +190,7 @@ export default function SquadLeaderboard({ uid, userName }) {
         </div>
       </div>
       <div style={{ background: 'rgba(245,197,24,0.04)', border: '1px solid rgba(245,197,24,0.15)', borderRadius: 16, padding: '1.1rem 1.15rem' }}>
-        <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.52rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.75rem' }}>◈ צור או הצטרף לסקווד</div>
+        <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.52rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.75rem' }}>◈ צור או הצטרף לסקווד</div>
         <SquadSetup uid={uid} userName={userName} onJoined={loadSquad} />
       </div>
     </div>
@@ -199,14 +199,14 @@ export default function SquadLeaderboard({ uid, userName }) {
   // ── Solo squad: invite friend ──
   if (!loading && entries.length <= 1) return (
     <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '1.15rem', marginBottom: '1.1rem' }}>
-      <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.52rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.85rem' }}>
+      <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.52rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.85rem' }}>
         ◈ סקווד · {squad.name}
       </div>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.9rem', marginBottom: '1rem' }}>
         <div style={{ fontSize: '1.6rem', flexShrink: 0, marginTop: '0.1rem' }}>🔒</div>
         <div>
           <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.88rem', marginBottom: '0.25rem' }}>הלוח נעול — אין עדיין מתחרה</div>
-          <div style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.73rem', lineHeight: 1.6 }}>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem', lineHeight: 1.6 }}>
             שתף את קוד ההזמנה עם חבר כדי לפתוח את לוח השיאים השבועי ולהתחיל להתחרות.
           </div>
         </div>
@@ -224,7 +224,7 @@ export default function SquadLeaderboard({ uid, userName }) {
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
           <div>
-            <div style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+            <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
               ◈ סקווד · {squad.name}
             </div>
             <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '0.92rem', marginTop: '0.1rem' }}>
@@ -235,7 +235,7 @@ export default function SquadLeaderboard({ uid, userName }) {
             {myRank > 0 && (
               <div style={{ background: 'rgba(245,197,24,0.1)', border: '1px solid rgba(245,197,24,0.25)', borderRadius: 10, padding: '0.3rem 0.6rem', textAlign: 'center' }}>
                 <div style={{ color: '#F5C518', fontSize: '0.95rem', fontWeight: 900, lineHeight: 1 }}>#{myRank}</div>
-                <div style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.48rem', fontWeight: 700 }}>דירוג</div>
+                <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.48rem', fontWeight: 700 }}>דירוג</div>
               </div>
             )}
             <button onClick={loadSquad} className="btn-tactile"
@@ -250,7 +250,7 @@ export default function SquadLeaderboard({ uid, userName }) {
         </div>
 
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '1rem', color: 'rgba(241,245,249,0.3)', fontSize: '0.78rem' }}>טוען...</div>
+          <div style={{ textAlign: 'center', padding: '1rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem' }}>טוען...</div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {entries.map((entry, i) => {
@@ -268,7 +268,7 @@ export default function SquadLeaderboard({ uid, userName }) {
                   <div style={{ width: 24, textAlign: 'center', flexShrink: 0 }}>
                     {medal
                       ? <span style={{ fontSize: '1rem' }}>{medal}</span>
-                      : <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.72rem', fontWeight: 700 }}>#{rank}</span>
+                      : <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', fontWeight: 700 }}>#{rank}</span>
                     }
                   </div>
                   <div style={{ width: 30, height: 30, borderRadius: '50%', background: isMe ? 'rgba(245,197,24,0.2)' : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -281,14 +281,14 @@ export default function SquadLeaderboard({ uid, userName }) {
                       {entry.name}{isMe && ' (אתה)'}
                     </div>
                     {Object.keys(entry.byExercise).length > 0 && (
-                      <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.6rem', marginTop: '0.1rem' }}>
+                      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', marginTop: '0.1rem' }}>
                         {Object.entries(entry.byExercise).map(([k, v]) => `${k} ${v}`).join(' · ')}
                       </div>
                     )}
                   </div>
                   <div style={{ textAlign: 'center', flexShrink: 0 }}>
                     <div style={{ color: isMe ? '#F5C518' : '#f1f5f9', fontWeight: 900, fontSize: '1rem', lineHeight: 1 }}>{entry.reps}</div>
-                    <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.5rem', fontWeight: 700 }}>חזרות</div>
+                    <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.5rem', fontWeight: 700 }}>חזרות</div>
                   </div>
                   {!isMe && (
                     <button

@@ -25,7 +25,7 @@ export default function MirrorCard({ gapDays, message, onRespond }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.85rem' }}>
         <span style={{ fontSize: '1rem' }}>🪞</span>
         <div>
-          <div style={{ color: 'rgba(232,232,232,0.4)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+          <div style={{ color: 'rgba(232,232,232,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
             ◈ MIRROR · {gapDays} ימים ללא התקדמות
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function MirrorCard({ gapDays, message, onRespond }) {
         <button
           onClick={() => respond('not_now')}
           className="btn-tactile"
-          style={{ flex: 1, padding: '0.85rem', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(241,245,249,0.35)', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer' }}
+          style={{ flex: 1, padding: '0.85rem', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer' }}
         >
           לא עכשיו
         </button>

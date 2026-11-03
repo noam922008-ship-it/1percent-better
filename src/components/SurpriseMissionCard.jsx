@@ -130,7 +130,7 @@ export default function SurpriseMissionCard({ enabledCategories, isGuest, onAwar
       <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '0.9rem 1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 700, marginBottom: '0.15rem' }}>🎲 בא לך לצאת מהשגרה?</div>
-          <div style={{ color: '#71717A', fontSize: '0.7rem' }}>משימת הפתעה — {XP.SURPRISE_MISSION} XP בונוס</div>
+          <div style={{ color: '#8A8A93', fontSize: '0.7rem' }}>משימת הפתעה — {XP.SURPRISE_MISSION} XP בונוס</div>
         </div>
         <button onClick={handleReveal} className="btn-tactile" style={{ background: '#17191E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: '#A4A6AD', fontSize: '0.8rem', fontWeight: 800, padding: '0.5rem 0.9rem', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: 40, flexShrink: 0 }}>
           גלה משימה ←
@@ -150,9 +150,9 @@ export default function SurpriseMissionCard({ enabledCategories, isGuest, onAwar
           <div style={{ width: 36, height: 36, borderRadius: 10, flexShrink: 0, background: 'rgba(63,175,122,0.1)', border: '1px solid rgba(63,175,122,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>🎲</div>
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.3rem' }}>
-              <span style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>משימת הפתעה — הושלמה</span>
+              <span style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>משימת הפתעה — הושלמה</span>
               {categoryLabel && (
-                <span style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 600, background: 'rgba(255,255,255,0.04)', borderRadius: 4, padding: '0.05rem 0.35rem' }}>{categoryLabel}</span>
+                <span style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 600, background: 'rgba(255,255,255,0.04)', borderRadius: 4, padding: '0.05rem 0.35rem' }}>{categoryLabel}</span>
               )}
             </div>
             <div style={{ color: '#A4A6AD', fontSize: '0.82rem', lineHeight: 1.45, textDecoration: 'line-through', textDecorationColor: 'rgba(255,255,255,0.15)' }}>{state.missionText}</div>
@@ -190,7 +190,7 @@ export default function SurpriseMissionCard({ enabledCategories, isGuest, onAwar
                   flex: 1, padding: '0.6rem', borderRadius: 9,
                   border: `1px solid ${moreLikeDone ? 'rgba(63,175,122,0.25)' : 'rgba(255,255,255,0.07)'}`,
                   background: 'transparent',
-                  color: moreLikeDone ? '#3FAF7A' : '#71717A',
+                  color: moreLikeDone ? '#3FAF7A' : '#8A8A93',
                   fontSize: '0.78rem', fontWeight: 700,
                   cursor: moreLikeDone ? 'default' : 'pointer',
                   opacity: moreLikeDone ? 0.6 : 1,
@@ -212,7 +212,7 @@ export default function SurpriseMissionCard({ enabledCategories, isGuest, onAwar
               </div>
             )}
             {habitConvertResult?.error === 'duplicate' && (
-              <div style={{ color: '#71717A', fontSize: '0.72rem', fontWeight: 600 }}>
+              <div style={{ color: '#8A8A93', fontSize: '0.72rem', fontWeight: 600 }}>
                 ההרגל הזה כבר קיים אצלך
               </div>
             )}
@@ -240,9 +240,9 @@ export default function SurpriseMissionCard({ enabledCategories, isGuest, onAwar
     <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '1rem 1.1rem', animation: animating ? 'slide-up 0.3s ease both' : 'none' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          <span style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>🎲 משימת הפתעה</span>
+          <span style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>🎲 משימת הפתעה</span>
           {activeCategoryLabel && (
-            <span style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 600, background: 'rgba(255,255,255,0.05)', borderRadius: 4, padding: '0.05rem 0.35rem' }}>{activeCategoryLabel}</span>
+            <span style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 600, background: 'rgba(255,255,255,0.05)', borderRadius: 4, padding: '0.05rem 0.35rem' }}>{activeCategoryLabel}</span>
           )}
         </div>
         <span style={{ color: '#D9B34C', fontSize: '0.65rem', fontWeight: 800 }}>+{XP.SURPRISE_MISSION} XP</span>
@@ -258,11 +258,11 @@ export default function SurpriseMissionCard({ enabledCategories, isGuest, onAwar
 
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         {!state?.replacementUsed && (
-          <button onClick={handleReplace} className="btn-tactile" style={{ flex: 1, padding: '0.65rem', borderRadius: 9, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#71717A', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', minHeight: 40 }}>
+          <button onClick={handleReplace} className="btn-tactile" style={{ flex: 1, padding: '0.65rem', borderRadius: 9, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#8A8A93', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', minHeight: 40 }}>
             🔀 החלף (פעם אחת)
           </button>
         )}
-        <button onClick={handleSkip} style={{ flex: 1, padding: '0.65rem', borderRadius: 9, border: '1px solid rgba(255,255,255,0.06)', background: 'transparent', color: '#71717A', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', minHeight: 40 }}>
+        <button onClick={handleSkip} style={{ flex: 1, padding: '0.65rem', borderRadius: 9, border: '1px solid rgba(255,255,255,0.06)', background: 'transparent', color: '#8A8A93', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', minHeight: 40 }}>
           פעם אחרת
         </button>
       </div>

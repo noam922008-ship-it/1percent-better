@@ -52,7 +52,7 @@ export default function WeeklySpark({ completedDays = 0 }) {
         <span style={{ fontSize: '0.95rem' }}>✨</span>
         <div style={{ flex: 1 }}>
           <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.76rem', fontWeight: 800 }}>Weekly Spark</span>
-          <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.68rem' }}> · תובנת שבוע</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem' }}> · תובנת שבוע</span>
         </div>
         {tagCounts.length > 0 && (
           <div style={{ display: 'flex', gap: '0.25rem' }}>
@@ -63,7 +63,7 @@ export default function WeeklySpark({ completedDays = 0 }) {
             ))}
           </div>
         )}
-        <span style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.72rem', flexShrink: 0 }}>{open ? '▲' : '▾'}</span>
+        <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', flexShrink: 0 }}>{open ? '▲' : '▾'}</span>
       </button>
 
       {/* Expanded content */}
@@ -76,7 +76,7 @@ export default function WeeklySpark({ completedDays = 0 }) {
               {tagCounts.map(t => (
                 <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: `${t.color}10`, border: `1px solid ${t.color}28`, borderRadius: 20, padding: '0.2rem 0.65rem' }}>
                   <span style={{ color: t.color, fontSize: '0.72rem', fontWeight: 800 }}>{t.label}</span>
-                  <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem' }}>×{t.count}</span>
+                  <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>×{t.count}</span>
                 </div>
               ))}
             </div>
@@ -87,8 +87,8 @@ export default function WeeklySpark({ completedDays = 0 }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.65rem 0' }}>
               <div style={{ width: 14, height: 14, borderRadius: '50%', border: '2px solid rgba(245,197,24,0.2)', borderTopColor: '#F5C518', animation: 'spin 0.8s linear infinite', flexShrink: 0 }} />
               <div>
-                <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.76rem', display: 'block' }}>מנתח את השבוע שלך…</span>
-                <span style={{ color: 'rgba(241,245,249,0.15)', fontSize: '0.63rem' }}>עד 30 שניות</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.76rem', display: 'block' }}>מנתח את השבוע שלך…</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.63rem' }}>עד 30 שניות</span>
               </div>
             </div>
           ) : spark ? (
@@ -98,13 +98,13 @@ export default function WeeklySpark({ completedDays = 0 }) {
               </p>
               <button
                 onClick={handleRefresh}
-                style={{ background: 'none', border: 'none', color: 'rgba(245,197,24,0.38)', fontSize: '0.64rem', cursor: 'pointer', padding: 0, fontFamily: "'SF Mono','Fira Code',monospace", letterSpacing: '0.05em' }}
+                style={{ background: 'none', border: 'none', color: 'rgba(245,197,24,0.8)', fontSize: '0.64rem', cursor: 'pointer', padding: 0, fontFamily: "'SF Mono','Fira Code',monospace", letterSpacing: '0.05em' }}
               >
                 ↻ רענן
               </button>
             </div>
           ) : (
-            <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.28)', fontSize: '0.76rem', padding: '0.5rem 0' }}>
+            <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.76rem', padding: '0.5rem 0' }}>
               לוג אנרגיה אחד לפחות יפעיל את ה-Spark
             </div>
           )}

@@ -2190,7 +2190,7 @@ textarea { min-height: 110px; resize: vertical; }
 }
 .theme-dot:hover { opacity: 1; transform: scale(1.15); }
 .theme-dot.active { border-color: #fff; opacity: 1; transform: scale(1.15); }
-.theme-dot.t-dark  { background: #07111f; border-color: rgba(255,255,255,.2); }
+.theme-dot.t-dark  { background: #07111f; border-color: rgba(255,255,255,0.55); }
 .theme-dot.t-gold  { background: linear-gradient(135deg, #b8860b, #d4af37); }
 .theme-dot.t-light { background: linear-gradient(135deg, #e8eaf0, #ffffff); }
 
@@ -2926,7 +2926,7 @@ textarea { min-height: 110px; resize: vertical; }
   color: #6b88a8; padding: 7px 14px; border-radius: 9px; font-size: 13px;
   cursor: pointer; font-family: inherit; transition: all .15s;
 }
-.ai-back-btn:hover { color: #e8edf4; border-color: rgba(255,255,255,.2); }
+.ai-back-btn:hover { color: #e8edf4; border-color: rgba(255,255,255,0.55); }
 .ai-badge-new {
   background: rgba(212,175,55,.15); border: 1px solid rgba(212,175,55,.3);
   color: #d4af37; font-size: 9px; font-weight: 800; padding: 2px 6px;
@@ -5017,7 +5017,7 @@ button:focus-visible {
   transition: background .15s, border-color .15s;
   margin-bottom: 0;
 }
-.btn-google:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); }
+.btn-google:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,0.55); }
 .google-icon {
   width: 20px; height: 20px;
   background: linear-gradient(135deg, #4285F4 25%, #EA4335 25%, #EA4335 50%, #FBBC05 50%, #FBBC05 75%, #34A853 75%);
@@ -5126,7 +5126,7 @@ button:focus-visible {
   border-radius: 8px;
   transition: all .15s;
 }
-.home-nav-ghost:hover { color: #e8edf4; border-color: rgba(255,255,255,.2); }
+.home-nav-ghost:hover { color: #e8edf4; border-color: rgba(255,255,255,0.55); }
 .home-cta-pill {
   background: linear-gradient(135deg, #d4af37, #f0cc55);
   color: #060d1a;

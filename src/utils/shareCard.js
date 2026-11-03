@@ -6,7 +6,7 @@ export const CARD_W = 1080
 export const CARD_H = 1920
 export const APP_URL = 'prime-daily.app'
 
-const C = { bg: '#09090b', panel: '#111317', text: '#F4F1E8', muted: '#A4A6AD', faint: '#71717A', gold: '#D9B34C', ok: '#3FAF7A' }
+const C = { bg: '#09090b', panel: '#111317', text: '#F4F1E8', muted: '#A4A6AD', faint: '#8A8A93', gold: '#D9B34C', ok: '#3FAF7A' }
 const FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", Heebo, Arial, sans-serif'
 
 /** The texts on the card, picked from copy (t.share) — pure, so it can be tested. */

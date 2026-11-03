@@ -36,7 +36,7 @@ export default function FirstWelcome({ onStart, onSkip }) {
           onClick={onSkip}
           style={{
             display: 'block', margin: '0.75rem auto 0', minHeight: 44, padding: '0 1rem',
-            background: 'none', border: 'none', color: '#71717A', fontSize: '0.85rem', fontWeight: 600,
+            background: 'none', border: 'none', color: '#8A8A93', fontSize: '0.85rem', fontWeight: 600,
             fontFamily: 'inherit', cursor: 'pointer',
           }}
         >{s.skip}</button>

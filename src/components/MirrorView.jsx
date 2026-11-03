@@ -154,7 +154,7 @@ export default function MirrorView({ stats, accentColor, onClose, initialPos, on
         <button
           onPointerDown={e => e.stopPropagation()}
           onClick={onClose}
-          style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.4)', fontSize: '0.75rem', cursor: 'pointer', padding: '0.1rem 0.25rem', lineHeight: 1 }}
+          style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', cursor: 'pointer', padding: '0.1rem 0.25rem', lineHeight: 1 }}
         >✕</button>
       </div>
 
@@ -171,7 +171,7 @@ export default function MirrorView({ stats, accentColor, onClose, initialPos, on
           {camError && (
             <div style={{ textAlign: 'center', padding: '0.4rem', zIndex: 2, position: 'relative' }}>
               <div style={{ fontSize: '1.1rem', marginBottom: '0.2rem' }}>📷</div>
-              <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.55rem', lineHeight: 1.4 }}>אין גישה למצלמה</div>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', lineHeight: 1.4 }}>אין גישה למצלמה</div>
             </div>
           )}
           <video
@@ -213,7 +213,7 @@ export default function MirrorView({ stats, accentColor, onClose, initialPos, on
           { label: 'עוצמה', val: stats.power },
         ].map(({ label, val }) => (
           <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.52rem', width: 28, textAlign: 'right', flexShrink: 0 }}>{label}</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.52rem', width: 28, textAlign: 'right', flexShrink: 0 }}>{label}</span>
             <div style={{ flex: 1, height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.07)', overflow: 'hidden' }}>
               <div style={{ height: '100%', width: `${val}%`, background: statColor(val), borderRadius: 99, transition: 'width 1s ease, background 0.8s ease' }} />
             </div>

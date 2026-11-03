@@ -17,7 +17,7 @@ const S = {
   sub: { color: 'rgba(241,245,249,0.6)', fontSize: '0.9rem', marginBottom: '2rem' },
   btn: { width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', padding: '0.95rem 1.5rem', borderRadius: 14, border: 'none', background: 'linear-gradient(135deg,#c49020,#d4a843)', color: '#111', fontSize: '0.95rem', fontWeight: 900, cursor: 'pointer', marginTop: '2rem', boxShadow: '0 2px 8px rgba(0,0,0,0.4)', transition: 'transform 0.12s' },
   err: { color: '#f87171', fontSize: '0.8rem', marginTop: '0.75rem' },
-  legal: { color: 'rgba(255,255,255,0.35)', fontSize: '0.72rem', marginTop: '1.5rem', lineHeight: 1.5 },
+  legal: { color: 'rgba(255,255,255,0.6)', fontSize: '0.72rem', marginTop: '1.5rem', lineHeight: 1.5 },
 }
 
 function emailAuthError(code, errors) {
@@ -168,7 +168,7 @@ export default function WelcomeScreen() {
             {openOut && (
               <a href={openOut} style={{ display: 'block', marginTop: '0.65rem', textAlign: 'center', padding: '0.7rem', borderRadius: 11, background: '#D9B34C', color: '#111', fontWeight: 900, fontSize: '0.88rem', textDecoration: 'none' }}>{t.welcome.inApp.open}</a>
             )}
-            <div style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.74rem', marginTop: '0.5rem' }}>{t.welcome.inApp.manual}</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.74rem', marginTop: '0.5rem' }}>{t.welcome.inApp.manual}</div>
           </div>
         )}
 
@@ -231,7 +231,7 @@ export default function WelcomeScreen() {
         {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '1rem 0 0.5rem' }}>
           <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
-          <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.75rem' }}>{t.welcome.or}</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem' }}>{t.welcome.or}</span>
           <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
         </div>
 
@@ -239,7 +239,7 @@ export default function WelcomeScreen() {
         {!emailMode ? (
           <button
             onClick={() => setEmailMode(true)}
-            style={{ ...S.btn, marginTop: '0.25rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.09)', color: 'rgba(241,245,249,0.45)', fontSize: '0.85rem' }}
+            style={{ ...S.btn, marginTop: '0.25rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.09)', color: 'rgba(241,245,249,0.6)', fontSize: '0.85rem' }}
             onMouseEnter={e => { e.currentTarget.style.color = 'rgba(241,245,249,0.7)' }}
             onMouseLeave={e => { e.currentTarget.style.color = 'rgba(241,245,249,0.45)' }}
           >
@@ -284,11 +284,11 @@ export default function WelcomeScreen() {
               >
                 {isSignUp ? t.welcome.haveAccount : t.welcome.noAccount}
               </button>
-              <span style={{ color: 'rgba(255,255,255,0.18)', fontSize: '0.78rem' }}>·</span>
+              <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem' }}>·</span>
               <button
                 type="button"
                 onClick={() => { setEmailMode(false); setEmailError(''); setEmailVal(''); setPwVal('') }}
-                style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.25)', fontSize: '0.78rem', cursor: 'pointer', padding: 0 }}
+                style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', cursor: 'pointer', padding: 0 }}
               >
                 {t.welcome.cancel}
               </button>
@@ -300,7 +300,7 @@ export default function WelcomeScreen() {
         <button
           onClick={handleGuest}
           disabled={loading}
-          style={{ ...S.btn, marginTop: '0.65rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(241,245,249,0.38)', fontSize: '0.83rem', opacity: loading ? 0.4 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
+          style={{ ...S.btn, marginTop: '0.65rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(241,245,249,0.6)', fontSize: '0.83rem', opacity: loading ? 0.4 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
           onMouseEnter={e => { if (!loading) e.currentTarget.style.color = 'rgba(241,245,249,0.6)' }}
           onMouseLeave={e => { e.currentTarget.style.color = 'rgba(241,245,249,0.38)' }}
         >

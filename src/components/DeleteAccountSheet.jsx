@@ -6,7 +6,7 @@ import { useLang } from '../context/LangContext'
 // Only if Firebase answers auth/requires-recent-login do we ask the user to sign in again
 // (password, or Google) and then finish deleting the account.
 
-const C = { bg: '#18181b', text: '#F4F1E8', muted: '#A4A6AD', faint: '#71717A', danger: '#E5484D', border: 'rgba(255,255,255,0.1)' }
+const C = { bg: '#18181b', text: '#F4F1E8', muted: '#A4A6AD', faint: '#8A8A93', danger: '#E5484D', border: 'rgba(255,255,255,0.1)' }
 
 const field = {
   width: '100%', boxSizing: 'border-box', minHeight: 48, padding: '0.7rem 0.9rem', borderRadius: 12,

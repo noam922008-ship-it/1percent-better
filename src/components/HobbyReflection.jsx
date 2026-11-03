@@ -4,7 +4,7 @@ import { getHobbyDay } from '../data/hobbyDiscovery'
 const RESPONSES = [
   { id: 'loved', label: 'רוצה להמשיך!', emoji: '🔥', color: '#10b981' },
   { id: 'ok',    label: 'היה נחמד',     emoji: '👍', color: '#D9B34C' },
-  { id: 'nope',  label: 'לא בשבילי',   emoji: '👋', color: '#71717A' },
+  { id: 'nope',  label: 'לא בשבילי',   emoji: '👋', color: '#8A8A93' },
 ]
 
 export default function HobbyReflection({ dayNum, onSave, onClose }) {
@@ -28,7 +28,7 @@ export default function HobbyReflection({ dayNum, onSave, onClose }) {
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.1rem' }}>
           <div>
-            <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.3rem' }}>
+            <div style={{ color: '#8A8A93', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.3rem' }}>
               {hobbyDay?.emoji} יום {dayNum} — {hobbyDay?.hobbyLabel}
             </div>
             <div style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '1rem' }}>איך היה?</div>
@@ -64,7 +64,7 @@ export default function HobbyReflection({ dayNum, onSave, onClose }) {
         {!showNote ? (
           <button
             onClick={() => setShowNote(true)}
-            style={{ background: 'none', border: 'none', color: '#71717A', fontSize: '0.75rem', cursor: 'pointer', padding: '0.25rem 0', marginBottom: '0.75rem' }}
+            style={{ background: 'none', border: 'none', color: '#8A8A93', fontSize: '0.75rem', cursor: 'pointer', padding: '0.25rem 0', marginBottom: '0.75rem' }}
           >
             + הוסף הערה קצרה (לעצמך בלבד)
           </button>

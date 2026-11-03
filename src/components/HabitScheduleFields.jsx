@@ -5,7 +5,7 @@ import { useLang } from '../context/LangContext'
 // value: { weekly: bool, times: 1..6, days: [0..6], time: 'HH:MM' | '' }
 
 const C = {
-  text: '#F4F1E8', muted: '#A4A6AD', faint: '#71717A',
+  text: '#F4F1E8', muted: '#A4A6AD', faint: '#8A8A93',
   gold: '#D9B34C', goldSoft: 'rgba(217,179,76,0.08)', goldBorder: 'rgba(217,179,76,0.4)',
   border: 'rgba(255,255,255,0.08)', field: 'rgba(255,255,255,0.05)',
 }

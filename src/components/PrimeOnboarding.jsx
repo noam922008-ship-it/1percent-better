@@ -22,25 +22,25 @@ function Slide1() {
         marginBottom: '1.75rem',
         animation: 'fadeIn 0.6s ease both',
       }}>
-        <div style={{ color: 'rgba(245,197,24,0.35)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.16em', marginBottom: '0.75rem' }}>החשבון</div>
+        <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.16em', marginBottom: '0.75rem' }}>החשבון</div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
           <div style={{ textAlign: 'center' }}>
             <div style={{ color: '#F5C518', fontSize: '2.2rem', fontWeight: 900, lineHeight: 1 }}>1.01</div>
-            <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.7rem', fontWeight: 700 }}>כל יום</div>
+            <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.7rem', fontWeight: 700 }}>כל יום</div>
           </div>
-          <div style={{ color: 'rgba(241,245,249,0.25)', fontSize: '1.5rem', fontWeight: 300 }}>→</div>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '1.5rem', fontWeight: 300 }}>→</div>
           <div style={{ textAlign: 'center' }}>
             <div style={{ color: '#F5C518', fontSize: '2.2rem', fontWeight: 900, lineHeight: 1 }}>37×</div>
-            <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.7rem', fontWeight: 700 }}>בסוף השנה</div>
+            <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.7rem', fontWeight: 700 }}>בסוף השנה</div>
           </div>
         </div>
-        <div style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.6rem', marginTop: '0.55rem' }}>1.01³⁶⁵ = 37.78</div>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', marginTop: '0.55rem' }}>1.01³⁶⁵ = 37.78</div>
       </div>
 
       <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.3rem', lineHeight: 1.35, marginBottom: '0.85rem', letterSpacing: '-0.01em' }}>
         1% טוב יותר. כל יום.
       </h2>
-      <p style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.9rem', lineHeight: 1.7, margin: 0 }}>
+      <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.9rem', lineHeight: 1.7, margin: 0 }}>
         לא מוטיבציה. לא השראה.<br/>
         רק ההשפעה המצטברת של עקביות יומיומית.
       </p>
@@ -111,7 +111,7 @@ function Slide2() {
           borderRadius: 8, padding: '3px 8px',
         }}>
           <span style={{ color: '#F5C518', fontSize: '1rem', fontWeight: 900, fontFamily: 'monospace' }}>12</span>
-          <span style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.55rem', marginRight: '2px' }}>חז'</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', marginRight: '2px' }}>חז'</span>
         </div>
 
         {/* AI badge */}
@@ -128,7 +128,7 @@ function Slide2() {
       <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.3rem', lineHeight: 1.35, marginBottom: '0.85rem', letterSpacing: '-0.01em' }}>
         המצלמה סופרת במקומך
       </h2>
-      <p style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.9rem', lineHeight: 1.7, margin: '0 0 1rem' }}>
+      <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.9rem', lineHeight: 1.7, margin: '0 0 1rem' }}>
         AI מזהה את הטופס שלך בזמן אמת — אף חזרה לא תיפול בין הסדקים.
         כשתתחיל אימון כוח, <strong style={{ color: '#f1f5f9' }}>אפשר גישה למצלמה</strong> כשמתבקש.
       </p>
@@ -167,7 +167,7 @@ function Slide3() {
           }}>
             <span style={{ fontSize: '1.5rem', marginBottom: '0.3rem' }}>{t.emoji}</span>
             <span style={{ color: '#f1f5f9', fontSize: '0.72rem', fontWeight: 800 }}>{t.name}</span>
-            <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.6rem', marginTop: '0.15rem' }}>{t.goal}</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', marginTop: '0.15rem' }}>{t.goal}</span>
           </div>
         ))}
         {/* Blocked third slot */}
@@ -188,7 +188,7 @@ function Slide3() {
       <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.3rem', lineHeight: 1.35, marginBottom: '0.85rem', letterSpacing: '-0.01em' }}>
         פוקוס, לא פיזור
       </h2>
-      <p style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.9rem', lineHeight: 1.7, margin: '0 0 1rem' }}>
+      <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.9rem', lineHeight: 1.7, margin: '0 0 1rem' }}>
         מקסימום <strong style={{ color: '#F5C518' }}>2 מסלולי אימון פעילים</strong> בו זמנית.
         ספורטאי אליטה לא מפזרים — הם מחויבים לבחירות שלהם.
       </p>
@@ -197,7 +197,7 @@ function Slide3() {
         background: 'rgba(245,197,24,0.07)',
         border: '1px solid rgba(245,197,24,0.18)',
         borderRadius: 10,
-        color: 'rgba(245,197,24,0.75)',
+        color: 'rgba(245,197,24,0.8)',
         fontSize: '0.72rem',
         fontWeight: 600,
         fontFamily: "'SF Mono','Fira Code',monospace",
@@ -304,7 +304,7 @@ export default function PrimeOnboarding({ onDone }) {
           style={{
             marginTop: '1rem',
             background: 'none', border: 'none', cursor: 'pointer',
-            color: 'rgba(241,245,249,0.2)', fontSize: '0.72rem', fontWeight: 600,
+            color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', fontWeight: 600,
           }}
         >
           דלג

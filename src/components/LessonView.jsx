@@ -9,7 +9,7 @@ function LoadingSkeleton() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', paddingTop: '1rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <div className="anim-spin" style={{ width: 20, height: 20, border: '2px solid rgba(245,197,24,0.15)', borderTopColor: '#F5C518', borderRadius: '50%', flexShrink: 0 }} />
-        <span style={{ color: 'rgba(245,197,24,0.65)', fontSize: '0.85rem', fontWeight: 600 }}>טוען שיעור...</span>
+        <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.85rem', fontWeight: 600 }}>טוען שיעור...</span>
       </div>
       {[80, 160, 60].map((h, i) => (
         <div key={i} style={{ height: h, borderRadius: 14, background: 'rgba(255,255,255,0.03)', overflow: 'hidden', position: 'relative' }}>
@@ -75,7 +75,7 @@ export default function LessonView({ user, pathRecord, dayIndex, onComplete, onC
       <div style={{ position: 'relative', zIndex: 10, background: 'rgba(8,8,16,0.98)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.7rem 1.25rem' }}>
           <div>
-            <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+            <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
               יום {dayIndex} / 30 · {dayEntry?.phase}
               {dayEntry?.is_milestone && ' · 🏆 אבן דרך'}
             </div>
@@ -86,7 +86,7 @@ export default function LessonView({ user, pathRecord, dayIndex, onComplete, onC
           <button
             onClick={onClose}
             className="btn-tactile"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 9, color: 'rgba(241,245,249,0.4)', fontSize: '0.72rem', fontWeight: 700, padding: '0.3rem 0.75rem', cursor: 'pointer', minHeight: 34 }}
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 9, color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', fontWeight: 700, padding: '0.3rem 0.75rem', cursor: 'pointer', minHeight: 34 }}
           >
             ✕ סגור
           </button>

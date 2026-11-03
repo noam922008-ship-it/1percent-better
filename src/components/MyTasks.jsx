@@ -120,7 +120,7 @@ export default function MyTasks({ uid, onFirstLoad }) {
               <span
                 onClick={() => toggle(t)}
                 style={{
-                  color: t.done ? '#71717A' : '#F4F1E8', fontSize: '0.88rem', fontWeight: 600, lineHeight: 1.4,
+                  color: t.done ? '#8A8A93' : '#F4F1E8', fontSize: '0.88rem', fontWeight: 600, lineHeight: 1.4,
                   textDecoration: t.done ? 'line-through' : 'none', textDecorationColor: 'rgba(255,255,255,0.18)',
                   overflowWrap: 'anywhere', cursor: 'pointer',
                 }}
@@ -135,7 +135,7 @@ export default function MyTasks({ uid, onFirstLoad }) {
             <button
               onClick={() => remove(t)}
               aria-label={fmt(tm.deleteAria, { text: t.text })}
-              style={{ background: 'none', border: 'none', color: '#71717A', cursor: 'pointer', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, padding: 0 }}
+              style={{ background: 'none', border: 'none', color: '#8A8A93', cursor: 'pointer', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, padding: 0 }}
             >
               <X size={16} />
             </button>

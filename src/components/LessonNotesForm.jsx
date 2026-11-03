@@ -8,7 +8,7 @@ import { useLang } from '../context/LangContext'
 // No AI, no XP. uid null → guest (localStorage).
 
 const C = {
-  field: '#17191E', border: 'rgba(255,255,255,0.08)', text: '#F4F1E8', faint: '#71717A',
+  field: '#17191E', border: 'rgba(255,255,255,0.08)', text: '#F4F1E8', faint: '#8A8A93',
   accent: '#D9B34C', accentBorder: 'rgba(217,179,76,0.45)', ok: '#3FAF7A', danger: '#D85C5C',
 }
 

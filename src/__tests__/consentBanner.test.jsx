@@ -33,11 +33,11 @@ describe('Settings switch', () => {
     render(<Settings />)
     expect(screen.getByText(he.settings.analytics)).toBeInTheDocument()
     const row = screen.getByText(he.settings.analytics).parentElement.parentElement
-    const toggle = row.querySelector('button[aria-pressed]')
-    expect(toggle).toHaveAttribute('aria-pressed', 'true')
+    const toggle = row.querySelector('button[role="switch"]')
+    expect(toggle).toHaveAttribute('aria-checked', 'true')
     fireEvent.click(toggle)
     expect(state.set).toEqual([false])
-    expect(toggle).toHaveAttribute('aria-pressed', 'false')
+    expect(toggle).toHaveAttribute('aria-checked', 'false')
   })
 
   it('flag off: no privacy section', () => {

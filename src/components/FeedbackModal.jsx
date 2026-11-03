@@ -62,7 +62,7 @@ export default function FeedbackModal({
           <button
             onClick={onClose}
             className="btn-tactile"
-            style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.35)', cursor: 'pointer', fontSize: '0.9rem', padding: '0.2rem 0.5rem' }}
+            style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', cursor: 'pointer', fontSize: '0.9rem', padding: '0.2rem 0.5rem' }}
           >✕</button>
         </div>
 
@@ -88,7 +88,7 @@ export default function FeedbackModal({
               ].map(s => (
                 <div key={s.label} style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.4rem 0', textAlign: 'center' }}>
                   <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '0.95rem' }}>{s.value}</div>
-                  <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.48rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</div>
+                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.48rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -110,7 +110,7 @@ export default function FeedbackModal({
                   }}
                 />
               ))}
-              <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.6rem', fontWeight: 700, marginLeft: '0.2rem' }}>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontWeight: 700, marginLeft: '0.2rem' }}>
                 סט {setsToday}/{setsGoal}
               </span>
             </div>
@@ -132,7 +132,7 @@ export default function FeedbackModal({
             padding: '0.6rem 0.5rem',
             background: userWins ? 'rgba(245,197,24,0.07)' : 'transparent',
           }}>
-            <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>אתה</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>אתה</span>
             <span style={{ color: userWins ? '#F5C518' : '#f1f5f9', fontSize: '1.3rem', fontWeight: 900, lineHeight: 1 }}>{myDisplay}</span>
             {userWins && <span style={{ fontSize: '0.65rem', marginTop: '0.15rem' }}>🏆</span>}
           </div>
@@ -144,7 +144,7 @@ export default function FeedbackModal({
             borderLeft: '1px solid rgba(255,255,255,0.06)',
             borderRight: '1px solid rgba(255,255,255,0.06)',
           }}>
-            <span style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.08em' }}>VS</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.08em' }}>VS</span>
             <div style={{ color: userWins ? '#F5C518' : '#ef4444', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.15rem', whiteSpace: 'nowrap' }}>
               {winLabel}
             </div>
@@ -156,7 +156,7 @@ export default function FeedbackModal({
             padding: '0.6rem 0.5rem',
             background: !userWins ? 'rgba(239,68,68,0.05)' : 'transparent',
           }}>
-            <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>{rivalName}</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>{rivalName}</span>
             <span style={{ color: !userWins ? '#f87171' : 'rgba(241,245,249,0.45)', fontSize: '1.3rem', fontWeight: 900, lineHeight: 1 }}>{rivalDisplay}</span>
             {!userWins && <span style={{ fontSize: '0.65rem', marginTop: '0.15rem' }}>👑</span>}
           </div>
@@ -175,7 +175,7 @@ export default function FeedbackModal({
           {isLoading ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#6366f1', animation: 'cam-pulse 1s ease infinite' }} />
-              <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.78rem' }}>מנתח את האימון שלך...</span>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem' }}>מנתח את האימון שלך...</span>
             </div>
           ) : (
             <>

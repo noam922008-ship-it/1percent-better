@@ -19,14 +19,14 @@ function Row({ label, desc, children }) {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.85rem 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
       <div>
         <div style={{ color: '#e8eaf0', fontSize: '0.88rem', fontWeight: 600 }}>{label}</div>
-        {desc && <div style={{ color: 'rgba(232,234,240,0.45)', fontSize: '0.72rem', marginTop: '0.1rem' }}>{desc}</div>}
+        {desc && <div style={{ color: 'rgba(232,234,240,0.6)', fontSize: '0.72rem', marginTop: '0.1rem' }}>{desc}</div>}
       </div>
       {children}
     </div>
   )
 }
 
-function Toggle({ on, onToggle }) {
+function Toggle({ on, onToggle, label }) {
   return (
     <button
       onClick={onToggle}
@@ -37,7 +37,9 @@ function Toggle({ on, onToggle }) {
         border: on ? '1px solid rgba(245,197,24,0.6)' : '1px solid rgba(255,255,255,0.12)',
         cursor: 'pointer', position: 'relative', transition: 'background 0.2s, border 0.2s',
       }}
-      aria-pressed={on}
+      role="switch"
+      aria-checked={on}
+      aria-label={label}
     >
       <span style={{
         position: 'absolute', top: 3, left: on ? 23 : 3,
@@ -51,7 +53,7 @@ function Toggle({ on, onToggle }) {
 
 function SectionHeader({ title }) {
   return (
-    <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.57rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '1.5rem', marginBottom: '0.2rem' }}>
+    <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.57rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '1.5rem', marginBottom: '0.2rem' }}>
       {title}
     </div>
   )
@@ -75,7 +77,7 @@ function ConfirmModal({ onConfirm, onCancel }) {
         <div style={{ color: '#f87171', fontWeight: 900, fontSize: '1rem', textAlign: 'center', marginBottom: '0.4rem' }}>
           בטוח שאתה רוצה למחוק?
         </div>
-        <div style={{ color: 'rgba(241,245,249,0.45)', fontSize: '0.78rem', lineHeight: 1.6, textAlign: 'center', marginBottom: '1.25rem' }}>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', lineHeight: 1.6, textAlign: 'center', marginBottom: '1.25rem' }}>
           פעולה זו תמחק את כל ההתקדמות הנוכחית ותדרוש בניית מסלול חדש מאפס. לא ניתן לשחזר.
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -89,7 +91,7 @@ function ConfirmModal({ onConfirm, onCancel }) {
           <button
             onClick={onCancel}
             className="btn-tactile"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, color: 'rgba(241,245,249,0.5)', fontSize: '0.85rem', fontWeight: 700, padding: '0.85rem', cursor: 'pointer', width: '100%' }}
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, color: 'rgba(241,245,249,0.6)', fontSize: '0.85rem', fontWeight: 700, padding: '0.85rem', cursor: 'pointer', width: '100%' }}
           >
             ביטול
           </button>
@@ -160,7 +162,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
     <div style={{ maxWidth: 480, margin: '0 auto', padding: '1.25rem 1.25rem 0' }}>
 
       {/* Header */}
-      <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '1.1rem' }}>
+      <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '1.1rem' }}>
         {ts.title}
       </div>
 
@@ -177,7 +179,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
             <div style={{ color: '#e8eaf0', fontSize: '0.9rem', fontWeight: 700 }}>
               {isGuest ? ts.guest : (user?.displayName || ts.user)}
             </div>
-            <div style={{ color: 'rgba(232,234,240,0.4)', fontSize: '0.72rem', marginTop: '0.1rem' }}>
+            <div style={{ color: 'rgba(232,234,240,0.6)', fontSize: '0.72rem', marginTop: '0.1rem' }}>
               {isGuest ? ts.guestSub : user?.email}
             </div>
           </div>
@@ -216,7 +218,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
         {!isGuest && (
           <div style={{ padding: '0.75rem 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
             <Row label={ts.nick} desc={ts.nickDesc}>
-              <Toggle on={nickOn} onToggle={() => {
+              <Toggle on={nickOn} label={ts.nick} onToggle={() => {
                 const next = !nickOn
                 setNickOn(next); setNickSaved(false)
                 if (!next) onSaveLeaderboard?.(false, nick)
@@ -268,6 +270,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
 
             <Row label={ts.nudges} desc={ts.nudgesDesc}>
               <Toggle
+                label={ts.nudges}
                 on={nudgesEnabled}
                 onToggle={() => {
                   const next = !nudgesEnabled
@@ -390,7 +393,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
             )
           })}
         </div>
-        <div style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.68rem', marginTop: '0.5rem' }}>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', marginTop: '0.5rem' }}>
           {ts.prefsNote}
         </div>
       </div>
@@ -403,6 +406,7 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '0.1rem 1rem', marginBottom: '0.5rem' }}>
             <Row label={ts.analytics} desc={ts.analyticsDesc}>
               <Toggle
+                label={ts.analytics}
                 on={analyticsOn}
                 onToggle={() => {
                   const next = !analyticsOn
@@ -417,21 +421,21 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
 
       {/* Social */}
       <div style={{ marginTop: '1.75rem' }}>
-        <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.4)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ts.social}</div>
+        <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ts.social}</div>
         <SocialLinks />
       </div>
 
       {/* Legal links */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '1.75rem' }}>
         {[['/privacy', ts.legal.privacy], ['/terms', ts.legal.terms], ['/legal', ts.legal.support]].map(([href, label]) => (
-          <a key={href} href={href} style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid rgba(245,197,24,0.2)', paddingBottom: 1, minHeight: 32, display: 'inline-flex', alignItems: 'center' }}>
+          <a key={href} href={href} style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid rgba(245,197,24,0.2)', paddingBottom: 1, minHeight: 32, display: 'inline-flex', alignItems: 'center' }}>
             {label}
           </a>
         ))}
       </div>
 
       {/* Footer */}
-      <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.15)', fontSize: '0.6rem', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '0.75rem', paddingBottom: '1rem' }}>
+      <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '0.75rem', paddingBottom: '1rem' }}>
         PRIME · v1.2 · prime-daily.app
       </div>
     </div>

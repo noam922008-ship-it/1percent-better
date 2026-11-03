@@ -26,7 +26,7 @@ export default function QuitHabitRow({ tr, first, today, s, onSlip, onEdit }) {
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 700, lineHeight: 1.35 }}>🛡️ {tr.habit}</div>
-          <div style={{ color: days > 0 ? '#D9B34C' : '#71717A', fontSize: '0.68rem', marginTop: '0.15rem' }}>
+          <div style={{ color: days > 0 ? '#D9B34C' : '#8A8A93', fontSize: '0.68rem', marginTop: '0.15rem' }}>
             {days > 0 ? `🔥 ${plural(s.days, days)}` : s.dayZero}
             {best > days && ` · ${fmt(s.best, { n: best })}`}
           </div>
@@ -36,7 +36,7 @@ export default function QuitHabitRow({ tr, first, today, s, onSlip, onEdit }) {
             {s.slip}
           </button>
         )}
-        <button onClick={onEdit} aria-label={s.editAria} style={{ background: 'none', border: 'none', color: '#71717A', cursor: 'pointer', padding: '0.3rem', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <button onClick={onEdit} aria-label={s.editAria} style={{ background: 'none', border: 'none', color: '#8A8A93', cursor: 'pointer', padding: '0.3rem', minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <PencilLine size={15} />
         </button>
       </div>

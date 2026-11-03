@@ -54,7 +54,7 @@ const bodySt = {
 }
 
 const detailSt = {
-  color: 'rgba(232,232,232,0.55)',
+  color: 'rgba(232,232,232,0.6)',
   fontSize: '0.85rem',
   fontWeight: 700,
   letterSpacing: '0.01em',
@@ -158,7 +158,7 @@ export default function InitiationFlow({ onComplete }) {
               {'1% כל יום נשמע קל.\nוזה בדיוק למה רוב האנשים לא מחזיקים מעמד.'}
             </p>
             <p style={detailSt}>לא צריך מוטיבציה. צריך מנגנון.</p>
-            <p style={{ ...bodySt, fontSize: '0.875rem', marginBottom: 0, color: 'rgba(241,245,249,0.45)' }}>
+            <p style={{ ...bodySt, fontSize: '0.875rem', marginBottom: 0, color: 'rgba(241,245,249,0.6)' }}>
               האפליקציה הזאת היא המנגנון שלך. אבל רק אם תשתמש בה כל יום.
             </p>
           </>
@@ -191,7 +191,7 @@ export default function InitiationFlow({ onComplete }) {
             <p style={bodySt}>
               {'יום אחד היום.\nשבוע עד ביום 7.\nאדם אחר עד סוף החודש.'}
             </p>
-            <p style={{ ...bodySt, fontSize: '0.82rem', color: 'rgba(241,245,249,0.38)', marginBottom: 0 }}>
+            <p style={{ ...bodySt, fontSize: '0.82rem', color: 'rgba(241,245,249,0.6)', marginBottom: 0 }}>
               הרבה אנשים מתחילים. הבדל הוא שאתה תמשיך.
             </p>
           </>
@@ -208,7 +208,7 @@ export default function InitiationFlow({ onComplete }) {
         {step > 0 && (
           <button
             onClick={() => { setAnimKey(k => k + 1); setStep(s => s - 1) }}
-            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.22)', fontSize: '0.78rem', cursor: 'pointer', marginTop: '0.85rem', display: 'block', width: '100%', textAlign: 'center', padding: '0.25rem' }}
+            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem', cursor: 'pointer', marginTop: '0.85rem', display: 'block', width: '100%', textAlign: 'center', padding: '0.25rem' }}
           >
             חזרה
           </button>

@@ -119,7 +119,7 @@ function CourseQuiz({ onComplete, onSkip }) {
         <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
           <div style={{ fontSize: '2.4rem', marginBottom: '0.65rem' }}>✨</div>
           <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.2rem', margin: '0 0 0.4rem' }}>{lang === 'en' ? 'We found your tracks' : 'מצאנו את המסלולים שלך'}</h2>
-          <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.8rem', margin: 0, lineHeight: 1.6 }}>
+          <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem', margin: 0, lineHeight: 1.6 }}>
             {lang === 'en' ? '3 tracks that match your goals' : '3 מסלולים שמתאימים בדיוק למטרות שלך'}
           </p>
         </div>
@@ -129,9 +129,9 @@ function CourseQuiz({ onComplete, onSkip }) {
               <span style={{ fontSize: '1.45rem', flexShrink: 0 }}>{ch.emoji}</span>
               <div style={{ flex: 1 }}>
                 <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.88rem' }}>{ch.title}</div>
-                <div style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.68rem', marginTop: '0.1rem' }}>{ch.subtitle}</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', marginTop: '0.1rem' }}>{ch.subtitle}</div>
               </div>
-              <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.15rem 0.55rem', color: 'rgba(232,232,232,0.5)', fontSize: '0.6rem', fontWeight: 900, flexShrink: 0 }}>#{i + 1}</span>
+              <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.15rem 0.55rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.6rem', fontWeight: 900, flexShrink: 0 }}>#{i + 1}</span>
             </div>
           ))}
         </div>
@@ -153,7 +153,7 @@ function CourseQuiz({ onComplete, onSkip }) {
       <div style={{ marginBottom: '1.85rem' }}>
         <div style={{ fontSize: '2rem', marginBottom: '0.65rem', lineHeight: 1 }}>{q.emoji}</div>
         <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.2rem', margin: '0 0 0.3rem', lineHeight: 1.3 }}>{byLang(q, 'question', lang)}</h2>
-        <p style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.72rem', margin: 0 }}>{lang === 'en' ? `Step ${q.step} of ${QUIZ_QUESTIONS.length}` : `שלב ${q.step} מתוך ${QUIZ_QUESTIONS.length}`}</p>
+        <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', margin: 0 }}>{lang === 'en' ? `Step ${q.step} of ${QUIZ_QUESTIONS.length}` : `שלב ${q.step} מתוך ${QUIZ_QUESTIONS.length}`}</p>
       </div>
 
       {/* Options */}
@@ -167,7 +167,7 @@ function CourseQuiz({ onComplete, onSkip }) {
           >
             <span style={{ fontSize: '1.35rem', flexShrink: 0 }}>{opt.emoji}</span>
             <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.9rem', flex: 1 }}>{byLang(opt, 'text', lang)}</span>
-            <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.85rem', flexShrink: 0 }}>→</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.85rem', flexShrink: 0 }}>→</span>
           </button>
         ))}
       </div>
@@ -175,7 +175,7 @@ function CourseQuiz({ onComplete, onSkip }) {
       {/* Skip */}
       <button
         onClick={onSkip}
-        style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.2)', fontSize: '0.73rem', cursor: 'pointer', display: 'block', width: '100%', textAlign: 'center', padding: '1.5rem 0 0' }}
+        style={{ background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem', cursor: 'pointer', display: 'block', width: '100%', textAlign: 'center', padding: '1.5rem 0 0' }}
       >
         {lang === 'en' ? 'Skip the quiz' : 'דלג על השאלון'}
       </button>
@@ -207,16 +207,16 @@ function ReviewModal({ challenge, dayNum, onClose }) {
             <span style={{ fontSize: '1.2rem' }}>{lessonType.icon}</span>
             <div>
               <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.9rem' }}>{lessonType.label}</div>
-              <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 {challenge.emoji} {challenge.title} · {lang === 'en' ? `Day ${dayNum}` : `יום ${dayNum}`}
               </div>
             </div>
           </div>
-          <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(241,245,249,0.55)', padding: '0.3rem 0.8rem', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 700 }}>✕</button>
+          <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', padding: '0.3rem 0.8rem', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 700 }}>✕</button>
         </div>
 
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '1rem 1.1rem', marginBottom: '1rem' }}>
-          <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.45rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>🎯 {lang === 'en' ? 'Today’s task' : 'משימת היום'}</div>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.45rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>🎯 {lang === 'en' ? 'Today’s task' : 'משימת היום'}</div>
           <p style={{ color: '#f1f5f9', fontSize: '0.92rem', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>{moduleTheme}</p>
         </div>
 
@@ -279,7 +279,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
         <button
           onClick={onBack}
           className="btn-tactile"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.55)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '1rem' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '1rem' }}
         >
           {lang === 'en' ? '→ Tracks' : '→ מסלולים'}
         </button>
@@ -292,11 +292,11 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
           <div style={{ flex: 1 }}>
             {isRecommended && (
               <div style={{ marginBottom: '0.22rem' }}>
-                <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.5rem', color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800 }}>{lang === 'en' ? '✨ Picked for you' : '✨ מותאם עבורך'}</span>
+                <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.5rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.57rem', fontWeight: 800 }}>{lang === 'en' ? '✨ Picked for you' : '✨ מותאם עבורך'}</span>
               </div>
             )}
             <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.05rem', lineHeight: 1.2 }}>{challenge.title}</div>
-            <div style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.72rem', marginTop: '0.12rem' }}>{challenge.subtitle}</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', marginTop: '0.12rem' }}>{challenge.subtitle}</div>
           </div>
         </div>
 
@@ -317,7 +317,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
           <span style={{ color: col, fontSize: '0.63rem', fontWeight: 800 }}>
             {finished ? (lang === 'en' ? '✓ Completed' : '✓ הושלם') : daysCompleted === 0 ? (lang === 'en' ? `Day 1 / ${challenge.days}` : `יום 1 / ${challenge.days}`) : (lang === 'en' ? `Day ${getTrackDay(challenge, progress).currentDay} / ${challenge.days} · ${daysCompleted} completed` : `יום ${getTrackDay(challenge, progress).currentDay} / ${challenge.days} · ${daysCompleted} הושלמו`)}
           </span>
-          <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.6rem' }}>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem' }}>
             {lang === 'en' ? `Module ${moduleIdx + 1} / ${modules.length} · ${pct}%` : `מודול ${moduleIdx + 1} / ${modules.length} · ${pct}%`}
           </span>
         </div>
@@ -331,7 +331,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
           <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
             <div style={{ fontSize: '3.5rem', marginBottom: '0.75rem' }}>🏆</div>
             <h2 style={{ color: col, fontWeight: 900, fontSize: '1.3rem', margin: '0 0 0.5rem' }}>{lang === 'en' ? `You completed ${challenge.title}!` : `השלמת את ${challenge.title}!`}</h2>
-            <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.88rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.88rem', lineHeight: 1.6, margin: 0 }}>
               {lang === 'en' ? `${challenge.days} days · ${challenge.days * challenge.xpPerDay} XP · You grew. 🌟` : `${challenge.days} ימים · ${challenge.days * challenge.xpPerDay} XP · גדלת. 🌟`}
             </p>
           </div>
@@ -341,7 +341,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
           <div style={{ textAlign: 'center', padding: '2rem 0', animation: 'fadeIn 0.4s ease' }}>
             <div style={{ fontSize: '3rem', marginBottom: '0.65rem' }}>✅</div>
             <div style={{ color: '#10b981', fontWeight: 900, fontSize: '1.15rem', marginBottom: '0.4rem' }}>🎉 {lang === 'en' ? `Day ${daysCompleted} completed!` : `יום ${daysCompleted} הושלם!`}</div>
-            <div style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.82rem', lineHeight: 1.6 }}>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem', lineHeight: 1.6 }}>
               {lang === 'en' ? `Come back tomorrow, we keep going! 🚀 · ${pct}% completed` : `חזור מחר — ממשיכים לנצח! 🚀 · ${pct}% הושלם`}
             </div>
             {daysCompleted > 0 && daysCompleted % 5 === 0 && (
@@ -375,7 +375,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
             {/* Real example */}
             {richContent?.realExample && (
               <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '0.75rem' }}>
-                <p style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>📖 {lang === 'en' ? 'Real example' : 'דוגמה אמיתית'}</p>
+                <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>📖 {lang === 'en' ? 'Real example' : 'דוגמה אמיתית'}</p>
                 <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.8rem', lineHeight: 1.6, margin: 0 }}>{richContent.realExample}</p>
               </div>
             )}
@@ -404,7 +404,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
         {evolution && (
           <div style={{ marginBottom: '0.75rem', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
             <div style={{ padding: '0.75rem 1rem', background: '#18181b', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <span style={{ color: 'rgba(232,232,232,0.25)', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', flex: 1 }}>
+              <span style={{ color: 'rgba(232,232,232,0.6)', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', flex: 1 }}>
                 {evolved ? (lang === 'en' ? `Level 2 · ${evolution.label}` : `רמה 2 · ${evolution.label}`) : (lang === 'en' ? `Level 2 — unlocks on day ${UNLOCK_AT}` : `רמה 2 — פותח ביום ${UNLOCK_AT}`)}
               </span>
               <span style={{ fontSize: '0.6rem', fontWeight: 800, color: evolved ? '#d4a843' : 'rgba(232,232,232,0.2)', background: evolved ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.04)', border: `1px solid ${evolved ? 'rgba(212,168,67,0.2)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 20, padding: '0.1rem 0.5rem' }}>
@@ -414,14 +414,14 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
             {evolved
               ? evolution.tasks.map((task, i) => (
                   <div key={i} style={{ padding: '0.7rem 1rem', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'flex-start', gap: '0.6rem', background: '#111114' }}>
-                    <span style={{ color: 'rgba(232,232,232,0.25)', fontSize: '0.72rem', fontWeight: 800, flexShrink: 0, marginTop: '0.05rem' }}>{i + 1}.</span>
+                    <span style={{ color: 'rgba(232,232,232,0.6)', fontSize: '0.72rem', fontWeight: 800, flexShrink: 0, marginTop: '0.05rem' }}>{i + 1}.</span>
                     <span style={{ color: 'rgba(232,232,232,0.7)', fontSize: '0.83rem', lineHeight: 1.45 }}>{task}</span>
                   </div>
                 ))
               : (
                   <div style={{ padding: '0.7rem 1rem', borderTop: '1px solid rgba(255,255,255,0.05)', background: '#111114', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ color: 'rgba(232,232,232,0.2)', fontSize: '0.8rem' }}>🔒</span>
-                    <span style={{ color: 'rgba(232,232,232,0.25)', fontSize: '0.78rem' }}>{lang === 'en' ? `Complete ${UNLOCK_AT - daysCompleted} more days to unlock` : `השלם ${UNLOCK_AT - daysCompleted} ימים נוספים לפתיחה`}</span>
+                    <span style={{ color: 'rgba(232,232,232,0.6)', fontSize: '0.8rem' }}>🔒</span>
+                    <span style={{ color: 'rgba(232,232,232,0.6)', fontSize: '0.78rem' }}>{lang === 'en' ? `Complete ${UNLOCK_AT - daysCompleted} more days to unlock` : `השלם ${UNLOCK_AT - daysCompleted} ימים נוספים לפתיחה`}</span>
                   </div>
                 )
             }
@@ -437,7 +437,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
         <button
           onClick={() => setShowSyllabus(v => !v)}
           className="btn-tactile"
-          style={{ width: '100%', padding: '0.65rem', background: 'none', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, color: 'rgba(241,245,249,0.28)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', marginBottom: showSyllabus ? '0.9rem' : 0 }}
+          style={{ width: '100%', padding: '0.65rem', background: 'none', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', marginBottom: showSyllabus ? '0.9rem' : 0 }}
         >
           {showSyllabus ? '▲' : '▼'} {lang === 'en' ? `Syllabus — ${modules.length} modules · ${challenge.days} lessons` : `תכנית הלימודים — ${modules.length} מודולים · ${challenge.days} שיעורים`}
         </button>
@@ -457,7 +457,7 @@ function CourseDashboard({ challenge, progress, onBack, onLessonComplete, isReco
                       {moduleDone ? '✓' : mIdx + 1}
                     </div>
                     <span style={{ color: moduleLocked ? 'rgba(241,245,249,0.18)' : moduleDone ? 'rgba(241,245,249,0.38)' : '#f1f5f9', fontSize: '0.78rem', fontWeight: 700 }}>{lang === 'en' ? `Module ${mIdx + 1}` : `מודול ${mIdx + 1}`}</span>
-                    <span style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.66rem', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>— {modText.slice(0, 38)}{modText.length > 38 ? '…' : ''}</span>
+                    <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.66rem', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>— {modText.slice(0, 38)}{modText.length > 38 ? '…' : ''}</span>
                   </div>
 
                   <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, overflow: 'hidden' }}>
@@ -640,7 +640,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
         <button
           onClick={() => setShowQuiz(false)}
           className="btn-tactile"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.55)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '0.5rem' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '0.5rem' }}
         >
           {lang === 'en' ? '→ Back' : '→ חזור'}
         </button>
@@ -665,7 +665,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
         <button
           onClick={() => setActivePillar(null)}
           className="btn-tactile"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.55)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '1.25rem' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: '0.38rem 0.85rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', marginBottom: '1.25rem' }}
         >
           {lang === 'en' ? '← All pillars' : '← כל התחומים'}
         </button>
@@ -675,7 +675,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
           <div>
             <div style={{ color: pillar.color, fontSize: '0.6rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>{lang === 'en' ? 'Pillar' : 'עמודה'}</div>
             <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', marginBottom: '0.15rem' }}>{byLang(pillar, 'label', lang)}</div>
-            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.73rem', lineHeight: 1.4 }}>{byLang(pillar, 'longDesc', lang)}</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem', lineHeight: 1.4 }}>{byLang(pillar, 'longDesc', lang)}</div>
           </div>
         </div>
 
@@ -708,26 +708,26 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.12rem' }}>
                       <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.88rem' }}>{ch.title}</span>
-                      {isRec && !done && <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem', color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800 }}>{lang === 'en' ? '✨ For you' : '✨ בשבילך'}</span>}
-                      {ch.expert && !done && <span style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem', color: 'rgba(232,232,232,0.45)', fontSize: '0.57rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace", letterSpacing: '0.06em' }}>{lang === 'en' ? 'Expert' : 'מומחה'}</span>}
+                      {isRec && !done && <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.57rem', fontWeight: 800 }}>{lang === 'en' ? '✨ For you' : '✨ בשבילך'}</span>}
+                      {ch.expert && !done && <span style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.57rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace", letterSpacing: '0.06em' }}>{lang === 'en' ? 'Expert' : 'מומחה'}</span>}
                       {done && <span style={{ color: '#10b981', fontSize: '0.57rem', fontWeight: 700, background: 'rgba(16,185,129,0.1)', borderRadius: 20, padding: '0.1rem 0.4rem' }}>{lang === 'en' ? '✓ Completed' : '✓ הושלם'}</span>}
-                      {inProgress && <span style={{ color: 'rgba(232,232,232,0.5)', fontSize: '0.57rem', fontWeight: 800, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem' }}>{lang === 'en' ? 'Active' : 'פעיל'}</span>}
+                      {inProgress && <span style={{ color: 'rgba(232,232,232,0.6)', fontSize: '0.57rem', fontWeight: 800, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '0.1rem 0.45rem' }}>{lang === 'en' ? 'Active' : 'פעיל'}</span>}
                       {isEvolved(days) && getEvolution(ch.id) && !done && <span style={{ color: '#d4a843', fontSize: '0.57rem', fontWeight: 800, background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)', borderRadius: 20, padding: '0.1rem 0.45rem' }}>{lang === 'en' ? 'Level 2' : 'רמה 2'}</span>}
                     </div>
-                    <div style={{ color: 'rgba(241,245,249,0.27)', fontSize: '0.68rem' }}>{ch.subtitle}</div>
+                    <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem' }}>{ch.subtitle}</div>
                     {days > 0 && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginTop: '0.45rem' }}>
                         <div style={{ flex: 1, height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.07)', direction: 'ltr', overflow: 'hidden' }}>
                           <div style={{ height: '100%', borderRadius: 99, background: ch.color, opacity: 0.8, width: `${pct}%` }} />
                         </div>
-                        <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.6rem', fontWeight: 700 }}>{pct}%</span>
+                        <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontWeight: 700 }}>{pct}%</span>
                       </div>
                     )}
                   </div>
                   <div style={{ flexShrink: 0, textAlign: 'start' }}>
                     <div style={{ color: ch.color, fontSize: '0.68rem', fontWeight: 800 }}>+{ch.xpPerDay} XP</div>
-                    <div style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.58rem' }}>{lang === 'en' ? '/ day' : '/ יום'}</div>
-                    <div style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.58rem', marginTop: '0.22rem' }}>{lang === 'en' ? `${ch.days} lessons →` : `${ch.days} שיעורים →`}</div>
+                    <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem' }}>{lang === 'en' ? '/ day' : '/ יום'}</div>
+                    <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.58rem', marginTop: '0.22rem' }}>{lang === 'en' ? `${ch.days} lessons →` : `${ch.days} שיעורים →`}</div>
                   </div>
                 </div>
               </div>
@@ -825,9 +825,9 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
       {FEATURES.routineCards && (<>
       {/* Header */}
       <div style={{ marginBottom: '1.25rem' }}>
-        <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.54rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.2rem' }}>◈ PRIME · {lang === 'en' ? 'Daily protocol' : 'פרוטוקול יומי'}</div>
+        <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.54rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.2rem' }}>◈ PRIME · {lang === 'en' ? 'Daily protocol' : 'פרוטוקול יומי'}</div>
         <h2 style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.1rem', margin: '0 0 0.18rem' }}>{lang === 'en' ? 'Your day is waiting.' : 'היום שלך מחכה לך.'}</h2>
-        <p style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.74rem', margin: 0 }}>{lang === 'en' ? "Pick a part of the day. Focus on one action. Let's go." : 'בחר חלק יום. התרכז בפעולה אחת. קדימה.'}</p>
+        <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.74rem', margin: 0 }}>{lang === 'en' ? "Pick a part of the day. Focus on one action. Let's go." : 'בחר חלק יום. התרכז בפעולה אחת. קדימה.'}</p>
       </div>
 
       {/* 3 Protocol cards */}
@@ -871,11 +871,11 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                       <span style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.28)', borderRadius: 20, padding: '0.08rem 0.45rem', color: '#10b981', fontSize: '0.52rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace" }}>{lang === 'en' ? '✓ Completed' : '✓ הושלם'}</span>
                     )}
                   </div>
-                  <div style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.67rem', marginTop: '0.08rem' }}>
+                  <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.67rem', marginTop: '0.08rem' }}>
                     {slot.subtitle} · {slot.timeLabel}{stepsDone > 0 && !slotComplete ? ` · ${stepsDone}/${allSteps}` : ''}
                   </div>
                 </div>
-                <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.75rem', flexShrink: 0, transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'none' }}>▾</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', flexShrink: 0, transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'none' }}>▾</span>
               </button>
 
               {/* Expanded content */}
@@ -951,7 +951,7 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
         style={{
           width: '100%', background: 'none',
           border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12,
-          padding: '0.7rem', color: 'rgba(241,245,249,0.25)', fontSize: '0.7rem',
+          padding: '0.7rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem',
           fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center',
           justifyContent: 'center', gap: '0.4rem', marginBottom: showTracksArchive ? '0.85rem' : 0,
         }}
@@ -985,12 +985,12 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
                 >
                   <span style={{ fontSize: '1.7rem', lineHeight: 1 }}>{p.icon}</span>
                   <span style={{ color: p.color, fontSize: '0.78rem', fontWeight: 900 }}>{byLang(p, 'label', lang)}</span>
-                  <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.6rem', lineHeight: 1.3 }}>{byLang(p, 'desc', lang)}</span>
+                  <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', lineHeight: 1.3 }}>{byLang(p, 'desc', lang)}</span>
                   <div style={{ width: '100%', marginTop: '0.2rem' }}>
                     <div style={{ height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.07)', direction: 'ltr', overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: `${pct}%`, borderRadius: 99, background: p.color, opacity: 0.8 }} />
                     </div>
-                    <div style={{ color: pct > 0 ? 'rgba(241,245,249,0.4)' : 'rgba(241,245,249,0.15)', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.15rem' }}>{pct > 0 ? `${pct}%` : (lang === 'en' ? `${pillarCourses.length} tracks` : `${pillarCourses.length} מסלולים`)}</div>
+                    <div style={{ color: pct > 0 ? 'rgba(241,245,249,0.55)' : 'rgba(241,245,249,0.15)', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.15rem' }}>{pct > 0 ? `${pct}%` : (lang === 'en' ? `${pillarCourses.length} tracks` : `${pillarCourses.length} מסלולים`)}</div>
                   </div>
                 </button>
               )
@@ -999,10 +999,10 @@ export default function TracksPage({ profile, onAwardXP, onSaveProfile }) {
 
           <button
             onClick={() => setShowQuiz(true)}
-            style={{ background: 'none', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 11, width: '100%', padding: '0.65rem', color: 'rgba(241,245,249,0.22)', fontSize: '0.7rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}
+            style={{ background: 'none', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 11, width: '100%', padding: '0.65rem', color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}
           >
             {lang === 'en' ? 'Not sure where to start?' : 'לא בטוח מאיפה להתחיל?'}
-            <span style={{ color: 'rgba(232,232,232,0.35)' }}>{lang === 'en' ? 'Take a short quiz ←' : 'ענה על שאלון קצר ←'}</span>
+            <span style={{ color: 'rgba(232,232,232,0.6)' }}>{lang === 'en' ? 'Take a short quiz ←' : 'ענה על שאלון קצר ←'}</span>
           </button>
         </div>
       )}

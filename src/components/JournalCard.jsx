@@ -18,9 +18,9 @@ export default function JournalCard({ onOpen, hint }) {
       <span style={{ fontSize: '1.1rem' }} aria-hidden="true">📓</span>
       <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
         <span style={{ color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 800 }}>{t.journal.title}</span>
-        <span style={{ color: '#71717A', fontSize: '0.72rem', fontWeight: 600 }}>{hint || t.journal.homeHint}</span>
+        <span style={{ color: '#8A8A93', fontSize: '0.72rem', fontWeight: 600 }}>{hint || t.journal.homeHint}</span>
       </span>
-      <ForwardChevron size={18} color="#71717A" />
+      <ForwardChevron size={18} color="#8A8A93" />
     </button>
   )
 }

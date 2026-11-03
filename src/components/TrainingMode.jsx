@@ -582,7 +582,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
                 <div key={countdown} style={{ color: col, fontSize: '8rem', fontWeight: 900, fontFamily: "'SF Mono','Fira Code',monospace", lineHeight: 1, textShadow: `0 0 60px ${col}88`, animation: 'fadeIn 0.15s ease' }}>
                   {countdown}
                 </div>
-                <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.82rem', fontWeight: 700, marginTop: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem', fontWeight: 700, marginTop: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   {tf.getReady}
                 </div>
               </div>
@@ -598,7 +598,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
               ? <div style={{ color: cfg.color, fontSize: '0.72rem', fontWeight: 700, marginTop: '0.18rem' }}>{cfg.emoji} {tf.difficulty[difficulty].label} · {tf.difficulty[difficulty].sub}</div>
               : discipline
                 ? <div style={{ color: DISC_CONFIG[discipline].color, fontSize: '0.72rem', fontWeight: 700, marginTop: '0.18rem' }}>{DISC_CONFIG[discipline].emoji} {fmt(tf.pickIntensity, { disc: tf.disc[discipline].label })}</div>
-                : <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.72rem', marginTop: '0.18rem' }}>{tf.pickStyle}</div>
+                : <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', marginTop: '0.18rem' }}>{tf.pickStyle}</div>
             }
           </div>
           {phase === 'active'
@@ -614,7 +614,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
                 </button>
                 <div style={{ color: cfg.color, fontFamily: "'SF Mono','Fira Code',monospace", fontSize: '1.65rem', fontWeight: 900, letterSpacing: '0.04em' }}>{fmtTime(elapsed)}</div>
               </div>
-            : <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'rgba(241,245,249,0.5)', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>✕</button>
+            : <button onClick={onClose} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'rgba(241,245,249,0.6)', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>✕</button>
           }
         </div>
 
@@ -685,7 +685,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
           {/* Select: descriptive info */}
           {phase === 'select' && (
             <div style={{ animation: 'slide-up 0.28s ease' }}>
-              <p style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.78rem', margin: '0 0 1rem', lineHeight: 1.6 }}>
+              <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', margin: '0 0 1rem', lineHeight: 1.6 }}>
                 {tf.intro}
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -694,7 +694,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
                     <span style={{ fontSize: '1.25rem', flexShrink: 0 }}>{d.emoji}</span>
                     <div style={{ flex: 1 }}>
                       <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.82rem' }}>{tf.difficulty[key].label}</div>
-                      <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.68rem', marginTop: '0.08rem' }}>{tf.difficulty[key].sub}</div>
+                      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', marginTop: '0.08rem' }}>{tf.difficulty[key].sub}</div>
                     </div>
                     <span style={{ color: d.color, fontWeight: 900, fontSize: '0.82rem', flexShrink: 0 }}>×{d.xpMult}</span>
                   </div>
@@ -707,11 +707,11 @@ export default function TrainingMode({ onClose, onAwardXP }) {
           {phase === 'active' && cfg && (
             <>
               <div style={{ background: `${cfg.color}08`, border: `1px solid ${cfg.color}1e`, borderRadius: 18, padding: '0.9rem 1.1rem', flexShrink: 0 }}>
-                <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.53rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.8rem' }}>◈ PERFORMANCE SCANNER</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.53rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.8rem' }}>◈ PERFORMANCE SCANNER</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
                   {STAT_KEYS.map((key) => (
                     <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                      <span style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.64rem', fontWeight: 700, width: 40, flexShrink: 0, textAlign: 'start' }}>{tf.stats[key]}</span>
+                      <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.64rem', fontWeight: 700, width: 40, flexShrink: 0, textAlign: 'start' }}>{tf.stats[key]}</span>
                       <div style={{ flex: 1, height: 6, borderRadius: 99, background: 'rgba(255,255,255,0.07)', overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: `${stats[key]}%`, background: `linear-gradient(90deg,${cfg.color}70,${cfg.color})`, borderRadius: 99, transition: 'width 1.2s ease' }} />
                       </div>
@@ -722,13 +722,13 @@ export default function TrainingMode({ onClose, onAwardXP }) {
               </div>
 
               <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 16, padding: '0.9rem 1.05rem', minHeight: 120 }}>
-                <div style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.53rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.7rem' }}>◈ COACH</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.53rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.7rem' }}>◈ COACH</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
                   {coachLog.map((entry, i) => (
                     <div key={entry.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'opacity 0.3s ease', opacity: i === 0 ? 1 : Math.max(0.15, 0.55 - i * 0.1) }}>
                       {i === 0 && <span style={{ color: cfg.color, fontSize: '0.7rem', flexShrink: 0 }}>▶</span>}
                       {i > 0  && <span style={{ width: '0.7rem', flexShrink: 0 }} />}
-                      <span style={{ color: i === 0 ? '#f1f5f9' : 'rgba(241,245,249,0.4)', fontSize: i === 0 ? '1rem' : '0.78rem', fontWeight: i === 0 ? 800 : 500, lineHeight: 1.4 }}>
+                      <span style={{ color: i === 0 ? '#f1f5f9' : 'rgba(241,245,249,0.55)', fontSize: i === 0 ? '1rem' : '0.78rem', fontWeight: i === 0 ? 800 : 500, lineHeight: 1.4 }}>
                         {entry.msg}
                       </span>
                     </div>
@@ -743,7 +743,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
             <div style={{ animation: 'slide-up 0.3s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '0.5rem' }}>
               <div style={{ fontSize: '2.8rem', marginBottom: '0.55rem' }}>🥊</div>
               <h2 style={{ color: cfg.color, fontWeight: 900, fontSize: '1.25rem', margin: '0 0 0.25rem' }}>{tf.done}</h2>
-              <p style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.82rem', margin: '0 0 1rem' }}>{fmtTime(elapsed)} · {cfg.emoji} {tf.difficulty[difficulty].label}</p>
+              <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem', margin: '0 0 1rem' }}>{fmtTime(elapsed)} · {cfg.emoji} {tf.difficulty[difficulty].label}</p>
 
               {/* ── Session Summary ── */}
               {summary && (
@@ -752,19 +752,19 @@ export default function TrainingMode({ onClose, onAwardXP }) {
                   <div style={{ display: 'flex', background: `${cfg.color}0e` }}>
                     <div style={{ flex: 1, padding: '0.85rem 0.9rem', textAlign: 'center', borderInlineStart: `1px solid ${cfg.color}18` }}>
                       <div style={{ color: cfg.color, fontSize: '1.6rem', fontWeight: 900, lineHeight: 1, fontFamily: "'SF Mono','Fira Code',monospace" }}>{summary.accuracy}</div>
-                      <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.2rem', letterSpacing: '0.06em' }}>{tf.accuracy}</div>
+                      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.2rem', letterSpacing: '0.06em' }}>{tf.accuracy}</div>
                       <div style={{ color: cfg.color, fontSize: '0.62rem', fontWeight: 800, marginTop: '0.15rem' }}>{summary.accuracyLabel}</div>
                     </div>
                     <div style={{ flex: 1, padding: '0.85rem 0.9rem', textAlign: 'center' }}>
                       <div style={{ fontSize: '1.4rem', lineHeight: 1 }}>{summary.intensityEmoji}</div>
-                      <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.2rem', letterSpacing: '0.06em' }}>{tf.intensity}</div>
+                      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 700, marginTop: '0.2rem', letterSpacing: '0.06em' }}>{tf.intensity}</div>
                       <div style={{ color: '#f1f5f9', fontSize: '0.62rem', fontWeight: 800, marginTop: '0.15rem' }}>{summary.intensityLabel}</div>
                     </div>
                   </div>
 
                   {/* Tips */}
                   <div style={{ background: 'rgba(255,255,255,0.02)', padding: '0.75rem 0.9rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.15rem' }}>{tf.improve}</div>
+                    <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.15rem' }}>{tf.improve}</div>
                     {summary.tips.map((tip, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                         <span style={{ color: cfg.color, fontSize: '0.6rem', marginTop: '0.1rem', flexShrink: 0 }}>{i === 0 ? '▶' : '▷'}</span>
@@ -778,7 +778,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
               <div style={{ width: '100%', background: `${cfg.color}08`, border: `1px solid ${cfg.color}18`, borderRadius: 16, padding: '0.9rem 1.1rem', marginBottom: '1rem' }}>
                 {STAT_KEYS.map((key, i) => (
                   <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: i < STAT_KEYS.length - 1 ? '0.5rem' : 0 }}>
-                    <span style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.72rem', fontWeight: 700, flex: 1, textAlign: 'start' }}>{tf.stats[key]}</span>
+                    <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', fontWeight: 700, flex: 1, textAlign: 'start' }}>{tf.stats[key]}</span>
                     <div style={{ width: 90, height: 4, borderRadius: 99, background: 'rgba(255,255,255,0.07)', overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: `${stats[key]}%`, background: cfg.color, borderRadius: 99 }} />
                     </div>
@@ -801,7 +801,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
           backdropFilter: 'blur(12px)',
         }}>
           {phase === 'select' && (
-            <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.18)', fontSize: '0.7rem', padding: '0.5rem 0' }}>
+            <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', padding: '0.5rem 0' }}>
               {discipline ? tf.tapIntensity : tf.pickFirst}
             </div>
           )}
@@ -818,7 +818,7 @@ export default function TrainingMode({ onClose, onAwardXP }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.55rem', background: 'rgba(245,197,24,0.08)', border: '1px solid rgba(245,197,24,0.22)', borderRadius: 14, padding: '0.5rem 1rem' }}>
                 <span style={{ color: '#F5C518', fontWeight: 900, fontSize: '1.1rem' }}>+{xpEarned} XP</span>
-                <span style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.7rem' }}>{fmt(tf.mult, { n: DIFFICULTIES[difficulty].xpMult })}</span>
+                <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.7rem' }}>{fmt(tf.mult, { n: DIFFICULTIES[difficulty].xpMult })}</span>
               </div>
               <button
                 onClick={handleFinish}

@@ -74,7 +74,7 @@ export default function RemindersCard({ uid, isGuest, ready = true, habit = null
           onClick={later}
           style={{
             minHeight: 44, padding: '0 1rem', borderRadius: 12, border: 'none', cursor: 'pointer',
-            background: 'transparent', color: '#71717A', fontSize: '0.85rem', fontWeight: 600, fontFamily: 'inherit',
+            background: 'transparent', color: '#8A8A93', fontSize: '0.85rem', fontWeight: 600, fontFamily: 'inherit',
           }}
         >{s.later}</button>
       </div>

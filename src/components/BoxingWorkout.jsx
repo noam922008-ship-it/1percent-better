@@ -144,7 +144,7 @@ function TechDebtReport({ punches, errorLog, duration, onSave }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.1rem' }}>
         <span style={{ fontSize: '1.1rem' }}>🛠️</span>
         <div>
-          <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+          <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
             ◈ TECHNICAL DEBT REPORT
           </div>
           <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '0.88rem' }}>דוח מאמן AI — ניתוח טכני</div>
@@ -170,7 +170,7 @@ function TechDebtReport({ punches, errorLog, duration, onSave }) {
             ].map(s => (
               <div key={s.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '0.25rem 0.6rem', textAlign: 'center' }}>
                 <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '0.82rem' }}>{s.value}</div>
-                <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.52rem', fontWeight: 700, textTransform: 'uppercase' }}>{s.label}</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.52rem', fontWeight: 700, textTransform: 'uppercase' }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -186,7 +186,7 @@ function TechDebtReport({ punches, errorLog, duration, onSave }) {
         </div>
       ) : (
         <div style={{ marginBottom: '1rem' }}>
-          <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.55rem' }}>
+          <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.5rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.55rem' }}>
             ◈ שגיאות מזוהות
           </div>
           {sorted.map(([type, data]) => {
@@ -210,7 +210,7 @@ function TechDebtReport({ punches, errorLog, duration, onSave }) {
                     <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{meta.emoji}</span>
                     <div style={{ flex: 1, textAlign: 'start' }}>
                       <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.82rem' }}>{meta.label.replace('!', '')}</div>
-                      <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.65rem' }}>
+                      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>
                         {data.count}× {topPunch ? `— בעיקר ב${PUNCH_LABELS_HE[topPunch] || topPunch}` : ''}
                       </div>
                     </div>
@@ -221,14 +221,14 @@ function TechDebtReport({ punches, errorLog, duration, onSave }) {
                       </div>
                       <span style={{ color: meta.color, fontSize: '0.55rem', fontWeight: 800 }}>{rate}%</span>
                     </div>
-                    <span style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.7rem', flexShrink: 0 }}>{isOpen ? '▲' : '▼'}</span>
+                    <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', flexShrink: 0 }}>{isOpen ? '▲' : '▼'}</span>
                   </div>
                 </button>
 
                 {/* Drills (expanded) */}
                 {isOpen && drills.length > 0 && (
                   <div style={{ background: 'rgba(245,197,24,0.04)', border: `1px solid ${meta.color}22`, borderRadius: '0 0 12px 12px', borderTop: 'none', padding: '0.65rem 0.85rem', animation: 'fadeIn 0.2s ease' }}>
-                    <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.48rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.45rem' }}>
+                    <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.48rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.45rem' }}>
                       ◈ תרגילי תיקון
                     </div>
                     {drills.map((d, i) => (
@@ -247,7 +247,7 @@ function TechDebtReport({ punches, errorLog, duration, onSave }) {
 
       {/* Coach message */}
       <div style={{ background: 'rgba(245,197,24,0.05)', border: '1px solid rgba(245,197,24,0.14)', borderRadius: 12, padding: '0.75rem 0.9rem', marginBottom: '1rem' }}>
-        <div style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.48rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.3rem' }}>
+        <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.48rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.3rem' }}>
           ◈ מאמן AI
         </div>
         <div style={{ color: 'rgba(241,245,249,0.65)', fontSize: '0.75rem', lineHeight: 1.55 }}>
@@ -444,7 +444,7 @@ export default function BoxingWorkout({ track, goal, onComplete, onClose }) {
   if (phase === 'loading') return (
     <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
       <div className="anim-spin" style={{ width: 36, height: 36, border: '3px solid rgba(245,197,24,0.2)', borderTopColor: '#F5C518', borderRadius: '50%', margin: '0 auto 1rem' }} />
-      <p style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.85rem' }}>טוען מצלמה…</p>
+      <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.85rem' }}>טוען מצלמה…</p>
     </div>
   )
 
@@ -453,9 +453,9 @@ export default function BoxingWorkout({ track, goal, onComplete, onClose }) {
     <div style={{ padding: '1rem 0', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
       <div style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.22)', borderRadius: 12, padding: '0.85rem 1rem' }}>
         <p style={{ color: '#f87171', fontSize: '0.82rem', fontWeight: 700, margin: '0 0 0.5rem' }}>⚠️ הרשאת מצלמה נדחתה</p>
-        <p style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem', margin: 0 }}>אפשר גישה למצלמה בהגדרות הדפדפן.</p>
+        <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', margin: 0 }}>אפשר גישה למצלמה בהגדרות הדפדפן.</p>
       </div>
-      <label style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.67rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
+      <label style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.67rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
         הכנס מכות ידנית
       </label>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -529,7 +529,7 @@ export default function BoxingWorkout({ track, goal, onComplete, onClose }) {
           <div style={{ color: goalReached ? '#F5C518' : '#f1f5f9', fontSize: '2rem', fontWeight: 900, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
             {punches}
           </div>
-          <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.55rem', fontWeight: 700 }}>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 700 }}>
             / {goal} מכות
           </div>
           {/* Mini error badges */}
@@ -567,7 +567,7 @@ export default function BoxingWorkout({ track, goal, onComplete, onClose }) {
         {/* Close — bottom right */}
         {!goalReached && (
           <button onClick={() => { cleanup(); onClose() }} className="btn-tactile"
-            style={{ position: 'absolute', bottom: 10, right: 10, background: 'rgba(5,5,5,0.72)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.25rem 0.7rem', backdropFilter: 'blur(6px)', color: 'rgba(241,245,249,0.55)', fontSize: '0.62rem', fontWeight: 700, cursor: 'pointer' }}>
+            style={{ position: 'absolute', bottom: 10, right: 10, background: 'rgba(5,5,5,0.72)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, padding: '0.25rem 0.7rem', backdropFilter: 'blur(6px)', color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', fontWeight: 700, cursor: 'pointer' }}>
             ✕ סגור
           </button>
         )}
@@ -578,7 +578,7 @@ export default function BoxingWorkout({ track, goal, onComplete, onClose }) {
             <div style={{ background: 'rgba(5,5,5,0.9)', borderRadius: 18, padding: '1.25rem 2rem', textAlign: 'center', border: '2px solid rgba(245,197,24,0.5)' }}>
               <div style={{ fontSize: '2.5rem' }}>🥊</div>
               <div style={{ color: '#F5C518', fontWeight: 900, fontSize: '1.1rem', marginTop: '0.25rem' }}>יעד הושג!</div>
-              <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.7rem', marginTop: '0.15rem' }}>{punches} מכות</div>
+              <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.7rem', marginTop: '0.15rem' }}>{punches} מכות</div>
             </div>
           </div>
         )}

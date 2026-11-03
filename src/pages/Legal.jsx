@@ -29,8 +29,8 @@ export default function Legal() {
 
       <div style={{ maxWidth: 480, margin: '0 auto', padding: '1.25rem 1rem 2.5rem' }}>
         <div style={{ background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, overflow: 'hidden' }}>
-          <a href="/privacy" style={linkRow}>{t.legal.privacy} <ForwardChevron size={18} color="#71717A" /></a>
-          <a href="/terms" style={{ ...linkRow, borderTop: '1px solid rgba(255,255,255,0.05)' }}>{t.legal.terms} <ForwardChevron size={18} color="#71717A" /></a>
+          <a href="/privacy" style={linkRow}>{t.legal.privacy} <ForwardChevron size={18} color="#8A8A93" /></a>
+          <a href="/terms" style={{ ...linkRow, borderTop: '1px solid rgba(255,255,255,0.05)' }}>{t.legal.terms} <ForwardChevron size={18} color="#8A8A93" /></a>
         </div>
 
         <h2 style={{ color: '#D9B34C', fontSize: '0.95rem', fontWeight: 800, margin: '1.75rem 0 0.5rem' }}>{t.legal.contact}</h2>

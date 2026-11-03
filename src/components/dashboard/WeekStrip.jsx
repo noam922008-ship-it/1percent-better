@@ -23,7 +23,7 @@ export default function WeekStrip({ activityLog }) {
         <span style={{ color: '#A4A6AD', fontSize: '0.62rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
           {tw.title}
         </span>
-        <span style={{ color: '#71717A', fontSize: '0.68rem', fontWeight: 600 }}>
+        <span style={{ color: '#8A8A93', fontSize: '0.68rem', fontWeight: 600 }}>
           {fmt(tw.count, { n: activeCount })}
         </span>
       </div>
@@ -49,7 +49,7 @@ export default function WeekStrip({ activityLog }) {
             }}>
               {d.active ? '✓' : d.isToday ? '●' : ''}
             </div>
-            <span style={{ fontSize: '0.6rem', color: d.isToday ? '#D9B34C' : '#71717A', fontWeight: d.isToday ? 700 : 500 }}>
+            <span style={{ fontSize: '0.6rem', color: d.isToday ? '#D9B34C' : '#8A8A93', fontWeight: d.isToday ? 700 : 500 }}>
               {tw.days[d.day]}
             </span>
           </div>

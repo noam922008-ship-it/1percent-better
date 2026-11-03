@@ -157,7 +157,7 @@ export default function TrackSelector({ uid, userName, visionProfile }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
             <span style={{ fontSize: '1rem' }}>🏋️</span>
             <div>
-              <div style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase' }}>מסלול אימון</div>
+              <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase' }}>מסלול אימון</div>
               <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.92rem' }}>
                 {activeTrack ? `${activeTrack.emoji} ${activeTrack.name}` : 'בחר מסלול'}
               </div>
@@ -173,7 +173,7 @@ export default function TrackSelector({ uid, userName, visionProfile }) {
             <button
               onClick={() => setExpanded(v => !v)}
               className="btn-tactile"
-              style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, color: 'rgba(241,245,249,0.35)', fontSize: '0.7rem', padding: '0.2rem 0.5rem', cursor: 'pointer' }}
+              style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', padding: '0.2rem 0.5rem', cursor: 'pointer' }}
             >
               {expanded ? '▲' : '▼'}
             </button>
@@ -185,7 +185,7 @@ export default function TrackSelector({ uid, userName, visionProfile }) {
           <div style={{ marginBottom: '0.85rem', animation: 'fadeIn 0.2s ease' }}>
             {categories.map(cat => (
               <div key={cat} style={{ marginBottom: '0.6rem' }}>
-                <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>
                   {catLabel[cat]}
                 </div>
                 <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
@@ -211,7 +211,7 @@ export default function TrackSelector({ uid, userName, visionProfile }) {
                         >
                           <span style={{ fontSize: '1.1rem', marginBottom: '0.2rem' }}>{track.emoji}</span>
                           <span style={{ color: isActive ? '#F5C518' : isEnrolled ? 'rgba(245,197,24,0.8)' : '#f1f5f9', fontSize: '0.78rem', fontWeight: 800 }}>{track.name}</span>
-                          <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.65rem' }}>
+                          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>
                             {goal} {track.unit}{streak > 0 ? ` · 🔥${streak}` : ''}
                           </span>
                         </button>
@@ -221,7 +221,7 @@ export default function TrackSelector({ uid, userName, visionProfile }) {
                             style={{
                               position: 'absolute', top: 4, right: 4,
                               background: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: 5,
-                              color: 'rgba(241,245,249,0.45)', fontSize: '0.6rem', lineHeight: 1,
+                              color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', lineHeight: 1,
                               padding: '1px 4px', cursor: 'pointer',
                             }}
                           >✕</button>
@@ -260,11 +260,11 @@ export default function TrackSelector({ uid, userName, visionProfile }) {
 
             {/* Goal + progress row */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
-              <div style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.75rem' }}>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem' }}>
                 יעד היום: <strong style={{ color: '#F5C518' }}>{activeGoal} {activeTrack.unit}</strong>
               </div>
               {activeStreak > 0 && (
-                <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.68rem' }}>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem' }}>
                   שדרוג בעוד {activeTrack.levelUpDays - (activeStreak % activeTrack.levelUpDays)} ימים
                 </div>
               )}

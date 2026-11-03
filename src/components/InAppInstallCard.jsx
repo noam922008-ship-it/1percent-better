@@ -35,14 +35,14 @@ function Step({ n, icon, text, sub }) {
       <div style={{ minWidth: 40, height: 34, borderRadius: 9, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f1f5f9', fontWeight: 900, fontSize: '1.05rem', flexShrink: 0, padding: '0 0.4rem' }}>{icon}</div>
       <div style={{ minWidth: 0 }}>
         <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '0.88rem', lineHeight: 1.35 }}>{text}</div>
-        {sub && <div style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.74rem', marginTop: 2 }}>{sub}</div>}
+        {sub && <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.74rem', marginTop: 2 }}>{sub}</div>}
       </div>
     </div>
   )
 }
 
 const cardStyle = { background: 'linear-gradient(135deg,rgba(217,179,76,0.14),rgba(217,179,76,0.05))', border: '1px solid rgba(217,179,76,0.4)', borderRadius: 16, padding: '1rem 1.1rem', marginBottom: '0.875rem' }
-const laterStyle = { marginTop: '0.35rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.45)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', padding: '0.4rem 0', minHeight: 36, fontFamily: 'inherit' }
+const laterStyle = { marginTop: '0.35rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', padding: '0.4rem 0', minHeight: 36, fontFamily: 'inherit' }
 
 export default function InAppInstallCard() {
   const { t } = useLang()

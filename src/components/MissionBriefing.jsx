@@ -103,13 +103,13 @@ export default function MissionBriefing() {
         }}>
           {fmtCountdown(secs)}
         </span>
-        <span style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.63rem', fontWeight: 600 }}>עד סגירת היום</span>
+        <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.63rem', fontWeight: 600 }}>עד סגירת היום</span>
       </div>
 
       {/* Objectives */}
       {objs.length > 0 ? (
         <div>
-          <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.54rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.54rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
             פתוח:
           </div>
           {objs.map((o, i) => (

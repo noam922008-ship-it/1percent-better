@@ -45,7 +45,7 @@ function EmptyState({ onRebuild }) {
       borderRadius: 20, padding: '1.5rem 1.35rem 1.35rem',
       animation: 'slide-up 0.3s ease both',
     }}>
-      <div style={{ color: 'rgba(245,197,24,0.6)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.55rem' }}>
+      <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.55rem' }}>
         ◈ {lang === 'en' ? 'Personal path · PRIME' : 'מסלול אישי · PRIME'}
       </div>
       <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.05rem', lineHeight: 1.3, marginBottom: '1.1rem' }}>
@@ -96,7 +96,7 @@ function HabitRow({ item, todayAction, checked, onToggle }) {
             textDecorationColor: `${item.color}55`, flex: 1,
           }}>{item.label}</span>
           {item.duration && (
-            <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.52rem', fontFamily: 'monospace', flexShrink: 0 }}>{item.duration}′</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.52rem', fontFamily: 'monospace', flexShrink: 0 }}>{item.duration}′</span>
           )}
         </div>
 
@@ -137,7 +137,7 @@ function Divider({ label }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '0 1rem', margin: '0.1rem 0' }}>
       <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.05)' }} />
-      {label && <span style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", flexShrink: 0 }}>{label}</span>}
+      {label && <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", flexShrink: 0 }}>{label}</span>}
       <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.05)' }} />
     </div>
   )
@@ -253,7 +253,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
       <div style={{ background: 'linear-gradient(145deg,rgba(16,185,129,0.12),rgba(16,185,129,0.04))', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 20, padding: '1.5rem', textAlign: 'center' }}>
         <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🏆</div>
         <div style={{ color: '#34d399', fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.2rem' }}>{lang === 'en' ? '30 days. DONE. You grew.' : '30 יום. DONE. גדלת.'}</div>
-        <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.78rem', marginBottom: '1rem' }}>{path.path_name}</div>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', marginBottom: '1rem' }}>{path.path_name}</div>
         <div style={{ color: '#F5C518', fontWeight: 900, fontSize: '1.2rem', marginBottom: '0.8rem' }}>{xpTotal.toLocaleString()} XP</div>
         {onRebuild && (
           <button onClick={onRebuild} className="btn-tactile"
@@ -301,7 +301,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           <div style={{ padding: '0.75rem 1.15rem', display: 'flex', gap: '0.6rem' }}>
             <div style={{ flex: 1, background: 'rgba(245,197,24,0.07)', border: '1px solid rgba(245,197,24,0.18)', borderRadius: 12, padding: '0.65rem 0.5rem', textAlign: 'center' }}>
               <div style={{ color: '#F5C518', fontSize: '1.15rem', fontWeight: 900, lineHeight: 1 }}>+50</div>
-              <div style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.46rem', fontWeight: 800, marginTop: '0.2rem', letterSpacing: '0.1em' }}>{lang === 'en' ? 'XP earned' : 'XP נצבר'}</div>
+              <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.46rem', fontWeight: 800, marginTop: '0.2rem', letterSpacing: '0.1em' }}>{lang === 'en' ? 'XP earned' : 'XP נצבר'}</div>
             </div>
             <div style={{ flex: 1, background: 'rgba(251,146,60,0.07)', border: '1px solid rgba(251,146,60,0.2)', borderRadius: 12, padding: '0.65rem 0.5rem', textAlign: 'center' }}>
               <div style={{ color: '#fb923c', fontSize: '1.15rem', fontWeight: 900, lineHeight: 1 }}>🔥 {streak}</div>
@@ -316,7 +316,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           {/* Progress bar */}
           <div style={{ padding: '0 1.15rem 0.85rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-              <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.53rem', fontWeight: 600 }}>{lang === 'en' ? 'Overall progress' : 'התקדמות כללית'}</span>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.53rem', fontWeight: 600 }}>{lang === 'en' ? 'Overall progress' : 'התקדמות כללית'}</span>
               <span style={{ color: '#34d399', fontSize: '0.53rem', fontWeight: 800 }}>{pathPct}%</span>
             </div>
             <div style={{ height: 5, background: 'rgba(255,255,255,0.06)', borderRadius: 99, overflow: 'hidden' }}>
@@ -332,12 +332,12 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
                 <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace" }}>
                   {lang === 'en' ? `Day ${currentDay + 1} unlocked` : `יום ${currentDay + 1} נפתח`}
                 </span>
-                <span style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.52rem', marginRight: 'auto' }}>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.52rem', marginRight: 'auto' }}>
                   {lang === 'en' ? missionType(tomorrowTask.task || '').badgeEn : missionType(tomorrowTask.task || '').badge}
                 </span>
               </div>
               <div style={{ padding: '0.65rem 0.8rem' }}>
-                <div style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.78rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                   {tomorrowTask.task}
                 </div>
               </div>
@@ -383,7 +383,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
             {streak > 0 && <span style={{ color: '#fb923c', fontSize: '0.7rem', fontWeight: 800 }}>🔥 {streak}</span>}
-            <span style={{ color: 'rgba(245,197,24,0.55)', fontSize: '0.56rem', fontWeight: 800, fontFamily: 'monospace' }}>{currentDay}/30</span>
+            <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.56rem', fontWeight: 800, fontFamily: 'monospace' }}>{currentDay}/30</span>
             {onRebuild && (
               <button onClick={onRebuild} className="btn-tactile" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.78rem', opacity: 0.22, padding: 0 }}>♻️</button>
             )}
@@ -409,7 +409,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
 
         {/* ── THE MISSION — hero block ── */}
         <div style={{ padding: '0.15rem 1.1rem 0.9rem' }}>
-          <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.48rem', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.48rem', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.5rem' }}>
             ◈ {lang === 'en' ? `Task for day ${currentDay}` : `משימת יום ${currentDay}`}
           </div>
           <div style={{
@@ -422,11 +422,11 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
 
           {/* XP line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginTop: '0.65rem' }}>
-            <span style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.56rem', fontWeight: 700 }}>+50 XP</span>
+            <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.56rem', fontWeight: 700 }}>+50 XP</span>
             <div style={{ flex: 1, height: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 99, overflow: 'hidden' }}>
               <div style={{ height: '100%', borderRadius: 99, width: `${pathPct}%`, background: `linear-gradient(90deg,${phaseColor}55,${phaseColor})`, transition: 'width 0.4s' }} />
             </div>
-            <span style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.52rem', fontFamily: 'monospace' }}>{pathPct}%</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.52rem', fontFamily: 'monospace' }}>{pathPct}%</span>
           </div>
         </div>
 
@@ -451,10 +451,10 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
 
           {vision && (
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-              <span style={{ color: 'rgba(245,197,24,0.4)', fontSize: '0.72rem', marginTop: '0.05rem', flexShrink: 0 }}>↗</span>
+              <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.72rem', marginTop: '0.05rem', flexShrink: 0 }}>↗</span>
               <div>
-                <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 600 }}>{lang === 'en' ? 'Leads to: ' : 'מוביל ל: '}</span>
-                <span style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.68rem', lineHeight: 1.4, fontStyle: 'italic' }}>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem', fontWeight: 600 }}>{lang === 'en' ? 'Leads to: ' : 'מוביל ל: '}</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', lineHeight: 1.4, fontStyle: 'italic' }}>
                   "{vision}{vision.length >= 130 ? '...' : ''}"
                 </span>
               </div>
@@ -465,8 +465,8 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start', marginTop: '0.35rem' }}>
               <span style={{ color: 'rgba(239,68,68,0.4)', fontSize: '0.72rem', marginTop: '0.05rem', flexShrink: 0 }}>⊘</span>
               <div>
-                <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 600 }}>{lang === 'en' ? 'The gap we close: ' : 'הפער שנסגר: '}</span>
-                <span style={{ color: 'rgba(241,245,249,0.5)', fontSize: '0.68rem', lineHeight: 1.4 }}>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem', fontWeight: 600 }}>{lang === 'en' ? 'The gap we close: ' : 'הפער שנסגר: '}</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', lineHeight: 1.4 }}>
                   "{gap}{gap.length >= 110 ? '...' : ''}"
                 </span>
               </div>
@@ -486,7 +486,7 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
                 display: 'flex', gap: '0.55rem', alignItems: 'flex-start',
               }}>
                 <span style={{ fontSize: '0.9rem', flexShrink: 0 }}>💬</span>
-                <div style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.73rem', lineHeight: 1.55, fontStyle: 'italic' }}>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem', lineHeight: 1.55, fontStyle: 'italic' }}>
                   {coachNote.length > 180 ? coachNote.slice(0, 180) + '...' : coachNote}
                 </div>
               </div>
@@ -539,14 +539,14 @@ export default function CustomPathCard({ user, pathRecord, onPathUpdate, onRebui
           {/* Locked tomorrow */}
           {tomorrowTask && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', background: 'rgba(255,255,255,0.012)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 10 }}>
-              <span style={{ color: 'rgba(241,245,249,0.16)', fontSize: '0.75rem', flexShrink: 0 }}>🔒</span>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', flexShrink: 0 }}>🔒</span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.6rem', fontWeight: 700, fontFamily: 'monospace' }}>{lang === 'en' ? `Day ${currentDay + 1} — ` : `יום ${currentDay + 1} — `}</span>
-                <span style={{ color: 'rgba(241,245,249,0.14)', fontSize: '0.6rem', display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '72%', verticalAlign: 'bottom' }}>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontWeight: 700, fontFamily: 'monospace' }}>{lang === 'en' ? `Day ${currentDay + 1} — ` : `יום ${currentDay + 1} — `}</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '72%', verticalAlign: 'bottom' }}>
                   {tomorrowTask.task.slice(0, 45)}...
                 </span>
               </div>
-              <span style={{ color: 'rgba(241,245,249,0.1)', fontSize: '0.56rem', fontWeight: 600, flexShrink: 0 }}>{lang === 'en' ? 'Finish the day ←' : 'סיים היום ←'}</span>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.56rem', fontWeight: 600, flexShrink: 0 }}>{lang === 'en' ? 'Finish the day ←' : 'סיים היום ←'}</span>
             </div>
           )}
 

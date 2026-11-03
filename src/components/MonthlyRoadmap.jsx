@@ -105,7 +105,7 @@ function SetupModal({ month, existing, onSave, onClose }) {
             <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.05rem' }}>
               יעדי {getMonthLabel(month)}
             </div>
-            <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.73rem', marginTop: '0.2rem', lineHeight: 1.5 }}>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem', marginTop: '0.2rem', lineHeight: 1.5 }}>
               הגדר מיקוד לכל עמודה — הלוח 4 השבועות נוצר אוטומטית
             </div>
           </div>
@@ -113,7 +113,7 @@ function SetupModal({ month, existing, onSave, onClose }) {
             onClick={onClose}
             style={{
               background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 8, color: 'rgba(241,245,249,0.55)', cursor: 'pointer',
+              borderRadius: 8, color: 'rgba(241,245,249,0.6)', cursor: 'pointer',
               fontSize: '0.85rem', fontWeight: 700, padding: 0,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               minWidth: 44, minHeight: 44, flexShrink: 0,
@@ -136,7 +136,7 @@ function SetupModal({ month, existing, onSave, onClose }) {
                 </div>
                 <div>
                   <span style={{ color: p.color, fontSize: '0.8rem', fontWeight: 800 }}>{p.labelHe}</span>
-                  <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.65rem', marginInlineStart: '0.4rem' }}>— {p.label}</span>
+                  <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem', marginInlineStart: '0.4rem' }}>— {p.label}</span>
                 </div>
                 {goals[p.id].trim() && (
                   <span style={{ marginInlineStart: 'auto', color: '#10b981', fontSize: '0.72rem' }}>✓</span>
@@ -229,7 +229,7 @@ export default function MonthlyRoadmap({ currentDay } = {}) {
                 className="btn-tactile"
                 style={{
                   background: 'none', border: '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: 8, color: 'rgba(241,245,249,0.35)',
+                  borderRadius: 8, color: 'rgba(241,245,249,0.6)',
                   fontSize: '0.7rem', padding: '0 0.5rem', cursor: 'pointer',
                   minHeight: 44, minWidth: 44,
                 }}
@@ -242,7 +242,7 @@ export default function MonthlyRoadmap({ currentDay } = {}) {
               className="btn-tactile"
               style={{
                 background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 8, color: 'rgba(241,245,249,0.45)', fontSize: '0.72rem', fontWeight: 700,
+                borderRadius: 8, color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', fontWeight: 700,
                 padding: '0 0.75rem', cursor: 'pointer', minHeight: 44,
               }}
             >
@@ -254,7 +254,7 @@ export default function MonthlyRoadmap({ currentDay } = {}) {
         {/* ─── Empty state ─── */}
         {!roadmap ? (
           <div style={{ textAlign: 'center', padding: '0.6rem 0 0.2rem' }}>
-            <div style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.75rem', lineHeight: 1.55, marginBottom: '0.85rem' }}>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', lineHeight: 1.55, marginBottom: '0.85rem' }}>
               הגדר יעד לכל עמודה — הלוח 4-שבועות נוצר אוטומטית
             </div>
             <button
@@ -273,7 +273,7 @@ export default function MonthlyRoadmap({ currentDay } = {}) {
             {/* ── Active pillar chips ── */}
             <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.8rem' }}>
               {activePillars.length === 0 ? (
-                <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.72rem' }}>אין עמודות פעילות — לחץ ערוך</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem' }}>אין עמודות פעילות — לחץ ערוך</span>
               ) : activePillars.map(p => (
                 <div
                   key={p.id}
@@ -386,7 +386,7 @@ export default function MonthlyRoadmap({ currentDay } = {}) {
                   {/* This week's focus */}
                   {activePillars.length > 0 && (
                     <div style={{ marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '0.9rem' }}>
-                      <div style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.6rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+                      <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.6rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>
                         פוקוס השבוע
                       </div>
                       {activePillars.map(p => (
@@ -394,9 +394,9 @@ export default function MonthlyRoadmap({ currentDay } = {}) {
                           <span style={{ fontSize: '0.72rem', flexShrink: 0, marginTop: '0.1rem' }}>{p.icon}</span>
                           <div>
                             <span style={{ color: p.color, fontWeight: 800, fontSize: '0.75rem' }}>{p.labelHe} </span>
-                            <span style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.73rem' }}>— {p.phases[weekIdx]}</span>
+                            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem' }}>— {p.phases[weekIdx]}</span>
                             {roadmap.goals[p.id] && (
-                              <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.68rem', marginTop: '0.1rem', lineHeight: 1.4 }}>{roadmap.goals[p.id]}</div>
+                              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', marginTop: '0.1rem', lineHeight: 1.4 }}>{roadmap.goals[p.id]}</div>
                             )}
                           </div>
                         </div>

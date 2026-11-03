@@ -184,7 +184,7 @@ export default function AddToHomeScreen({ bottom = 80, ready = false }) {
                 flex: ios ? 1 : 'none', minHeight: 44,
                 padding: '0.55rem 0.9rem', borderRadius: 10, fontSize: '0.8rem', fontWeight: 700,
                 background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)',
-                color: 'rgba(241,245,249,0.55)', cursor: 'pointer',
+                color: 'rgba(241,245,249,0.6)', cursor: 'pointer',
               }}
             >
               {ios ? ti.gotIt : ti.later}

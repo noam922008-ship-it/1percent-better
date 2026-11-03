@@ -150,7 +150,7 @@ export default function DisciplineGoalCard() {
           <button
             onClick={() => { setShowEdit(v => !v); setEditMin(String(state.goalMinutes)); setEditAct(state.activity) }}
             className="btn-tactile"
-            style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, color: 'rgba(241,245,249,0.3)', fontSize: '0.7rem', padding: '0.2rem 0.5rem', cursor: 'pointer' }}
+            style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', padding: '0.2rem 0.5rem', cursor: 'pointer' }}
           >
             ✏️
           </button>
@@ -252,7 +252,7 @@ export default function DisciplineGoalCard() {
         <div style={{ marginTop: '0.75rem', background: 'rgba(251,191,36,0.07)', border: '1px solid rgba(251,191,36,0.25)', borderRadius: 11, padding: '0.75rem 0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', animation: 'fadeIn 0.3s ease' }}>
           <div>
             <div style={{ color: '#fbbf24', fontWeight: 800, fontSize: '0.82rem', marginBottom: '0.15rem' }}>🏆 {streak} ימים ברצף!</div>
-            <div style={{ color: 'rgba(241,245,249,0.45)', fontSize: '0.73rem' }}>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem' }}>
               שדרג ל-{state.goalMinutes + 5} דקות?
             </div>
           </div>

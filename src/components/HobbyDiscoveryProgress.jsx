@@ -12,7 +12,7 @@ const MIN_RESPONSES_FOR_FULL_RESULTS = 3
 function responseBadge(r) {
   if (r === 'loved') return { emoji: '🔥', color: '#10b981' }
   if (r === 'ok')    return { emoji: '👍', color: '#D9B34C' }
-  if (r === 'nope')  return { emoji: '👋', color: '#71717A' }
+  if (r === 'nope')  return { emoji: '👋', color: '#8A8A93' }
   return null
 }
 
@@ -48,7 +48,7 @@ function InProgressView({ daysCompleted, responses, responseCount }) {
           <span style={{ fontSize: '1rem' }}>🔍</span>
           <div>
             <div style={{ color: '#F4F1E8', fontSize: '0.85rem', fontWeight: 800 }}>לגלות תחביב שמתאים לי</div>
-            <div style={{ color: '#71717A', fontSize: '0.63rem' }}>יום {daysCompleted} מתוך 14</div>
+            <div style={{ color: '#8A8A93', fontSize: '0.63rem' }}>יום {daysCompleted} מתוך 14</div>
           </div>
         </div>
         <div style={{ color: '#a78bfa', fontWeight: 900, fontSize: '0.88rem' }}>{pct}%</div>
@@ -66,7 +66,7 @@ function InProgressView({ daysCompleted, responses, responseCount }) {
 
       {recentDays.length > 0 && (
         <div style={{ marginBottom: leadingTop.length > 0 ? '0.7rem' : 0 }}>
-          <div style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>
+          <div style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>
             ניסויים אחרונים
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.28rem' }}>
@@ -88,7 +88,7 @@ function InProgressView({ daysCompleted, responses, responseCount }) {
 
       {leadingTop.length > 0 && (
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '0.6rem' }}>
-          <div style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
+          <div style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
             מתחיל להתגבש
           </div>
           <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
@@ -130,7 +130,7 @@ function CompletedView({ results, responses }) {
           <div style={{ flex: 1, color: '#F4F1E8', fontSize: '0.85rem', fontWeight: 800 }}>לגלות תחביב — הושלם</div>
           <div style={{ color: '#3FAF7A', fontWeight: 900 }}>✓</div>
         </div>
-        <div style={{ color: '#71717A', fontSize: '0.78rem', lineHeight: 1.5 }}>
+        <div style={{ color: '#8A8A93', fontSize: '0.78rem', lineHeight: 1.5 }}>
           השלמת את 14 הניסויים. לא היו מספיק דירוגים כדי לחשב המלצה — בפעם הבאה כדאי לדרג כל ניסוי.
         </div>
       </div>
@@ -163,7 +163,7 @@ function CompletedView({ results, responses }) {
         <span>🔍</span>
         <div style={{ flex: 1 }}>
           <div style={{ color: '#F4F1E8', fontSize: '0.85rem', fontWeight: 800 }}>תוצאות גילוי התחביב</div>
-          <div style={{ color: '#71717A', fontSize: '0.62rem' }}>מבוסס על {responseCount} דירוגים</div>
+          <div style={{ color: '#8A8A93', fontSize: '0.62rem' }}>מבוסס על {responseCount} דירוגים</div>
         </div>
         <div style={{ color: '#3FAF7A', fontWeight: 900 }}>✓</div>
       </div>
@@ -176,7 +176,7 @@ function CompletedView({ results, responses }) {
 
       {lovedHobbies.length > 0 && (
         <div style={{ marginBottom: '0.6rem' }}>
-          <div style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
+          <div style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
             🔥 רוצה להמשיך
           </div>
           <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
@@ -191,7 +191,7 @@ function CompletedView({ results, responses }) {
 
       {okHobbies.length > 0 && (
         <div style={{ marginBottom: '0.6rem' }}>
-          <div style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
+          <div style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
             👍 היה נחמד
           </div>
           <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
@@ -210,7 +210,7 @@ function CompletedView({ results, responses }) {
 
       {results.recommended && (
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '0.6rem' }}>
-          <div style={{ color: '#71717A', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
+          <div style={{ color: '#8A8A93', fontSize: '0.58rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
             צעד הבא מומלץ
           </div>
           <div style={{ color: '#a78bfa', fontSize: '0.8rem', fontWeight: 700 }}>

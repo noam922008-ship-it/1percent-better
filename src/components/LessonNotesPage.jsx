@@ -10,7 +10,7 @@ import LessonNotesForm from './LessonNotesForm'
 // Tap → the saved lesson + notes; notes can be edited. Rendered inside Dashboard's FullScreen.
 
 const C = {
-  bg: '#09090b', surface: '#111317', text: '#F4F1E8', muted: '#A4A6AD', faint: '#71717A',
+  bg: '#09090b', surface: '#111317', text: '#F4F1E8', muted: '#A4A6AD', faint: '#8A8A93',
   accent: '#D9B34C', danger: '#D85C5C',
 }
 

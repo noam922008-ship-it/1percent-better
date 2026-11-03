@@ -84,7 +84,7 @@ function InitiationModal({ level, onClose }) {
         </h2>
 
         {/* Body */}
-        <p style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.9rem', lineHeight: 1.7, margin: '0 0 0.5rem' }}>
+        <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.9rem', lineHeight: 1.7, margin: '0 0 0.5rem' }}>
           5+ ימים של נוכחות. אתה בין ה-1% הטובים.
         </p>
         <p style={{ color: 'rgba(241,245,249,0.75)', fontSize: '0.95rem', fontWeight: 600, lineHeight: 1.6, margin: '0 0 2rem' }}>
@@ -97,7 +97,7 @@ function InitiationModal({ level, onClose }) {
 
         {/* Pledge */}
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1.5rem', textAlign: 'end' }}>
-          <div style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>ההתחייבות שלך</div>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>ההתחייבות שלך</div>
           <div style={{ color: 'rgba(241,245,249,0.7)', fontSize: '0.8rem', lineHeight: 1.6, fontStyle: 'italic' }}>
             "אגיע כל יום, אחזיק את עצמי בסטנדרט הגבוה ואסייע לאחרים בקהילה."
           </div>
@@ -123,7 +123,7 @@ function InitiationModal({ level, onClose }) {
 
         <button
           onClick={onClose}
-          style={{ marginTop: '0.85rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.25)', fontSize: '0.75rem', cursor: 'pointer', padding: '0.25rem' }}
+          style={{ marginTop: '0.85rem', background: 'none', border: 'none', color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', cursor: 'pointer', padding: '0.25rem' }}
         >
           עדיין לא
         </button>
@@ -283,7 +283,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.5rem' }}>
         <div>
           <h2 style={{ color: '#f1f5f9', fontWeight: 800, fontSize: '1.15rem', margin: 0 }}>{tp.title}</h2>
-          <p style={{ color: 'rgba(241,245,249,0.32)', fontSize: '0.78rem', marginTop: '0.2rem' }}>{tp.sub}</p>
+          <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', marginTop: '0.2rem' }}>{tp.sub}</p>
         </div>
         <button
           className="btn-tactile"
@@ -311,7 +311,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
       <div style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '1.1rem 1.1rem 0.85rem', marginBottom: '1rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '1rem' }}>
           <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.88rem' }}>{tp.consistency}</span>
-          <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.68rem' }}>{tp.last14}</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem' }}>{tp.last14}</span>
         </div>
 
         {/* Bar chart */}
@@ -340,7 +340,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         {/* Day labels */}
         <div style={{ display: 'flex', gap: '4px' }}>
           {barData.map(d => (
-            <div key={d.key} style={{ flex: 1, textAlign: 'center', fontSize: '0.55rem', color: d.isToday ? '#d4a843' : 'rgba(241,245,249,0.2)', fontWeight: d.isToday ? 800 : 400 }}>
+            <div key={d.key} style={{ flex: 1, textAlign: 'center', fontSize: '0.55rem', color: d.isToday ? '#d4a843' : 'rgba(241,245,249,0.6)', fontWeight: d.isToday ? 800 : 400 }}>
               {d.isToday ? '•' : d.dayLbl}
             </div>
           ))}
@@ -350,13 +350,13 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         <div style={{ display: 'flex', gap: '1rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
             <div style={{ width: 8, height: 8, borderRadius: 2, background: '#d4a843' }} />
-            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem' }}>{tp.active}</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>{tp.active}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
             <div style={{ width: 8, height: 8, borderRadius: 2, background: 'rgba(255,255,255,0.08)' }} />
-            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem' }}>{tp.inactive}</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>{tp.inactive}</span>
           </div>
-          <span style={{ marginInlineEnd: 'auto', color: 'rgba(241,245,249,0.25)', fontSize: '0.65rem' }}>
+          <span style={{ marginInlineEnd: 'auto', color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>
             {plural(tp.totalActive, activitySet.size, { n: activitySet.size.toLocaleString(locale) })}
           </span>
         </div>
@@ -370,7 +370,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         const cell = (value, label) => (
           <div style={{ flex: 1, textAlign: 'center' }}>
             <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1.35rem' }}>{value.toLocaleString(locale)}</div>
-            <div style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.68rem', marginTop: '0.15rem' }}>{label}</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', marginTop: '0.15rem' }}>{label}</div>
           </div>
         )
         return (
@@ -381,7 +381,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
               {cell(w.week, tp.workoutsWeek)}
               {cell(w.month, tp.workoutsMonth)}
             </div>
-            <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.66rem', marginTop: '0.8rem', textAlign: 'center' }}>{tp.workoutsRule}</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.66rem', marginTop: '0.8rem', textAlign: 'center' }}>{tp.workoutsRule}</div>
           </div>
         )
       })()}
@@ -406,7 +406,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
           <div key={s.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '0.9rem 1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.35rem' }}>
               <span style={{ fontSize: '0.9rem' }}>{s.icon}</span>
-              <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{tp.stats[s.id]}</span>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{tp.stats[s.id]}</span>
             </div>
             <div style={{ color: s.color, fontSize: '1.55rem', fontWeight: 800, lineHeight: 1 }}>{s.value}</div>
           </div>
@@ -419,7 +419,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
           <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(212,168,67,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', flexShrink: 0 }}>🏅</div>
           <div>
             <div style={{ color: '#d4a843', fontWeight: 800, fontSize: '0.9rem', marginBottom: '0.12rem' }}>{tp.badge}</div>
-            <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.73rem' }}>{plural(tp.badgeSub, streak, { n: streak.toLocaleString(locale) })}</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem' }}>{plural(tp.badgeSub, streak, { n: streak.toLocaleString(locale) })}</div>
           </div>
           <div style={{ marginInlineStart: 'auto', textAlign: 'center', flexShrink: 0 }}>
             <div style={{ color: '#d4a843', fontWeight: 900, fontSize: '1.35rem', lineHeight: 1, fontFamily: "'SF Mono','Fira Code',monospace" }}>{streak.toLocaleString(locale)}</div>
@@ -436,7 +436,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
             <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', flexShrink: 0 }}>🥊</div>
             <div style={{ flex: 1 }}>
               <div style={{ color: '#25d366', fontWeight: 800, fontSize: '0.9rem', marginBottom: '0.12rem' }}>מועדון הקרב</div>
-              <div style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.73rem' }}>רמה {level} · גישה פתוחה</div>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem' }}>רמה {level} · גישה פתוחה</div>
             </div>
             <button
               onClick={() => hasSigned ? window.open(WHATSAPP_LINK, '_blank', 'noopener,noreferrer') : setShowCeremony(true)}
@@ -449,19 +449,19 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
               <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', flexShrink: 0 }}>🔒</div>
               <div>
                 <div style={{ color: 'rgba(241,245,249,0.6)', fontWeight: 700, fontSize: '0.88rem' }}>מועדון הקרב</div>
-                <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.72rem' }}>הגע לרמה {FIGHT_CLUB_LEVEL} כדי לפתוח · נותרו {xpToClub} XP</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem' }}>הגע לרמה {FIGHT_CLUB_LEVEL} כדי לפתוח · נותרו {xpToClub} XP</div>
               </div>
               <div style={{ marginInlineEnd: 'auto', textAlign: 'start', flexShrink: 0 }}>
-                <div style={{ color: 'rgba(241,245,249,0.35)', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>רמה {level}</div>
-                <div style={{ color: 'rgba(241,245,249,0.2)', fontSize: '0.6rem' }}>/ רמה {FIGHT_CLUB_LEVEL}</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>רמה {level}</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem' }}>/ רמה {FIGHT_CLUB_LEVEL}</div>
               </div>
             </div>
             <div style={{ height: 7, borderRadius: 99, background: 'rgba(255,255,255,0.06)' }}>
               <div style={{ height: '100%', borderRadius: 99, background: '#6366f1', width: `${clubProgress}%`, transition: 'width 0.6s cubic-bezier(.4,0,.2,1)' }} />
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.3rem' }}>
-              <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.63rem' }}>{xp} XP</span>
-              <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.63rem' }}>נדרש {FIGHT_CLUB_XP} XP</span>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.63rem' }}>{xp} XP</span>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.63rem' }}>נדרש {FIGHT_CLUB_XP} XP</span>
             </div>
           </div>
         )}
@@ -473,7 +473,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <span style={{ fontSize: '0.8rem' }}>🔔</span>
-            <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.63rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{tp.nudgeTitle}</span>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.63rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{tp.nudgeTitle}</span>
           </div>
           <button
             onClick={handlePreviewNudge}
@@ -481,7 +481,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
           >{tp.preview}</button>
         </div>
         <div style={{ color: '#f1f5f9', fontSize: '0.82rem', fontWeight: 700, marginBottom: '0.15rem' }}>{nudge.title}</div>
-        <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.77rem', lineHeight: 1.5 }}>{nudge.body}</div>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.77rem', lineHeight: 1.5 }}>{nudge.body}</div>
       </div>
 
       {/* ── Future Trajectory (XP forecast) ── */}
@@ -501,18 +501,18 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.85rem' }}>
               <div>
                 <span style={{ color: 'rgba(232,232,232,0.7)', fontWeight: 700, fontSize: '0.88rem' }}>מסלול הצמיחה שלך</span>
-                <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.62rem', marginTop: '0.1rem' }}>בהתבסס על קצב של {dailyXP} XP/יום</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', marginTop: '0.1rem' }}>בהתבסס על קצב של {dailyXP} XP/יום</div>
               </div>
               <span style={{ fontSize: '0.7rem' }}>🚀</span>
             </div>
 
             {/* Current marker */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.65rem' }}>
-              <div style={{ width: 56, textAlign: 'end', color: 'rgba(241,245,249,0.35)', fontSize: '0.65rem', fontWeight: 700, flexShrink: 0 }}>עכשיו</div>
+              <div style={{ width: 56, textAlign: 'end', color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem', fontWeight: 700, flexShrink: 0 }}>עכשיו</div>
               <div style={{ flex: 1, height: 8, borderRadius: 99, background: 'rgba(255,255,255,0.06)', direction: 'ltr' }}>
                 <div style={{ height: '100%', width: `${Math.round((xp / maxXP) * 100)}%`, borderRadius: 99, background: 'rgba(255,255,255,0.2)' }} />
               </div>
-              <div style={{ width: 60, textAlign: 'start', color: 'rgba(241,245,249,0.5)', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0 }}>{xp.toLocaleString()} XP</div>
+              <div style={{ width: 60, textAlign: 'start', color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0 }}>{xp.toLocaleString()} XP</div>
             </div>
 
             {proj.map((p, i) => {
@@ -532,7 +532,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
               )
             })}
 
-            <div style={{ marginTop: '0.85rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', color: 'rgba(241,245,249,0.32)', fontSize: '0.68rem', lineHeight: 1.55 }}>
+            <div style={{ marginTop: '0.85rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', color: 'rgba(241,245,249,0.6)', fontSize: '0.68rem', lineHeight: 1.55 }}>
               💡 זוהי תחזית משוערת לפי הקצב הנוכחי שלך.
             </div>
           </div>
@@ -544,7 +544,7 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
         <div style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '1rem 1.1rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.85rem' }}>
             <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.88rem' }}>מסלול פעיל</span>
-            {activePathName && <span style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.62rem', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activePathName}</span>}
+            {activePathName && <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activePathName}</span>}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
             {CHALLENGES.filter(ch => relevantTrackIds.has(ch.id)).map(ch => {
@@ -554,10 +554,10 @@ export default function AnalyticsTab({ profile, currentUid: _currentUid, activeP
               return (
                 <div key={ch.id}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-                    <span style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                       <span>{ch.emoji}</span>{ch.title}
-                      {isActive && <span style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '0.05rem 0.4rem', color: 'rgba(232,232,232,0.5)', fontSize: '0.55rem', fontWeight: 800 }}>פעיל</span>}
-                      {done === 0 && <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.6rem' }}>טרם התחיל</span>}
+                      {isActive && <span style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '0.05rem 0.4rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.55rem', fontWeight: 800 }}>פעיל</span>}
+                      {done === 0 && <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem' }}>טרם התחיל</span>}
                     </span>
                     <span style={{ color: ch.color, fontSize: '0.68rem', fontWeight: 700 }}>{isActive ? `יום ${getTrackDay(ch, challenges[ch.id]).currentDay}/${ch.days}` : `${done}/${ch.days} ימים`} · {pct}%</span>
                   </div>

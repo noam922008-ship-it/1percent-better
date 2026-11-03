@@ -61,7 +61,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1.1rem' }}>
           <div>
-            <div style={{ color: '#71717A', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.2rem' }}>{step > 0 ? fmt(s.stepOf, { n: step, total: 4 }) : ''}</div>
+            <div style={{ color: '#8A8A93', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.2rem' }}>{step > 0 ? fmt(s.stepOf, { n: step, total: 4 }) : ''}</div>
             <div style={{ color: '#F4F1E8', fontWeight: 900, fontSize: '1.15rem', lineHeight: 1.35 }}>{s.titles[step]}</div>
             {s.subs[step] && <div style={{ color: '#A4A6AD', fontSize: '0.8rem', marginTop: '0.3rem', lineHeight: 1.5 }}>{s.subs[step]}</div>}
           </div>
@@ -116,7 +116,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
                 <button className="btn-tactile" aria-label={s.more} onClick={() => setAmount(a => Math.min(GOOD[goodId].max, a + 1))} style={{ ...chip(false), width: 48, textAlign: 'center' }}>+</button>
               </div>
             )}
-            {hasAmount && <div style={{ color: '#71717A', fontSize: '0.74rem', textAlign: 'center', marginTop: '0.5rem' }}>{s.smallHint}</div>}
+            {hasAmount && <div style={{ color: '#8A8A93', fontSize: '0.74rem', textAlign: 'center', marginTop: '0.5rem' }}>{s.smallHint}</div>}
             <button className="btn-tactile" style={primary(!good)} disabled={!good} onClick={() => good && setStep(3)}>{s.next}</button>
           </div>
         )}
@@ -152,7 +152,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
         )}
 
         {step > 0 && (
-          <button onClick={() => setStep(n => n - 1)} style={{ display: 'block', margin: '0.6rem auto 0', minHeight: 44, padding: '0 1rem', background: 'none', border: 'none', color: '#71717A', fontSize: '0.82rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer' }}>{s.back}</button>
+          <button onClick={() => setStep(n => n - 1)} style={{ display: 'block', margin: '0.6rem auto 0', minHeight: 44, padding: '0 1rem', background: 'none', border: 'none', color: '#8A8A93', fontSize: '0.82rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer' }}>{s.back}</button>
         )}
       </div>
     </div>

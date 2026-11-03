@@ -6,11 +6,11 @@ const C = {
   surface: '#1C1F26',
   border:  '#2A2D35',
   text:    '#F4F1E8',
-  muted:   '#71717A',
+  muted:   '#8A8A93',
   accent:  '#D9B34C',
   blue:    '#60a5fa',
   green:   '#10b981',
-  gray:    '#71717A',
+  gray:    '#8A8A93',
   red:     '#ef4444',
 }
 

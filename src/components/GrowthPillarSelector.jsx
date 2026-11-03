@@ -18,7 +18,7 @@ export default function GrowthPillarSelector({ selected = DEFAULT_PILLARS, onCha
 
   return (
     <div>
-      <div style={{ color: '#71717A', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
+      <div style={{ color: '#8A8A93', fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
         {tp.title}
       </div>
       <div style={{ color: '#A4A6AD', fontSize: '0.72rem', marginBottom: '0.75rem', lineHeight: 1.5 }}>
@@ -40,7 +40,7 @@ export default function GrowthPillarSelector({ selected = DEFAULT_PILLARS, onCha
                 borderRadius: 20,
                 border: `1px solid ${on ? p.color + '60' : 'rgba(255,255,255,0.08)'}`,
                 background: on ? p.color + '14' : 'transparent',
-                color: on ? p.color : disabled ? 'rgba(255,255,255,0.2)' : '#71717A',
+                color: on ? p.color : disabled ? 'rgba(255,255,255,0.2)' : '#8A8A93',
                 fontSize: '0.8rem',
                 fontWeight: 700,
                 cursor: disabled ? 'not-allowed' : 'pointer',
@@ -56,7 +56,7 @@ export default function GrowthPillarSelector({ selected = DEFAULT_PILLARS, onCha
           )
         })}
       </div>
-      <div style={{ color: '#71717A', fontSize: '0.65rem', marginTop: '0.5rem' }}>
+      <div style={{ color: '#8A8A93', fontSize: '0.65rem', marginTop: '0.5rem' }}>
         {fmt(tp.count, { n: selected.length })}
       </div>
     </div>

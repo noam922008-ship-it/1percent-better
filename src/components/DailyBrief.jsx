@@ -62,13 +62,13 @@ export default function DailyBrief() {
             ◈ DAILY BRIEF
           </span>
           {phase === 'early' && (
-            <span style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.52rem', fontWeight: 600 }}>
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.52rem', fontWeight: 600 }}>
               (אתמול · ב-08:00 תיווצר הודעה חדשה)
             </span>
           )}
         </div>
         {entry?.generatedAt && (
-          <span style={{ color: 'rgba(241,245,249,0.22)', fontSize: '0.55rem' }}>{entry.generatedAt}</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem' }}>{entry.generatedAt}</span>
         )}
       </div>
 
@@ -76,7 +76,7 @@ export default function DailyBrief() {
       {phase === 'generating' && (
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', padding: '0.3rem 0' }}>
           <div className="anim-spin" style={{ width: 12, height: 12, border: `2px solid ${borderColor}30`, borderTopColor: borderColor, borderRadius: '50%', flexShrink: 0 }} />
-          <span style={{ color: 'rgba(241,245,249,0.35)', fontSize: '0.72rem', letterSpacing: '0.06em' }}>GENERATING BRIEF…</span>
+          <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.72rem', letterSpacing: '0.06em' }}>GENERATING BRIEF…</span>
         </div>
       )}
 
@@ -121,7 +121,7 @@ export default function DailyBrief() {
         onClick={() => setShowHistory(v => !v)}
         style={{
           background: 'none', border: 'none', cursor: 'pointer',
-          color: 'rgba(241,245,249,0.2)', fontSize: '0.55rem', fontWeight: 700,
+          color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase',
           padding: '0.4rem 0 0', display: 'flex', alignItems: 'center', gap: '0.3rem',
           fontFamily: 'inherit',
@@ -137,10 +137,10 @@ export default function DailyBrief() {
           {history.filter(e => e.date !== entry?.date).slice(0, 4).map(e => (
             <div key={e.date} style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '0.5rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-                <span style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', fontWeight: 700 }}>{e.date}</span>
-                <span style={{ color: 'rgba(241,245,249,0.18)', fontSize: '0.52rem' }}>{e.generatedAt}</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', fontWeight: 700 }}>{e.date}</span>
+                <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.52rem' }}>{e.generatedAt}</span>
               </div>
-              <p style={{ color: 'rgba(241,245,249,0.45)', fontSize: '0.73rem', lineHeight: 1.55, margin: 0 }}>{e.message}</p>
+              <p style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.73rem', lineHeight: 1.55, margin: 0 }}>{e.message}</p>
             </div>
           ))}
         </div>

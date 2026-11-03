@@ -44,7 +44,7 @@ export default function WorkoutsScreen({ onStartWorkout, onCombat, onBoxing, onM
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.6rem' }}>
             <span style={{ fontSize: '1rem' }}>{cat.icon}</span>
             <span style={{ color: '#F4F1E8', fontWeight: 800, fontSize: '0.9rem' }}>{tw.categories[cat.id].label}</span>
-            <span style={{ color: '#71717A', fontSize: '0.72rem' }}>— {tw.categories[cat.id].desc}</span>
+            <span style={{ color: '#8A8A93', fontSize: '0.72rem' }}>— {tw.categories[cat.id].desc}</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
             {cat.exercises.map(ex => {
@@ -72,8 +72,8 @@ export default function WorkoutsScreen({ onStartWorkout, onCombat, onBoxing, onM
                   aria-label={fmt(tw.startAria, { name })}
                 >
                   <div style={{ color: '#F4F1E8', fontSize: '0.87rem', fontWeight: 800, marginBottom: '0.2rem' }}>{name}</div>
-                  <div style={{ color: '#71717A', fontSize: '0.7rem' }}>{desc}</div>
-                  <div style={{ marginTop: '0.5rem', color: 'rgba(232,232,232,0.4)', fontSize: '0.65rem', fontWeight: 700 }}>{tw.start}</div>
+                  <div style={{ color: '#8A8A93', fontSize: '0.7rem' }}>{desc}</div>
+                  <div style={{ marginTop: '0.5rem', color: 'rgba(232,232,232,0.6)', fontSize: '0.65rem', fontWeight: 700 }}>{tw.start}</div>
                 </button>
               )
             })}

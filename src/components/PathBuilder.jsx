@@ -98,7 +98,7 @@ function UserBubble({ text }) {
 function VisionLabelChip({ q, stepNum }) {
   return (
     <div style={{ paddingRight: '2.35rem', marginBottom: '-0.1rem' }}>
-      <span style={{ background: 'rgba(245,197,24,0.08)', border: '1px solid rgba(245,197,24,0.2)', borderRadius: 20, padding: '0.15rem 0.6rem', color: 'rgba(245,197,24,0.65)', fontSize: '0.6rem', fontWeight: 800, letterSpacing: '0.08em', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+      <span style={{ background: 'rgba(245,197,24,0.08)', border: '1px solid rgba(245,197,24,0.2)', borderRadius: 20, padding: '0.15rem 0.6rem', color: 'rgba(245,197,24,0.8)', fontSize: '0.6rem', fontWeight: 800, letterSpacing: '0.08em', fontFamily: "'SF Mono','Fira Code',monospace" }}>
         {q.icon} {q.label} · {stepNum}/{TOTAL_STEPS}
       </span>
     </div>
@@ -121,18 +121,18 @@ function PathPreview({ pathRecord, onConfirm }) {
         <div style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 14, padding: '0.75rem 1rem', marginBottom: '0.85rem' }}>
           <div style={{ color: 'rgba(16,185,129,0.7)', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.35rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>🎯 נבנה בשבילך — ורק בשבילך</div>
           {vision && <div style={{ color: 'rgba(241,245,249,0.7)', fontSize: '0.78rem', lineHeight: 1.5, marginBottom: gap ? '0.25rem' : 0 }}>
-            <span style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.65rem' }}>חזון: </span>{vision.slice(0, 80)}{vision.length > 80 ? '...' : ''}
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>חזון: </span>{vision.slice(0, 80)}{vision.length > 80 ? '...' : ''}
           </div>}
           {gap && <div style={{ color: 'rgba(241,245,249,0.7)', fontSize: '0.78rem', lineHeight: 1.5 }}>
-            <span style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.65rem' }}>הפער: </span>{gap.slice(0, 80)}{gap.length > 80 ? '...' : ''}
+            <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.65rem' }}>הפער: </span>{gap.slice(0, 80)}{gap.length > 80 ? '...' : ''}
           </div>}
         </div>
       )}
 
       <div style={{ background: 'linear-gradient(145deg,rgba(245,197,24,0.12),rgba(245,197,24,0.04))', border: '1px solid rgba(245,197,24,0.3)', borderRadius: 20, padding: '1.25rem', marginBottom: '1rem' }}>
-        <div style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>◈ המסלול האישי שלך</div>
+        <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>◈ המסלול האישי שלך</div>
         <div style={{ color: '#F5C518', fontSize: '1.35rem', fontWeight: 900, lineHeight: 1.25, marginBottom: '0.4rem' }}>{path.path_name}</div>
-        <div style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.82rem', lineHeight: 1.5 }}>{path.tagline}</div>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.82rem', lineHeight: 1.5 }}>{path.tagline}</div>
       </div>
 
       <div style={{ background: 'rgba(99,102,241,0.07)', border: '1px solid rgba(99,102,241,0.18)', borderRadius: 14, padding: '0.85rem 1rem', marginBottom: '1rem' }}>
@@ -141,14 +141,14 @@ function PathPreview({ pathRecord, onConfirm }) {
       </div>
 
       <div style={{ marginBottom: '1rem' }}>
-        <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.55rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>הרגלים יומיים</div>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.55rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>הרגלים יומיים</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
           {path.daily_habits.map((h, i) => (
             <div key={h.id} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.65rem 0.85rem', animation: `slide-up 0.3s ${i * 0.07}s ease both` }}>
               <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{h.emoji}</span>
               <div>
                 <div style={{ color: '#f1f5f9', fontSize: '0.82rem', fontWeight: 800 }}>{h.title}</div>
-                <div style={{ color: 'rgba(241,245,249,0.38)', fontSize: '0.7rem', marginTop: '0.1rem' }}>{h.description} · {h.duration_min} דק'</div>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', marginTop: '0.1rem' }}>{h.description} · {h.duration_min} דק'</div>
               </div>
             </div>
           ))}
@@ -156,15 +156,15 @@ function PathPreview({ pathRecord, onConfirm }) {
       </div>
 
       <div style={{ marginBottom: '1.5rem' }}>
-        <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.55rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>שבוע ראשון — מבט מקדים</div>
+        <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.55rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>שבוע ראשון — מבט מקדים</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
           {path.roadmap.slice(0, 3).map(r => (
             <div key={r.day} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', padding: '0.45rem 0' }}>
-              <div style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(245,197,24,0.1)', border: '1px solid rgba(245,197,24,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', fontWeight: 900, color: 'rgba(245,197,24,0.7)', fontFamily: 'monospace', flexShrink: 0 }}>{r.day}</div>
-              <span style={{ color: 'rgba(241,245,249,0.55)', fontSize: '0.78rem', lineHeight: 1.45 }}>{r.task}</span>
+              <div style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(245,197,24,0.1)', border: '1px solid rgba(245,197,24,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', fontWeight: 900, color: 'rgba(245,197,24,0.8)', fontFamily: 'monospace', flexShrink: 0 }}>{r.day}</div>
+              <span style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', lineHeight: 1.45 }}>{r.task}</span>
             </div>
           ))}
-          <div style={{ color: 'rgba(245,197,24,0.35)', fontSize: '0.68rem', marginTop: '0.2rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>+ עוד 27 ימים...</div>
+          <div style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.68rem', marginTop: '0.2rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>+ עוד 27 ימים...</div>
         </div>
       </div>
 
@@ -196,24 +196,24 @@ function ArchiveWarning({ existingPath, onConfirm, onCancel }) {
           {path?.path_name || 'מסלול קיים'}
         </div>
         {path?.tagline && (
-          <div style={{ color: 'rgba(241,245,249,0.4)', fontSize: '0.78rem', marginBottom: '0.65rem', lineHeight: 1.45 }}>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', marginBottom: '0.65rem', lineHeight: 1.45 }}>
             {path.tagline}
           </div>
         )}
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: 8, padding: '0.4rem 0.7rem', textAlign: 'center' }}>
             <div style={{ color: '#fbbf24', fontSize: '1rem', fontWeight: 900, lineHeight: 1 }}>{daysCompleted}</div>
-            <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', marginTop: '0.15rem' }}>ימים ✓</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', marginTop: '0.15rem' }}>ימים ✓</div>
           </div>
           {streak > 0 && (
             <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: 8, padding: '0.4rem 0.7rem', textAlign: 'center' }}>
               <div style={{ color: '#f97316', fontSize: '1rem', fontWeight: 900, lineHeight: 1 }}>🔥{streak}</div>
-              <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', marginTop: '0.15rem' }}>רצף</div>
+              <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', marginTop: '0.15rem' }}>רצף</div>
             </div>
           )}
           <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: 8, padding: '0.4rem 0.7rem', textAlign: 'center' }}>
             <div style={{ color: '#06b6d4', fontSize: '1rem', fontWeight: 900, lineHeight: 1 }}>30</div>
-            <div style={{ color: 'rgba(241,245,249,0.3)', fontSize: '0.55rem', marginTop: '0.15rem' }}>ימי מסלול</div>
+            <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.55rem', marginTop: '0.15rem' }}>ימי מסלול</div>
           </div>
         </div>
       </div>
@@ -234,7 +234,7 @@ function ArchiveWarning({ existingPath, onConfirm, onCancel }) {
       <button
         onClick={onCancel}
         className="btn-tactile"
-        style={{ width: '100%', padding: '0.85rem', borderRadius: 14, background: 'transparent', border: '1px solid rgba(255,255,255,0.09)', color: 'rgba(241,245,249,0.38)', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}
+        style={{ width: '100%', padding: '0.85rem', borderRadius: 14, background: 'transparent', border: '1px solid rgba(255,255,255,0.09)', color: 'rgba(241,245,249,0.6)', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}
       >
         חזור למסלול הנוכחי
       </button>
@@ -381,7 +381,7 @@ export default function PathBuilder({ user, onDone }) {
       {/* ── Header ── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.85rem 1.25rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <img src="/prime-logo.svg" alt="PRIME" style={{ height: 22, opacity: 0.7 }} />
-        <div style={{ fontFamily: "'SF Mono','Fira Code',monospace", color: 'rgba(245,197,24,0.5)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em' }}>
+        <div style={{ fontFamily: "'SF Mono','Fira Code',monospace", color: 'rgba(245,197,24,0.8)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em' }}>
           ◈ חזון הפריים
         </div>
         <div style={{ display: 'flex', gap: '0.3rem' }}>
@@ -437,7 +437,7 @@ export default function PathBuilder({ user, onDone }) {
                   </div>
                   {isCurrent && i === buildSteps.length - 1 && apiStatus && (
                     <div style={{ marginTop: '0.35rem', marginRight: '1.6rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <span style={{ color: 'rgba(245,197,24,0.5)', fontSize: '0.68rem', fontFamily: "'SF Mono','Fira Code',monospace", fontWeight: 600 }}>
+                      <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.68rem', fontFamily: "'SF Mono','Fira Code',monospace", fontWeight: 600 }}>
                         {apiStatus === 'ai'     ? '→ שולח ל-Gemini AI...' : ''}
                         {apiStatus === 'saving' ? '→ שומר ב-Firestore...' : ''}
                       </span>
@@ -453,7 +453,7 @@ export default function PathBuilder({ user, onDone }) {
                 <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.78rem', marginBottom: '0.15rem' }}>
                   {(ERROR_MESSAGES[error] || ERROR_MESSAGES.default).he}
                 </div>
-                <div style={{ color: 'rgba(241,245,249,0.25)', fontSize: '0.62rem', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.85rem' }}>
+                <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: '0.85rem' }}>
                   code: {error}
                 </div>
                 <button
@@ -503,7 +503,7 @@ export default function PathBuilder({ user, onDone }) {
             className="glow-input"
             style={{ width: '100%', boxSizing: 'border-box', padding: '0.85rem 0.95rem', borderRadius: 14, border: '1px solid rgba(255,255,255,0.09)', background: 'rgba(255,255,255,0.04)', color: '#f1f5f9', fontSize: '0.9rem', fontFamily: 'inherit', resize: 'none', lineHeight: 1.6, marginBottom: '0.35rem', direction: 'rtl' }}
           />
-          <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.62rem', marginBottom: '0.55rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', marginBottom: '0.55rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>
             {activeQ.hint}
           </div>
           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -543,7 +543,7 @@ export default function PathBuilder({ user, onDone }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginBottom: '0.5rem' }}>
             {Array.from({ length: activeQ.count }, (_, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <span style={{ color: 'rgba(245,197,24,0.45)', fontSize: '0.68rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace", minWidth: 16, textAlign: 'center' }}>
+                <span style={{ color: 'rgba(245,197,24,0.8)', fontSize: '0.68rem', fontWeight: 800, fontFamily: "'SF Mono','Fira Code',monospace", minWidth: 16, textAlign: 'center' }}>
                   {idx + 1}
                 </span>
                 <input
@@ -566,7 +566,7 @@ export default function PathBuilder({ user, onDone }) {
               </div>
             ))}
           </div>
-          <div style={{ color: 'rgba(241,245,249,0.28)', fontSize: '0.62rem', marginBottom: '0.55rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>
+          <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.62rem', marginBottom: '0.55rem', fontFamily: "'SF Mono','Fira Code',monospace" }}>
             {activeQ.hint}
           </div>
           <button
