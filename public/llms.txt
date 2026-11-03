@@ -23,5 +23,9 @@ PRIME Daily is a web app (installable on iPhone and Android) in Hebrew and Engli
 - Privacy policy: https://prime-daily.app/privacy
 - Terms of use: https://prime-daily.app/terms
 - Accessibility statement: https://prime-daily.app/accessibility
+- Guide (Hebrew): how to stop scrolling on your phone: https://prime-daily.app/guides/stop-scrolling
+- Guide (Hebrew): how to get up without snoozing: https://prime-daily.app/guides/stop-snoozing
+- Guide (Hebrew): how to go to sleep earlier: https://prime-daily.app/guides/sleep-earlier
 - Instagram: https://www.instagram.com/prime.daily.app/
+- TikTok: https://www.tiktok.com/@prime.app1
 - Contact: prime.daily.app@gmail.com

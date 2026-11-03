@@ -78,7 +78,7 @@ it.each(['he', 'en'])('ships crawlable %s content, matching metadata and five FA
   expect(doc.querySelector('h1').textContent).toBe(description)
   const graph = JSON.parse(doc.querySelector('[type="application/ld+json"]').textContent)['@graph']
   expect(graph[0].description).toBe(description)
-  expect(graph[0].sameAs).toEqual(['https://www.instagram.com/prime.daily.app/'])
+  expect(graph[0].sameAs).toEqual(['https://www.instagram.com/prime.daily.app/', 'https://www.tiktok.com/@prime.app1'])
   expect(graph[1].mainEntity).toHaveLength(5)
   const articles = doc.querySelectorAll('.landing-faq article')
   graph[1].mainEntity.forEach((q, i) => expect(articles[i].textContent).toContain(q.name))

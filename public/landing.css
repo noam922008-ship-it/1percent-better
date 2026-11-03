@@ -42,3 +42,6 @@ body:has(#prime-landing) { margin: 0; }
 #prime-landing.landing-guide strong { color: #f4f1e8; }
 #prime-landing.landing-guide .guide-cta { max-width: 720px; }
 #prime-landing.landing-guide .guide-cta p { margin: 0 0 24px; color: #d6d3ca; }
+#prime-landing.landing-guide .guide-related ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+#prime-landing.landing-guide .guide-related a { color: #D9B34C; text-decoration: underline; font-size: 17px; }
+#prime-landing.landing-guide main > article a { color: #D9B34C; text-decoration: underline; }
