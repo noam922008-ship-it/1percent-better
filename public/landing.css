@@ -31,3 +31,14 @@ body:has(#prime-landing) { margin: 0; }
   #prime-landing li { display: flex; align-items: baseline; gap: 20px; }
   #prime-landing li span { margin: 0; }
 }
+/* Guide pages (/guides/*) — static articles that share the landing look */
+#prime-landing.landing-guide main > article { max-width: 720px; padding: 56px 0 40px; }
+#prime-landing.landing-guide h1 { font-size: clamp(28px, 4vw, 44px); margin-bottom: 20px; }
+#prime-landing.landing-guide main > article h2 { font-size: 21px; margin: 36px 0 10px; }
+#prime-landing.landing-guide main > article p { margin: 0 0 14px; color: #d6d3ca; font-size: 17px; }
+#prime-landing.landing-guide .guide-lead { font-size: 19px; color: #f4f1e8; }
+#prime-landing.landing-guide main > article ul { margin: 0 0 14px; padding-inline-start: 22px; color: #d6d3ca; font-size: 17px; }
+#prime-landing.landing-guide main > article li { margin-bottom: 6px; }
+#prime-landing.landing-guide strong { color: #f4f1e8; }
+#prime-landing.landing-guide .guide-cta { max-width: 720px; }
+#prime-landing.landing-guide .guide-cta p { margin: 0 0 24px; color: #d6d3ca; }

@@ -17,6 +17,7 @@
       ],
       "rewrites": [
         { "source": "/en", "destination": "/en/index.html" },
+        { "source": "/guides/stop-scrolling", "destination": "/guides/stop-scrolling/index.html" },
         {
           "source": "**",
           "destination": "/index.html"
