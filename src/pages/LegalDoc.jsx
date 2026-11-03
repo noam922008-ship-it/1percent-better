@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { dirFor } from '../i18n/detectLang'
 import LegalContent from '../components/LegalContent'
 
-// /privacy and /terms — full pages. Linked from the signup screen, Settings and /legal.
+// /privacy, /terms and /accessibility — full pages. Linked from the signup screen, Settings and /legal.
 export default function LegalDoc({ type }) {
   const navigate = useNavigate()
   const { lang, t } = useLang()

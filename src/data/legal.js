@@ -457,8 +457,89 @@ export const TERMS_EN = {
   ],
 }
 
-export const LEGAL_DOCS = { privacy: PRIVACY, terms: TERMS }
-export const LEGAL_DOCS_EN = { privacy: PRIVACY_EN, terms: TERMS_EN }
+
+// Accessibility statement (/accessibility). Israeli standard IS 5568 = WCAG 2.0 AA.
+// Keep "how we checked" honest: bump `updated` whenever the app is re-checked.
+export const ACCESSIBILITY = {
+  title: 'הצהרת נגישות',
+  updated: '3.11.2026',
+  intro: 'אנחנו רוצים ש-PRIME תתאים לכל מי שרוצה להשתמש בה, כולל אנשים עם מוגבלות.',
+  sections: [
+    {
+      title: 'רמת הנגישות',
+      paras: ['האפליקציה בנויה לפי התקן הישראלי 5568, שמבוסס על הנחיות WCAG 2.0 ברמה AA, ככל שהדבר אפשרי.'],
+    },
+    {
+      title: 'מה עשינו',
+      paras: [
+        { list: [
+          'ניגודיות של טקסט מול רקע לפי רמה AA.',
+          'שמות ותיאורים לכפתורים ולמתגים, בשביל קוראי מסך.',
+          'כפתורים בגודל נוח למגע.',
+          'עברית ואנגלית, כל אחת בכיוון הקריאה שלה.',
+          'האפליקציה עובדת עם הכלים המובנים בטלפון: הגדלת טקסט, ניגודיות מוגברת וקורא מסך (VoiceOver או TalkBack).',
+        ] },
+      ],
+    },
+    {
+      title: 'איך בדקנו',
+      paras: ['בדקנו את המסכים העיקריים בכלי בדיקה אוטומטי (axe) ובבדיקה ידנית בטלפון.'],
+    },
+    {
+      title: 'מה עוד לא מושלם',
+      paras: [
+        'אימוני האגרוף עם המצלמה מבוססים על תנועה וראייה, ולכן הם לא נגישים לכולם. שאר האפליקציה עובדת גם בלעדיהם.',
+        'אנחנו ממשיכים לבדוק ולשפר. אם מצאת משהו שלא עובד, נשמח לדעת.',
+      ],
+    },
+    {
+      title: 'נתקלת בבעיה?',
+      paras: ['אחראי הנגישות: {operatorName}. אפשר לכתוב ל-{contactEmail}, לתאר מה לא עבד ובאיזה מסך, ונחזור אליך בהקדם.'],
+    },
+  ],
+}
+
+export const ACCESSIBILITY_EN = {
+  title: 'Accessibility statement',
+  updated: 'November 3, 2026',
+  intro: 'We want PRIME to work for everyone who wants to use it, including people with disabilities.',
+  sections: [
+    {
+      title: 'Accessibility level',
+      paras: ['The app is built to the Israeli standard IS 5568, which is based on WCAG 2.0 level AA, as far as possible.'],
+    },
+    {
+      title: 'What we did',
+      paras: [
+        { list: [
+          'Text contrast against the background meets level AA.',
+          'Names and descriptions on buttons and switches, for screen readers.',
+          'Buttons large enough to tap comfortably.',
+          'Hebrew and English, each in its own reading direction.',
+          "The app works with your phone's built-in tools: larger text, increased contrast and screen readers (VoiceOver or TalkBack).",
+        ] },
+      ],
+    },
+    {
+      title: 'How we checked',
+      paras: ['We checked the main screens with an automated testing tool (axe) and by hand on a phone.'],
+    },
+    {
+      title: "What isn't perfect yet",
+      paras: [
+        "The camera boxing workouts rely on movement and sight, so they aren't accessible to everyone. The rest of the app works without them.",
+        "We keep checking and improving. If you find something that doesn't work, we'd like to know.",
+      ],
+    },
+    {
+      title: 'Ran into a problem?',
+      paras: ['Accessibility contact: {operatorName}. Write to {contactEmail}, tell us what didn\'t work and on which screen, and we\'ll get back to you soon.'],
+    },
+  ],
+}
+
+export const LEGAL_DOCS = { privacy: PRIVACY, terms: TERMS, accessibility: ACCESSIBILITY }
+export const LEGAL_DOCS_EN = { privacy: PRIVACY_EN, terms: TERMS_EN, accessibility: ACCESSIBILITY_EN }
 
 export function legalDoc(type, lang) {
   return (lang === 'en' ? LEGAL_DOCS_EN : LEGAL_DOCS)[type]

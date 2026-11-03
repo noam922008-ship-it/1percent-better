@@ -106,7 +106,7 @@ describe('legal pages: direction and chevrons', () => {
     expect(container.firstChild.getAttribute('dir')).toBe(dir)
     expect(chevron(container, 'back').getAttribute('class')).toContain(backIcon)
     const rows = container.querySelectorAll('[data-dir-chevron="forward"]')
-    expect(rows).toHaveLength(2)
+    expect(rows).toHaveLength(3)
     rows.forEach(r => expect(r.getAttribute('class')).toContain(fwdIcon))
     if (l === 'en') expect(hebrewIn(container)).toEqual([])
     else expect(container.textContent).toContain('משפטי ותמיכה')

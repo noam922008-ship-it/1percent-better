@@ -38,6 +38,7 @@ export default function App() {
             <Route path="/legal"     element={<Legal />} />
             <Route path="/privacy"   element={<LegalDoc type="privacy" />} />
             <Route path="/terms"     element={<LegalDoc type="terms" />} />
+            <Route path="/accessibility" element={<LegalDoc type="accessibility" />} />
             <Route path="*"          element={<ToWelcome />} />
           </Routes>
           <ConsentBanner />

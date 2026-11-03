@@ -12,7 +12,7 @@ import { useLang } from '../context/LangContext'
 // Hidden on the legal pages so the policy can be read; it's back when the user returns.
 
 export const CONSENT_CHOICE_EVENT = 'prime-consent-choice'
-const LEGAL_PATHS = ['/privacy', '/terms', '/legal']
+const LEGAL_PATHS = ['/privacy', '/terms', '/accessibility', '/legal']
 
 export default function ConsentBanner() {
   const { t } = useLang()

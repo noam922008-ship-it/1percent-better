@@ -66,7 +66,7 @@ export default function LegalContent({ type, showTitle = true }) {
         </span>
         <SocialLinks />
       </div>
-      <p style={{ color: C.muted, fontSize: '0.78rem', marginTop: '0.75rem' }}>{t.legal.updated} {cfg.updated}</p>
+      <p style={{ color: C.muted, fontSize: '0.78rem', marginTop: '0.75rem' }}>{t.legal.updated} {doc.updated || cfg.updated}</p>
     </div>
   )
 }
