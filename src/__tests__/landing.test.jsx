@@ -71,7 +71,9 @@ it.each(['he', 'en'])('ships crawlable %s content, matching metadata and five FA
   const description = lang === 'he'
     ? 'PRIME Daily: אפליקציה חינמית להתחיל הרגל טוב או להפסיק הרגל רע. צעד אחד ברור כל יום.'
     : 'PRIME Daily: a free app to start a good habit or quit a bad one. One clear step a day.'
-  expect(doc.title).toBe(description)
+  // Short title (Google cuts ~60 chars); the full sentence stays in the description and h1
+  expect(doc.title).toBe(lang === 'he' ? 'PRIME Daily: אפליקציה לבנות או להפסיק הרגלים' : 'PRIME Daily: App to Build or Quit Habits')
+  expect(doc.title.length).toBeLessThanOrEqual(60)
   expect(doc.querySelector('meta[name="description"]').content).toBe(description)
   expect(doc.querySelector('h1').textContent).toBe(description)
   const graph = JSON.parse(doc.querySelector('[type="application/ld+json"]').textContent)['@graph']

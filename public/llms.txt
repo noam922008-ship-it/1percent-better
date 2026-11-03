@@ -1,0 +1,27 @@
+# PRIME Daily
+
+> PRIME Daily is a free app to start a good habit or quit a bad one. One clear step a day.
+> PRIME Daily: אפליקציה חינמית להתחיל הרגל טוב או להפסיק הרגל רע. צעד אחד ברור כל יום.
+
+PRIME Daily is a web app (installable on iPhone and Android) in Hebrew and English, made by Noam Cohen in Israel.
+
+## What it does
+- Pick one small habit to start (for example 2 pages of a book, a 5-minute walk) or one bad habit to quit (for example aimless scrolling, smoking, snoozing).
+- For people starting from zero, it pairs the bad habit with a tiny good habit that replaces it, at the time the bad habit usually happens, with a daily reminder.
+- Check it off once a day and watch the streak grow. Quit habits count clean days.
+- Extras: a short daily lesson, a progress journal, and simple home workouts.
+
+## Facts
+- Price: free. No ads.
+- Sign-up: optional. You can start as a guest.
+- Platforms: any browser; add to home screen on iPhone (Safari) or Android.
+- Languages: Hebrew, English.
+
+## Links
+- Hebrew: https://prime-daily.app/
+- English: https://prime-daily.app/en
+- Privacy policy: https://prime-daily.app/privacy
+- Terms of use: https://prime-daily.app/terms
+- Accessibility statement: https://prime-daily.app/accessibility
+- Instagram: https://www.instagram.com/prime.daily.app/
+- Contact: prime.daily.app@gmail.com
