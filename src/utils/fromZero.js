@@ -56,14 +56,28 @@ export function shiftTime(time, minutes) {
   return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`
 }
 
-/** Builds the two habits. bad = { quit, cue } (already worded), good = { title }, time = reminder 'HH:MM' | '' */
-export function buildFromZero({ bad, good, time }, today = getLocalDateKey()) {
-  const quit = newQuitHabit(bad.quit, today)
+/** Builds the two habits. bad = { quit, cue } (already worded), good = { title }, time = reminder 'HH:MM' | ''.
+ *  badId (one of BAD_IDS) is kept on both so Home can link the matching guide (GUIDE_FOR). */
+export function buildFromZero({ bad, good, time, badId }, today = getLocalDateKey()) {
+  const tag = BAD_IDS.includes(badId) ? { badId } : {}
+  const quit = { ...newQuitHabit(bad.quit, today), ...tag }
   const build = {
     cue: bad.cue, habit: good.title, pillar: 'discipline', source: 'from-zero',
-    createdAt: today, ...normalizeSchedule({ weekly: false, times: 7, days: [], time }),
+    createdAt: today, ...normalizeSchedule({ weekly: false, times: 7, days: [], time }), ...tag,
   }
   return [quit, build]
+}
+
+/** Hebrew guide page (/guides/<slug>) for each bad habit. Titles in t.home.guide.titles[id]. */
+export const GUIDE_FOR = {
+  scroll: 'stop-scrolling', snooze: 'stop-snoozing', late: 'sleep-earlier',
+  junk: 'stop-junk-food', smoke: 'quit-smoking', alcohol: 'drink-less',
+}
+
+/** The guide to show on Home: from the first active habit that remembers its bad habit. */
+export function guideFor(triggers = []) {
+  const t = triggers.find(x => x && !x.archived && GUIDE_FOR[x.badId])
+  return t ? { id: t.badId, slug: GUIDE_FOR[t.badId] } : null
 }
 
 /** First week after starting from zero, Home shows only the pair (+ the daily lesson and journal). */

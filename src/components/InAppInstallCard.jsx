@@ -9,7 +9,8 @@
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
-import { isIOS } from '../utils/inAppBrowser'
+import { isIOS, inAppBrowser } from '../utils/inAppBrowser'
+import CopyLinkButton from './CopyLinkButton'
 import { clearHandoffArrived } from '../utils/guestHandoff'
 
 const KEY = 'prime_inapp_install_dismissed'
@@ -50,14 +51,18 @@ export default function InAppInstallCard() {
   const [hidden, setHidden] = useState(() => { try { return localStorage.getItem(KEY) === '1' } catch { return false } })
   if (hidden) return null
   const ios = isIOS()
+  // TikTok has no ⋯ "open in browser" menu: copy the link (it carries the guest's habits) and paste it
+  const tiktok = inAppBrowser() === 'tiktok'
   return (
     <>
       <style>{KEYFRAMES}</style>
+      {!tiktok && (<>
       {/* Pointer to Instagram's ⋯ menu — it sits above the page, in the top corner (right side on phones) */}
       <div aria-hidden="true" style={{ position: 'fixed', top: 'calc(env(safe-area-inset-top, 0px) + 6px)', right: 10, zIndex: 4000, pointerEvents: 'none', animation: 'prime-point 1.1s ease-in-out infinite', direction: 'ltr' }}>
         <div style={{ textAlign: 'right', color: GOLD, fontSize: '1.6rem', lineHeight: 1, fontWeight: 900 }}>↑</div>
         <div style={{ background: GOLD, color: '#111', fontWeight: 900, fontSize: '0.78rem', borderRadius: 10, padding: '0.35rem 0.6rem', boxShadow: '0 6px 20px rgba(0,0,0,0.45)', direction: 'rtl', whiteSpace: 'nowrap' }}>{s.pointer}</div>
       </div>
+      </>)}
 
       <div style={cardStyle}>
         <div style={{ color: '#f1f5f9', fontWeight: 900, fontSize: '1rem', marginBottom: '0.35rem' }}>{s.title}</div>
@@ -66,8 +71,14 @@ export default function InAppInstallCard() {
             <span key={w} style={{ background: 'rgba(255,255,255,0.07)', borderRadius: 999, padding: '0.25rem 0.6rem', color: 'rgba(241,245,249,0.8)', fontSize: '0.74rem', fontWeight: 700 }}>{w}</span>
           ))}
         </div>
-        <Step n={1} icon="⋯" text={s.step1} sub={s.step1sub} />
-        <Step n={2} icon="🧭" text={s.step2} sub={ios ? s.step2subIos : s.step2subAndroid} />
+        {tiktok ? (<>
+          <Step n={1} icon="📋" text={s.tiktokStep1} sub={s.tiktokStep1sub} />
+          <div style={{ margin: '0.15rem 0 0.35rem' }}><CopyLinkButton /></div>
+          <Step n={2} icon="🧭" text={ios ? s.tiktokStep2ios : s.tiktokStep2android} sub={s.tiktokStep2sub} />
+        </>) : (<>
+          <Step n={1} icon="⋯" text={s.step1} sub={s.step1sub} />
+          <Step n={2} icon="🧭" text={s.step2} sub={ios ? s.step2subIos : s.step2subAndroid} />
+        </>)}
         <Step n={3} icon={ios ? <ShareIcon /> : '⋮'} text={ios ? s.step3ios : s.step3android} sub={s.step3sub} />
         <button onClick={() => { try { localStorage.setItem(KEY, '1') } catch {} setHidden(true) }} style={laterStyle}>{s.later}</button>
       </div>

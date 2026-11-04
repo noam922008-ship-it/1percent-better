@@ -13,6 +13,7 @@ const en = {
       body: "You can start right away as a guest. To sign in with Google, open this page in your phone's browser.",
       open: 'Open in browser',
       manual: "To sign in with Google: tap ⋯ at the top → \"Open in external browser\"",
+      manualCopy: "To sign in with Google: copy the link and open it in Safari or Chrome",
       guestFirst: 'Start now — no sign-up',
       googleInBrowser: 'Sign in with Google in the browser',
     },
@@ -102,6 +103,7 @@ const en = {
     start: 'Pick my first habit',
     skip:  'Just look around',
   },
+  copyLink: { button: '📋 Copy the link', done: '✓ Link copied', failed: "Couldn't copy. You can copy it by hand:" },
   fromZero: {
     journalHint: 'A few words on how it felt. That\'s how you learn what works',
     moreCard: { title: 'A full week 🔥', body: 'You made it through a week with your habits. Want to add another habit?', add: 'Add a habit', later: 'Not now' },
@@ -214,6 +216,11 @@ const en = {
       step3android: 'In Chrome: tap ⋮ → "Add to Home screen"',
       step3sub: "That's it — PRIME is on your phone like any app",
       later: 'Later',
+      tiktokStep1: 'Copy the link',
+      tiktokStep1sub: "TikTok has no open-in-browser menu, so copy it",
+      tiktokStep2ios: 'Open Safari and paste it in the address bar',
+      tiktokStep2android: 'Open Chrome and paste it in the address bar',
+      tiktokStep2sub: 'Your habits come with you',
     },
     handoffArrived: {
       title: '✅ Your habits are here',
@@ -232,6 +239,8 @@ const en = {
       reopenNote: 'The first time you open it from the icon sign in again with the same Google account and your habits will be there',
     },
     guestSignIn: 'Sign in →',
+    // Guides exist in Hebrew only; Home hides the row in English
+    guide: { prefix: 'Short guide:', titles: { scroll: 'How to stop scrolling', snooze: 'How to stop snoozing', late: 'How to sleep earlier', junk: 'How to stop eating junk food', smoke: 'How to quit smoking', alcohol: 'How to drink less' } },
     ringTasks:   'tasks',
     ringAria:    '{done} of {total} done today',
     streak:      { one: '1 day in a row', two: '2 days in a row', many: '{n} days in a row' },

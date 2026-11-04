@@ -51,7 +51,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
   async function save() {
     if (!bad || !good || saving) return
     setSaving(true)
-    try { await onSave(buildFromZero({ bad, good, time: remindAt })) } finally { setSaving(false) }
+    try { await onSave(buildFromZero({ bad, good, time: remindAt, badId })) } finally { setSaving(false) }
   }
 
   return (

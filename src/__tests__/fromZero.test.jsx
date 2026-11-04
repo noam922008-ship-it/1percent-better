@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { buildFromZero, BAD_IDS, GOOD, REPLACE, shiftTime, fromZeroAge, moreCardDismissed, dismissMoreCard } from '../utils/fromZero'
+import { buildFromZero, BAD_IDS, GOOD, REPLACE, shiftTime, fromZeroAge, moreCardDismissed, dismissMoreCard, guideFor, GUIDE_FOR } from '../utils/fromZero'
 import he from '../i18n/he'
 import en from '../i18n/en'
 
@@ -109,5 +109,21 @@ describe('from-zero first week', () => {
     expect(moreCardDismissed(store)).toBe(false)
     dismissMoreCard(store)
     expect(moreCardDismissed(store)).toBe(true)
+  })
+})
+
+describe('guide on Home', () => {
+  it('keeps the bad habit on both habits and finds its guide', () => {
+    const pair = buildFromZero({ bad: { quit: 'בלי גלילה', cue: 'כשבא לי לגלול' }, good: { title: 'לקרוא' }, time: '20:00', badId: 'scroll' }, '2026-11-04')
+    expect(pair.every(t => t.badId === 'scroll')).toBe(true)
+    expect(guideFor(pair)).toEqual({ id: 'scroll', slug: 'stop-scrolling' })
+  })
+  it('no guide for "other", unknown ids or older habits', () => {
+    expect(buildFromZero({ bad: { quit: 'x', cue: 'y' }, good: { title: 'z' }, time: '', badId: 'other' })[0].badId).toBeUndefined()
+    expect(guideFor([{ habit: 'old' }])).toBeNull()
+    expect(guideFor([{ badId: 'smoke', archived: true }])).toBeNull()
+  })
+  it('every bad habit in the flow has a guide page', () => {
+    for (const id of BAD_IDS) expect(GUIDE_FOR[id]).toBeTruthy()
   })
 })
