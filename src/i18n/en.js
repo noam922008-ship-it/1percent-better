@@ -239,7 +239,7 @@ const en = {
       reopenNote: 'The first time you open it from the icon sign in again with the same Google account and your habits will be there',
     },
     guestSignIn: 'Sign in →',
-    // Guides exist in Hebrew only; Home hides the row in English
+    // Smoking and alcohol guides exist in Hebrew only; Home hides the row for them in English
     guide: { prefix: 'Short guide:', titles: { scroll: 'How to stop scrolling', snooze: 'How to stop snoozing', late: 'How to sleep earlier', junk: 'How to stop eating junk food', smoke: 'How to quit smoking', alcohol: 'How to drink less' } },
     ringTasks:   'tasks',
     ringAria:    '{done} of {total} done today',

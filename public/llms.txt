@@ -29,6 +29,10 @@ PRIME Daily is a web app (installable on iPhone and Android) in Hebrew and Engli
 - Guide (Hebrew): how to stop eating junk food out of habit: https://prime-daily.app/guides/stop-junk-food
 - Guide (Hebrew): how to quit smoking (with the Israeli national quitline *6800): https://prime-daily.app/guides/quit-smoking
 - Guide (Hebrew): how to drink less alcohol: https://prime-daily.app/guides/drink-less
+- Guide (English): how to stop scrolling: https://prime-daily.app/en/guides/stop-scrolling
+- Guide (English): how to stop snoozing: https://prime-daily.app/en/guides/stop-snoozing
+- Guide (English): how to sleep earlier: https://prime-daily.app/en/guides/sleep-earlier
+- Guide (English): how to stop eating junk food: https://prime-daily.app/en/guides/stop-junk-food
 - Instagram: https://www.instagram.com/prime.daily.app/
 - TikTok: https://www.tiktok.com/@prime.app1
 - Contact: prime.daily.app@gmail.com

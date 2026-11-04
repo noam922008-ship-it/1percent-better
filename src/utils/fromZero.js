@@ -74,10 +74,17 @@ export const GUIDE_FOR = {
   junk: 'stop-junk-food', smoke: 'quit-smoking', alcohol: 'drink-less',
 }
 
-/** The guide to show on Home: from the first active habit that remembers its bad habit. */
-export function guideFor(triggers = []) {
+/** Guides that also exist in English (/en/guides/<slug>). */
+export const EN_GUIDES = ['stop-scrolling', 'stop-snoozing', 'sleep-earlier', 'stop-junk-food']
+
+/** The guide to show on Home: from the first active habit that remembers its bad habit.
+ *  href is in the UI language; null when that language has no such guide. */
+export function guideFor(triggers = [], lang = 'he') {
   const t = triggers.find(x => x && !x.archived && GUIDE_FOR[x.badId])
-  return t ? { id: t.badId, slug: GUIDE_FOR[t.badId] } : null
+  if (!t) return null
+  const slug = GUIDE_FOR[t.badId]
+  if (lang === 'en' && !EN_GUIDES.includes(slug)) return null
+  return { id: t.badId, slug, href: lang === 'en' ? `/en/guides/${slug}` : `/guides/${slug}` }
 }
 
 /** First week after starting from zero, Home shows only the pair (+ the daily lesson and journal). */

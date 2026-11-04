@@ -116,7 +116,11 @@ describe('guide on Home', () => {
   it('keeps the bad habit on both habits and finds its guide', () => {
     const pair = buildFromZero({ bad: { quit: 'בלי גלילה', cue: 'כשבא לי לגלול' }, good: { title: 'לקרוא' }, time: '20:00', badId: 'scroll' }, '2026-11-04')
     expect(pair.every(t => t.badId === 'scroll')).toBe(true)
-    expect(guideFor(pair)).toEqual({ id: 'scroll', slug: 'stop-scrolling' })
+    expect(guideFor(pair)).toEqual({ id: 'scroll', slug: 'stop-scrolling', href: '/guides/stop-scrolling' })
+    expect(guideFor(pair, 'en').href).toBe('/en/guides/stop-scrolling')
+    const smoke = buildFromZero({ bad: { quit: 'q', cue: 'c' }, good: { title: 'g' }, time: '', badId: 'smoke' })
+    expect(guideFor(smoke, 'en')).toBeNull()
+    expect(guideFor(smoke, 'he').href).toBe('/guides/quit-smoking')
   })
   it('no guide for "other", unknown ids or older habits', () => {
     expect(buildFromZero({ bad: { quit: 'x', cue: 'y' }, good: { title: 'z' }, time: '', badId: 'other' })[0].badId).toBeUndefined()

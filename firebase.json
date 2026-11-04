@@ -23,6 +23,10 @@
         { "source": "/guides/stop-junk-food", "destination": "/guides/stop-junk-food/index.html" },
         { "source": "/guides/quit-smoking", "destination": "/guides/quit-smoking/index.html" },
         { "source": "/guides/drink-less", "destination": "/guides/drink-less/index.html" },
+        { "source": "/en/guides/stop-scrolling", "destination": "/en/guides/stop-scrolling/index.html" },
+        { "source": "/en/guides/stop-snoozing", "destination": "/en/guides/stop-snoozing/index.html" },
+        { "source": "/en/guides/sleep-earlier", "destination": "/en/guides/sleep-earlier/index.html" },
+        { "source": "/en/guides/stop-junk-food", "destination": "/en/guides/stop-junk-food/index.html" },
         {
           "source": "**",
           "destination": "/index.html"
