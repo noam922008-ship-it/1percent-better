@@ -92,15 +92,16 @@ const BROADCAST_COPY = {
 
 // 08:00 every day, everyone with a token.
 const MORNING_COPY = {
+  // Every morning line says "your PRIME" (owner's request, 2026-11-04). Hebrew is gender-neutral here.
   he: [
-    { title: 'בוקר טוב 🌅',                body: 'הצעד הראשון של היום מחכה לך. 5 דקות וסגרת אותו.' },
-    { title: 'היום אתה 1% יותר טוב ⚡',     body: 'פתח את PRIME ובחר מה סוגרים קודם.' },
-    { title: 'תתחיל חזק ✊',                body: 'משימה אחת עכשיו וכל היום נראה אחרת.' },
+    { title: 'בוקר טוב 🌅',                body: 'הפריים שלך מחכה לך. צעד אחד קטן וסגרת את היום.' },
+    { title: 'הפריים שלך מחכה לך 🔥',       body: 'פותחים את PRIME ובוחרים מה סוגרים קודם.' },
+    { title: 'הפריים שלך מתחיל עכשיו ⚡',    body: 'צעד אחד עכשיו וכל היום נראה אחרת.' },
   ],
   en: [
-    { title: 'Good morning 🌅',            body: "Your first step is waiting. Five minutes and it's done." },
-    { title: 'Be 1% better today ⚡',       body: 'Open PRIME and pick what you close first.' },
-    { title: 'Start strong ✊',             body: 'One task now and the whole day looks different.' },
+    { title: 'Good morning 🌅',            body: "Your PRIME is waiting. One small step and today's done." },
+    { title: 'Your PRIME is waiting 🔥',    body: 'Open PRIME and pick what you close first.' },
+    { title: 'Your PRIME starts now ⚡',    body: 'One step now and the whole day looks different.' },
   ],
 };
 

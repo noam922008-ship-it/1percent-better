@@ -18,7 +18,7 @@ const RULES_BY_ACCOUNT = {
   prime: [
     {
       keywords: ASK_WORDS,
-      dm: "Hey! 🙌 Here's your link to PRIME Daily:\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime\n\nPick a good habit to start, or a bad one to quit. Free, takes a minute 💪\nSo which habit would you most like to start, or quit? 👀",
+      dm: "Hey! 🙌 Here's your link to PRIME Daily:\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=prime\n\nPick a good habit to start, or a bad one to quit. Free, takes a minute 💪\nYour PRIME is waiting 🔥\n\nSo which habit would you most like to start, or quit? 👀",
       publicReply: 'Sent you a DM 📩',
     },
     // Any other comment: the same DM, no public reply (so "Sent you a DM" isn't under every 🔥)
@@ -31,7 +31,7 @@ const RULES_BY_ACCOUNT = {
   noam: [
     {
       keywords: ASK_WORDS,
-      dm: 'היי! 🙌 הנה הלינק לאפליקציה:\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam\n\nנכנסים ובוחרים הרגל טוב להתחיל, או הרגל רע להפסיק. חינם ולוקח דקה 💪\nאז איזה הרגל הכי היית רוצה להתחיל, או להפסיק? 👀',
+      dm: 'היי! 🙌 הנה הלינק לאפליקציה:\nhttps://prime-daily.app/?utm_source=instagram&utm_medium=dm&utm_campaign=noam\n\nנכנסים ובוחרים הרגל טוב להתחיל, או הרגל רע להפסיק. חינם ולוקח דקה 💪\nהפריים שלך מחכה לך 🔥\n\nאז איזה הרגל הכי היית רוצה להתחיל, או להפסיק? 👀',
       publicReply: 'שלחתי לך בפרטי 📩',
     },
     // כל תגובה אחרת: אותו DM, בלי תגובה ציבורית
