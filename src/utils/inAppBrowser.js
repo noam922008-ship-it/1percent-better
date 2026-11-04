@@ -10,10 +10,27 @@ const IN_APP = [
   ['snapchat',  /Snapchat/i],
 ]
 
-export function inAppBrowser(ua = (typeof navigator !== 'undefined' ? navigator.userAgent : '')) {
+// An installed Home Screen app on iPhone also has no "Safari/" in its user agent — never call it in-app
+function runningStandalone() {
+  try {
+    return (typeof navigator !== 'undefined' && navigator.standalone === true)
+      || (typeof window !== 'undefined' && !!window.matchMedia?.('(display-mode: standalone)').matches)
+  } catch { return false }
+}
+
+// Some iPhone apps open links in a bare web view that doesn't name the app (seen in TikTok DMs,
+// Nov 2026: the user agent just ends in "Mobile/15E148"). Real iPhone browsers all add a token:
+// Safari "Safari/…", Chrome "CriOS", Firefox "FxiOS", Edge "EdgiOS", Opera "OPiOS", Google app "GSA/".
+const IOS_BROWSER = /Safari\/|CriOS|FxiOS|EdgiOS|OPiOS|GSA\//
+
+export function inAppBrowser(ua = (typeof navigator !== 'undefined' ? navigator.userAgent : ''), standalone = runningStandalone()) {
   for (const [name, re] of IN_APP) if (re.test(ua || '')) return name
+  if (/iPhone|iPad|iPod/i.test(ua || '') && !IOS_BROWSER.test(ua) && !standalone) return 'webview'
   return null
 }
+
+/** In-app browsers without an "open in browser" menu: the way out is copying the link. */
+export function needsCopyLink(name) { return name === 'tiktok' || name === 'webview' }
 
 export function isIOS(ua = (typeof navigator !== 'undefined' ? navigator.userAgent : '')) {
   return /iPhone|iPad|iPod/i.test(ua || '')

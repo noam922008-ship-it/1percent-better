@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { inAppBrowser, externalBrowserUrl } from '../utils/inAppBrowser'
+import { inAppBrowser, externalBrowserUrl, needsCopyLink } from '../utils/inAppBrowser'
 
 const IG_IOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 345.0.0.0 (iPhone15,2; iOS 17_5; he_IL)'
 const IG_ANDROID = 'Mozilla/5.0 (Linux; Android 14; SM-S911B Build/UP1A; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/129.0 Mobile Safari/537.36 Instagram 345.0.0.0 Android'
@@ -32,5 +32,24 @@ describe('externalBrowserUrl', () => {
   it('nothing for desktop or non-https', () => {
     expect(externalBrowserUrl(href, 'Mozilla/5.0 (Macintosh)')).toBeNull()
     expect(externalBrowserUrl('http://x.com', IG_IOS)).toBeNull()
+  })
+})
+
+describe('unnamed iPhone web views (TikTok DMs, Nov 2026)', () => {
+  const BARE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+  it('a bare iPhone web view is in-app and gets the copy-link way out', () => {
+    expect(inAppBrowser(BARE, false)).toBe('webview')
+    expect(needsCopyLink('webview')).toBe(true)
+    expect(needsCopyLink('tiktok')).toBe(true)
+    expect(needsCopyLink('instagram')).toBe(false)
+  })
+  it('real iPhone browsers and the Home Screen app are not', () => {
+    expect(inAppBrowser(SAFARI, false)).toBeNull()
+    expect(inAppBrowser(BARE, true)).toBeNull()
+    for (const t of ['CriOS/130.0', 'FxiOS/132.0', 'EdgiOS/130.0', 'GSA/340.0']) expect(inAppBrowser(BARE + ' ' + t, false)).toBeNull()
+  })
+  it('named apps still win', () => {
+    expect(inAppBrowser(IG_IOS, false)).toBe('instagram')
+    expect(inAppBrowser(TIKTOK, false)).toBe('tiktok')
   })
 })

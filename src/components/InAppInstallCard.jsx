@@ -9,7 +9,7 @@
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
-import { isIOS, inAppBrowser } from '../utils/inAppBrowser'
+import { isIOS, inAppBrowser, needsCopyLink } from '../utils/inAppBrowser'
 import CopyLinkButton from './CopyLinkButton'
 import { clearHandoffArrived } from '../utils/guestHandoff'
 
@@ -52,7 +52,7 @@ export default function InAppInstallCard() {
   if (hidden) return null
   const ios = isIOS()
   // TikTok has no ⋯ "open in browser" menu: copy the link (it carries the guest's habits) and paste it
-  const tiktok = inAppBrowser() === 'tiktok'
+  const tiktok = needsCopyLink(inAppBrowser())   // TikTok, or an app's unnamed web view
   return (
     <>
       <style>{KEYFRAMES}</style>

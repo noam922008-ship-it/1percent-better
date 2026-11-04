@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
 import { loadProfile } from '../services/focusTriggerService'
-import { inAppBrowser, externalBrowserUrl, isIOS } from '../utils/inAppBrowser'
+import { inAppBrowser, externalBrowserUrl, isIOS, needsCopyLink } from '../utils/inAppBrowser'
 import CopyLinkButton from '../components/CopyLinkButton'
 
 const S = {
@@ -169,7 +169,7 @@ export default function WelcomeScreen() {
             {openOut && (
               <a href={openOut} style={{ display: 'block', marginTop: '0.65rem', textAlign: 'center', padding: '0.7rem', borderRadius: 11, background: '#D9B34C', color: '#111', fontWeight: 900, fontSize: '0.88rem', textDecoration: 'none' }}>{t.welcome.inApp.open}</a>
             )}
-            {inApp === 'tiktok' && !openOut ? (<>
+            {needsCopyLink(inApp) && !openOut ? (<>
               {/* TikTok on iPhone has no ⋯ "open in browser": copy the link instead */}
               <div style={{ marginTop: '0.65rem' }}><CopyLinkButton /></div>
               <div style={{ color: 'rgba(241,245,249,0.6)', fontSize: '0.74rem', marginTop: '0.5rem' }}>{t.welcome.inApp.manualCopy}</div>

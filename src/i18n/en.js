@@ -217,7 +217,7 @@ const en = {
       step3sub: "That's it — PRIME is on your phone like any app",
       later: 'Later',
       tiktokStep1: 'Copy the link',
-      tiktokStep1sub: "TikTok has no open-in-browser menu, so copy it",
+      tiktokStep1sub: "There's no open-in-browser menu here, so copy it",
       tiktokStep2ios: 'Open Safari and paste it in the address bar',
       tiktokStep2android: 'Open Chrome and paste it in the address bar',
       tiktokStep2sub: 'Your habits come with you',
