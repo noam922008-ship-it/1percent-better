@@ -11,12 +11,12 @@
 const NUDGE_COPY = {
   he: [
     {
-      title: 'הרצף שלך בסכנה! 🔥',
-      body:  'נשאר לך עוד צעד קטן כדי לסגור את היום.',
+      title: 'הרצף שלך בסכנה 🔥',
+      body:  'נשאר עוד צעד קטן כדי לסגור את היום.',
     },
     {
-      title: 'אל תוותר לעצמך היום ⚔️',
-      body:  'כנס לסמן את ההרגלים שלך עכשיו.',
+      title: 'הפריים שלך מחכה לך 🔥',
+      body:  'נכנסים, מסמנים, וסוגרים את היום.',
     },
     {
       title: 'ההרגלים שלך מחכים 🧠',
@@ -29,8 +29,8 @@ const NUDGE_COPY = {
       body:  'One small step left to close out today.',
     },
     {
-      title: "Don't give up on yourself today ⚔️",
-      body:  'Open the app and mark your habits now.',
+      title: 'Your PRIME is waiting 🔥',
+      body:  'Open it, check it off, and close out the day.',
     },
     {
       title: 'Your habits are waiting 🧠',
@@ -58,13 +58,13 @@ const NUDGE_COPY = {
 
 const ACCOUNTABILITY_COPY = {
   he: (appName) => ({
-    title: `🔐 לפני שתפתח את ${appName}…`,
-    body:  'עשית 15 שכיבות סמיכה? בוא להרוויח את ה-XP שלך ולפתוח את הגלילה.',
+    title: `🔐 לפני שפותחים את ${appName}…`,
+    body:  '15 שכיבות סמיכה קודם, ואז נכנסים להרוויח XP ולפתוח את הגלילה.',
     lang:  'he',
   }),
   en: (appName) => ({
     title: `🔐 Before you open ${appName}…`,
-    body:  'Did you do your 15 push-ups? Come earn your XP and unlock your scroll time.',
+    body:  '15 push-ups first, then come earn your XP and unlock your scroll time.',
     lang:  'en',
   }),
   ar: (appName) => ({
@@ -88,7 +88,7 @@ const BROADCAST_COPY = {
 };
 
 // ── Daily schedule: morning kickoff, midday nudge, weekly goals ───────────────
-// Pools are rotated randomly per user (like NUDGE_COPY). Hebrew uses masculine address.
+// Pools are rotated randomly per user (like NUDGE_COPY). Hebrew copy is gender-neutral.
 
 // 08:00 every day, everyone with a token.
 const MORNING_COPY = {
@@ -108,14 +108,14 @@ const MORNING_COPY = {
 // 15:30 every day, only users who have not completed today.
 const MIDDAY_COPY = {
   he: [
-    { title: 'חצי יום כבר עבר ⏳',          body: '10 דקות עכשיו והיום שלך נסגר כמו שצריך.' },
-    { title: 'זמן לזוז 💪',                 body: 'שכיבות סמיכה או ריצה קצרה? בחר אחד וסגור.' },
-    { title: 'השיעור היומי מחכה 📚',        body: '3 דקות של קריאה ואתה צעד קדימה.' },
+    { title: 'חצי יום כבר עבר ⏳',          body: 'הפריים שלך מחכה לך. כמה דקות עכשיו והיום נסגר.' },
+    { title: 'רגע לעצמך 💪',                body: 'ההרגל הקטן של היום עוד מחכה. דקה אחת וזהו.' },
+    { title: 'הפריים שלך באמצע היום ⚡',     body: 'צעד קטן עכשיו, והערב נראה אחרת.' },
   ],
   en: [
-    { title: 'Half the day is gone ⏳',     body: 'Ten minutes now and your day closes right.' },
-    { title: 'Time to move 💪',             body: 'Push-ups or a short run? Pick one and close it.' },
-    { title: "Today's lesson is waiting 📚", body: "Three minutes of reading and you're a step ahead." },
+    { title: 'Half the day is gone ⏳',     body: 'Your PRIME is waiting. A few minutes now and the day is closed.' },
+    { title: 'A moment for you 💪',         body: "Today's small habit is still waiting. One minute and done." },
+    { title: 'Your PRIME, halfway through ⚡', body: 'One small step now, and the evening looks different.' },
   ],
 };
 
