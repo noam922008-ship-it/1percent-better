@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { countFunnel, countOpen, funnelDate, FUNNEL_KEYS, countGuestReturn, isInternalDevice } from '../services/funnel'
+import { countFunnel, countOpen, funnelDate, FUNNEL_KEYS, countGuestReturn, isInternalDevice, toggleInternalDevice } from '../services/funnel'
 
 function recorder() {
   const calls = []
@@ -73,5 +73,12 @@ describe('internal devices and returning guests', () => {
     expect(countGuestReturn({ hasHabit: true, now: day('08'), write, storage })).toBe(true)
     expect(calls.map(c => c.keys[0])).toEqual(['return_guest', 'return_guest'])
     expect(countGuestReturn({ hasHabit: false, now: day('09'), write, storage: memStore() })).toBe(false)
+  })
+  it('toggleInternalDevice flips the internal flag', () => {
+    const m = new Map(); const st = { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, v), removeItem: k => m.delete(k) }
+    expect(toggleInternalDevice(st)).toBe(true)
+    expect(isInternalDevice(st)).toBe(true)
+    expect(toggleInternalDevice(st)).toBe(false)
+    expect(isInternalDevice(st)).toBe(false)
   })
 })

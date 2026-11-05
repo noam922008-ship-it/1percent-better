@@ -40,6 +40,14 @@ export function applyInternalParam(search = '', storage = globalThis.localStorag
   } catch { /* ignore */ }
 }
 
+/** Flips this device between internal and normal (Settings: 5 taps on the version line). Returns the new state. */
+export function toggleInternalDevice(storage = globalThis.localStorage) {
+  try {
+    if (storage.getItem(INTERNAL_KEY) === '1') { storage.removeItem(INTERNAL_KEY); return false }
+    storage.setItem(INTERNAL_KEY, '1'); return true
+  } catch { return false }
+}
+
 export function isInternalDevice(storage = globalThis.localStorage) {
   try { return storage.getItem(INTERNAL_KEY) === '1' } catch { return false }
 }

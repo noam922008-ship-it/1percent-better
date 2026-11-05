@@ -13,6 +13,7 @@ import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
 import { getConsent, setConsent } from '../services/analytics'
 import { registerFcmToken } from '../services/fcmService'
+import { isInternalDevice, toggleInternalDevice } from '../services/funnel'
 
 function Row({ label, desc, children }) {
   return (
@@ -22,6 +23,21 @@ function Row({ label, desc, children }) {
         {desc && <div style={{ color: 'rgba(232,234,240,0.6)', fontSize: '0.72rem', marginTop: '0.1rem' }}>{desc}</div>}
       </div>
       {children}
+    </div>
+  )
+}
+
+function VersionLine({ internalLabel }) {
+  const [internal, setInternal] = useState(isInternalDevice)
+  const [taps, setTaps] = useState({ n: 0, at: 0 })
+  function tap() {
+    const now = Date.now()
+    const n = now - taps.at < 1500 ? taps.n + 1 : 1
+    if (n >= 5) { setInternal(toggleInternalDevice()); setTaps({ n: 0, at: 0 }) } else setTaps({ n, at: now })
+  }
+  return (
+    <div onClick={tap} style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '0.75rem', paddingBottom: '1rem', userSelect: 'none', WebkitUserSelect: 'none' }}>
+      PRIME · v1.2 · prime-daily.app{internal ? ` · ${internalLabel}` : ''}
     </div>
   )
 }
@@ -439,10 +455,8 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
         ))}
       </div>
 
-      {/* Footer */}
-      <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.6rem', fontFamily: "'SF Mono','Fira Code',monospace", marginTop: '0.75rem', paddingBottom: '1rem' }}>
-        PRIME · v1.2 · prime-daily.app
-      </div>
+      {/* Footer — 5 quick taps mark this device as internal (not counted in the funnel), 5 more undo it */}
+      <VersionLine internalLabel={ts.internalDevice} />
     </div>
     </>
   )
