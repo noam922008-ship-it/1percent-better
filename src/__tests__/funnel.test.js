@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { countFunnel, countOpen, funnelDate, FUNNEL_KEYS } from '../services/funnel'
+import { countFunnel, countOpen, funnelDate, FUNNEL_KEYS, countGuestReturn, isInternalDevice } from '../services/funnel'
 
 function recorder() {
   const calls = []
@@ -40,5 +40,38 @@ describe('funnel counters', () => {
     const rules = readFileSync(resolve(process.cwd(), 'firestore.rules'), 'utf8')
     for (const k of FUNNEL_KEYS) expect(rules).toContain(`'${k}'`)
     expect(funnelDate(new Date('2026-01-02T00:00:00Z'))).toBe('2026-01-02')
+  })
+})
+
+function memStore() {
+  const m = new Map()
+  return { getItem: k => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: k => m.delete(k) }
+}
+
+describe('internal devices and returning guests', () => {
+  it('?internal=1 stops this device from counting, ?internal=0 starts again', () => {
+    const storage = memStore(); const { calls, write } = recorder()
+    countOpen({ search: '?internal=1', write, storage })
+    expect(isInternalDevice(storage)).toBe(true)
+    expect(calls).toHaveLength(0)
+    expect(countFunnel('guest_start', { write, storage })).toBe(false)
+    countOpen({ search: '?internal=0', write, storage })
+    expect(calls.map(c => c.keys[0])).toEqual(['open'])
+  })
+  it('counts the YouTube link', () => {
+    const { calls, write } = recorder()
+    countOpen({ search: '?utm_source=youtube', write, storage: memStore() })
+    expect(calls.map(c => c.keys[0])).toEqual(['open', 'open_youtube'])
+  })
+  it('a guest with a habit counts once per later day, never on the first day', () => {
+    const storage = memStore(); const { calls, write } = recorder()
+    const day = d => new Date(`2026-11-${d}T12:00:00Z`)
+    expect(countGuestReturn({ hasHabit: true, now: day('05'), write, storage })).toBe(false)   // first day
+    expect(countGuestReturn({ hasHabit: true, now: day('05'), write, storage })).toBe(false)
+    expect(countGuestReturn({ hasHabit: true, now: day('06'), write, storage })).toBe(true)
+    expect(countGuestReturn({ hasHabit: true, now: day('06'), write, storage })).toBe(false)   // once a day
+    expect(countGuestReturn({ hasHabit: true, now: day('08'), write, storage })).toBe(true)
+    expect(calls.map(c => c.keys[0])).toEqual(['return_guest', 'return_guest'])
+    expect(countGuestReturn({ hasHabit: false, now: day('09'), write, storage: memStore() })).toBe(false)
   })
 })

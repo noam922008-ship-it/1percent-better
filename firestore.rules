@@ -308,7 +308,7 @@ service cloud.firestore {
     // counter. Nobody can read them from the app — only the Firebase console.
     match /funnel/{date} {
       function funnelKeys() {
-        return ['open', 'open_inapp', 'open_dm', 'guest_start', 'habit_first_guest', 'habit_first_user', 'checkin_guest', 'checkin_user', 'signup', 'guest_to_account'];
+        return ['open', 'open_inapp', 'open_dm', 'guest_start', 'habit_first_guest', 'habit_first_user', 'checkin_guest', 'checkin_user', 'signup', 'guest_to_account', 'return_guest', 'open_youtube'];
       }
       // Each counter either stays or goes up by exactly 1 (sets have no toList() in rules, so
       // every known key is checked); together with "one key changed" that is exactly +1 to one.
@@ -321,7 +321,8 @@ service cloud.firestore {
             && sameOrPlusOne('open') && sameOrPlusOne('open_inapp') && sameOrPlusOne('open_dm')
             && sameOrPlusOne('guest_start') && sameOrPlusOne('habit_first_guest') && sameOrPlusOne('habit_first_user')
             && sameOrPlusOne('checkin_guest') && sameOrPlusOne('checkin_user')
-            && sameOrPlusOne('signup') && sameOrPlusOne('guest_to_account');
+            && sameOrPlusOne('signup') && sameOrPlusOne('guest_to_account')
+            && sameOrPlusOne('return_guest') && sameOrPlusOne('open_youtube');
       }
       allow create: if date.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
                     && request.resource.data.keys().hasOnly(funnelKeys())

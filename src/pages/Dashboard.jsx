@@ -38,7 +38,7 @@ import { getEffectiveStreak } from '../utils/streak'
 import { FEATURES } from '../config/features'
 import { ForwardChevron } from '../components/DirChevron'
 import { loadGuestTriggers, saveGuestTriggers, guestTriggersToAdopt, markGuestTriggersAdopted } from '../utils/guestHabits'
-import { countFunnel } from '../services/funnel'
+import { countFunnel, countGuestReturn } from '../services/funnel'
 import { writeHandoffHash, handoffArrived } from '../utils/guestHandoff'
 import { inAppBrowser } from '../utils/inAppBrowser'
 import InAppInstallCard, { HandoffArrivedCard } from '../components/InAppInstallCard'
@@ -777,6 +777,9 @@ export default function Dashboard() {
 
   const [profile,      setProfile]      = useState(null)
   const [checkins,     setCheckinsS]    = useState(getCheckins)
+  // Guest came back on a later day with a habit → funnel return_guest (once a day, this device only)
+  const guestHabitCount = isGuest ? (profile?.triggers || []).length : 0
+  useEffect(() => { if (isGuest) countGuestReturn({ hasHabit: guestHabitCount > 0 }) }, [isGuest, guestHabitCount])
   const [localDay,     setLocalDay]     = useState(getLocalDateKey)   // weekly habits use local dates
   const [weekLog,      setWeekLog]      = useState({})                // { [localDate]: { [triggerId]: true } }
   const [loading,      setLoading]      = useState(true)
