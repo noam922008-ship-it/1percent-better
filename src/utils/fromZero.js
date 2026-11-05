@@ -7,7 +7,7 @@ import { normalizeSchedule } from './habitSchedule'
 import { getLocalDateKey } from './localDate'
 
 /** Bad-habit ids offered in the flow; labels/cues live in t.fromZero.bad[id]. */
-export const BAD_IDS = ['scroll', 'smoke', 'alcohol', 'weed', 'porn', 'junk', 'late', 'snooze']
+export const BAD_IDS = ['scroll', 'smoke', 'vape', 'alcohol', 'weed', 'porn', 'junk', 'procrastinate', 'late', 'snooze']
 
 /** Good habits. n/min/max = an adjustable amount ({n} in the copy); none = a fixed action. Copy in t.fromZero.good[id]. */
 export const GOOD = {
@@ -30,6 +30,9 @@ export const GOOD = {
   pushWake:    { n: 10, min: 1, max: 50 },
   leaveRoom:   {},
   shower:      {},
+  gum:         {},
+  startTask:   { n: 2,  min: 1, max: 30 },
+  firstStep:   {},
 }
 
 /** Each bad habit gets replacements that fit it: one for the body, one for the head, one that changes the setting. */
@@ -42,12 +45,14 @@ export const REPLACE = {
   snooze:  [{ id: 'alarmFar' }, { id: 'waterWake' }, { id: 'pushWake' }],
   weed:    [{ id: 'run' }, { id: 'shower' }, { id: 'callFriend' }],
   porn:    [{ id: 'push' }, { id: 'leaveRoom' }, { id: 'phoneOutBed' }],
+  vape:    [{ id: 'breaths' }, { id: 'gum' }, { id: 'walk' }],
+  procrastinate: [{ id: 'startTask' }, { id: 'firstStep' }, { id: 'phoneAway' }],
   other:   [{ id: 'read' }, { id: 'push' }, { id: 'run' }],
 }
 export const replacementsFor = badId => REPLACE[badId] || REPLACE.other
 
 /** Which bad habits show the "professional help" note, and which help entry. */
-export const HELP_FOR = { smoke: 'smoke', alcohol: 'alcohol', weed: 'weed' }
+export const HELP_FOR = { smoke: 'smoke', vape: 'smoke', alcohol: 'alcohol', weed: 'weed' }
 
 /** Minutes before the chosen time that the reminder comes (late nights: an hour before bedtime). */
 export const REMIND_EARLY = { late: 60 }
@@ -77,11 +82,11 @@ export function buildFromZero({ bad, good, time, badId, later = false }, today =
 export const GUIDE_FOR = {
   scroll: 'stop-scrolling', snooze: 'stop-snoozing', late: 'sleep-earlier',
   junk: 'stop-junk-food', smoke: 'quit-smoking', alcohol: 'drink-less',
-  weed: 'quit-weed', porn: 'quit-porn',
+  weed: 'quit-weed', porn: 'quit-porn', vape: 'quit-vaping', procrastinate: 'stop-procrastinating',
 }
 
 /** Guides that also exist in English (/en/guides/<slug>). */
-export const EN_GUIDES = ['stop-scrolling', 'stop-snoozing', 'sleep-earlier', 'stop-junk-food', 'quit-porn', 'quit-weed']
+export const EN_GUIDES = ['stop-scrolling', 'stop-snoozing', 'sleep-earlier', 'stop-junk-food', 'quit-porn', 'quit-weed', 'quit-vaping', 'stop-procrastinating']
 
 /** Every guide in the UI language, in the order the habits are offered: [{ id, slug, href }]. */
 export function allGuides(lang = 'he') {

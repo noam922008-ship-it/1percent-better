@@ -31,12 +31,16 @@ PRIME Daily is a web app (installable on iPhone and Android) in Hebrew and Engli
 - Guide (Hebrew): how to drink less alcohol: https://prime-daily.app/guides/drink-less
 - Guide (Hebrew): how to stop watching porn: https://prime-daily.app/guides/quit-porn
 - Guide (Hebrew): how to quit smoking weed: https://prime-daily.app/guides/quit-weed
+- Guide (Hebrew): how to quit vaping: https://prime-daily.app/guides/quit-vaping
+- Guide (Hebrew): how to stop procrastinating: https://prime-daily.app/guides/stop-procrastinating
 - Guide (English): how to stop scrolling: https://prime-daily.app/en/guides/stop-scrolling
 - Guide (English): how to stop snoozing: https://prime-daily.app/en/guides/stop-snoozing
 - Guide (English): how to sleep earlier: https://prime-daily.app/en/guides/sleep-earlier
 - Guide (English): how to stop eating junk food: https://prime-daily.app/en/guides/stop-junk-food
 - Guide (English): how to stop watching porn: https://prime-daily.app/en/guides/quit-porn
 - Guide (English): how to quit smoking weed: https://prime-daily.app/en/guides/quit-weed
+- Guide (English): how to quit vaping: https://prime-daily.app/en/guides/quit-vaping
+- Guide (English): how to stop procrastinating: https://prime-daily.app/en/guides/stop-procrastinating
 - Instagram: https://www.instagram.com/prime.daily.app/
 - TikTok: https://www.tiktok.com/@prime.app1
 - Contact: prime.daily.app@gmail.com
