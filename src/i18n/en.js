@@ -2,12 +2,13 @@
 const en = {
   welcome: {
     title: 'PRIME',
-    subtitle: "One small habit a day. A streak you won't want to break.",
+    subtitle: 'Quit a bad habit. Replace it with a tiny good one.',
     features: [
-      ['✅', 'Pick a small habit — 10 minutes of reading, 20 push-ups, anything'],
-      ['🔥', 'Check it off every day and watch your streak grow'],
-      ['🥊', 'Boxing workouts with a coach that sees you on camera'],
+      ['🛡️', 'Pick what to quit: scrolling, snoozing, smoking, vaping and more'],
+      ['🔁', 'And what you do instead: 10 push-ups, 2 pages of a book'],
+      ['🔥', 'A reminder every day and a count of your clean days'],
     ],
+    closing: 'Your PRIME is waiting 🔥',
     inApp: {
       title: "You're in the app's built-in browser",
       body: "You can start right away as a guest. To sign in with Google, open this page in your phone's browser.",
@@ -24,11 +25,11 @@ const en = {
     signIn: 'Continue with Google',
     signingIn: 'Signing in…',
     error: 'Sign-in failed. Please try again.',
-    legalPre: "I'm over 18 and agree to the ",
+    legalPre: "I'm 18+ and agree to the ",
     legalAnd: ' and the ',
     terms: 'Terms of Use',
     privacy: 'Privacy Policy',
-    ageRequired: 'Please confirm you are over 18 to continue',
+    ageRequired: 'Please confirm you are 18 or older to continue',
     ageTap:      '👆 Tick the box to accept the terms and continue',
     langToggle: 'עב',
     or: 'or',

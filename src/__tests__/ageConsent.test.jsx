@@ -26,7 +26,7 @@ const box    = () => screen.getByRole('checkbox')
 describe('signup — one 18+ / terms checkbox', () => {
   it('shows the exact consent text with both documents linked', () => {
     render(<WelcomeScreen />)
-    expect(box().closest('label').textContent).toBe('אני מעל 18 ומסכים לתנאי השימוש ולמדיניות הפרטיות')
+    expect(box().closest('label').textContent).toBe('אישור גיל 18+ והסכמה לתנאי השימוש ולמדיניות הפרטיות')
     expect(screen.queryByText(/בהמשך אתה/)).toBeNull()        // the old implicit line is gone
   })
 

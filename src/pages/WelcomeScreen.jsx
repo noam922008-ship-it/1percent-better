@@ -160,6 +160,7 @@ export default function WelcomeScreen() {
               <span>{text}</span>
             </div>
           ))}
+          <p style={{ color: '#D9B34C', fontSize: '0.95rem', fontWeight: 800, margin: '0.8rem 0 0' }}>{t.welcome.closing}</p>
         </div>
 
         {inApp && (
