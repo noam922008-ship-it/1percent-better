@@ -16,7 +16,7 @@ function cueFromSuggestion(s) {
   return { id: '', sug: s?.triggerSuggestionHe ? s : null }
 }
 
-export default function HabitCreationFlow({ growthPillars, existingCount, onSave, onClose, prefill }) {
+export default function HabitCreationFlow({ growthPillars, existingCount, onSave, onClose, prefill, onQuit }) {
   const { t, lang } = useLang()
   const tf = t.habitFlow
   // If prefill (from surprise mission), skip to step 2
@@ -110,7 +110,13 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
               </div>
             ) : (
               <>
-                {!hasPreFill && (
+                {!hasPreFill && onQuit && (
+                  <button onClick={onQuit} className="btn-tactile" style={{ display: 'block', width: '100%', textAlign: 'start', marginBottom: '1.25rem', background: 'rgba(217,179,76,0.05)', border: '1px solid rgba(217,179,76,0.25)', borderRadius: 14, padding: '0.9rem', cursor: 'pointer', fontFamily: 'inherit' }}>
+                    <div style={{ color: '#D9B34C', fontSize: '0.9rem', fontWeight: 800 }}>{tf.quitHeader}</div>
+                    <div style={{ color: '#A4A6AD', fontSize: '0.75rem', marginTop: '0.2rem' }}>{tf.quitDealSub}</div>
+                  </button>
+                )}
+                {!hasPreFill && !onQuit && (
                   <div style={{ marginBottom: '1.25rem', background: 'rgba(217,179,76,0.05)', border: '1px solid rgba(217,179,76,0.25)', borderRadius: 14, padding: '0.9rem' }}>
                     <div style={{ color: '#D9B34C', fontSize: '0.9rem', fontWeight: 800 }}>{tf.quitHeader}</div>
                     <div style={{ color: '#8A8A93', fontSize: '0.7rem', margin: '0.15rem 0 0.75rem' }}>{tf.quitSub}</div>

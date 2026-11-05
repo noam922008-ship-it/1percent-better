@@ -786,6 +786,7 @@ export default function Dashboard() {
   const [showModal,    setShowModal]    = useState(false)
   const [showHabitFlow,    setShowHabitFlow]    = useState(false)
   const [showFromZero,     setShowFromZero]     = useState(false)   // first run: "starting from zero" path
+  const [showQuitDeal,     setShowQuitDeal]     = useState(false)   // "add habit" → quit: the same deal flow, from step 1
   const [habitFlowPrefill, setHabitFlowPrefill] = useState(null)
   const [showHobbyReflection, setShowHobbyReflection] = useState(false)
   const [pendingHobbyDay,    setPendingHobbyDay]    = useState(null)
@@ -2605,6 +2606,15 @@ export default function Dashboard() {
           onSave={async data => { await handleAddTrigger(data); setShowHabitFlow(false); setHabitFlowPrefill(null) }}
           onClose={() => { setShowHabitFlow(false); setHabitFlowPrefill(null) }}
           prefill={habitFlowPrefill}
+          onQuit={() => { setShowHabitFlow(false); setHabitFlowPrefill(null); setShowQuitDeal(true) }}
+        />
+      )}
+      {showQuitDeal && (
+        <FromZeroFlow
+          later
+          onSave={async list => { await handleAddTrigger(list); setShowQuitDeal(false) }}
+          onRegular={() => { setShowQuitDeal(false); setShowHabitFlow(true) }}
+          onClose={() => setShowQuitDeal(false)}
         />
       )}
       {showHobbyReflection && pendingHobbyDay && (

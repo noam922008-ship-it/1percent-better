@@ -529,6 +529,7 @@ const en = {
     quitHeader:  '🛡️ Quit a bad habit',
     buildHeader: '✨ Or build a good habit',
     quitSub:     'The count starts today and goes up on its own',
+    quitDealSub: 'Pick what to quit and what you do instead. Weed, porn, smoking and more',
     quitPrefix:  'No ',
     quitPh:      'What do you want to quit? e.g. smoking',
     quitSave:    'Start counting ✓',

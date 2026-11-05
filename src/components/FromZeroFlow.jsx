@@ -5,7 +5,8 @@ import { BAD_IDS, GOOD, HELP_FOR, REMIND_EARLY, buildFromZero, replacementsFor, 
 
 // First-run path for people who start from zero (docs/FROM_ZERO_PLAN.md):
 // 0 where do you start → 1 the bad habit → 2 the tiny good habit that replaces it → 3 when → 4 summary + save.
-// "I have some habits" / "I only want to quit" go to the regular HabitCreationFlow (onRegular).
+// "I have some habits" goes to the regular HabitCreationFlow (onRegular); "I only want to quit" goes to step 1.
+// later: opened from "add habit" → starts at step 1, no focus week, and "back" from step 1 closes.
 
 const GOLD = '#D9B34C'
 const chip = on => ({
@@ -21,10 +22,10 @@ const primary = disabled => ({
 })
 const input = { width: '100%', padding: '0.8rem 1rem', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#f1f5f9', fontSize: '0.9rem', boxSizing: 'border-box', marginTop: '0.6rem', fontFamily: 'inherit' }
 
-export default function FromZeroFlow({ onSave, onRegular, onClose }) {
+export default function FromZeroFlow({ onSave, onRegular, onClose, later = false }) {
   const { t } = useLang()
   const s = t.fromZero
-  const [step, setStep]   = useState(0)
+  const [step, setStep]   = useState(later ? 1 : 0)
   const [badId, setBadId] = useState('')
   const [own, setOwn]     = useState('')
   const [goodId, setGoodId] = useState('')
@@ -51,7 +52,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
   async function save() {
     if (!bad || !good || saving) return
     setSaving(true)
-    try { await onSave(buildFromZero({ bad, good, time: remindAt, badId })) } finally { setSaving(false) }
+    try { await onSave(buildFromZero({ bad, good, time: remindAt, badId, later })) } finally { setSaving(false) }
   }
 
   return (
@@ -72,7 +73,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
           <div style={{ display: 'grid', gap: '0.55rem' }}>
             <button className="btn-tactile" style={chip(false)} onClick={() => setStep(1)}>{s.start.zero}</button>
             <button className="btn-tactile" style={chip(false)} onClick={onRegular}>{s.start.some}</button>
-            <button className="btn-tactile" style={chip(false)} onClick={onRegular}>{s.start.quit}</button>
+            <button className="btn-tactile" style={chip(false)} onClick={() => setStep(1)}>{s.start.quit}</button>
           </div>
         )}
 
@@ -145,14 +146,14 @@ export default function FromZeroFlow({ onSave, onRegular, onClose }) {
             </div>
             <ul style={{ color: '#A4A6AD', fontSize: '0.8rem', lineHeight: 1.7, margin: '0.9rem 0 0', paddingInlineStart: '1.1rem' }}>
               <li>{fmt(s.willCount, { quit: bad.quit })}</li>
-              <li>{s.weekOne}</li>
+              {!later && <li>{s.weekOne}</li>}
             </ul>
             <button className="btn-tactile" style={primary(saving)} disabled={saving} onClick={save}>{saving ? '…' : s.save}</button>
           </div>
         )}
 
         {step > 0 && (
-          <button onClick={() => setStep(n => n - 1)} style={{ display: 'block', margin: '0.6rem auto 0', minHeight: 44, padding: '0 1rem', background: 'none', border: 'none', color: '#8A8A93', fontSize: '0.82rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer' }}>{s.back}</button>
+          <button onClick={() => (later && step === 1 ? onClose() : setStep(n => n - 1))} style={{ display: 'block', margin: '0.6rem auto 0', minHeight: 44, padding: '0 1rem', background: 'none', border: 'none', color: '#8A8A93', fontSize: '0.82rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer' }}>{s.back}</button>
         )}
       </div>
     </div>

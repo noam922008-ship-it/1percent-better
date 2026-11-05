@@ -62,8 +62,9 @@ export function shiftTime(time, minutes) {
 
 /** Builds the two habits. bad = { quit, cue } (already worded), good = { title }, time = reminder 'HH:MM' | ''.
  *  badId (one of BAD_IDS) is kept on both so Home can link the matching guide (GUIDE_FOR). */
-export function buildFromZero({ bad, good, time, badId }, today = getLocalDateKey()) {
-  const tag = BAD_IDS.includes(badId) ? { badId } : {}
+export function buildFromZero({ bad, good, time, badId, later = false }, today = getLocalDateKey()) {
+  // later: added from "add habit" by someone who already has habits — no focus week (fromZeroAge skips it)
+  const tag = { ...(BAD_IDS.includes(badId) ? { badId } : {}), ...(later ? { addedLater: true } : {}) }
   const quit = { ...newQuitHabit(bad.quit, today), ...tag }
   const build = {
     cue: bad.cue, habit: good.title, pillar: 'discipline', source: 'from-zero',
@@ -104,7 +105,7 @@ export const FOCUS_DAYS = 7
 /** Days since the from-zero pair was made (0 = today), or null when the user didn't start from zero. */
 export function fromZeroAge(triggers = [], today = getLocalDateKey()) {
   const dates = triggers
-    .filter(t => t && t.source === 'from-zero' && !t.archived && /^\d{4}-\d{2}-\d{2}$/.test(t.createdAt || ''))
+    .filter(t => t && t.source === 'from-zero' && !t.archived && !t.addedLater && /^\d{4}-\d{2}-\d{2}$/.test(t.createdAt || ''))
     .map(t => t.createdAt).sort()
   if (!dates.length) return null
   const ms = Date.parse(`${today}T00:00:00Z`) - Date.parse(`${dates[0]}T00:00:00Z`)

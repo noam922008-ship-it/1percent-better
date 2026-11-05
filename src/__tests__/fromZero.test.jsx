@@ -99,6 +99,9 @@ describe('from-zero first week', () => {
   it('counts days since the pair was made, null for everyone else', () => {
     expect(fromZeroAge(pair('2026-11-01'), '2026-11-01')).toBe(0)
     expect(fromZeroAge(pair('2026-11-01'), '2026-11-07')).toBe(6)
+    const later = buildFromZero({ bad: { quit: 'q', cue: 'c' }, good: { title: 'g' }, time: '', badId: 'weed', later: true }, '2026-11-01')
+    expect(later.every(t => t.addedLater && t.badId === 'weed')).toBe(true)
+    expect(fromZeroAge(later, '2026-11-02')).toBeNull()
     expect(fromZeroAge(pair('2026-11-01'), '2026-11-08')).toBe(7)
     expect(fromZeroAge([{ habit: 'x', createdAt: '2026-11-01' }], '2026-11-08')).toBeNull()
     expect(fromZeroAge(pair('2026-11-01').map(t => ({ ...t, archived: true })), '2026-11-08')).toBeNull()
