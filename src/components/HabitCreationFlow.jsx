@@ -5,7 +5,7 @@ import { MAX_ACTIVE_HABITS, normalizeSchedule } from '../utils/habitSchedule'
 import HabitScheduleFields from './HabitScheduleFields'
 import { useLang } from '../context/LangContext'
 import { fmt, byLang } from '../i18n/fmt'
-import { newQuitHabit, quitTitle } from '../utils/quitHabit'
+import { newQuitHabit, quitTitle, QUIT_SUGGESTION_IDS } from '../utils/quitHabit'
 
 // Cue presets, by id. Labels in t.habitFlow.cues; 'custom' opens a free-text field.
 const CUE_IDS = ['wake', 'bfast', 'phone', 'work', 'sleep', 'custom']
@@ -41,7 +41,9 @@ export default function HabitCreationFlow({ growthPillars, existingCount, onSave
   const quitName = quitTitle(quitText, tf.quitPrefix)
 
   function handleQuitSave() {
-    if (quitName) onSave(newQuitHabit(quitName))
+    if (!quitName) return
+    const badId = quitOther ? null : QUIT_SUGGESTION_IDS[tf.quitSuggestions.indexOf(quitText)]
+    onSave({ ...newQuitHabit(quitName), ...(badId ? { badId } : {}) })
   }
 
   function handleSuggestionPick(s) {

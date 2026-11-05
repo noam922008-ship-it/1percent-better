@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { isQuit, quitDays, quitBest, quitTitle, newQuitHabit, slipQuit } from '../utils/quitHabit'
+import { isQuit, quitDays, quitBest, quitTitle, newQuitHabit, slipQuit, QUIT_SUGGESTION_IDS } from '../utils/quitHabit'
+import { GUIDE_FOR } from '../utils/fromZero'
 import { isWeekly } from '../utils/habitSchedule'
 import he from '../i18n/he'
 import en from '../i18n/en'
@@ -46,6 +47,8 @@ describe('quit habits', () => {
 
   it('he and en have the same quit copy', () => {
     expect(he.habitFlow.quitSuggestions.length).toBe(en.habitFlow.quitSuggestions.length)
+    expect(QUIT_SUGGESTION_IDS).toHaveLength(he.habitFlow.quitSuggestions.length)
+    for (const id of QUIT_SUGGESTION_IDS) if (id) expect(GUIDE_FOR[id]).toBeTruthy()
     expect(Object.keys(he.home.quit).sort()).toEqual(Object.keys(en.home.quit).sort())
   })
 })

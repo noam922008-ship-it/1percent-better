@@ -32,6 +32,10 @@ export function quitTitle(text, prefix) {
   return p && s.toLowerCase().startsWith(p.toLowerCase()) ? s : `${prefix}${s}`
 }
 
+/** The bad-habit id (utils/fromZero BAD_IDS) behind each t.habitFlow.quitSuggestions entry, by index,
+ *  so a quit habit picked from the list links its guide on Home. null = no guide. */
+export const QUIT_SUGGESTION_IDS = ['smoke', 'late', null, 'junk', 'scroll', 'alcohol', null, 'weed', 'porn']
+
 export function newQuitHabit(title, today = getLocalDateKey()) {
   return {
     cue: title, habit: title, source: 'quit', createdAt: today,

@@ -534,7 +534,7 @@ const he = {
     quitPh:      'מה רוצים להפסיק? למשל: עישון',
     quitSave:    'מתחילים לספור ✓',
     quitOwn:     '+ משהו אחר',
-    quitSuggestions: ['עישון', 'טלפון במיטה', 'סוכר', "ג'אנק פוד", 'גלילה אינסופית', 'אלכוהול', 'נשנושים בלילה'],
+    quitSuggestions: ['עישון', 'טלפון במיטה', 'סוכר', "ג'אנק פוד", 'גלילה אינסופית', 'אלכוהול', 'נשנושים בלילה', 'וויד', 'פורנו'],
     // The cue presets. Hebrew labels are also how suggestions' Hebrew cues are matched to a preset.
     cues: {
       wake:   'כשאני מתעורר',

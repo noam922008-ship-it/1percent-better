@@ -533,7 +533,7 @@ const en = {
     quitPh:      'What do you want to quit? e.g. smoking',
     quitSave:    'Start counting ✓',
     quitOwn:     '+ Something else',
-    quitSuggestions: ['smoking', 'phone in bed', 'sugar', 'junk food', 'endless scrolling', 'alcohol', 'late-night snacking'],
+    quitSuggestions: ['smoking', 'phone in bed', 'sugar', 'junk food', 'endless scrolling', 'alcohol', 'late-night snacking', 'weed', 'porn'],
     // The cue presets
     cues: {
       wake:   'When I wake up',
