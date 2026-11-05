@@ -119,6 +119,8 @@ const en = {
       scroll:  { icon: '📱', label: 'Mindless scrolling', quit: 'No mindless scrolling', cue: 'When I feel like scrolling' },
       smoke:   { icon: '🚬', label: 'Smoking',            quit: 'No smoking',            cue: 'When I feel like smoking' },
       alcohol: { icon: '🍺', label: 'Alcohol',            quit: 'No alcohol',            cue: 'When I feel like drinking' },
+      weed:    { icon: '🌿', label: 'Weed',               quit: 'No weed',               cue: 'When I feel like smoking weed' },
+      porn:    { icon: '🔞', label: 'Porn',               quit: 'No porn',               cue: 'When I feel like watching porn' },
       junk:    { icon: '🍔', label: 'Junk food',          quit: 'No junk food',          cue: 'When I crave junk food' },
       late:    { icon: '🌙', label: 'Going to bed late',  quit: 'No late nights',        cue: "When it's bedtime" },
       snooze:  { icon: '⏰', label: 'Hitting snooze',     quit: 'No snooze',             cue: 'When the alarm goes off' },
@@ -130,6 +132,7 @@ const en = {
     help: {
       smoke:   { text: "Quitting smoking alone is hard. Free help is available:", link: 'smokefree.gov', href: 'https://smokefree.gov' },
       alcohol: { text: "If it's hard to stop alone, professional help is available:", link: 'findtreatment.gov', href: 'https://findtreatment.gov' },
+      weed:    { text: "If it's hard to stop alone, professional help is available:", link: 'findtreatment.gov', href: 'https://findtreatment.gov' },
     },
     good: {
       read: { icon: '📖', title: 'Read {n} pages', phrase: 'read {n} pages' },
@@ -149,6 +152,8 @@ const en = {
       alarmFar: { icon: '⏰', title: 'Alarm across the room', phrase: 'keep my alarm across the room' },
       waterWake: { icon: '💧', title: 'A glass of water right when I wake up', phrase: 'drink a glass of water' },
       pushWake: { icon: '💪', title: '{n} push-ups right when I wake up', phrase: 'do {n} push-ups' },
+      leaveRoom: { icon: '🚪', title: 'Get up and leave the room', phrase: 'get up and leave the room' },
+      shower: { icon: '🚿', title: 'A hot shower', phrase: 'take a hot shower' },
     },
     less: 'Less', more: 'More',
     smallHint: 'Too small beats too big. You can change it later',
@@ -240,7 +245,7 @@ const en = {
     },
     guestSignIn: 'Sign in →',
     // Smoking and alcohol guides exist in Hebrew only; Home hides the row for them in English
-    guide: { prefix: 'Short guide:', titles: { scroll: 'How to stop scrolling', snooze: 'How to stop snoozing', late: 'How to sleep earlier', junk: 'How to stop eating junk food', smoke: 'How to quit smoking', alcohol: 'How to drink less' } },
+    guide: { prefix: 'Short guide:', all: 'Short guides to quit habits', titles: { scroll: 'How to stop scrolling', snooze: 'How to stop snoozing', late: 'How to sleep earlier', junk: 'How to stop eating junk food', smoke: 'How to quit smoking', alcohol: 'How to drink less', weed: 'How to quit weed', porn: 'How to stop watching porn' } },
     ringTasks:   'tasks',
     ringAria:    '{done} of {total} done today',
     streak:      { one: '1 day in a row', two: '2 days in a row', many: '{n} days in a row' },
@@ -889,6 +894,7 @@ const en = {
     minutes:      '{n} min',
     prefsNote:    "Changing your preferences doesn't reset your progress",
     social:       'PRIME on social',
+    guides:       '📚 Guides to quit habits',
     legal:        { privacy: 'Privacy policy', terms: 'Terms of use', accessibility: 'Accessibility', support: 'Support' },
     privacy:      '◈ Privacy',
     analytics:    'Share usage data (Google Analytics)',
@@ -928,6 +934,7 @@ const en = {
     privacy: 'Privacy policy',
   },
   // Legal pages: /legal hub, /privacy, /terms (document text lives in src/data/legal.js)
+  guidesPage: { title: 'Guides', sub: 'Short guides that help you quit habits, step by step.', back: 'Back' },
   legal: {
     hubTitle:    'Legal & support',
     back:        'Back',

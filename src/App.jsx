@@ -14,6 +14,7 @@ const OnboardingFlow = lazyScreen(() => import('./pages/OnboardingFlow'))
 const Dashboard      = lazyScreen(() => import('./pages/Dashboard'))
 const Legal          = lazyScreen(() => import('./pages/Legal'))
 const LegalDoc       = lazyScreen(() => import('./pages/LegalDoc'))
+const Guides         = lazyScreen(() => import('./pages/Guides'))
 
 // Redirect to /welcome but keep the query string, so ?utm_source=… from a shared link stays
 // visible and readable after landing (e.g. prime-daily-app.web.app/?utm_source=tiktok).
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="/privacy"   element={<LegalDoc type="privacy" />} />
             <Route path="/terms"     element={<LegalDoc type="terms" />} />
             <Route path="/accessibility" element={<LegalDoc type="accessibility" />} />
+            <Route path="/guides"    element={<Guides />} />
             <Route path="*"          element={<ToWelcome />} />
           </Routes>
           <ConsentBanner />

@@ -7,7 +7,7 @@ import { normalizeSchedule } from './habitSchedule'
 import { getLocalDateKey } from './localDate'
 
 /** Bad-habit ids offered in the flow; labels/cues live in t.fromZero.bad[id]. */
-export const BAD_IDS = ['scroll', 'smoke', 'alcohol', 'junk', 'late', 'snooze']
+export const BAD_IDS = ['scroll', 'smoke', 'alcohol', 'weed', 'porn', 'junk', 'late', 'snooze']
 
 /** Good habits. n/min/max = an adjustable amount ({n} in the copy); none = a fixed action. Copy in t.fromZero.good[id]. */
 export const GOOD = {
@@ -28,6 +28,8 @@ export const GOOD = {
   alarmFar:    {},
   waterWake:   {},
   pushWake:    { n: 10, min: 1, max: 50 },
+  leaveRoom:   {},
+  shower:      {},
 }
 
 /** Each bad habit gets replacements that fit it: one for the body, one for the head, one that changes the setting. */
@@ -38,12 +40,14 @@ export const REPLACE = {
   junk:    [{ id: 'waterFirst' }, { id: 'fruit' }, { id: 'walk' }],
   late:    [{ id: 'phoneOutBed' }, { id: 'readBed' }, { id: 'lightsOff' }],
   snooze:  [{ id: 'alarmFar' }, { id: 'waterWake' }, { id: 'pushWake' }],
+  weed:    [{ id: 'run' }, { id: 'shower' }, { id: 'callFriend' }],
+  porn:    [{ id: 'push' }, { id: 'leaveRoom' }, { id: 'phoneOutBed' }],
   other:   [{ id: 'read' }, { id: 'push' }, { id: 'run' }],
 }
 export const replacementsFor = badId => REPLACE[badId] || REPLACE.other
 
 /** Which bad habits show the "professional help" note, and which help entry. */
-export const HELP_FOR = { smoke: 'smoke', alcohol: 'alcohol' }
+export const HELP_FOR = { smoke: 'smoke', alcohol: 'alcohol', weed: 'weed' }
 
 /** Minutes before the chosen time that the reminder comes (late nights: an hour before bedtime). */
 export const REMIND_EARLY = { late: 60 }
@@ -72,10 +76,17 @@ export function buildFromZero({ bad, good, time, badId }, today = getLocalDateKe
 export const GUIDE_FOR = {
   scroll: 'stop-scrolling', snooze: 'stop-snoozing', late: 'sleep-earlier',
   junk: 'stop-junk-food', smoke: 'quit-smoking', alcohol: 'drink-less',
+  weed: 'quit-weed', porn: 'quit-porn',
 }
 
 /** Guides that also exist in English (/en/guides/<slug>). */
-export const EN_GUIDES = ['stop-scrolling', 'stop-snoozing', 'sleep-earlier', 'stop-junk-food']
+export const EN_GUIDES = ['stop-scrolling', 'stop-snoozing', 'sleep-earlier', 'stop-junk-food', 'quit-porn', 'quit-weed']
+
+/** Every guide in the UI language, in the order the habits are offered: [{ id, slug, href }]. */
+export function allGuides(lang = 'he') {
+  return BAD_IDS.filter(id => GUIDE_FOR[id] && (lang !== 'en' || EN_GUIDES.includes(GUIDE_FOR[id])))
+    .map(id => ({ id, slug: GUIDE_FOR[id], href: lang === 'en' ? `/en/guides/${GUIDE_FOR[id]}` : `/guides/${GUIDE_FOR[id]}` }))
+}
 
 /** The guide to show on Home: from the first active habit that remembers its bad habit.
  *  href is in the UI language; null when that language has no such guide. */

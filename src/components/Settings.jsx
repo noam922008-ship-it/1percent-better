@@ -419,6 +419,11 @@ export default function Settings({ onRebuildPath, activePathName, leaderboardOpt
         </>
       )}
 
+      {/* Guides — the full list at /guides */}
+      <a href="/guides" className="btn-tactile" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 48, marginTop: '1.75rem', background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, color: '#F4F1E8', fontSize: '0.88rem', fontWeight: 700, textDecoration: 'none' }}>
+        {ts.guides}
+      </a>
+
       {/* Social */}
       <div style={{ marginTop: '1.75rem' }}>
         <div style={{ textAlign: 'center', color: 'rgba(241,245,249,0.6)', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ts.social}</div>

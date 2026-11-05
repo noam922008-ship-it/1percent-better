@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { buildFromZero, BAD_IDS, GOOD, REPLACE, shiftTime, fromZeroAge, moreCardDismissed, dismissMoreCard, guideFor, GUIDE_FOR } from '../utils/fromZero'
+import { buildFromZero, BAD_IDS, GOOD, REPLACE, shiftTime, fromZeroAge, moreCardDismissed, dismissMoreCard, guideFor, GUIDE_FOR, EN_GUIDES, allGuides } from '../utils/fromZero'
 import he from '../i18n/he'
 import en from '../i18n/en'
 
@@ -129,5 +129,17 @@ describe('guide on Home', () => {
   })
   it('every bad habit in the flow has a guide page', () => {
     for (const id of BAD_IDS) expect(GUIDE_FOR[id]).toBeTruthy()
+  })
+  it('every guide has a static page in each language it is listed in', async () => {
+    const { existsSync } = await import('node:fs')
+    for (const slug of Object.values(GUIDE_FOR)) expect(existsSync(`public/guides/${slug}/index.html`)).toBe(true)
+    for (const slug of EN_GUIDES) expect(existsSync(`public/en/guides/${slug}/index.html`)).toBe(true)
+  })
+  it('allGuides lists every guide in the UI language', () => {
+    expect(allGuides('he').map(g => g.id)).toEqual(BAD_IDS)
+    const en = allGuides('en')
+    expect(en.map(g => g.slug)).toEqual(BAD_IDS.map(id => GUIDE_FOR[id]).filter(s => EN_GUIDES.includes(s)))
+    expect(en.find(g => g.id === 'porn').href).toBe('/en/guides/quit-porn')
+    expect(allGuides('he').find(g => g.id === 'weed').href).toBe('/guides/quit-weed')
   })
 })

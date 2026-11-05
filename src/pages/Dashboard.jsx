@@ -1351,7 +1351,7 @@ export default function Dashboard() {
   const fzAge      = fromZeroAge(triggers)
   const focusWeek  = fzAge !== null && fzAge < FOCUS_DAYS
   const showMore   = fzAge !== null && fzAge >= FOCUS_DAYS && !moreDismissed && triggers.filter(t => !t.archived).length < MAX_ACTIVE_HABITS
-  const guide      = guideFor(triggers, lang)   // smoking/alcohol guides are Hebrew-only for now
+  const guide      = guideFor(triggers, lang)   // smoking/alcohol guides are Hebrew-only for now; without one, Home links to /guides
   const remindHabit = (() => { const h = triggers.find(t => !t.archived && !isQuit(t) && t.time); return h ? { time: h.time, title: h.habit || h.cue } : null })()
   const doneCount = dailyTriggers.filter(tr => checkins[tr.id]).length
   const allDone   = dailyTriggers.length > 0 && doneCount === dailyTriggers.length
@@ -1829,6 +1829,13 @@ export default function Dashboard() {
                   <a href={guide.href} className="btn-tactile" style={{ order: -2, display: 'flex', alignItems: 'center', gap: '0.65rem', minHeight: 48, boxSizing: 'border-box', padding: '0.7rem 1rem', background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, textDecoration: 'none', textAlign: 'start' }}>
                     <span style={{ fontSize: '1.05rem' }} aria-hidden="true">📖</span>
                     <span style={{ flex: 1, minWidth: 0, color: '#F4F1E8', fontSize: '0.85rem', fontWeight: 700 }}><span style={{ color: '#D9B34C' }}>{th.guide.prefix}</span> {th.guide.titles[guide.id]}</span>
+                    <ForwardChevron size={18} color="#8A8A93" />
+                  </a>
+                )}
+                {!guide && (
+                  <a href="/guides" className="btn-tactile" style={{ order: -2, display: 'flex', alignItems: 'center', gap: '0.65rem', minHeight: 48, boxSizing: 'border-box', padding: '0.7rem 1rem', background: '#111317', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, textDecoration: 'none', textAlign: 'start' }}>
+                    <span style={{ fontSize: '1.05rem' }} aria-hidden="true">📚</span>
+                    <span style={{ flex: 1, minWidth: 0, color: '#F4F1E8', fontSize: '0.85rem', fontWeight: 700 }}>{th.guide.all}</span>
                     <ForwardChevron size={18} color="#8A8A93" />
                   </a>
                 )}
