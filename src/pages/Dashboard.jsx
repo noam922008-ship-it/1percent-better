@@ -13,7 +13,6 @@ import { MANTRAS } from '../data/mantras'
 import AddToHomeScreen, { isStandalone } from '../components/AddToHomeScreen'
 import ContractLock from '../components/ContractLock'
 import PrimeOnboarding, { hasSeenOnboarding } from '../components/PrimeOnboarding'
-import FirstWelcome from '../components/FirstWelcome'
 import { hasSeenWelcome, markWelcomeSeen } from '../utils/welcome'
 import { buildCustomPath } from '../services/pathBuilderService'
 import { onSnapshot, doc } from 'firebase/firestore'
@@ -1451,6 +1450,20 @@ export default function Dashboard() {
     primaryAction = { type: primaryType }   // 'no-tasks' | 'all-done'
   }
 
+  // First run (no XP, welcome not seen yet): straight into the from-zero flow. The landing page
+  // (WelcomeScreen) already said what PRIME is, so the old second welcome screen (FirstWelcome)
+  // is skipped; closing the flow (✕) lands on Home, like its old "skip".
+  const needsWelcome = !loading && !welcomeDone && (profile?.xp || 0) === 0 && !hasSeenWelcome(profile)
+  useEffect(() => {
+    if (!needsWelcome) return
+    markWelcomeSeen()
+    if (!isGuest && user) saveProfile(user.uid, { welcomeSeen: true }).catch(() => {})
+    setWelcomeDone(true)
+    setActiveTab('home')
+    track('welcome_start')
+    setShowFromZero(true)
+  }, [needsWelcome]) // eslint-disable-line react-hooks/exhaustive-deps
+
   // Always show skeleton while profile is loading — prevents false-negative
   // profileHasProgress flash that would show PrimeOnboarding/InitiationFlow
   if (loading) return (
@@ -1481,17 +1494,8 @@ export default function Dashboard() {
     || !!profile?.onboardingDone   // finished setup (habits are optional) → go straight to Home
   )
 
-  // First-run welcome — once, for users with no XP yet (guests and new sign-ups after setup)
-  if (!welcomeDone && (profile?.xp || 0) === 0 && !hasSeenWelcome(profile)) {
-    const finishWelcome = openHabit => {
-      markWelcomeSeen()
-      if (!isGuest && user) saveProfile(user.uid, { welcomeSeen: true }).catch(() => {})
-      setWelcomeDone(true)
-      setActiveTab('home')
-      if (openHabit) { track('welcome_start'); setShowFromZero(true) }
-    }
-    return <FirstWelcome onStart={() => finishWelcome(true)} onSkip={() => finishWelcome(false)} />
-  }
+  // First-run: for the one frame before the effect above opens the flow, a plain dark screen
+  if (needsWelcome) return <div style={{ minHeight: '100vh', background: '#09090b' }} />
 
   if (FEATURES.legacyIntro && !profileHasProgress && !hasSeenOnboarding()) return (
     <PrimeOnboarding onDone={() => setInitiationDone(true)} />
