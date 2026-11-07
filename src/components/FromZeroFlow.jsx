@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
-import { BAD_IDS, GOOD, HELP_FOR, REMIND_EARLY, buildFromZero, replacementsFor, shiftTime } from '../utils/fromZero'
+import { BAD_IDS, GOOD, HELP_FOR, REMIND_EARLY, buildFromZero, defaultTimeFor, replacementsFor, shiftTime } from '../utils/fromZero'
 
-// First-run path for people who start from zero (docs/FROM_ZERO_PLAN.md):
-// 0 where do you start → 1 the bad habit → 2 the tiny good habit that replaces it → 3 when → 4 summary + save.
-// "I have some habits" goes to the regular HabitCreationFlow (onRegular); "I only want to quit" goes to step 1.
-// later: opened from "add habit" → starts at step 1, no focus week, and "back" from step 1 closes.
+// First-run path (docs/FROM_ZERO_PLAN.md), two steps so people actually finish it:
+// 1 the bad habit (one tap) → 2 the tiny good habit that replaces it, with the deal and "start" on the same screen.
+// No "when" question: the reminder gets the usual time for that habit (defaultTimeFor), editable later.
+// "I already have habits" (first run only) goes to the regular HabitCreationFlow (onRegular).
+// later: opened from "add habit" → no focus week.
 
 const GOLD = '#D9B34C'
 const chip = on => ({
@@ -25,13 +26,11 @@ const input = { width: '100%', padding: '0.8rem 1rem', borderRadius: 12, border:
 export default function FromZeroFlow({ onSave, onRegular, onClose, later = false }) {
   const { t } = useLang()
   const s = t.fromZero
-  const [step, setStep]   = useState(later ? 1 : 0)
+  const [step, setStep]   = useState(1)
   const [badId, setBadId] = useState('')
   const [own, setOwn]     = useState('')
   const [goodId, setGoodId] = useState('')
   const [amount, setAmount] = useState(0)
-  const [timeId, setTimeId] = useState('')
-  const [ownTime, setOwnTime] = useState('')
   const [saving, setSaving] = useState(false)
 
   const ownText = own.trim()
@@ -41,13 +40,13 @@ export default function FromZeroFlow({ onSave, onRegular, onClose, later = false
   const options = replacementsFor(badId)
   const hasAmount = goodId && GOOD[goodId].n != null
   const good = goodId ? { title: fmt(s.good[goodId].title, { n: amount }), phrase: fmt(s.good[goodId].phrase || s.good[goodId].title, { n: amount }) } : null
-  const time = timeId === 'own' ? ownTime : timeId ? s.times.find(x => x.id === timeId)?.time || '' : ''
-  // Late nights: the reminder comes an hour before the bedtime the person picked
-  const remindAt = shiftTime(time, REMIND_EARLY[badId] || 0)
+  // Late nights: the reminder comes an hour before the usual bedtime
+  const remindAt = shiftTime(defaultTimeFor(badId), REMIND_EARLY[badId] || 0)
   const help = HELP_FOR[badId] ? s.help[HELP_FOR[badId]] : null
 
   function pickGood(opt) { setGoodId(opt.id); setAmount(opt.n ?? GOOD[opt.id].n ?? 0) }
-  function pickBad(id) { setBadId(id); setGoodId('') }
+  // One tap: a listed habit goes straight to step 2; "something else" waits for the text
+  function pickBad(id) { setBadId(id); setGoodId(''); if (id !== 'other') setStep(2) }
   function step1Next() { if (bad) setStep(2) }
   async function save() {
     if (!bad || !good || saving) return
@@ -62,20 +61,13 @@ export default function FromZeroFlow({ onSave, onRegular, onClose, later = false
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1.1rem' }}>
           <div>
-            <div style={{ color: '#8A8A93', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.2rem' }}>{step > 0 ? fmt(s.stepOf, { n: step, total: 4 }) : ''}</div>
+            <div style={{ color: '#8A8A93', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.2rem' }}>{fmt(s.stepOf, { n: step, total: 2 })}</div>
             <div style={{ color: '#F4F1E8', fontWeight: 900, fontSize: '1.15rem', lineHeight: 1.35 }}>{s.titles[step]}</div>
             {s.subs[step] && <div style={{ color: '#A4A6AD', fontSize: '0.8rem', marginTop: '0.3rem', lineHeight: 1.5 }}>{s.subs[step]}</div>}
           </div>
           <button onClick={onClose} aria-label={s.close} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, minHeight: 44, minWidth: 44 }}>✕</button>
         </div>
 
-        {step === 0 && (
-          <div style={{ display: 'grid', gap: '0.55rem' }}>
-            <button className="btn-tactile" style={chip(false)} onClick={() => setStep(1)}>{s.start.zero}</button>
-            <button className="btn-tactile" style={chip(false)} onClick={onRegular}>{s.start.some}</button>
-            <button className="btn-tactile" style={chip(false)} onClick={() => setStep(1)}>{s.start.quit}</button>
-          </div>
-        )}
 
         {step === 1 && (
           <div>
@@ -89,20 +81,23 @@ export default function FromZeroFlow({ onSave, onRegular, onClose, later = false
               <input autoFocus className="glow-input" style={input} placeholder={s.ownPh} value={own}
                 onChange={e => setOwn(e.target.value)} onKeyDown={e => e.key === 'Enter' && step1Next()} maxLength={60} />
             )}
+            {badId === 'other' && <button className="btn-tactile" style={primary(!bad)} disabled={!bad} onClick={step1Next}>{s.next}</button>}
+            {!later && (
+              <button onClick={onRegular} style={{ display: 'block', margin: '0.6rem auto 0', minHeight: 44, padding: '0 1rem', background: 'none', border: 'none', color: '#8A8A93', fontSize: '0.82rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer' }}>{s.start.some}</button>
+            )}
+          </div>
+        )}
+
+        {step === 2 && (
+          <div>
             {help && (
-              <div role="note" style={{ marginTop: '0.9rem', padding: '0.8rem 0.9rem', borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#A4A6AD', fontSize: '0.78rem', lineHeight: 1.6 }}>
+              <div role="note" style={{ marginBottom: '0.9rem', padding: '0.8rem 0.9rem', borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#A4A6AD', fontSize: '0.78rem', lineHeight: 1.6 }}>
                 {help.text}{' '}
                 {help.href
                   ? <a href={help.href} target="_blank" rel="noopener noreferrer" dir="ltr" style={{ color: GOLD, fontWeight: 700, unicodeBidi: 'isolate' }}>{help.link}</a>
                   : <span style={{ color: GOLD, fontWeight: 700 }}>{help.link}</span>}
               </div>
             )}
-            <button className="btn-tactile" style={primary(!bad)} disabled={!bad} onClick={step1Next}>{s.next}</button>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div>
             <div style={{ display: 'grid', gap: '0.5rem' }}>
               {options.map(opt => (
                 <button key={opt.id} className="btn-tactile" aria-pressed={goodId === opt.id} style={chip(goodId === opt.id)} onClick={() => pickGood(opt)}>
@@ -118,42 +113,20 @@ export default function FromZeroFlow({ onSave, onRegular, onClose, later = false
               </div>
             )}
             {hasAmount && <div style={{ color: '#8A8A93', fontSize: '0.74rem', textAlign: 'center', marginTop: '0.5rem' }}>{s.smallHint}</div>}
-            <button className="btn-tactile" style={primary(!good)} disabled={!good} onClick={() => good && setStep(3)}>{s.next}</button>
-          </div>
-        )}
-
-        {step === 3 && bad && (
-          <div>
-            <div style={{ color: '#A4A6AD', fontSize: '0.82rem', marginBottom: '0.7rem' }}>{fmt(s.whenQ, { bad: bad.label })}</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-              {s.times.map(x => (
-                <button key={x.id} className="btn-tactile" aria-pressed={timeId === x.id} style={chip(timeId === x.id)} onClick={() => setTimeId(x.id)}>{x.label}</button>
-              ))}
-              <button className="btn-tactile" aria-pressed={timeId === 'own'} style={chip(timeId === 'own')} onClick={() => setTimeId('own')}>{s.ownTime}</button>
-            </div>
-            {timeId === 'own' && <input type="time" className="glow-input" style={{ ...input, direction: 'ltr' }} value={ownTime} onChange={e => setOwnTime(e.target.value)} aria-label={s.ownTime} />}
-            <button className="btn-tactile" style={primary(!time)} disabled={!time} onClick={() => time && setStep(4)}>{s.next}</button>
-          </div>
-        )}
-
-        {step === 4 && bad && good && (
-          <div>
-            <div style={{ background: 'rgba(217,179,76,0.06)', border: '1px solid rgba(217,179,76,0.3)', borderRadius: 16, padding: '1rem 1.05rem' }}>
-              <div style={{ color: '#F4F1E8', fontSize: '1.02rem', fontWeight: 800, lineHeight: 1.6 }}>
-                {fmt(s.pact, { cue: bad.cue, good: good.phrase })}
+            {good && bad && (
+              <div style={{ marginTop: '1rem', background: 'rgba(217,179,76,0.06)', border: '1px solid rgba(217,179,76,0.3)', borderRadius: 14, padding: '0.8rem 0.95rem' }}>
+                <div style={{ color: '#F4F1E8', fontSize: '0.95rem', fontWeight: 800, lineHeight: 1.6 }}>{fmt(s.pact, { cue: bad.cue, good: good.phrase })}</div>
+                <div style={{ color: '#A4A6AD', fontSize: '0.76rem', marginTop: '0.35rem' }}>{fmt(s.reminderAt, { time: '\u2066' + remindAt + '\u2069' })}</div>
               </div>
-              <div style={{ color: '#A4A6AD', fontSize: '0.8rem', marginTop: '0.5rem' }}>{fmt(s.reminderAt, { time: '\u2066' + remindAt + '\u2069' })}</div>
-            </div>
-            <ul style={{ color: '#A4A6AD', fontSize: '0.8rem', lineHeight: 1.7, margin: '0.9rem 0 0', paddingInlineStart: '1.1rem' }}>
-              <li>{fmt(s.willCount, { quit: bad.quit })}</li>
-              {!later && <li>{s.weekOne}</li>}
-            </ul>
-            <button className="btn-tactile" style={primary(saving)} disabled={saving} onClick={save}>{saving ? '…' : s.save}</button>
+            )}
+            <button className="btn-tactile" style={primary(!good || saving)} disabled={!good || saving} onClick={save}>{saving ? '…' : s.save}</button>
           </div>
         )}
 
-        {step > 0 && (
-          <button onClick={() => (later && step === 1 ? onClose() : setStep(n => n - 1))} style={{ display: 'block', margin: '0.6rem auto 0', minHeight: 44, padding: '0 1rem', background: 'none', border: 'none', color: '#8A8A93', fontSize: '0.82rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer' }}>{s.back}</button>
+
+
+        {step === 2 && (
+          <button onClick={() => setStep(1)} style={{ display: 'block', margin: '0.6rem auto 0', minHeight: 44, padding: '0 1rem', background: 'none', border: 'none', color: '#8A8A93', fontSize: '0.82rem', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer' }}>{s.back}</button>
         )}
       </div>
     </div>

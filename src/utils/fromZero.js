@@ -57,6 +57,11 @@ export const HELP_FOR = { smoke: 'smoke', vape: 'smoke', alcohol: 'alcohol', wee
 /** Minutes before the chosen time that the reminder comes (late nights: an hour before bedtime). */
 export const REMIND_EARLY = { late: 60 }
 
+/** The flow doesn't ask "when" anymore (fewer steps): each bad habit gets the usual time it shows up.
+ *  It can be changed later in the habit's settings. */
+export const DEFAULT_TIME = { late: '23:00', snooze: '08:00', procrastinate: '16:00' }
+export const defaultTimeFor = badId => DEFAULT_TIME[badId] || '20:00'
+
 /** 'HH:MM' moved by -minutes, wrapping around midnight. */
 export function shiftTime(time, minutes) {
   const m = /^(\d{2}):(\d{2})$/.exec(time || '')

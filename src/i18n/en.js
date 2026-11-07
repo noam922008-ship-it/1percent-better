@@ -113,7 +113,7 @@ const en = {
     stepOf: 'Step {n} of {total}',
     start: {
       zero: "🌱 I don't have good habits yet",
-      some: '✨ I have a few and want more',
+      some: 'I already have my own habits →',
       quit: '🛡️ I just want to quit something',
     },
     bad: {
@@ -172,7 +172,7 @@ const en = {
     ],
     ownTime: '🕐 Other time',
     pact: '{cue}, I {good}.',
-    reminderAt: 'Reminder every day at {time}',
+    reminderAt: 'Reminder every day at {time}. You can change it later',
     willCount: 'The "{quit}" count starts today and goes up on its own',
     weekOne: 'Week one: just these habits. After a week you can add more',
     save: "Let's go ✓",

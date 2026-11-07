@@ -54,43 +54,52 @@ describe('replacements', () => {
 })
 
 describe('FromZeroFlow', () => {
-  it('goes zero → bad → good → time → saves two habits', async () => {
+  it('two steps: bad → good → saves two habits at the usual time for that habit', async () => {
     const onSave = vi.fn().mockResolvedValue()
     render(<FromZeroFlow onSave={onSave} onRegular={() => {}} onClose={() => {}} />)
-    fireEvent.click(screen.getByText(he.fromZero.start.zero))
+    expect(screen.getByText(he.fromZero.titles[1])).toBeTruthy()   // opens straight on the bad habit
     fireEvent.click(screen.getByText(new RegExp(he.fromZero.bad.smoke.label)))
-    expect(screen.getByRole('note').textContent).toContain('6800')   // help note for smoking
-    fireEvent.click(screen.getByText(he.fromZero.next))
+    expect(screen.getByRole('note').textContent).toContain('6800')   // one tap → step 2, with the help note for smoking
     fireEvent.click(screen.getByText(/נשימות עמוקות/))   // smoking → breaths, not reading
     fireEvent.click(screen.getByLabelText(he.fromZero.more))
-    fireEvent.click(screen.getByText(he.fromZero.next))
-    fireEvent.click(screen.getByText(he.fromZero.times[3].label))
-    fireEvent.click(screen.getByText(he.fromZero.next))
+    expect(screen.getByText(/כשבא לי לעשן ← 11 נשימות עמוקות/)).toBeTruthy()   // the deal, on the same screen
+    expect(screen.queryByText(he.fromZero.titles[3])).toBeNull()   // no "when" question
     fireEvent.click(screen.getByText(he.fromZero.save))
     const list = onSave.mock.calls[0][0]
     expect(list).toHaveLength(2)
-    expect(list[1]).toMatchObject({ habit: '11 נשימות עמוקות', cue: 'כשבא לי לעשן', time: '23:00' })
+    expect(list[1]).toMatchObject({ habit: '11 נשימות עמוקות', cue: 'כשבא לי לעשן', time: '20:00' })
   })
   it('late nights: no amount stepper for a fixed action, reminder an hour before bedtime', async () => {
     const onSave = vi.fn().mockResolvedValue()
     render(<FromZeroFlow onSave={onSave} onRegular={() => {}} onClose={() => {}} />)
-    fireEvent.click(screen.getByText(he.fromZero.start.zero))
     fireEvent.click(screen.getByText(new RegExp(he.fromZero.bad.late.label)))
-    fireEvent.click(screen.getByText(he.fromZero.next))
     expect(screen.queryByText(/שכיבות סמיכה/)).toBeNull()
     fireEvent.click(screen.getByText(/הטלפון מחוץ למיטה/))
     expect(screen.queryByLabelText(he.fromZero.more)).toBeNull()
-    fireEvent.click(screen.getByText(he.fromZero.next))
-    fireEvent.click(screen.getByText(he.fromZero.times[3].label))
-    fireEvent.click(screen.getByText(he.fromZero.next))
     fireEvent.click(screen.getByText(he.fromZero.save))
     expect(onSave.mock.calls[0][0][1]).toMatchObject({ habit: 'הטלפון מחוץ למיטה', time: '22:00' })
   })
-  it('"I have some habits" goes to the regular flow', () => {
+  it('save is disabled until a good habit is picked', () => {
+    render(<FromZeroFlow onSave={() => {}} onRegular={() => {}} onClose={() => {}} />)
+    fireEvent.click(screen.getByText(new RegExp(he.fromZero.bad.scroll.label)))
+    expect(screen.getByText(he.fromZero.save).closest('button').disabled).toBe(true)
+  })
+  it('"something else" waits for the text before moving on', () => {
+    render(<FromZeroFlow onSave={() => {}} onRegular={() => {}} onClose={() => {}} />)
+    fireEvent.click(screen.getByText(he.fromZero.other))
+    expect(screen.getByText(he.fromZero.next).closest('button').disabled).toBe(true)
+    fireEvent.change(screen.getByPlaceholderText(he.fromZero.ownPh), { target: { value: 'לקנות בלי צורך' } })
+    fireEvent.click(screen.getByText(he.fromZero.next))
+    expect(screen.getByText(he.fromZero.titles[2])).toBeTruthy()
+  })
+  it('"I already have habits" goes to the regular flow, and is hidden when adding later', () => {
     const onRegular = vi.fn()
-    render(<FromZeroFlow onSave={() => {}} onRegular={onRegular} onClose={() => {}} />)
+    const { unmount } = render(<FromZeroFlow onSave={() => {}} onRegular={onRegular} onClose={() => {}} />)
     fireEvent.click(screen.getByText(he.fromZero.start.some))
     expect(onRegular).toHaveBeenCalled()
+    unmount()
+    render(<FromZeroFlow later onSave={() => {}} onRegular={onRegular} onClose={() => {}} />)
+    expect(screen.queryByText(he.fromZero.start.some)).toBeNull()
   })
 })
 
