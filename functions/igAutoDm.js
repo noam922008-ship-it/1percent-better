@@ -8,7 +8,7 @@
 
 const crypto = require('crypto');
 
-// Words that mean "send me the link". These also get the link again on a new post (see handleComment).
+// Words that mean "send me the link": they get the DM with the public "sent you a DM" reply.
 const ASK_WORDS = ['לינק', 'link', 'קישור', 'app', 'אפליקציה', 'prime', 'פריים'];
 
 // ===== Rules per account (prime = English, noam = Hebrew) =====
@@ -124,10 +124,8 @@ async function sendPublicReply(acc, commentId, text, fetchFn) {
 
 /**
  * firstTime(key) → true the first time a key is seen (the store remembers every key).
- * - Anyone's first comment ever on this account gets the DM.
- * - After that, only someone who asks again (a word from ASK_WORDS) on a post where they
- *   didn't get it yet gets it again. Plain comments ("🔥", "great") never get it twice, so
- *   people who comment on every video aren't spammed.
+ * - Any comment gets the DM, once per person per post: someone who comments on every new
+ *   video gets the link on each one, but never twice on the same post.
  * Without a store: always true.
  * release(key) undoes a firstTime() of this comment when the DM didn't go out, so the person
  * isn't marked as "sent" for a DM they never got (the next comment or a Meta retry can send it).
@@ -144,10 +142,8 @@ async function handleComment(acc, v, fetchFn, firstTime = async () => true, rele
   if (who) {
     const mediaId = v.media && v.media.id;
     const firstEver = await claim(`${acc.name}_${who}`);
-    // Always mark the post too, so a "link" on the post where they first got it doesn't resend
     const firstOnPost = mediaId ? await claim(`${acc.name}_${who}_${mediaId}`) : firstEver;
-    const asked = !rule.keywords.includes('*');
-    if (!firstEver && !(asked && firstOnPost)) {
+    if (!firstOnPost) {
       console.log(`[${acc.name}] already sent for comment ${v.id}, skipping`);
       return 'already-sent';
     }

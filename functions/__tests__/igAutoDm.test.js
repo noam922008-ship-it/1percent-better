@@ -150,14 +150,16 @@ describe('webhook handler', () => {
     expect(dms()).toBe(3);
   });
 
-  it('plain comments on new posts never get the link twice', async () => {
+  it('plain comments get the link on every new post, but only once per post', async () => {
     const f = okFetch();
     const { firstTime } = memoryStore();
     const h = makeHandler({ ...env(), firstTime }, f);
     await h(post(comment(PRIME, '🔥🔥', '999', 'reelA')), fakeRes());
+    await h(post(comment(PRIME, 'so true', '999', 'reelA')), fakeRes());   // same post → nothing
     await h(post(comment(PRIME, 'great video', '999', 'reelB')), fakeRes());
     await h(post(comment(PRIME, 'love it', '999', 'reelC')), fakeRes());
-    expect(f.calls).toHaveLength(1);
+    expect(f.calls.filter(c => c.url.endsWith('/messages'))).toHaveLength(3);
+    expect(f.calls.some(c => c.url.endsWith('/replies'))).toBe(false);   // no public reply for plain comments
   });
 
   it('a failed DM is not marked as sent, and no public "Sent you a DM"', async () => {
