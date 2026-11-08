@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { countFunnel } from '../services/funnel'
 import { useLang } from '../context/LangContext'
 import { fmt } from '../i18n/fmt'
 import { BAD_IDS, GOOD, HELP_FOR, REMIND_EARLY, buildFromZero, defaultTimeFor, replacementsFor, shiftTime } from '../utils/fromZero'
@@ -32,6 +33,13 @@ export default function FromZeroFlow({ onSave, onRegular, onClose, later = false
   const [goodId, setGoodId] = useState('')
   const [amount, setAmount] = useState(0)
   const [saving, setSaving] = useState(false)
+  // Funnel (first run only): opened → picked a bad habit → saved (habit_first_*) or closed (fz_close)
+  const counted = useRef({ bad: false, done: false })
+  useEffect(() => { if (!later) countFunnel('fz_open') }, [later])
+  function close() {
+    if (!later && !counted.current.done) { counted.current.done = true; countFunnel('fz_close') }
+    onClose()
+  }
 
   const ownText = own.trim()
   const bad = badId === 'other'
@@ -46,17 +54,22 @@ export default function FromZeroFlow({ onSave, onRegular, onClose, later = false
 
   function pickGood(opt) { setGoodId(opt.id); setAmount(opt.n ?? GOOD[opt.id].n ?? 0) }
   // One tap: a listed habit goes straight to step 2; "something else" waits for the text
-  function pickBad(id) { setBadId(id); setGoodId(''); if (id !== 'other') setStep(2) }
-  function step1Next() { if (bad) setStep(2) }
+  function toStep2() {
+    if (!later && !counted.current.bad) { counted.current.bad = true; countFunnel('fz_bad') }
+    setStep(2)
+  }
+  function pickBad(id) { setBadId(id); setGoodId(''); if (id !== 'other') toStep2() }
+  function step1Next() { if (bad) toStep2() }
   async function save() {
     if (!bad || !good || saving) return
     setSaving(true)
+    counted.current.done = true   // saved: not a close
     try { await onSave(buildFromZero({ bad, good, time: remindAt, badId, later })) } finally { setSaving(false) }
   }
 
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.78)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', zIndex: 2000 }}
-      onClick={e => e.target === e.currentTarget && onClose()}>
+      onClick={e => e.target === e.currentTarget && close()}>
       <div style={{ width: '100%', maxWidth: 480, maxHeight: '92vh', overflowY: 'auto', boxSizing: 'border-box', background: '#161622', borderRadius: '20px 20px 0 0', padding: '1.5rem 1.5rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.08)', animation: 'slide-up 0.22s ease' }}>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1.1rem' }}>
@@ -65,7 +78,7 @@ export default function FromZeroFlow({ onSave, onRegular, onClose, later = false
             <div style={{ color: '#F4F1E8', fontWeight: 900, fontSize: '1.15rem', lineHeight: 1.35 }}>{s.titles[step]}</div>
             {s.subs[step] && <div style={{ color: '#A4A6AD', fontSize: '0.8rem', marginTop: '0.3rem', lineHeight: 1.5 }}>{s.subs[step]}</div>}
           </div>
-          <button onClick={onClose} aria-label={s.close} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, minHeight: 44, minWidth: 44 }}>✕</button>
+          <button onClick={close} aria-label={s.close} className="btn-tactile" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(241,245,249,0.6)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, minHeight: 44, minWidth: 44 }}>✕</button>
         </div>
 
 

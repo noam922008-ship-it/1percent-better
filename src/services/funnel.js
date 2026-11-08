@@ -27,6 +27,10 @@ export const FUNNEL_KEYS = [
   'guest_to_account',   // a guest signed in and their habits moved to the account
   'return_guest',       // a guest with a habit came back on a later day (once per device per day)
   'open_youtube',       // …from the link on the YouTube channel (utm_source=youtube)
+  'landing_scroll',     // scrolled the landing page (didn't leave right away), once per page load
+  'fz_open',            // the first-run habit flow opened
+  'fz_bad',             // picked a bad habit there and reached step 2
+  'fz_close',           // closed that flow without saving
 ]
 
 const INTERNAL_KEY = 'prime_internal'

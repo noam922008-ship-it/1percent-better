@@ -291,7 +291,7 @@ describe('funnel/{date} — anonymous +1 counters', () => {
   })
 
   it('every known counter can be bumped many times on the same day (regression: toList)', async () => {
-    const keys = ['open', 'open_inapp', 'open_dm', 'guest_start', 'habit_first_guest', 'habit_first_user', 'checkin_guest', 'checkin_user', 'signup', 'guest_to_account']
+    const keys = ['open', 'open_inapp', 'open_dm', 'guest_start', 'habit_first_guest', 'habit_first_user', 'checkin_guest', 'checkin_user', 'signup', 'guest_to_account', 'return_guest', 'open_youtube', 'landing_scroll', 'fz_open', 'fz_bad', 'fz_close']
     const ref = doc(anon(), 'funnel/2026-10-26')
     for (const k of keys) for (let i = 0; i < 2; i++) await assertSucceeds(setDoc(ref, { [k]: increment(1) }, { merge: true }))
     await env.withSecurityRulesDisabled(async c => {

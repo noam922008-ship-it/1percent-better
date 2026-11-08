@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { countFunnel } from '../services/funnel'
 import LegalContent from '../components/LegalContent'
 import SocialLinks from '../components/SocialLinks'
 import { InstallButton, isStandalone } from '../components/AddToHomeScreen'
@@ -79,6 +80,17 @@ export default function WelcomeScreen() {
   const openOut = inApp ? externalBrowserUrl(window.location.href) : null
   // iPhone Safari keeps its sign-in apart from the Home Screen app, so install comes before sign-in there
   const iosSafari = !inApp && isIOS() && !isStandalone()
+
+  // Funnel: scrolled the landing page at all = didn't leave right away (once per page load)
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY < 80) return
+      window.removeEventListener('scroll', onScroll)
+      countFunnel('landing_scroll')
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     if (authLoading || !user) return
