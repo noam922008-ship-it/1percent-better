@@ -5,7 +5,7 @@ import { useLang } from '../context/LangContext'
 
 // Analytics consent (FEATURES.consentBanner) — a small cookie bar at the bottom of the screen (one short
 // line + two equal buttons, so it doesn't cover the welcome screen),
-// shown on the first visit on every page (welcome included) until the user picks.
+// shown on the first visit on every page except the sign-up screen (/welcome) until the user picks.
 // Not blocking: the app works behind it. Same choice as the switch in Settings → Privacy.
 // Both buttons have the same size and weight — accepting must not be easier than declining (EU rules).
 // GA isn't loaded before "Accept" and nothing from before the click is sent (services/analytics.js).
@@ -13,13 +13,15 @@ import { useLang } from '../context/LangContext'
 
 export const CONSENT_CHOICE_EVENT = 'prime-consent-choice'
 const LEGAL_PATHS = ['/privacy', '/terms', '/accessibility', '/legal']
+// Not on the sign-up screen either: one decision at a time — the bar shows once they're inside the app
+const HIDDEN_PATHS = [...LEGAL_PATHS, '/welcome']
 
 export default function ConsentBanner() {
   const { t } = useLang()
   const tc = t.consent
   const { pathname } = useLocation()
   const [open, setOpen] = useState(needsConsentChoice)
-  if (!open || LEGAL_PATHS.includes(pathname)) return null
+  if (!open || HIDDEN_PATHS.includes(pathname)) return null
 
   const choose = granted => {
     setOpen(false)

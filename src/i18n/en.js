@@ -282,7 +282,7 @@ const en = {
     },
     quit: {
       days:        { one: '1 day clean', two: '2 days clean', many: '{n} days clean' },
-      dayZero:     'Day 0. Starting now 💪',
+      dayZero:     'First day. Starting now 💪',
       best:        'Best: {n}',
       slip:        'I slipped',
       slipConfirm: 'Start the count over?',
